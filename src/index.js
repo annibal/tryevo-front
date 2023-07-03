@@ -1,13 +1,22 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+import CssBaseline from '@mui/material/CssBaseline';
+import Router from './base/Router';
+import { AuthProvider } from './base/AuthContext';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+
+const root = ReactDOM.createRoot(document.getElementById('tryevo_root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <AuthProvider>
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <CssBaseline />
+        <Router />
+      </LocalizationProvider>
+    </AuthProvider>
   </React.StrictMode>
 );
 
