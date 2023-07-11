@@ -8,7 +8,7 @@ const WidgetPF = ({ onClick }) => {
 
   return (
     <>
-      <div onClick={onClick}>
+      <div className="widget-user widget-pf" onClick={onClick}>
         <Link to={`/app/${allRoutesData.pfDados.path}`} className="text-center">
           <Avatar
             alt="Remy Sharp"

@@ -31,6 +31,15 @@ import NovaPropostaPage from "../pages/pf/proposta/NovaPropostaPage";
 import ConfiguracoesPFPage from "../pages/pf/ConfiguracoesPFPage";
 import ForgotPasswordPage from "../pages/commons/ForgotPasswordPage";
 
+import ConfiguracoesPJPage from "../pages/pj/ConfiguracoesPJPage";
+import DashboardPJPage from "../pages/pj/DashboardPJPage";
+import MinhasVagasPage from "../pages/pj/minhas-vagas/MinhasVagasPage";
+import MinhaVagaPage from "../pages/pj/minhas-vagas/MinhaVagaPage";
+import NovaMinhaVagaPage from "../pages/pj/minhas-vagas/NovaMinhaVagaPage";
+import EditarMinhaVagaPage from "../pages/pj/minhas-vagas/EditarMinhaVagaPage";
+import PropostasFeitasPage from "../pages/pj/PropostasFeitasPage";
+import PropostaFeitaPage from "../pages/pj/PropostaFeitaPage";
+
 
 const router = createBrowserRouter([
   {
@@ -55,7 +64,11 @@ const router = createBrowserRouter([
             element: <VagasPage />,
           },
           {
-            path: allRoutesData.vagas.path + "/:vagaId/",
+            path: allRoutesData.vagas.path + ":vagaId",
+            element: <VagaPage />,
+          },
+          {
+            path: allRoutesData.vagas.path + ":vagaId/:vagaNome",
             element: <VagaPage />,
           },
           {
@@ -105,23 +118,73 @@ const router = createBrowserRouter([
             element: <ProtectedRoute><PropostaPage /></ProtectedRoute>,
           },
           {
-            path: allRoutesData.pfPropostas.path + "novaProposta/:vagaId",
+            path: allRoutesData.pfPropostas.path + ":propostaId/:vagaNome",
+            element: <ProtectedRoute><PropostaPage /></ProtectedRoute>,
+          },
+          {
+            path: allRoutesData.pfNovaProposta.path + ":vagaId",
             element: <ProtectedRoute><NovaPropostaPage /></ProtectedRoute>,
           },
           {
-            element: <ProtectedRoute><DadosPage /></ProtectedRoute>,
+            path: allRoutesData.pfNovaProposta.path + ":vagaId/:vagaNome",
+            element: <ProtectedRoute><NovaPropostaPage /></ProtectedRoute>,
+          },
+          {
             path: allRoutesData.pfDados.path,
+            element: <ProtectedRoute><DadosPage /></ProtectedRoute>,
           },
           {
             path: allRoutesData.pfConfiguracoes.path,
             element: <ProtectedRoute><ConfiguracoesPFPage /></ProtectedRoute>,
           },
 
-          // pjDashboard
           // pjMinhasVagas
-          // pjDados
           // pjPropostasFeitas
-          // pjConfiguracoes
+          {
+            path: allRoutesData.pjDashboard.path,
+            element: <ProtectedRoute><DashboardPJPage /></ProtectedRoute>,
+          },
+          // {
+          //   element: <ProtectedRoute><DadosPage /></ProtectedRoute>,
+          //   path: allRoutesData.pfDados.path,
+          //   // same as pfDados
+          // },
+          {
+            path: allRoutesData.pjMinhasVagas.path,
+            element: <ProtectedRoute><MinhasVagasPage /></ProtectedRoute>,
+          },
+          {
+            path: allRoutesData.pjMinhaVaga.path + ":vagaId",
+            element: <ProtectedRoute><MinhaVagaPage /></ProtectedRoute>,
+          },
+          {
+            path: allRoutesData.pjMinhaVaga.path + ":vagaId/:vagaNome",
+            element: <ProtectedRoute><MinhaVagaPage /></ProtectedRoute>,
+          },
+          {
+            path: allRoutesData.pjNovaMinhaVaga.path,
+            element: <ProtectedRoute><NovaMinhaVagaPage /></ProtectedRoute>,
+          },
+          {
+            path: allRoutesData.pjEditarMinhaVaga.path + ":vagaId",
+            element: <ProtectedRoute><EditarMinhaVagaPage /></ProtectedRoute>,
+          },
+          {
+            path: allRoutesData.pjEditarMinhaVaga.path + ":vagaId/:vagaNome",
+            element: <ProtectedRoute><EditarMinhaVagaPage /></ProtectedRoute>,
+          },
+          {
+            path: allRoutesData.pjPropostasFeitas.path,
+            element: <ProtectedRoute><PropostasFeitasPage /></ProtectedRoute>,
+          },
+          {
+            path: allRoutesData.pjPropostaFeita.path + ":propostaId",
+            element: <ProtectedRoute><PropostaFeitaPage /></ProtectedRoute>,
+          },
+          {
+            path: allRoutesData.pjConfiguracoes.path,
+            element: <ProtectedRoute><ConfiguracoesPJPage /></ProtectedRoute>,
+          },
 
           {
             path: "*",

@@ -1,6 +1,7 @@
 import { Grid } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useAuth } from "../base/AuthContext";
+import allRoutesData from "../base/routes_data";
 
 const vagasData = [
   'Programador',
@@ -31,12 +32,12 @@ const VagasPage = () => {
       </div>
 
       <Grid container>
-        {vagasData.map((item) => (
+        {vagasData.map((item, id) => (
           <Grid item xs={12} key={item}>
             <div className="card">
               <Grid container>
                 <Grid item xs>
-                  <Link to={`/app/vaga/${item}`}>
+                  <Link to={'/app/' + allRoutesData.vagas.path + (id.toString().padStart(4, '0')) + '/' + item}>
                     <h4>{item}</h4>
                   </Link>
                 </Grid>

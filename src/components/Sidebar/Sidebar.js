@@ -59,6 +59,8 @@ const Sidebar = () => {
           return '';
         })}
       </List>
+
+      <div className="sidebar-bottom-spacer" />
       
     </div>
   );

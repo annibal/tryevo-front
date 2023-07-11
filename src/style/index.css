@@ -31,6 +31,9 @@ a:hover {
 .sidebar::-webkit-scrollbar {
   display: none;
 }
+.sidebar-bottom-spacer {
+  height: 30vh;
+}
 
 .logo-container {
   height: 80px;

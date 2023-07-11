@@ -8,6 +8,9 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import LoginIcon from '@mui/icons-material/Login';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import BookmarksIcon from '@mui/icons-material/Bookmarks';
+import BookmarkIcon from '@mui/icons-material/Bookmark';
+import BookmarkAddIcon from '@mui/icons-material/BookmarkAdd';
+import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import SettingsIcon from '@mui/icons-material/Settings';
 import HandshakeIcon from '@mui/icons-material/Handshake';
 import { ACCOUNT_FEATURES } from './AuthContext';
@@ -110,6 +113,13 @@ export const pessoaFisicaRoutes = {
     rules: [ACCOUNT_FEATURES.LOGGED, ACCOUNT_FEATURES.PF],
     endData: 'activeProposals',
   },
+  pfNovaProposta: {
+    priority: 104,
+    path: "pf/nova-proposta/",
+    icon: <HandshakeIcon />,
+    title: "Nova Proposta",
+    rules: [ACCOUNT_FEATURES.LOGGED, ACCOUNT_FEATURES.PF, ACCOUNT_FEATURES.IGNORE_ON_SIDEBAR],
+  },
   pfConfiguracoes: {
     priority: 200,
     path: "pf/configuracoes/",
@@ -135,6 +145,27 @@ export const pessoaJuridicaRoutes = {
     title: "Minhas Vagas",
     rules: [ACCOUNT_FEATURES.LOGGED, ACCOUNT_FEATURES.PJ],
   },
+  pjMinhaVaga: {
+    priority: 102,
+    path: "pj/minha-vaga/",
+    icon: <BookmarkIcon />,
+    title: "Minha Vaga",
+    rules: [ACCOUNT_FEATURES.LOGGED, ACCOUNT_FEATURES.PJ, ACCOUNT_FEATURES.IGNORE_ON_SIDEBAR],
+  },
+  pjNovaMinhaVaga: {
+    priority: 102,
+    path: "pj/nova-vaga/",
+    icon: <BookmarkAddIcon />,
+    title: "Nova Vaga",
+    rules: [ACCOUNT_FEATURES.LOGGED, ACCOUNT_FEATURES.PJ, ACCOUNT_FEATURES.IGNORE_ON_SIDEBAR],
+  },
+  pjEditarMinhaVaga: {
+    priority: 102,
+    path: "pj/editar-vaga/",
+    icon: <BookmarkBorderIcon />,
+    title: "Editar Vaga",
+    rules: [ACCOUNT_FEATURES.LOGGED, ACCOUNT_FEATURES.PJ, ACCOUNT_FEATURES.IGNORE_ON_SIDEBAR],
+  },
   pjDados: {
     priority: 101,
     path: "dados/",
@@ -148,6 +179,13 @@ export const pessoaJuridicaRoutes = {
     icon: <HandshakeIcon />,
     title: "Propostas Feitas",
     rules: [ACCOUNT_FEATURES.LOGGED, ACCOUNT_FEATURES.PJ],
+  },
+  pjPropostaFeita: {
+    priority: 104,
+    path: "pj/proposta-feita/",
+    icon: <HandshakeIcon />,
+    title: "Proposta Feita",
+    rules: [ACCOUNT_FEATURES.LOGGED, ACCOUNT_FEATURES.PJ, ACCOUNT_FEATURES.IGNORE_ON_SIDEBAR],
   },
   pjConfiguracoes: {
     priority: 200,

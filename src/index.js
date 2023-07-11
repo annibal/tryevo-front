@@ -7,14 +7,18 @@ import Router from './base/Router';
 import { AuthProvider } from './base/AuthContext';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+import { ThemeProvider } from '@mui/material';
+import theme from './base/Theme';
 
 const root = ReactDOM.createRoot(document.getElementById('tryevo_root'));
 root.render(
   <React.StrictMode>
     <AuthProvider>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <CssBaseline />
-        <Router />
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <Router />
+        </ThemeProvider>
       </LocalizationProvider>
     </AuthProvider>
   </React.StrictMode>

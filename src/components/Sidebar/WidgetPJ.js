@@ -8,8 +8,8 @@ const WidgetPJ = ({ onClick }) => {
 
   return (
     <>
-      <div onClick={onClick}>
-        <Link to={`/app/${allRoutesData.pfDados.path}`} className="text-center">
+      <div className="widget-user widget-pj" onClick={onClick}>
+        <Link to={`/app/${allRoutesData.pjDados.path}`} className="text-center">
           <Avatar
             alt="Remy Sharp"
             src="https://mui.com/static/images/avatar/1.jpg"
