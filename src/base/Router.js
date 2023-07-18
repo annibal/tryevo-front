@@ -37,8 +37,8 @@ import MinhasVagasPage from "../pages/pj/minhas-vagas/MinhasVagasPage";
 import MinhaVagaPage from "../pages/pj/minhas-vagas/MinhaVagaPage";
 import NovaMinhaVagaPage from "../pages/pj/minhas-vagas/NovaMinhaVagaPage";
 import EditarMinhaVagaPage from "../pages/pj/minhas-vagas/EditarMinhaVagaPage";
-import PropostasFeitasPage from "../pages/pj/PropostasFeitasPage";
-import PropostaFeitaPage from "../pages/pj/PropostaFeitaPage";
+import CandidaturasFeitasPage from "../pages/pj/CandidaturasFeitasPage";
+import CandidaturaFeitaPage from "../pages/pj/CandidaturaFeitaPage";
 
 
 const router = createBrowserRouter([
@@ -174,12 +174,12 @@ const router = createBrowserRouter([
             element: <ProtectedRoute><EditarMinhaVagaPage /></ProtectedRoute>,
           },
           {
-            path: allRoutesData.pjPropostasFeitas.path,
-            element: <ProtectedRoute><PropostasFeitasPage /></ProtectedRoute>,
+            path: allRoutesData.pjCandidaturasFeitas.path,
+            element: <ProtectedRoute><CandidaturasFeitasPage /></ProtectedRoute>,
           },
           {
-            path: allRoutesData.pjPropostaFeita.path + ":propostaId",
-            element: <ProtectedRoute><PropostaFeitaPage /></ProtectedRoute>,
+            path: allRoutesData.pjCandidaturaFeita.path + ":candidaturaId",
+            element: <ProtectedRoute><CandidaturaFeitaPage /></ProtectedRoute>,
           },
           {
             path: allRoutesData.pjConfiguracoes.path,

@@ -173,18 +173,18 @@ export const pessoaJuridicaRoutes = {
     title: "Meus Dados",
     rules: [ACCOUNT_FEATURES.LOGGED, ACCOUNT_FEATURES.PJ],
   },
-  pjPropostasFeitas: {
+  pjCandidaturasFeitas: {
     priority: 104,
-    path: "pj/propostas-feitas/",
+    path: "pj/candidaturas/",
     icon: <HandshakeIcon />,
-    title: "Propostas Feitas",
+    title: "Candidaturas",
     rules: [ACCOUNT_FEATURES.LOGGED, ACCOUNT_FEATURES.PJ],
   },
-  pjPropostaFeita: {
+  pjCandidaturaFeita: {
     priority: 104,
-    path: "pj/proposta-feita/",
+    path: "pj/candidatura/",
     icon: <HandshakeIcon />,
-    title: "Proposta Feita",
+    title: "Candidatura",
     rules: [ACCOUNT_FEATURES.LOGGED, ACCOUNT_FEATURES.PJ, ACCOUNT_FEATURES.IGNORE_ON_SIDEBAR],
   },
   pjConfiguracoes: {

@@ -1,11 +1,11 @@
 import { useParams } from "react-router-dom";
 
-const PropostaFeitaPage = () => {
+const CandidaturaFeitaPage = () => {
   let { propostaId } = useParams();
 
   return (
     <div>
-      <h2>Proposta Feita</h2>
+      <h2>Candidatura Feita</h2>
       <p>#{propostaId}</p>
       <p>- Em construção -</p>
       <p>Dados da vaga</p>
@@ -16,4 +16,4 @@ const PropostaFeitaPage = () => {
   );
 };
 
-export default PropostaFeitaPage;
+export default CandidaturaFeitaPage;
