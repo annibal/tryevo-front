@@ -44,7 +44,7 @@ const WidgetPJ = ({ onClick }) => {
               bgcolor: stringToColor(name),
             }}
           >
-            {avatar}
+            {avatar.toUpperCase()}
           </Avatar>
           <h3 className="auth-user">
             {name}
