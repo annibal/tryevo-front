@@ -2,19 +2,14 @@ import { Grid } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useAuth } from "../base/AuthContext";
 import allRoutesData from "../base/routes_data";
-
-const vagasData = [
-  'Programador',
-  'Vendedor de Coxinha',
-  'Analista de Sistemas',
-  'Gerente Financeiro',
-  'Programador Web',
-  'Diretor de Banco',
-  'CEO',
-]
+import useFetch from "../providers/useFetch";
+import ResponseWrapper from "../components/ResponseWrapper";
+import VagaCard from "../components/VagaCard";
 
 const VagasPage = () => {
   const auth = useAuth();
+  const vagasResponse = useFetch('GET', 'vagas')
+  console.log({ vagasResponse })
 
   return (
     <div className="vagas">
@@ -31,28 +26,16 @@ const VagasPage = () => {
         </Grid>
       </div>
 
-      <Grid container>
-        {vagasData.map((item, id) => (
-          <Grid item xs={12} key={item}>
-            <div className="card">
-              <Grid container>
-                <Grid item xs>
-                  <Link to={'/app/' + allRoutesData.vagas.path + (id.toString().padStart(4, '0')) + '/' + item}>
-                    <h4>{item}</h4>
-                  </Link>
-                </Grid>
-                <Grid item>
-                  {auth.user && (<>
-                    <button className="btn-salvar">Salvar vaga</button>
-                  </>)}
-                </Grid>
-              </Grid>
-              <p>Descrição da vaga</p>
-              <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Beatae ipsam blanditiis error minus maxime voluptatum recusandae nobis dolores quia optio, dolor pariatur placeat modi natus suscipit architecto mollitia molestias assumenda.</p>
-            </div>
+      <ResponseWrapper
+        {...vagasResponse}
+        list
+        dataComponent={({ children }) => <Grid container spacing={2}>{children}</Grid>}
+        dataItemComponent={({ item }) => (
+          <Grid item xs={12}>
+            <VagaCard {...item} />
           </Grid>
-        ))}
-      </Grid>
+        )}
+      />
 
     </div>
   );
