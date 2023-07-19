@@ -22,70 +22,50 @@ export const forgotPassword = async ({ user }) => {
   }
 }
 
-export const signIn = async ({ user, pass, firstName, lastName, isPf }) => {
-  const { success, data, error } = await doCall('users.json');
-  if (success) {
-    if (data.find((item) => item.user === user)) {
-      throw new Error("Usuário já existe");
-    }
-
-    const objUser = {
-      active: true,
-      id: Math.random() * 100 | 0 + 20,
-      user,
-      pass,
-      firstName,
-      lastName,
-      features: {
-        PF: isPf,
-        PJ: !isPf,
-      }
-    }
-
-    const token = JSON.stringify({ id: objUser.id, 'try': 'evo' });
-    setToken(token);
-
-    return objUser;
+export const signIn = async (newUserData) => {
+  // { email: "", senha: "", isEmpresa: true }
+  const { success, data, error } = await doCall('auth/register', {
+    method: 'POST',
+    body: newUserData,
+  });
+  
+  if (success && data && data.token) {
+    setToken(data.token);
+    return data;
   } else {
-    throw Error(error)
+    if (error.message) throw new Error(error.message);
+    throw new Error(error);
   }
 }
 
-export const logIn = async ({ user, pass }) => {
-  const { success, data, error } = await doCall('users.json');
-  if (success) {
-    console.log({ user, pass, data })
-    const objUser = data.find((item) => item.user === user);
-    if (!objUser) {
-      throw new Error("Usuário não existe");
-    }
-    if (objUser.pass !== pass) {
-      throw new Error("Senha errada");
-    }
+export const logIn = async ({ email, senha }) => {
+  const { success, data, error } = await doCall('auth/login', {
+    method: 'POST',
+    body: {
+      email,
+      senha,
+    },
+  });
 
-    const token = JSON.stringify({ id: objUser.id, 'try': 'evo' });
-    setToken(token);
-
-    return objUser;
+  if (success && data && data.token) {
+    setToken(data.token);
+    return data;
   } else {
-    throw Error(error)
+    if (error.message) throw new Error(error.message);
+    throw new Error(error);
   }
 }
 
 export const getAuthData = async () => {
   const token = getToken();
   if (!token) return null;
-  const tokenData = JSON.parse(token);
   
-  const { success, data, error } = await doCall('users.json');
-  console.log({ success, data, error })
-  if (success) {
-    const user = data.find((item) => item.id === tokenData.id)
-    if (!user) {
-      throw Error("Usuário não existe");
-    }
-    return user;
+  const { success, data, error } = await doCall('/auth/self');
+
+  if (success && data) {
+    return data;
   } else {
+    if (error.message) throw new Error(error.message);
     throw Error(error);
   }
 }

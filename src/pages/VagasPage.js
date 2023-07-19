@@ -1,15 +1,10 @@
 import { Grid } from "@mui/material";
-import { Link } from "react-router-dom";
-import { useAuth } from "../base/AuthContext";
-import allRoutesData from "../base/routes_data";
 import useFetch from "../providers/useFetch";
 import ResponseWrapper from "../components/ResponseWrapper";
 import VagaCard from "../components/VagaCard";
 
 const VagasPage = () => {
-  const auth = useAuth();
-  const vagasResponse = useFetch('GET', 'vagas')
-  console.log({ vagasResponse })
+  const vagasResponse = useFetch('GET', 'vagas');
 
   return (
     <div className="vagas">

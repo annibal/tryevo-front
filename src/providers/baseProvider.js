@@ -1,5 +1,4 @@
 import * as tokenProvider from "./tokenProvider";
-// import usersJson from '../api-mock/users.json';
 
 export const getApiUrl = (path) => {
   const strPath = (path || '').replace(/^\/*/, '');
@@ -17,11 +16,14 @@ export const doCall = async (path = '', config = {}) => {
     ...(config || {}),
   }
 
+  requestConfig.headers = {
+    'Content-Type': 'application/json',
+    ...(config?.headers || {}),
+  }
   if (token) {
     requestConfig.headers = {
+      ...requestConfig.headers,
       'Authorization': `Bearer ${token}`,
-      'Content-Type': 'application/json',
-      ...(config?.headers || {})
     }
   }
 
@@ -36,25 +38,17 @@ export const doCall = async (path = '', config = {}) => {
     error: null,
   };
 
-  // if (path === 'users.json') {
-  //   await new Promise((r) => setTimeout(r, 1000));
-  //   response.error = null;
-  //   response.success = true;
-  //   response.data = usersJson;
-  //   return response;
-  // }
-
   try {
     await fetch(requestConfig.url, requestConfig)
       .then(async (r) => {
         response.status = r.status;
         const data = await r.json();
-        response.success = true;
-        response.data = data;
-        if (data.data) {
-          response.data = data.data;
-        }
-        if (response.data.data) {
+
+        response.success = data.success;
+        response.error = data.error;
+        response.data = data.data;
+        
+        if (response.data?.data) {
           response = {
             ...response,
             ...response.data,
@@ -65,22 +59,6 @@ export const doCall = async (path = '', config = {}) => {
         response.error = e;
       });
   } catch (e) {
-    // try {
-    //   await fetch(requestConfig)
-    //     .then(async (r) => {
-    //       response.status = r.status;
-    //       const data = await r.text();
-    //       response.success = true;
-    //       response.data = data;
-    //       response.error = null;
-    //     })
-    //     .catch((e) => {
-    //       response.error = e;
-    //     });
-    // } catch (e) {
-
-    // }
-
     response.error = e;
     console.error(e, e?.stack);
   }

@@ -11,7 +11,7 @@ const useFetch = (method, url, params) => {
       let strUrl = url;
       let options = { method };
 
-      if (method == 'GET' || method == 'DELETE') {
+      if (method === 'GET' || method === 'DELETE') {
         if (params && !url.includes('?')) {
           strUrl += '?' + new URLSearchParams(params).toString()
         }
