@@ -16,7 +16,7 @@ import FormDatepicker from "../commons/form/FormDatepicker";
 //   },
 // ],
 
-const DadosEscolaridadeForm = ({ data }) => {
+const DadosEscolaridadeForm = ({ data, onChange }) => {
   const [dados, setDados] = useState(data?.escolaridades || []);
 
   useEffect(() => {
@@ -28,6 +28,7 @@ const DadosEscolaridadeForm = ({ data }) => {
   const removeItem = (itemIndex) => {
     const newItems = dados.filter((i, idx) => idx !== itemIndex);
     setDados(newItems);
+    onChange();
   };
 
   const addItem = () => {
@@ -36,6 +37,7 @@ const DadosEscolaridadeForm = ({ data }) => {
       { nome: "", nivel: "", isCompleto: false, inicio: "", fim: "" },
     ];
     setDados(newItems);
+    onChange();
   };
 
   const updateItem = (itemVal, itemName, itemIndex) => {
@@ -43,6 +45,7 @@ const DadosEscolaridadeForm = ({ data }) => {
       idx === itemIndex ? { ...item, [itemName]: itemVal } : item
     );
     setDados(newItems);
+    onChange();
   };
 
   return (

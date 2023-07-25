@@ -2,7 +2,7 @@ import { Grid } from "@mui/material";
 import { useEffect, useState } from "react";
 import FormInput from "../commons/form/FormInput";
 
-const DadosEnderecoForm = ({ data, onChange, loading }) => {
+const DadosEnderecoForm = ({ data, onChange }) => {
   const [isLoadingCEP, setIsLoadingCEP] = useState(false);
   const [dados, setDados] = useState(data?.endereco || {});
 
@@ -19,6 +19,7 @@ const DadosEnderecoForm = ({ data, onChange, loading }) => {
       ...data,
       [name]: value,
     });
+    onChange();
   };
 
   const getAddressData = async (cep) => {

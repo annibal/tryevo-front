@@ -4,10 +4,6 @@ import { Fragment } from "react";
 import FormInput from "./form/FormInput";
 import FormSelect from "./form/FormSelect";
 
-const optionToString = (option) => {
-  return option.toLowerCase();
-};
-
 const ManyForm = ({
   data,
   onChange,

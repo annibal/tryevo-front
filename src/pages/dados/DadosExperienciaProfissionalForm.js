@@ -21,7 +21,7 @@ import { Add, Delete } from "@mui/icons-material";
 //   },
 // ],
 
-const DadosExperienciaProfissionalForm = ({ data }) => {
+const DadosExperienciaProfissionalForm = ({ data, onChange }) => {
   const [dados, setDados] = useState(data?.experienciasProfissionais || []);
 
   useEffect(() => {
@@ -33,6 +33,7 @@ const DadosExperienciaProfissionalForm = ({ data }) => {
   const removeItem = (itemIndex) => {
     const newItems = dados.filter((i, idx) => idx !== itemIndex);
     setDados(newItems);
+    onChange();
   };
 
   const addItem = () => {
@@ -49,6 +50,7 @@ const DadosExperienciaProfissionalForm = ({ data }) => {
       },
     ];
     setDados(newItems);
+    onChange();
   };
 
   const updateItem = (itemVal, itemName, itemIndex) => {
@@ -56,6 +58,7 @@ const DadosExperienciaProfissionalForm = ({ data }) => {
       idx === itemIndex ? { ...item, [itemName]: itemVal } : item
     );
     setDados(newItems);
+    onChange();
   };
 
   const handleSetAtual = (itemIndex, value) => {
@@ -64,6 +67,7 @@ const DadosExperienciaProfissionalForm = ({ data }) => {
       isAtual: itemIndex === idx ? value : false,
     }))
     setDados(newItems);
+    onChange();
   }
 
   return (

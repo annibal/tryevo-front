@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import ManyForm from "../commons/ManyForm";
 
-const DadosIdiomasForm = ({ data }) => {
+const DadosIdiomasForm = ({ data, onChange }) => {
   const [dados, setDados] = useState(data || {});
 
   useEffect(() => {
@@ -15,6 +15,7 @@ const DadosIdiomasForm = ({ data }) => {
       ...data,
       [name]: value,
     });
+    onChange();
   };
 
   return (

@@ -1,97 +1,113 @@
+import {
+  Grid, Typography,
+} from "@mui/material";
+import { useEffect, useState } from "react";
+import FormInput from "../commons/form/FormInput";
+import ManyForm from "../commons/ManyForm";
 
-import { TextField, Grid, Select, MenuItem, FormControl, InputLabel, Button } from '@mui/material';
-import { Fragment, useState } from 'react';
+const DadosEmpresaForm = ({ data, onChange }) => {
+  const [dados, setDados] = useState(data || {});
 
-const DadosEmpresaForm = () => {
-  const [phones, setPhones] = useState(['mainPhone']);
-  const [socialNetworks, setSocialNetworks] = useState([0]);
+  useEffect(() => {
+    if (data) setDados(data);
+  }, [data]);
+
+  const handleChange = (value, name, data) => {
+    setDados({
+      ...data,
+      [name]: value,
+    });
+    onChange();
+  };
 
   return (
     <>
       <Grid container spacing={2}>
         <Grid item xs={12}>
-          <TextField label="Razão Social" name="razaoSocial" fullWidth />
+          <FormInput
+            label="Razão Social"
+            name="razaoSocial"
+            data={dados}
+            onChange={handleChange}
+          />
         </Grid>
         <Grid item xs={12}>
-          <TextField label="Nome Fantasia" name="nomeFantasia" fullWidth />
+          <FormInput
+            label="Nome Fantasia"
+            name="nomeFantasia"
+            data={dados}
+            onChange={handleChange}
+          />
         </Grid>
-        <Grid item xs={12} sm={6}>
-          <TextField label="CNPJ" name="cnpj" fullWidth />
+        <Grid item xs={12}>
+          <FormInput
+            label="Nome do Responsável"
+            name="nomeResponsavel"
+            data={dados}
+            onChange={handleChange}
+          />
         </Grid>
-        <Grid item xs={12} sm={6}>
-          <TextField label="Email" name="email" type="email" fullWidth />
+        
+        <Grid item xs={12}>
+          <Typography variant="h6" sx={{ mt: 4, mb: 3 }}>
+            Telefones
+          </Typography>
+          <ManyForm
+            label="Telefone"
+            name="telefones"
+            type="phone"
+            data={dados}
+            onChange={handleChange}
+            options={[
+              { value: "FIXO", label: "Fixo" },
+              { value: "CELULAR", label: "Celular" },
+              { value: "WHATSAPP", label: "Whatsapp" },
+              { value: "TELEGRAM", label: "Telegram" },
+              { value: "OUTRO", label: "Outro" },
+            ]}
+          />
         </Grid>
 
-        {phones.map((phone, idx) => (
-          <Fragment key={phone}>
-            <Grid item xs={6}>
-              <TextField label={phone === 'mainPhone' ? 'Telefone Principal' : `Telefone ${idx + 1}`} name={phone} type="phone" fullWidth />
-            </Grid>
-            <Grid item xs={4}>
-              <FormControl fullWidth>
-                <InputLabel>Tipo do Telefone {idx + 1}</InputLabel>
-                <Select name={`${phone}Type`}>
-                  <MenuItem value="" selected disabled>- Selecione- </MenuItem>
-                  <MenuItem value="fixo">Fixo</MenuItem>
-                  <MenuItem value="celular">Celular</MenuItem>
-                  <MenuItem value="whatsapp">Whatsapp</MenuItem>
-                  <MenuItem value="telegram">Telegram</MenuItem>
-                  <MenuItem value="outro">Outro</MenuItem>
-                </Select>
-              </FormControl>
-            </Grid>
-            {phone !== 'mainPhone' && (
-              <Grid item xs={12}>
-                <Button variant="outlined" color="primary" onClick={() => setPhones(phones.filter((p, i) => i !== idx))} sx={{ mb: 2 }} tabIndex={-1} >
-                  Remover
-                </Button>
-              </Grid>
-            )}
-          </Fragment>
-        ))}
         <Grid item xs={12}>
-          <Button variant="contained" color="primary" onClick={() => setPhones([...phones, `phone-${phones.length}`])}>
-            Adicionar Telefone
-          </Button>
+          <Typography variant="h6" sx={{ mt: 4, mb: 3 }}>
+            Redes Sociais
+          </Typography>
+          <ManyForm
+            label="Rede Social"
+            name="links"
+            data={dados}
+            onChange={handleChange}
+            options={[
+              { value: "WEBSITE", label: "Web Site" },
+              { value: "LINKEDIN", label: "LinkedIn" },
+              { value: "FACEBOOK", label: "Facebook" },
+              { value: "INSTAGRAM", label: "Instagram" },
+              { value: "TWITTER", label: "Twitter" },
+              { value: "YOUTUBE", label: "Youtube" },
+              { value: "OUTRO", label: "Outro" },
+            ]}
+          />
         </Grid>
 
-        {socialNetworks.map((socialNetwork, idx) => (
-          <Fragment key={socialNetwork}>
-            <Grid item xs={7}>
-              <TextField label={`Link ${idx + 1}`} name={`socialNetwork${idx}`} fullWidth />
-            </Grid>
-            <Grid item xs={4}>
-              <FormControl fullWidth>
-                <InputLabel>Tipo do Link {idx + 1}</InputLabel>
-                <Select name={`${socialNetwork}Type`}>
-                  <MenuItem value="" selected disabled>- Selecione- </MenuItem>
-                  <MenuItem value="website">WebSite</MenuItem>
-                  <MenuItem value="linkedin">Linkedin</MenuItem>
-                  <MenuItem value="facebook">Facebook</MenuItem>
-                  <MenuItem value="instagram">Instagram</MenuItem>
-                  <MenuItem value="twitter">Twitter</MenuItem>
-                  <MenuItem value="tiktok">TikTok</MenuItem>
-                  <MenuItem value="youtube">Youtube</MenuItem>
-                  <MenuItem value="outro">Outro</MenuItem>
-                </Select>
-              </FormControl>
-            </Grid>
-            <Grid item xs={12}>
-              <Button variant="outlined" color="primary" onClick={() => setSocialNetworks(socialNetworks.filter((p, i) => i !== idx))} sx={{ mb: 2 }} tabIndex={-1} >
-                Remover
-              </Button>
-            </Grid>
-          </Fragment>
-        ))}
         <Grid item xs={12}>
-          <Button variant="contained" color="primary" onClick={() => setSocialNetworks([...socialNetworks, socialNetworks.length])}>
-            Adicionar Link
-          </Button>
+          <Typography variant="h6" sx={{ mt: 4, mb: 3 }}>
+            Documentos
+          </Typography>
+          <ManyForm
+            label="Documento"
+            name="documentos"
+            data={dados}
+            onChange={handleChange}
+            options={[
+              { value: "CNPJ", label: "CNPJ" },
+              { value: "INSCRICAO_ESTADUAL", label: "Inscrição Estadual" },
+            ]}
+          />
         </Grid>
 
       </Grid>
     </>
-  )
-}
+  );
+};
 
 export default DadosEmpresaForm;

@@ -7,7 +7,7 @@ import FormSelect from "../commons/form/FormSelect";
 import FormDatepicker from "../commons/form/FormDatepicker";
 import FormCheckbox from "../commons/form/FormCheckbox";
 
-const DadosPrincipaisForm = ({ data, onChange, loading }) => {
+const DadosPrincipaisForm = ({ data, onChange }) => {
   const [changeAvailable, setChangeAvailable] = useState(false);
   const [travelAvailable, setTravelAvailable] = useState(false);
 
@@ -26,6 +26,7 @@ const DadosPrincipaisForm = ({ data, onChange, loading }) => {
       ...data,
       [name]: value,
     });
+    onChange();
   };
 
   return (

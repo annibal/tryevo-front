@@ -13,109 +13,21 @@ import DadosPrincipaisForm from "./DadosPrincipaisForm";
 import { LoadingButton } from "@mui/lab";
 import formDataToObject from "../../utils/formDataToObject";
 
-const example_pf = {
-  nomePrimeiro: "",
-  nomeUltimo: "",
-  nomePreferido: "",
-  genero: "",
-  estadoCivil: "",
-  nacionalidade: "",
-  nascimento: "date",
-  categoriaCNH: "",
-  isAleijado: false,
-  aceitaTrabalharDistancia: 123,
-  aceitaMudarDistancia: 123,
-  isPsiquiatra: false,
-  endereco: {
-    cep: "",
-    pais: "",
-    estado: "",
-    cidade: "",
-    bairro: "",
-    rua: "",
-    numero: "",
-    complemento: "",
-  },
-  telefones: [
-    {
-      valor: "",
-      descricao: "",
-      tipo: "",
-      isPrimario: false,
-    },
-  ],
-  links: [
-    {
-      valor: "",
-      descricao: "",
-      tipo: "",
-      isPrimario: false,
-    },
-  ],
-  documentos: [
-    {
-      valor: "",
-      descricao: "",
-      tipo: "",
-      isPrimario: false,
-    },
-  ],
-  qualificacoes: [""],
-  linguagens: [
-    {
-      valor: "",
-      descricao: "",
-      tipo: "",
-      isPrimario: false,
-    },
-  ],
-  projetosPessoais: [
-    {
-      titulo: "",
-      url: "",
-      descricao: "",
-      quando: "",
-    },
-  ],
-  escolaridades: [
-    {
-      nome: "",
-      nivel: "",
-      isCompleto: "",
-      inicio: "",
-      fim: "",
-    },
-  ],
-  experienciasProfissionais: [
-    {
-      cargo: "",
-      empresa: "",
-      descricao: "",
-      inicio: "",
-      fim: "",
-      isAtual: "",
-      qualificacoes: "",
-    },
-  ],
-};
-
 const DadosPage = () => {
   const auth = useAuth();
   const [dados, setDados] = useState(auth?.userInfo);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [hasChanges, setHasChanges] = useState(false);
+  
+  console.log({ dados, hasChanges, loading, error, auth })
 
   useEffect(() => {
     if (auth?.userInfo) setDados(auth.userInfo);
   }, [auth?.userInfo]);
 
-  const handleDados = (value, name, data) => {
-    console.log(value, name, data);
-    setDados({
-      ...data,
-      [name]: value,
-    });
+  const handleChange = () => {
+    setHasChanges(true)
   };
 
   //
@@ -168,46 +80,48 @@ const DadosPage = () => {
     return "Loading";
   }
 
+  const saveBar = (
+    <div className="floating-save-button">
+      <div className="content">
+        <Grid container spacing={2}>
+          <Grid item xs>
+            {!loading && error && (
+              <Box sx={{ pb: 2 }}>
+                <Typography color="error">{String(error)}</Typography>
+              </Box>
+            )}
+          </Grid>
+          <Grid item>
+            <LoadingButton
+              loading={loading}
+              variant={hasChanges ? "contained" : "outlined"}
+              color="primary"
+              type="submit"
+            >
+              Salvar
+            </LoadingButton>
+          </Grid>
+        </Grid>
+      </div>
+    </div>
+  );
+
   if (auth.features[ACCOUNT_FEATURES.PF]) {
     return (
       <Box sx={{ pt: 2 }}>
         <form onSubmit={handleSubmitPF}>
-          <div className="floating-save-button">
-            <div className="content">
-              <Grid container spacing={2}>
-                <Grid item xs>
-                  {!loading && error && (
-                    <Box sx={{ pb: 2 }}>
-                      <Typography color="error">{String(error)}</Typography>
-                    </Box>
-                  )}
-                </Grid>
-                <Grid item>
-                  <LoadingButton
-                    loading={loading}
-                    variant="contained"
-                    color="primary"
-                    type="submit"
-                  >
-                    Salvar
-                  </LoadingButton>
-                </Grid>
-              </Grid>
-            </div>
-          </div>
+          {saveBar}
 
           <Typography variant="h4" sx={{ mb: 6 }}>
             Dados Pessoais
           </Typography>
           <DadosPrincipaisForm
             data={dados || {}}
-            onChange={handleDados}
-            loading={loading}
+            onChange={handleChange}
           />
           <DadosPessoaisForm
             data={dados || {}}
-            onChange={handleDados}
-            loading={loading}
+            onChange={handleChange}
           />
 
           <Divider sx={{ mt: 6, mb: 2 }} />
@@ -217,8 +131,7 @@ const DadosPage = () => {
           </Typography>
           <DadosEnderecoForm
             data={dados}
-            onChange={handleDados}
-            loading={loading}
+            onChange={handleChange}
           />
 
           <Divider sx={{ mt: 6, mb: 2 }} />
@@ -226,7 +139,7 @@ const DadosPage = () => {
           <Typography variant="h4" sx={{ mb: 6 }}>
             Idiomas
           </Typography>
-          <IdiomasForm data={dados} onChange={handleDados} loading={loading} />
+          <IdiomasForm data={dados} onChange={handleChange} />
 
           <Divider sx={{ mt: 6, mb: 2 }} />
 
@@ -235,8 +148,7 @@ const DadosPage = () => {
           </Typography>
           <DadosEscolaridadeForm
             data={dados}
-            onChange={handleDados}
-            loading={loading}
+            onChange={handleChange}
           />
 
           <Divider sx={{ mt: 6, mb: 2 }} />
@@ -246,8 +158,7 @@ const DadosPage = () => {
           </Typography>
           <DadosExperienciaProfissionalForm
             data={dados}
-            onChange={handleDados}
-            loading={loading}
+            onChange={handleChange}
           />
 
           <Divider sx={{ mt: 6, mb: 2 }} />
@@ -257,57 +168,40 @@ const DadosPage = () => {
           </Typography>
           <DadosProjetosForm
             data={dados}
-            onChange={handleDados}
+            onChange={handleChange}
             loading={loading}
           />
         </form>
       </Box>
     );
-  } else {
-    return "Em construcao";
-    // <Box sx={{ pt: 2 }}>
+  }
 
-    //   {!loading && error && (
-    //     <Box sx={{ pb: 2 }}>
-    //       <Typography color="error">{String(error)}</Typography>
-    //     </Box>
-    //   )}
+  if (auth.features[ACCOUNT_FEATURES.PJ]) {
+    return (
+      <Box sx={{ pt: 2 }}>
+        <form onSubmit={handleSubmitPJ}>
+          {saveBar}
 
-    //   <form onSubmit={handleSubmitPJ}>
-    //     <div className="floating-save-button">
-    //       <div className="content">
-    //         <LoadingButton
-    //           loading={loading}
-    //           variant="contained"
-    //           color="primary"
-    //           type="submit"
-    //         >
-    //           Salvar
-    //         </LoadingButton>
-    //         </div>
-    //     </div>
+          <Typography variant="h4" sx={{ mb: 6 }}>
+            Dados da Empresa
+          </Typography>
+          <DadosEmpresaForm
+            data={dados}
+            onChange={handleChange}
+          />
 
-    //     <Typography variant="h4" gutterBottom>
-    //       Dados da Empresa
-    //     </Typography>
-    //     <DadosEmpresaForm
-    //       data={dados}
-    //       onChange={handleDados}
-    //       loading={loading}
-    //     />
+          <Divider sx={{ mt: 6, mb: 2 }} />
 
-    //     <Divider sx={{ my: 6 }} />
-
-    //     <Typography variant="h4" gutterBottom>
-    //       Endereço
-    //     </Typography>
-    //     <DadosEnderecoForm
-    //       data={dados}
-    //       onChange={handleDados}
-    //       loading={loading}
-    //     />
-    //   </form>
-    // </Box>
+          <Typography variant="h4" sx={{ mb: 6 }}>
+            Endereço
+          </Typography>
+          <DadosEnderecoForm
+            data={dados}
+            onChange={handleChange}
+          />
+        </form>
+      </Box>
+    );
   }
 };
 

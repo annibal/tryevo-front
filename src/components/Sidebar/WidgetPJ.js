@@ -1,5 +1,5 @@
 import { AUTH_READY_STATE, useAuth } from "../../base/AuthContext";
-import { Avatar } from "@mui/material";
+import { Avatar, Grid } from "@mui/material";
 import { Link } from "react-router-dom";
 import allRoutesData from "../../base/routes_data";
 import stringToColor from "../../utils/stringToColor";
@@ -33,6 +33,22 @@ const WidgetPJ = ({ onClick }) => {
       .join("");
   }
 
+  const userInfo = auth.userInfo || {};
+
+  let completeness = {
+    'Dados Pessoais': !!userInfo.nomeResponsavel && !!userInfo.nomeFantasia && !!userInfo.razaoSocial,
+    'Telefone': userInfo.telefones?.length > 0,
+    'Redes Sociais': userInfo.links?.length > 0,
+    'CNPJ': (userInfo.documentos || []).find(doc => doc.tipo === 'CNPJ'),
+    'Inscrição Estadual': (userInfo.documentos || []).find(doc => doc.tipo === 'INSCRICAO_ESTADUAL'),
+    'Endereço': userInfo.endereco && !!userInfo.endereco.cep && !!userInfo.endereco.numero,
+    // Projetos
+    // Qualificações
+    // Testes
+  }
+  completeness = Object.entries(completeness)
+  const completePercent = Math.ceil(completeness.filter(x => x[1]).length / completeness.length * 100);
+
   return (
     <>
       <div className="widget-user widget-pj" onClick={onClick}>
@@ -55,6 +71,25 @@ const WidgetPJ = ({ onClick }) => {
             </small>
           </h3>
         </Link>
+      </div>
+      <div className="complete-seu-perfil">
+        <Grid container>
+          <Grid item>Empresa:</Grid>
+          <Grid item xs>
+            <div className="text-right">{completePercent}% completa</div>
+          </Grid>
+        </Grid>
+        <div className="hp-bar-bg">
+          <div className="hp-bar" style={{ width: `${completePercent}%` }}></div>
+        </div>
+        <ul>
+        {completeness.map(([name, checked]) => (
+          <li key={name}>
+            <input type="checkbox" checked={checked} onChange={() => {}} />
+            <span>{name}</span>
+          </li>
+        ))}
+        </ul>
       </div>
     </>
   );

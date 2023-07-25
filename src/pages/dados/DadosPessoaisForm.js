@@ -19,6 +19,7 @@ const DadosPessoaisForm = ({ data, onChange, loading }) => {
       ...data,
       [name]: value,
     });
+    onChange();
   };
 
   return (

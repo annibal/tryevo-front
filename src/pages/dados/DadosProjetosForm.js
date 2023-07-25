@@ -15,7 +15,7 @@ import FormDatepicker from '../commons/form/FormDatepicker';
 //   },
 // ],
 
-const DadosProjetosForm = ({ data }) => {
+const DadosProjetosForm = ({ data, onChange }) => {
   const [dados, setDados] = useState(data?.projetosPessoais || []);
 
   useEffect(() => {
@@ -27,6 +27,7 @@ const DadosProjetosForm = ({ data }) => {
   const removeItem = (itemIndex) => {
     const newItems = dados.filter((i, idx) => idx !== itemIndex);
     setDados(newItems);
+    onChange();
   };
 
   const addItem = () => {
@@ -35,6 +36,7 @@ const DadosProjetosForm = ({ data }) => {
       { titulo: "", url: "", descricao: "", quando: "" },
     ];
     setDados(newItems);
+    onChange();
   };
 
   const updateItem = (itemVal, itemName, itemIndex) => {
@@ -42,6 +44,7 @@ const DadosProjetosForm = ({ data }) => {
       idx === itemIndex ? { ...item, [itemName]: itemVal } : item
     );
     setDados(newItems);
+    onChange();
   };
 
   return (
