@@ -1,70 +1,112 @@
 
-import { LoadingButton } from '@mui/lab';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { TextField, Grid, Button } from '@mui/material';
-import { Fragment, useState } from 'react';
+import { Grid, Button, IconButton } from '@mui/material';
+import { Fragment, useEffect, useState } from 'react';
+import FormInput from '../commons/form/FormInput';
+import { Add, Delete } from '@mui/icons-material';
+import FormDatepicker from '../commons/form/FormDatepicker';
 
-const DadosProjetosForm = () => {
-  const [loading, setLoading] = useState(false);
-  const [projects, setProjects] = useState([0]);
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
+// projetosPessoais: [
+//   {
+//     titulo: "",
+//     url: "",
+//     descricao: "",
+//     quando: "",
+//   },
+// ],
 
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-    }, 1000)
-  }
+const DadosProjetosForm = ({ data }) => {
+  const [dados, setDados] = useState(data?.projetosPessoais || {});
+
+  useEffect(() => {
+    if (data?.projetosPessoais) {
+      setDados(data.projetosPessoais);
+    }
+  }, [data]);
+
+  const removeItem = (itemIndex) => {
+    const newItems = dados.filter((i, idx) => idx !== itemIndex);
+    setDados(newItems);
+  };
+
+  const addItem = () => {
+    const newItems = [
+      ...dados,
+      { titulo: "", url: "", descricao: "", quando: "" },
+    ];
+    setDados(newItems);
+  };
+
+  const updateItem = (itemVal, itemName, itemIndex) => {
+    const newItems = dados.map((item, idx) =>
+      idx === itemIndex ? { ...item, [itemName]: itemVal } : item
+    );
+    setDados(newItems);
+  };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <>
       <Grid container spacing={2}>
+        {dados.map((projeto, idx) => {
+          return (
+            <Fragment key={idx}>
+              <Grid item xs={11}>
+                <FormInput
+                  label={`Título do Projeto ${idx + 1}`}
+                  name={`projetosPessoais[${idx}][titulo]`}
+                  data={dados}
+                  getValue={() => projeto.titulo}
+                  onChange={(value) => updateItem(value, "titulo", idx)}
+                />
+              </Grid>
+              <Grid item xs={1}>
+                <IconButton onClick={() => removeItem(idx)} tabIndex={-1}>
+                  <Delete />
+                </IconButton>
+              </Grid>
 
-        {projects.map((project, idx) => (
-          <Fragment key={project}>
-            <Grid item xs={12} sm={6}>
-              <TextField label={`Projeto ${idx + 1}`} name={`project${idx}`} fullWidth />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField label="URL" name={`projectLink${idx}`} fullWidth />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField label="Descrição" name={`projectDescription${idx}`} fullWidth />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <DatePicker
-                label="Data do Projeto"
-                name={`projectDate${project}`}
-                fullWidth
-                clearable
-                inputVariant="outlined"
-              />
-            </Grid>
-            
-            <Grid item xs={12}>
-              <Button variant="outlined" color="primary" onClick={() => setProjects(projects.filter((p, i) => i !== idx))} sx={{ mb: 2 }} tabIndex={-1} >
-                Remover
-              </Button>
-            </Grid>
-          </Fragment>
-        ))}
+              <Grid item xs={12}>
+                <FormInput
+                  label={`Descrição do projeto`}
+                  name={`projetosPessoais[${idx}][descricao]`}
+                  data={dados}
+                  getValue={() => projeto.descricao}
+                  onChange={(value) => updateItem(value, "descricao", idx)}
+                  multiline
+                  rows={4}
+                />
+              </Grid>
+
+              <Grid item xs={12} sm={6}>
+                <FormInput
+                  label={`Link URL`}
+                  name={`projetosPessoais[${idx}][url]`}
+                  data={dados}
+                  getValue={() => projeto.url}
+                  onChange={(value) => updateItem(value, "url", idx)}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <FormDatepicker
+                  label="Quando foi feito"
+                  name={`projetosPessoais[${idx}][quando]`}
+                  data={dados}
+                  getValue={() => projeto.quando}
+                  onChange={(value) => updateItem(value, "quando", idx)}
+                />
+              </Grid>
+            </Fragment>
+          );
+        })}
 
         <Grid item xs={12}>
-          <Button variant="contained" color="primary" onClick={() => setProjects([...projects, projects.length])}>
-            Adicionar Projeto
+          <Button variant="outlined" onClick={addItem} startIcon={<Add />}>
+            Adicionar Experiencia Profissional
           </Button>
         </Grid>
-
-        <Grid item xs={12}>
-          <LoadingButton loading={loading} variant="contained" color="primary" type="submit">
-            Salvar
-          </LoadingButton>
-        </Grid>
-        
       </Grid>
-    </form>
-  )
-}
+    </>
+  );
+};
 
 export default DadosProjetosForm;

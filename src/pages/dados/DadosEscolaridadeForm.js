@@ -1,100 +1,132 @@
+import {
+  Grid,
+  Button,
+  IconButton,
+} from "@mui/material";
+import { Fragment, useEffect, useState } from "react";
+import FormInput from "../commons/form/FormInput";
+import { Add, Delete } from "@mui/icons-material";
+import FormSelect from "../commons/form/FormSelect";
+import FormCheckbox from "../commons/form/FormCheckbox";
+import FormDatepicker from "../commons/form/FormDatepicker";
 
-import { LoadingButton } from '@mui/lab';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { TextField, Grid,Select, MenuItem, FormControl, InputLabel, Button, FormControlLabel, Checkbox } from '@mui/material';
-import { Fragment, useState } from 'react';
+// escolaridades = [
+//   {
+//     nome: "",
+//     nivel: "",
+//     isCompleto: "",
+//     inicio: "",
+//     fim: "",
+//   },
+// ],
 
-const DadosEscolaridadeForm = () => {
-  const [loading, setLoading] = useState(false);
-  const [schools, setSchools] = useState([0]);
-  const [schoolsComplete, setSchoolsComplete] = useState([false]);
+const DadosEscolaridadeForm = ({ data }) => {
+  const [dados, setDados] = useState(data?.escolaridades || {});
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
+  useEffect(() => {
+    if (data?.escolaridades) {
+      setDados(data.escolaridades);
+    }
+  }, [data]);
 
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-    }, 1000)
-  }
+  const removeItem = (itemIndex) => {
+    const newItems = dados.filter((i, idx) => idx !== itemIndex);
+    setDados(newItems);
+  };
+
+  const addItem = () => {
+    const newItems = [
+      ...dados,
+      { nome: "", nivel: "", isCompleto: false, inicio: "", fim: "" },
+    ];
+    setDados(newItems);
+  };
+
+  const updateItem = (itemVal, itemName, itemIndex) => {
+    const newItems = dados.map((item, idx) =>
+      idx === itemIndex ? { ...item, [itemName]: itemVal } : item
+    );
+    setDados(newItems);
+  };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <>
       <Grid container spacing={2}>
+        {dados.map((escolaridade, idx) => (
+          <Fragment key={idx}>
+            <Grid item xs={11}>
+              <FormInput
+                label={`Nome da Instituição de Ensino ${idx + 1}`}
+                name={`escolaridades[${idx}][nome]`}
+                data={dados}
+                getValue={() => escolaridade.nome}
+                onChange={(value) => updateItem(value, "nome", idx)}
+              />
+            </Grid>
+            <Grid item xs={1}>
+              <IconButton onClick={() => removeItem(idx)} tabIndex={-1}>
+                <Delete />
+              </IconButton>
+            </Grid>
 
-        {schools.map((school, idx) => (
-          <Fragment key={school}>
             <Grid item xs={12} sm={6}>
-              <FormControl fullWidth>
-                <InputLabel>Tipo (Escolaridade {idx + 1})</InputLabel>
-                <Select name={`schoolLevel${school}`}>
-                  <MenuItem value="" selected disabled>- Selecione- </MenuItem>
-                  <MenuItem value="fundamental">Fundamental</MenuItem>
-                  <MenuItem value="medio">Ensino Médio</MenuItem>
-                  <MenuItem value="superior">Superior (Faculdade)</MenuItem>
-                  <MenuItem value="mestrado">Mestrado</MenuItem>
-                  <MenuItem value="doutorado">Doutorado</MenuItem>
-                </Select>
-              </FormControl>
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <FormControlLabel
-                control={<Checkbox
-                  name={`schoolLevelComplete${school}`}
-                  color="primary"
-                  checked={Boolean(schoolsComplete[idx])}
-                  onChange={ (e) => setSchoolsComplete(schools.map((s, i) => i === idx ? e.target.checked : schoolsComplete[s])) }
-                />}
-                label={`Escolaridade ${idx + 1} Completa`}
+              <FormSelect
+                label="Nível"
+                name={`escolaridades[${idx}][nivel]`}
+                data={dados}
+                getValue={() => escolaridade.nivel}
+                onChange={(value) => updateItem(value, "nivel", idx)}
+                options={[
+                  { value: "FUNDAMENTAL", label: "Fundamental" },
+                  { value: "ENSINO_MEDIO", label: "Ensino Médio" },
+                  { value: "SUPERIOR", label: "Superior (Faculdade)" },
+                  { value: "MESTRADO", label: "Mestrado" },
+                  { value: "DOUTORADO", label: "Doutorado" },
+                  { value: "POS_DOUTORADO", label: "Pós Doutorado" },
+                  { value: "MBA", label: "MBA" },
+                ]}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <DatePicker
-                label="Data de Início"
-                name={`schoolStartDate${school}`}
-                fullWidth
-                clearable
-                inputVariant="outlined"
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <DatePicker
-                label="Data de Término"
-                name={`schoolEndDate${school}`}
-                fullWidth
-                clearable
-                inputVariant="outlined"
-                disabled={schoolsComplete[idx] === false}
+              <FormDatepicker
+                label="Início"
+                name={`escolaridades[${idx}][inicio]`}
+                data={dados}
+                getValue={() => escolaridade.inicio}
+                onChange={(value) => updateItem(value, "inicio", idx)}
               />
             </Grid>
 
-            <Grid item xs={10}>
-              <TextField label={`Nome da Escola ${idx + 1}`} name={`schoolName${idx}`} fullWidth />
+            <Grid item xs={12} sm={6}>
+              <FormCheckbox
+                label="Completou"
+                name={`escolaridades[${idx}][isCompleto]`}
+                data={dados}
+                getValue={() => escolaridade.isCompleto}
+                onChange={(value) => updateItem(value, "isCompleto", idx)}
+              />
             </Grid>
-            
-            <Grid item xs={12}>
-              <Button variant="outlined" color="primary" onClick={() => setSchools(schools.filter((p, i) => i !== idx))} sx={{ mb: 2 }} tabIndex={-1} >
-                Remover
-              </Button>
+
+            <Grid item xs={12} sm={6}>
+              <FormDatepicker
+                label="Fim"
+                name={`escolaridades[${idx}][fim]`}
+                data={dados}
+                getValue={() => escolaridade.fim}
+                onChange={(value) => updateItem(value, "fim", idx)}
+              />
             </Grid>
           </Fragment>
         ))}
 
         <Grid item xs={12}>
-          <Button variant="contained" color="primary" onClick={() => setSchools([...schools, schools.length])}>
+          <Button variant="outlined" onClick={addItem} startIcon={<Add />}>
             Adicionar Escolaridade
           </Button>
         </Grid>
-
-        <Grid item xs={12}>
-          <LoadingButton loading={loading} variant="contained" color="primary" type="submit">
-            Salvar
-          </LoadingButton>
-        </Grid>
-        
       </Grid>
-    </form>
-  )
-}
+    </>
+  );
+};
 
 export default DadosEscolaridadeForm;

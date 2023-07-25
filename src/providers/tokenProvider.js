@@ -1,5 +1,5 @@
 
-const tokenKey = 'tryevo-token';
+const tokenKey = 'tryevo-token-jwt';
 
 export const getToken = () => {
   try {

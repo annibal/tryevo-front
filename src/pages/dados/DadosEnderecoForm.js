@@ -1,83 +1,138 @@
+import { Grid } from "@mui/material";
+import { useEffect, useState } from "react";
+import FormInput from "../commons/form/FormInput";
 
-import { LoadingButton } from '@mui/lab';
-import { TextField, Grid  } from '@mui/material';
-import { useEffect, useState } from 'react';
-
-const DadosEnderecoForm = ({ type }) => {
-  const [loading, setLoading] = useState(false);
+const DadosEnderecoForm = ({ data, onChange, loading }) => {
   const [isLoadingCEP, setIsLoadingCEP] = useState(false);
-  const [CEP, setCEP] = useState('');
-  const [state, setState] = useState('');
-  const [city, setCity] = useState('');
-  const [neighborhood, setNeighborhood] = useState('');
-  const [street, setStreet] = useState('');
-  const [streetNumber, setStreetNumber] = useState('');
-  const [complement, setComplement] = useState('');
-
-  const getAddressData = async () => {
-    setIsLoadingCEP(true);
-    const addressData = await fetch(`https://brasilapi.com.br/api/cep/v1/${CEP}`).then(r => r.json());
-    if (addressData) {
-      if (addressData.state) setState(addressData.state);
-      if (addressData.city) setCity(addressData.city);
-      if (addressData.neighborhood) setNeighborhood(addressData.neighborhood);
-      if (addressData.street) setStreet(addressData.street);
-      setStreetNumber('');
-      setComplement('');
-    }
-    setIsLoadingCEP(false);
-  }
+  const [dados, setDados] = useState(data?.endereco || {});
 
   useEffect(() => {
-    if (CEP && CEP.toString().length === 8) {
-      getAddressData()
+    if (data?.endereco) setDados(data.endereco);
+  }, [data]);
+
+  const handleChange = (value, name, data) => {
+    if (name === "cep" && value && value.toString().length === 8) {
+      getAddressData(value);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [CEP])
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    type.toString();
+    setDados({
+      ...data,
+      [name]: value,
+    });
+  };
 
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-    }, 1000)
-  }
+  const getAddressData = async (cep) => {
+    setIsLoadingCEP(true);
+    const addressData = await fetch(
+      `https://brasilapi.com.br/api/cep/v1/${cep}`
+    ).then((r) => r.json());
+    if (addressData) {
+      let cepData = {};
+      if (addressData.state) cepData.estado = addressData.state;
+      if (addressData.city) cepData.cidade = addressData.city;
+      if (addressData.neighborhood) cepData.bairro = addressData.neighborhood;
+      if (addressData.street) cepData.rua = addressData.street
+
+      if (addressData.cep !== data?.endereco?.cep) {
+        cepData.numero = '';
+        cepData.complemento = '';
+      }
+      setDados({
+        ...data,
+        ...cepData
+      })
+    }
+    setIsLoadingCEP(false);
+  };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <>
       <Grid container spacing={2}>
         <Grid item xs={12}>
-          <TextField label="CEP" name="cep" value={CEP} onChange={(e) => setCEP(e.target.value)} type="number" disabled={isLoadingCEP} />
+          <FormInput
+            fullWidth={false}
+            label="CEP"
+            name="endereco[cep]"
+            getValue={() => dados.cep}
+            data={dados}
+            onChange={(value, name, data) => handleChange(value, 'cep', data)}
+            disabled={isLoadingCEP}
+          />
         </Grid>
         <Grid item xs={12} sm={6}>
-          <TextField label="Estado" name="state" value={state} onChange={(e) => setState(e.target.value)} fullWidth disabled={isLoadingCEP} />
+          <FormInput
+            label="País"
+            name="endereco[pais]"
+            getValue={() => dados.pais}
+            data={dados}
+            onChange={(value, name, data) => handleChange(value, 'pais', data)}
+            disabled={isLoadingCEP}
+          />
         </Grid>
         <Grid item xs={12} sm={6}>
-          <TextField label="Cidade" name="city" value={city} onChange={(e) => setCity(e.target.value)} fullWidth disabled={isLoadingCEP} />
+          <FormInput
+            label="Estado"
+            name="endereco[estado]"
+            getValue={() => dados.estado}
+            data={dados}
+            onChange={(value, name, data) => handleChange(value, 'estado', data)}
+            disabled={isLoadingCEP}
+          />
         </Grid>
         <Grid item xs={12} sm={6}>
-          <TextField label="Bairro" name="neighborhood" value={neighborhood} onChange={(e) => setNeighborhood(e.target.value)} fullWidth disabled={isLoadingCEP} />
-        </Grid>
-        <Grid item xs={12} sm={8}>
-          <TextField label="Nome da Rua" name="street" value={street} onChange={(e) => setStreet(e.target.value)} fullWidth disabled={isLoadingCEP} />
+          <FormInput
+            label="Cidade"
+            name="endereco[cidade]"
+            getValue={() => dados.cidade}
+            data={dados}
+            onChange={(value, name, data) => handleChange(value, 'cidade', data)}
+            disabled={isLoadingCEP}
+          />
         </Grid>
         <Grid item xs={12} sm={6}>
-          <TextField label="Número" name="number" value={streetNumber} onChange={(e) => setStreetNumber(e.target.value)} type="number" fullWidth disabled={isLoadingCEP} />
+          <FormInput
+            label="Bairro"
+            name="endereco[bairro]"
+            getValue={() => dados.bairro}
+            data={dados}
+            onChange={(value, name, data) => handleChange(value, 'bairro', data)}
+            disabled={isLoadingCEP}
+          />
         </Grid>
         <Grid item xs={12} sm={12}>
-          <TextField label="Complemento" name="address2" value={complement} onChange={(e) => setComplement(e.target.value)} fullWidth disabled={isLoadingCEP} />
+          <FormInput
+            label="Nome da Rua"
+            name="endereco[rua]"
+            getValue={() => dados.rua}
+            data={dados}
+            onChange={(value, name, data) => handleChange(value, 'rua', data)}
+            disabled={isLoadingCEP}
+          />
         </Grid>
-
-        <Grid item xs={12}>
-          <LoadingButton loading={loading} variant="contained" color="primary" type="submit">
-            Salvar
-          </LoadingButton>
+        <Grid item xs={12} sm={4}>
+          <FormInput
+            label="Número"
+            name="endereco[numero]"
+            getValue={() => dados.numero}
+            data={dados}
+            onChange={(value, name, data) => handleChange(value, 'numero', data)}
+            type="number"
+            disabled={isLoadingCEP}
+          />
+        </Grid>
+        <Grid item xs={12} sm={8}>
+          <FormInput
+            label="Complemento"
+            name="endereco[complemento]"
+            getValue={() => dados.complemento}
+            data={dados}
+            onChange={(value, name, data) => handleChange(value, 'complemento', data)}
+            disabled={isLoadingCEP}
+          />
         </Grid>
       </Grid>
-    </form>
-  )
-}
+    </>
+  );
+};
 
 export default DadosEnderecoForm;
