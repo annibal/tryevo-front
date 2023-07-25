@@ -47,7 +47,9 @@ const AuthContext = createContext(null);
 export function AuthProvider({ children }) {
   const [readyState, setReadyState] = useState(AUTH_READY_STATE.INITIAL);
   const [user, setUser] = useState(null);
+  const [loadedUser, setLoadedUser] = useState(null);
   const [userInfo, setUserInfo] = useState(null);
+  const [loadedUserInfo, setLoadedUserInfo] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const [features, setFeatures] = useState({
@@ -66,48 +68,64 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     async function loadUser() {
       setLoading(true);
+      setLoadedUser(false);
       let objUser;
 
       try {
         objUser = await authProvider.getAuthData();
         setUserData(objUser);
       } catch (e) {
-        setError(e);
+        if ((e.message || e).toString().includes('jwt')) {
+          await logOut();
+        } else {
+          setError(e);
+        }
       }
-      
+
       if (objUser == null) {
         setReadyState(AUTH_READY_STATE.DONE);
       }
+      setLoadedUser(true);
       setLoading(false);
     }
 
     async function loadUserInfo() {
       setLoading(true);
+      setLoadedUserInfo(false);
+
       try {
         const objUserInfo = await userInfoProvider.getOwnInfo();
-        setUserInfo(objUserInfo);
+        setUserInfo(objUserInfo || {});
       } catch (e) {
-        setError(e);
+        if ((e.message || e).toString().includes('jwt')) {
+          await logOut();
+        } else {
+          setError(e);
+        }
       }
 
       setReadyState(AUTH_READY_STATE.DONE);
+      setLoadedUserInfo(true);
       setLoading(false);
     }
 
-    if (!user && !loading) {
+    if (!loadedUser && !loading) {
       setReadyState(AUTH_READY_STATE.FETCHING_DATA);
       loadUser();
     }
-    if (user && !userInfo && !loading) {
+    if (user && !loadedUserInfo && !loading) {
       loadUserInfo();
     }
-  }, [user, userInfo, loading]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user, loadedUser, loadedUserInfo, userInfo, loading]);
 
   const invalidate = () => {
     setUser(false);
+    setLoadedUser(false);
     setUserInfo(false);
+    setLoadedUserInfo(false);
     setReadyState(AUTH_READY_STATE.INITIAL);
-  }
+  };
 
   // aka register
   const signIn = async (newUser) => {
@@ -144,9 +162,7 @@ export function AuthProvider({ children }) {
   };
 
   const logOut = async () => {
-    setLoading(true);
-    setUser(null);
-    setError(null);
+    invalidate();
     setFeatures({
       [ACCOUNT_FEATURES.NOT_LOGGED]: true,
     });
