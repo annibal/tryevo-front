@@ -1,24 +1,13 @@
 
-import { LoadingButton } from '@mui/lab';
 import { TextField, Grid, Select, MenuItem, FormControl, InputLabel, Button } from '@mui/material';
 import { Fragment, useState } from 'react';
 
 const DadosEmpresaForm = () => {
-  const [loading, setLoading] = useState(false);
   const [phones, setPhones] = useState(['mainPhone']);
   const [socialNetworks, setSocialNetworks] = useState([0]);
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-    }, 1000)
-  }
-
   return (
-    <form onSubmit={handleSubmit}>
+    <>
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <TextField label="Razão Social" name="razaoSocial" fullWidth />
@@ -100,13 +89,8 @@ const DadosEmpresaForm = () => {
           </Button>
         </Grid>
 
-        <Grid item xs={12}>
-          <LoadingButton loading={loading} variant="contained" color="primary" type="submit">
-            Salvar
-          </LoadingButton>
-        </Grid>
       </Grid>
-    </form>
+    </>
   )
 }
 

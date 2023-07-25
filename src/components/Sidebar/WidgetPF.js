@@ -1,4 +1,4 @@
-import { useAuth } from "../../base/AuthContext";
+import { AUTH_READY_STATE, useAuth } from "../../base/AuthContext";
 import { Avatar, Grid } from "@mui/material";
 import { Link } from "react-router-dom";
 import allRoutesData from "../../base/routes_data";
@@ -6,9 +6,10 @@ import stringToColor from "../../utils/stringToColor";
 
 const WidgetPF = ({ onClick }) => {
   let auth = useAuth();
+  if (auth.readyState !== AUTH_READY_STATE.DONE) return '';
 
   let subtitulo = "";
-  if (auth.user.plano) subtitulo = auth.user.plano;
+  if (auth.user?.plano) subtitulo = auth.user.plano;
 
   let name = auth.user?.email;
   let avatar = name
@@ -41,6 +42,23 @@ const WidgetPF = ({ onClick }) => {
     }
   }
 
+  const userInfo = auth.userInfo || {};
+
+  let completeness = {
+    'Dados Pessoais': !!userInfo.nomePrimeiro && !!userInfo.nomeUltimo && !!userInfo.nascimento && !!userInfo.genero,
+    'Telefone': userInfo.telefones?.length > 0,
+    'Documentos': userInfo.documentos?.length > 1 && userInfo.documentos.find(doc => doc.tipo === 'CPF'),
+    'Endereço': userInfo.endereco && !!userInfo.endereco.cep && !!userInfo.endereco.numero,
+    'Idiomas': userInfo.linguagens?.length > 0 && !!userInfo.linguagens[0],
+    'Graduação': userInfo.escolaridades?.length > 0 && !!userInfo.escolaridades[0],
+    'Empregos': userInfo.experienciasProfissionais?.length > 0 && !!userInfo.experienciasProfissionais[0],
+    // Projetos
+    // Qualificações
+    // Testes
+  }
+  completeness = Object.entries(completeness)
+  const completePercent = Math.ceil(completeness.filter(x => x[1]).length / completeness.length * 100);
+
   return (
     <>
       <div className="widget-user widget-pf" onClick={onClick}>
@@ -66,33 +84,19 @@ const WidgetPF = ({ onClick }) => {
         <Grid container>
           <Grid item>Perfil:</Grid>
           <Grid item xs>
-            <div className="text-right">20% completo</div>
+            <div className="text-right">{completePercent}% completo</div>
           </Grid>
         </Grid>
         <div className="hp-bar-bg">
-          <div className="hp-bar" style={{ width: "20%" }}></div>
+          <div className="hp-bar" style={{ width: `${completePercent}%` }}></div>
         </div>
         <ul>
-          <li>
-            <input type="checkbox" checked={true} onChange={() => {}} />
-            <span>Dados Pessoais</span>
+        {completeness.map(([name, checked]) => (
+          <li key={name}>
+            <input type="checkbox" checked={checked} onChange={() => {}} />
+            <span>{name}</span>
           </li>
-          <li>
-            <input type="checkbox" checked={false} onChange={() => {}} />
-            <span>Experiencia Profissional</span>
-          </li>
-          <li>
-            <input type="checkbox" checked={false} onChange={() => {}} />
-            <span>Graduação</span>
-          </li>
-          <li>
-            <input type="checkbox" checked={false} onChange={() => {}} />
-            <span>Linguagens</span>
-          </li>
-          <li>
-            <input type="checkbox" checked={false} onChange={() => {}} />
-            <span>Projetos</span>
-          </li>
+        ))}
         </ul>
       </div>
     </>

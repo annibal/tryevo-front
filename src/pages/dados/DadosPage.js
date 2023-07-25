@@ -1,4 +1,4 @@
-import { Box, Divider, Typography } from "@mui/material";
+import { Box, Divider, Grid, Typography } from "@mui/material";
 import DadosPessoaisForm from "./DadosPessoaisForm";
 import { ACCOUNT_FEATURES, useAuth } from "../../base/AuthContext";
 import IdiomasForm from "./DadosIdiomasForm";
@@ -11,6 +11,7 @@ import * as userInfoProvider from "../../providers/userInfoProvider";
 import { useEffect, useState } from "react";
 import DadosPrincipaisForm from "./DadosPrincipaisForm";
 import { LoadingButton } from "@mui/lab";
+import formDataToObject from "../../utils/formDataToObject";
 
 const example_pf = {
   nomePrimeiro: "",
@@ -98,83 +99,12 @@ const example_pf = {
   ],
 };
 
-
-function formDataToObject(formData) {
-  let object = {}
-
-  const debug = (message) => {
-      //console.log(message)
-  }
-
-  /**
-   * Parses FormData key xxx`[x][x][x]` fields into array
-   */
-  const parseKey = (key) => {
-      const subKeyIdx = key.indexOf('[');
-
-      if (subKeyIdx !== -1) {
-          const keys = [key.substring(0, subKeyIdx)]
-          key = key.substring(subKeyIdx)
-
-          for (const match of key.matchAll(/\[(?<key>.*?)]/gm)) {
-              keys.push(match.groups.key)
-          }
-          return keys
-      } else {
-          return [key]
-      }
-  }
-
-  /**
-   * Recursively iterates over keys and assigns key/values to object
-   */
-  const assign = (keys, value, object) => {
-      const key = keys.shift()
-      debug(key)
-      debug(keys)
-
-      // When last key in the iterations
-      if (key === '' || key === undefined) {
-          return object.push(value)
-      }
-
-      if (Reflect.has(object, key)) {
-          debug('hasKey ' + key)
-          // If key has been found, but final pass - convert the value to array
-          if (keys.length === 0) {
-              if (!Array.isArray(object[key])) {
-                  debug('isArray ' + object[key])
-                  object[key] = [object[key], value]
-                  return
-              }
-          }
-          // Recurse again with found object
-          return assign(keys, value, object[key])
-      }
-
-      // Create empty object for key, if next key is '' do array instead, otherwise set value
-      if (keys.length >= 1) {
-          debug(`undefined '${key}' key: remaining ${keys.length}`)
-          object[key] = keys[0] === '' ? [] : {}
-          return assign(keys, value, object[key])
-      } else {
-          debug("set value: " + value)
-          object[key] = value
-      }
-  }
-
-  for (const pair of formData.entries()) {
-      assign(parseKey(pair[0]), pair[1], object)
-  }
-
-  return object
-}
-
 const DadosPage = () => {
   const auth = useAuth();
   const [dados, setDados] = useState(auth?.userInfo);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [hasChanges, setHasChanges] = useState(false);
 
   useEffect(() => {
     if (auth?.userInfo) setDados(auth.userInfo);
@@ -196,11 +126,14 @@ const DadosPage = () => {
     setError(null);
     const formData = new FormData(event.currentTarget);
 
-    let obj = formDataToObject(formData)
-
-    console.log({ dataJson: Object.fromEntries(formData.entries()), formData, obj });
     try {
-      await userInfoProvider.saveInfoPF(obj);
+      let pfObj = formDataToObject(formData);
+      console.log({ formData, pfObj });
+
+      await userInfoProvider.saveInfoPF(pfObj);
+
+      setHasChanges(false);
+      auth.invalidate();
     } catch (error) {
       console.log({ error, msg: error.message });
       setError(error);
@@ -213,9 +146,15 @@ const DadosPage = () => {
     setLoading(true);
     setError(null);
     const formData = new FormData(event.currentTarget);
-    console.log({ formData: Object.fromEntries(formData.entries()) });
+
     try {
-      await userInfoProvider.saveInfoPJ(formData);
+      let pjObj = formDataToObject(formData);
+      console.log({ formData, pjObj });
+
+      await userInfoProvider.saveInfoPJ(pjObj);
+
+      setHasChanges(false);
+      auth.invalidate();
     } catch (error) {
       console.log({ error, msg: error.message });
       setError(error);
@@ -225,31 +164,39 @@ const DadosPage = () => {
 
   //
 
+  if (auth.loading) {
+    return "Loading";
+  }
+
   if (auth.features[ACCOUNT_FEATURES.PF]) {
     return (
       <Box sx={{ pt: 2 }}>
-
-        {!loading && error && (
-          <Box sx={{ pb: 2 }}>
-            <Typography color="error">{String(error)}</Typography>
-          </Box>
-        )}
-
         <form onSubmit={handleSubmitPF}>
           <div className="floating-save-button">
             <div className="content">
-              <LoadingButton
-                loading={loading}
-                variant="contained"
-                color="primary"
-                type="submit"
-              >
-                Salvar
-              </LoadingButton>
-              </div>
+              <Grid container spacing={2}>
+                <Grid item xs>
+                  {!loading && error && (
+                    <Box sx={{ pb: 2 }}>
+                      <Typography color="error">{String(error)}</Typography>
+                    </Box>
+                  )}
+                </Grid>
+                <Grid item>
+                  <LoadingButton
+                    loading={loading}
+                    variant="contained"
+                    color="primary"
+                    type="submit"
+                  >
+                    Salvar
+                  </LoadingButton>
+                </Grid>
+              </Grid>
+            </div>
           </div>
-          
-          <Typography variant="h4" gutterBottom>
+
+          <Typography variant="h4" sx={{ mb: 6 }}>
             Dados Pessoais
           </Typography>
           <DadosPrincipaisForm
@@ -263,9 +210,9 @@ const DadosPage = () => {
             loading={loading}
           />
 
-          <Divider sx={{ my: 6 }} />
+          <Divider sx={{ mt: 6, mb: 2 }} />
 
-          <Typography variant="h4" gutterBottom>
+          <Typography variant="h4" sx={{ mb: 6 }}>
             Endereço
           </Typography>
           <DadosEnderecoForm
@@ -274,16 +221,16 @@ const DadosPage = () => {
             loading={loading}
           />
 
-          <Divider sx={{ my: 6 }} />
+          <Divider sx={{ mt: 6, mb: 2 }} />
 
-          <Typography variant="h4" gutterBottom>
+          <Typography variant="h4" sx={{ mb: 6 }}>
             Idiomas
           </Typography>
           <IdiomasForm data={dados} onChange={handleDados} loading={loading} />
 
-          <Divider sx={{ my: 6 }} />
+          <Divider sx={{ mt: 6, mb: 2 }} />
 
-          <Typography variant="h4" gutterBottom>
+          <Typography variant="h4" sx={{ mb: 6 }}>
             Escolaridade
           </Typography>
           <DadosEscolaridadeForm
@@ -292,9 +239,9 @@ const DadosPage = () => {
             loading={loading}
           />
 
-          <Divider sx={{ my: 6 }} />
+          <Divider sx={{ mt: 6, mb: 2 }} />
 
-          <Typography variant="h4" gutterBottom>
+          <Typography variant="h4" sx={{ mb: 6 }}>
             Experiencia Profissional
           </Typography>
           <DadosExperienciaProfissionalForm
@@ -303,9 +250,9 @@ const DadosPage = () => {
             loading={loading}
           />
 
-          <Divider sx={{ my: 6 }} />
+          <Divider sx={{ mt: 6, mb: 2 }} />
 
-          <Typography variant="h4" gutterBottom>
+          <Typography variant="h4" sx={{ mb: 6 }}>
             Projetos
           </Typography>
           <DadosProjetosForm
@@ -317,52 +264,50 @@ const DadosPage = () => {
       </Box>
     );
   } else {
-    return (
-      "Em construcao"
-      // <Box sx={{ pt: 2 }}>
+    return "Em construcao";
+    // <Box sx={{ pt: 2 }}>
 
-      //   {!loading && error && (
-      //     <Box sx={{ pb: 2 }}>
-      //       <Typography color="error">{String(error)}</Typography>
-      //     </Box>
-      //   )}
+    //   {!loading && error && (
+    //     <Box sx={{ pb: 2 }}>
+    //       <Typography color="error">{String(error)}</Typography>
+    //     </Box>
+    //   )}
 
-      //   <form onSubmit={handleSubmitPJ}>
-      //     <div className="floating-save-button">
-      //       <div className="content">
-      //         <LoadingButton
-      //           loading={loading}
-      //           variant="contained"
-      //           color="primary"
-      //           type="submit"
-      //         >
-      //           Salvar
-      //         </LoadingButton>
-      //         </div>
-      //     </div>
+    //   <form onSubmit={handleSubmitPJ}>
+    //     <div className="floating-save-button">
+    //       <div className="content">
+    //         <LoadingButton
+    //           loading={loading}
+    //           variant="contained"
+    //           color="primary"
+    //           type="submit"
+    //         >
+    //           Salvar
+    //         </LoadingButton>
+    //         </div>
+    //     </div>
 
-      //     <Typography variant="h4" gutterBottom>
-      //       Dados da Empresa
-      //     </Typography>
-      //     <DadosEmpresaForm
-      //       data={dados}
-      //       onChange={handleDados}
-      //       loading={loading}
-      //     />
+    //     <Typography variant="h4" gutterBottom>
+    //       Dados da Empresa
+    //     </Typography>
+    //     <DadosEmpresaForm
+    //       data={dados}
+    //       onChange={handleDados}
+    //       loading={loading}
+    //     />
 
-      //     <Divider sx={{ my: 6 }} />
+    //     <Divider sx={{ my: 6 }} />
 
-      //     <Typography variant="h4" gutterBottom>
-      //       Endereço
-      //     </Typography>
-      //     <DadosEnderecoForm
-      //       data={dados}
-      //       onChange={handleDados}
-      //       loading={loading}
-      //     />
-      //   </form>
-      // </Box>
-    );
+    //     <Typography variant="h4" gutterBottom>
+    //       Endereço
+    //     </Typography>
+    //     <DadosEnderecoForm
+    //       data={dados}
+    //       onChange={handleDados}
+    //       loading={loading}
+    //     />
+    //   </form>
+    // </Box>
   }
 };
 

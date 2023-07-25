@@ -1,4 +1,4 @@
-import { useAuth } from "../../base/AuthContext";
+import { AUTH_READY_STATE, useAuth } from "../../base/AuthContext";
 import { Avatar } from "@mui/material";
 import { Link } from "react-router-dom";
 import allRoutesData from "../../base/routes_data";
@@ -6,9 +6,10 @@ import stringToColor from "../../utils/stringToColor";
 
 const WidgetPJ = ({ onClick }) => {
   let auth = useAuth();
+  if (auth.readyState !== AUTH_READY_STATE.DONE) return '';
 
   let subtitulo = "";
-  if (auth.user.plano) subtitulo = auth.user.plano;
+  if (auth.user?.plano) subtitulo = auth.user.plano;
 
   let name = auth.user?.email;
   let avatar = name

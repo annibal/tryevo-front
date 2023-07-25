@@ -1,4 +1,5 @@
 import {
+  Box,
   Grid,
   Typography,
 } from "@mui/material";
@@ -24,7 +25,7 @@ const DadosPessoaisForm = ({ data, onChange, loading }) => {
     <>
       <Grid container spacing={2}>
         <Grid item xs={12}>
-          <Typography variant="h6" sx={{ mb: 2 }}>
+          <Typography variant="h6" sx={{ mt: 4, mb: 3 }}>
             Telefones
           </Typography>
           <ManyForm
@@ -44,7 +45,7 @@ const DadosPessoaisForm = ({ data, onChange, loading }) => {
         </Grid>
 
         <Grid item xs={12}>
-          <Typography variant="h6" sx={{ mb: 2 }}>
+          <Typography variant="h6" sx={{ mt: 4, mb: 3 }}>
             Redes Sociais
           </Typography>
           <ManyForm
@@ -65,7 +66,7 @@ const DadosPessoaisForm = ({ data, onChange, loading }) => {
         </Grid>
 
         <Grid item xs={12}>
-          <Typography variant="h6" sx={{ mb: 2 }}>
+          <Typography variant="h6" sx={{ mt: 4, mb: 3 }}>
             Documentos
           </Typography>
           <ManyForm
@@ -83,24 +84,26 @@ const DadosPessoaisForm = ({ data, onChange, loading }) => {
         </Grid>
 
         <Grid item xs={12} sm={6}>
-          <FormSelect
-            label="Categoria CNH"
-            name="categoriaCNH"
-            data={dados}
-            onChange={handleChange}
-            options={[
-              { value: "NONE", label: "Não Tem" },
-              { value: "A", label: "A (moto)" },
-              { value: "B", label: "B (carro)" },
-              { value: "C", label: "C (caminhão)" },
-              { value: "D", label: "D (micro ônibus)" },
-              { value: "E", label: "E (articulados)" },
-              { value: "AB",label:  "A e B (moto + carro)" },
-              { value: "AC",label:  "A e C (moto + caminhão)" },
-              { value: "AD",label:  "A e D (moto + micro ônibus)" },
-              { value: "AE",label:  "A e E (moto + articulados)" },
-            ]}
-          />
+          <Box sx={{ mt: 2 }}>
+            <FormSelect
+              label="Categoria CNH"
+              name="categoriaCNH"
+              data={dados}
+              onChange={handleChange}
+              options={[
+                { value: "NONE", label: "Não Tem" },
+                { value: "A", label: "A (moto)" },
+                { value: "B", label: "B (carro)" },
+                { value: "C", label: "C (caminhão)" },
+                { value: "D", label: "D (micro ônibus)" },
+                { value: "E", label: "E (articulados)" },
+                { value: "AB",label:  "A e B (moto + carro)" },
+                { value: "AC",label:  "A e C (moto + caminhão)" },
+                { value: "AD",label:  "A e D (moto + micro ônibus)" },
+                { value: "AE",label:  "A e E (moto + articulados)" },
+              ]}
+            />
+          </Box>
         </Grid>
 
       </Grid>

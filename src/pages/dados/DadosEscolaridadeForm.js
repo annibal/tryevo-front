@@ -1,8 +1,4 @@
-import {
-  Grid,
-  Button,
-  IconButton,
-} from "@mui/material";
+import { Grid, Button, IconButton } from "@mui/material";
 import { Fragment, useEffect, useState } from "react";
 import FormInput from "../commons/form/FormInput";
 import { Add, Delete } from "@mui/icons-material";
@@ -21,7 +17,7 @@ import FormDatepicker from "../commons/form/FormDatepicker";
 // ],
 
 const DadosEscolaridadeForm = ({ data }) => {
-  const [dados, setDados] = useState(data?.escolaridades || {});
+  const [dados, setDados] = useState(data?.escolaridades || []);
 
   useEffect(() => {
     if (data?.escolaridades) {
@@ -108,13 +104,15 @@ const DadosEscolaridadeForm = ({ data }) => {
             </Grid>
 
             <Grid item xs={12} sm={6}>
-              <FormDatepicker
-                label="Fim"
-                name={`escolaridades[${idx}][fim]`}
-                data={dados}
-                getValue={() => escolaridade.fim}
-                onChange={(value) => updateItem(value, "fim", idx)}
-              />
+              {escolaridade.isCompleto && (
+                <FormDatepicker
+                  label="Fim"
+                  name={`escolaridades[${idx}][fim]`}
+                  data={dados}
+                  getValue={() => escolaridade.fim}
+                  onChange={(value) => updateItem(value, "fim", idx)}
+                />
+              )}
             </Grid>
           </Fragment>
         ))}

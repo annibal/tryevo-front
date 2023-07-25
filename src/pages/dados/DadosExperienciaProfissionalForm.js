@@ -22,7 +22,7 @@ import { Add, Delete } from "@mui/icons-material";
 // ],
 
 const DadosExperienciaProfissionalForm = ({ data }) => {
-  const [dados, setDados] = useState(data?.experienciasProfissionais || {});
+  const [dados, setDados] = useState(data?.experienciasProfissionais || []);
 
   useEffect(() => {
     if (data?.experienciasProfissionais) {

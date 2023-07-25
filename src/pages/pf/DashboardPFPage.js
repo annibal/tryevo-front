@@ -2,6 +2,7 @@ import React from 'react';
 import { Grid, Card, CardContent, Typography, Box } from '@mui/material';
 import { BarChart, Bar, PieChart, Pie, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 import { ACCOUNT_FEATURES, useAuth } from '../../base/AuthContext';
+import LoaderTryEvo from '../../components/LoaderTryEvo';
 
 const DashboardPFPage = () => {
   const auth = useAuth();
@@ -35,6 +36,11 @@ const DashboardPFPage = () => {
       <Typography variant="h4" align="center" gutterBottom>
         Dashboard
       </Typography>
+
+      <Box sx={{ border: '1px solid black' }}>
+        <LoaderTryEvo />
+      </Box>
+      
       {hasChartDash && (
         <Grid container spacing={3}>
           <Grid item xs={12}>

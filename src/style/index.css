@@ -1,7 +1,9 @@
 
 body {
-  font-family: Poppins;
+  font-family: Poppins, sans-serif;
   font-size: 16px;
+  overflow-y: scroll;
+  padding: 0;
 }
 
 a {
@@ -225,12 +227,30 @@ body .hamburguer {
   border-top: 1px solid #c4c4c4;
   left: 300px;
   right: 0;
-  height: 70px;
-  text-align: right;
+  min-height: 70px;
+  max-height: 20vh;
 }
 .floating-save-button .content {
   padding-bottom: 0;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 @media (max-width: 550px) {
   .page {

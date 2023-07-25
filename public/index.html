@@ -13,19 +13,40 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins&display=swap">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;600;800&display=swap" rel="stylesheet">
     
     <link rel="icon" href="%PUBLIC_URL%/favicon.png" />
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo.png" />
     
-    <!-- <link rel="stylesheet" href="%PUBLIC_URL%/index.css"> -->
+    <!-- <link rel="stylesheet" href="%PUBLIC_URL%/style.css"> -->
+
+    <style>
+      .pre-loading {
+        width: 100%;
+        margin: 0 auto;
+        padding: 16px 32px;
+        max-width: 800px;
+        opacity: .9;
+        font-size: 1.5rem;
+        font-family: Poppins, sans-serif;
+      }
+      .pre-loading h1 {
+        color: #02617d;
+        margin-bottom: 0;
+      }
+    </style>
 
     <title>TryEvo</title>
   </head>
   <body>
     <noscript>Enable JS</noscript>
     <div id="tryevo_root">
-      Carregando TryEvo...
+      
+      <div class="pre-loading">
+        <h1>TryEvo</h1>
+        <p>Carregando App...</p>
+      </div>
+
     </div>
   </body>
 </html>

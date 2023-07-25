@@ -14,6 +14,7 @@ import { ACCOUNT_FEATURES, useAuth } from "../base/AuthContext";
 
 const VagaCard = ({ _id, titulo, desc, qualificacoes }) => {
   const auth = useAuth();
+  if (auth.loading) return '';
 
   const vagaUrl = `/app/${allRoutesData.vagas.path}${_id}/${titulo}`;
   const isFavorite = false;

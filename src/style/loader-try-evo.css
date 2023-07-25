@@ -1,0 +1,162 @@
+.loader-try-evo {
+  font-size: 70px;
+  padding: 0.5em;
+  width: 100%;
+  height: 100%;
+  cursor: progress;
+}
+
+.loader-try-evo-carregando {
+  font-size: 0.3em;
+  font-weight: 600;
+  line-height: 1;
+  text-align: center;
+  display: inline-block;
+  position: absolute;
+  bottom: -1.2em;
+  left: 50%;
+  color: #df9c10;
+}
+
+.loader-try-evo-main {
+  color: #02617d;
+  font-weight: 800;
+  display: inline-flex;
+  width: 100%;
+  text-align: center;
+  white-space: nowrap;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+.loader-try-evo-text {
+  position: relative;
+  line-height: 0.675;
+  height: 0.675em;
+  margin-top: -0.125em;
+  display: block;
+}
+.loader-try-evo-text:after {
+  content: "tryEv";
+  position: absolute;
+  top: -0.2em;
+  padding-top: 0.2em;
+  height: 1.2em;
+  left: 0;
+  color: rgba(255, 255, 255, 0.3);
+  border-top-left-radius: 5em;
+  border-bottom-right-radius: 5em;
+  overflow: hidden;
+  width: 1em;
+  animation: 3s linear 0s infinite normal running logo-try-evo-text-highlight;
+}
+.loader-try-evo-text:before {
+  content: "tryEv";
+  position: absolute;
+  top: -0.2em;
+  padding-top: 0.2em;
+  height: 1.2em;
+  left: 0;
+  color: rgba(255, 255, 255, 0.3);
+  border-top-left-radius: 5em;
+  border-bottom-right-radius: 5em;
+  overflow: hidden;
+  width: 1em;
+  animation: 4s linear 2s infinite normal running logo-try-evo-text-highlight;
+}
+.loader-try-evo-o {
+  transition: color 1s ease-out;
+  position: relative;
+  display: block;
+  color: transparent;
+  line-height: 0.44em;
+  height: 0.56em;
+  animation: 1s linear 0s infinite normal running logo-try-evo-rotate-o;
+}
+.loader-try-evo-o:after,
+.loader-try-evo-o:before {
+  content: "o";
+  position: absolute;
+  display: block;
+  left: 0;
+  overflow: hidden;
+  transition: top 1s ease-out, bottom 1s ease-out, color 1s ease-out;
+}
+.loader-try-evo-o:after {
+  bottom: 0;
+  color: #df9c10;
+  height: 0.24em;
+  line-height: 0.45;
+  transform: rotate(180deg);
+}
+.loader-try-evo-o:before {
+  top: 0;
+  color: #02617d;
+  height: 0.25em;
+  line-height: 0.45;
+}
+
+.loader-try-evo-carregando:after {
+  overflow: hidden;
+  display: inline-block;
+  vertical-align: bottom; 
+  animation: ellipsis steps(4, end) 900ms infinite;
+  content: "\2026"; /* ascii code for the ellipsis character */
+  width: 0px;
+}
+
+@keyframes ellipsis {
+  to {
+    width: 1em;    
+  }
+}
+
+
+@keyframes logo-try-evo-text-highlight {
+  0% {
+    left: 0em;
+    text-indent: 0em;
+    width: 0%;
+  }
+  21% {
+    left: 1.5em;
+    text-indent: -1.5em;
+    width: 30%;
+  }
+  34% {
+    left: 3em;
+    text-indent: -3em;
+    width: 0%;
+  }
+  100% {
+    left: 3em;
+    text-indent: -3em;
+    width: 0%;
+  }
+}
+@keyframes logo-try-evo-rotate-o {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.loader-try-evo:hover .loader-try-evo-o {
+  color: #df9c10;
+  transition: color 0.3s ease-in;
+}
+
+.loader-try-evo:hover .loader-try-evo-o:before {
+  top: -0.5em;
+  color: #3fb0d3;
+  transition: top 0.3s ease-in, bottom 0.3s ease-in, color 0.3s ease-in;
+}
+
+.loader-try-evo:hover .loader-try-evo-o:after {
+  bottom: -0.5em;
+  color: #3fb0d3;
+  transition: top 0.3s ease-in, bottom 0.3s ease-in, color 0.3s ease-in;
+}
+

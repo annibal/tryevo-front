@@ -16,7 +16,7 @@ import FormDatepicker from '../commons/form/FormDatepicker';
 // ],
 
 const DadosProjetosForm = ({ data }) => {
-  const [dados, setDados] = useState(data?.projetosPessoais || {});
+  const [dados, setDados] = useState(data?.projetosPessoais || []);
 
   useEffect(() => {
     if (data?.projetosPessoais) {

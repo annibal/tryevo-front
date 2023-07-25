@@ -8,7 +8,7 @@ const ConfiguracoesPJPage = () => {
       <h2>Configurações Pessoa Jurídica</h2>
       <p>- Em construção -</p>
       <hr />
-      {Object.entries(features).map((entry) => (
+      {Object.entries(features || {}).map((entry) => (
         <p><b>{entry[0]}:&nbsp;</b> {entry[1] ? 'SIM' : 'NÃO'}</p>
       ))}
     </div>

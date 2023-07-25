@@ -2,8 +2,8 @@ import * as tokenProvider from "./tokenProvider";
 
 export const getApiUrl = (path) => {
   const strPath = (path || '').replace(/^\/*/, '');
-  const baseUrl = ['http', '://', 'www.tryevo.com.br:21104/', strPath].join('');
-  // const baseUrl = ['http', '://', 'localhost:3001/', strPath].join('');
+  // const baseUrl = ['http', '://', 'www.tryevo.com.br:21104/', strPath].join('');
+  const baseUrl = ['http', '://', 'localhost:3001/', strPath].join('');
   return baseUrl;
 }
 
