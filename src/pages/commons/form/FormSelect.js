@@ -14,7 +14,8 @@ const FormSelect = ({
   const fnGetValue =
     typeof getValue === "function" ? getValue : () => data[name];
 
-  const value = fnGetValue();
+  let value = fnGetValue();
+  if (value === undefined) value = '';
   const strId = id || name;
 
   return (

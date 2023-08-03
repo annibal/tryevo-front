@@ -1,5 +1,7 @@
 import { DatePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
+import localizedFormat from 'dayjs/plugin/localizedFormat';
+dayjs.extend(localizedFormat)
 
 const FormDatepicker = ({ label, name, data, onChange, getValue, ...restProps }) => {
   const fnGetValue =

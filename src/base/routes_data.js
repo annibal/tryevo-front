@@ -107,17 +107,17 @@ export const pessoaFisicaRoutes = {
   },
   pfPropostas: {
     priority: 104,
-    path: "pf/propostas/",
+    path: "pf/candidaturas/",
     icon: <HandshakeIcon />,
-    title: "Propostas",
+    title: "Candidaturas",
     rules: [ACCOUNT_FEATURES.LOGGED, ACCOUNT_FEATURES.PF],
     endData: 'activeProposals',
   },
   pfNovaProposta: {
     priority: 104,
-    path: "pf/nova-proposta/",
+    path: "pf/nova-candidatura/",
     icon: <HandshakeIcon />,
-    title: "Nova Proposta",
+    title: "Nova Candidatura",
     rules: [ACCOUNT_FEATURES.LOGGED, ACCOUNT_FEATURES.PF, ACCOUNT_FEATURES.IGNORE_ON_SIDEBAR],
   },
   pfConfiguracoes: {
@@ -175,16 +175,16 @@ export const pessoaJuridicaRoutes = {
   },
   pjCandidaturasFeitas: {
     priority: 104,
-    path: "pj/candidaturas/",
+    path: "pj/propostas/",
     icon: <HandshakeIcon />,
-    title: "Candidaturas",
+    title: "Propostas",
     rules: [ACCOUNT_FEATURES.LOGGED, ACCOUNT_FEATURES.PJ],
   },
   pjCandidaturaFeita: {
     priority: 104,
-    path: "pj/candidatura/",
+    path: "pj/proposta/",
     icon: <HandshakeIcon />,
-    title: "Candidatura",
+    title: "Proposta",
     rules: [ACCOUNT_FEATURES.LOGGED, ACCOUNT_FEATURES.PJ, ACCOUNT_FEATURES.IGNORE_ON_SIDEBAR],
   },
   pjConfiguracoes: {

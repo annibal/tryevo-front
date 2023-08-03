@@ -40,7 +40,10 @@ const DadosPage = () => {
 
     try {
       let pfObj = formDataToObject(formData);
-      console.log({ formData, pfObj });
+      if (pfObj.endereco && Object.values(pfObj.endereco).every(value => value === '')) {
+        delete pfObj.endereco;
+      }
+      // console.log({ formData, pfObj });
 
       await userInfoProvider.saveInfoPF(pfObj);
 
@@ -61,7 +64,10 @@ const DadosPage = () => {
 
     try {
       let pjObj = formDataToObject(formData);
-      console.log({ formData, pjObj });
+      if (pjObj.endereco && Object.values(pjObj.endereco).every(value => value === '')) {
+        delete pjObj.endereco;
+      }
+      // console.log({ formData, pjObj });
 
       await userInfoProvider.saveInfoPJ(pjObj);
 

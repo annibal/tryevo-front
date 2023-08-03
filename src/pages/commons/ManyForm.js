@@ -12,8 +12,9 @@ const ManyForm = ({
   type = "text",
   tipoLabel,
   options,
+  valueOptions,
 }) => {
-  const items = data[name];
+  const items = data[name] || [];
 
   const removeItem = (itemIndex) => {
     const newItems = items.filter((i, idx) => idx !== itemIndex);
@@ -44,14 +45,26 @@ const ManyForm = ({
           return (
             <Fragment key={idx}>
               <Grid item xs={7}>
-                <FormInput
-                  label={`${label} ${strIdx}`}
-                  name={valorName}
-                  getValue={() => item.valor}
-                  data={item}
-                  onChange={(value) => updateItem(value, "valor", idx)}
-                  type={type}
-                />
+                {valueOptions ? (
+                  <FormSelect
+                    label={`${label} ${strIdx}`}
+                    name={valorName}
+                    getValue={() => item.valor}
+                    data={item}
+                    onChange={(value) => updateItem(value, "valor", idx)}
+                    id={valorName}
+                    options={valueOptions}
+                  />
+                ) : (
+                  <FormInput
+                    label={`${label} ${strIdx}`}
+                    name={valorName}
+                    getValue={() => item.valor}
+                    data={item}
+                    onChange={(value) => updateItem(value, "valor", idx)}
+                    type={type}
+                  />
+                )}
               </Grid>
               <Grid item xs={4}>
                 <FormSelect

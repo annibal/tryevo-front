@@ -23,7 +23,7 @@ const WidgetPF = ({ onClick }) => {
     name = auth.userInfo.nomePrimeiro;
     subtitulo = auth.user.email;
 
-    if (auth.userInfo.nomeUltimo) name = name + auth.userInfo.nomeUltimo;
+    if (auth.userInfo.nomeUltimo) name = name + ' ' + auth.userInfo.nomeUltimo;
     avatar = name
       .split(" ")
       .slice(0, 2)
@@ -33,7 +33,7 @@ const WidgetPF = ({ onClick }) => {
     if (auth.userInfo?.nomePreferido) {
       name = auth.userInfo.nomePreferido;
     }
-    if (auth.userInfo?.nomePreferido.split(' ').length > 1) {
+    if ((auth.userInfo?.nomePreferido || '').split(' ').length > 1) {
       avatar = name
         .split(" ")
         .slice(0, 2)

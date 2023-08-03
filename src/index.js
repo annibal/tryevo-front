@@ -1,20 +1,25 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import reportWebVitals from "./reportWebVitals";
 
-import CssBaseline from '@mui/material/CssBaseline';
-import Router from './base/Router';
-import { AuthProvider } from './base/AuthContext';
-import { LocalizationProvider } from '@mui/x-date-pickers';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
-import { ThemeProvider } from '@mui/material';
-import theme from './base/Theme';
+import CssBaseline from "@mui/material/CssBaseline";
+import Router from "./base/Router";
+import { AuthProvider } from "./base/AuthContext";
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+// import { ptBR } from "@mui/x-date-pickers/locales";
+import 'dayjs/locale/pt-br';
+import { ThemeProvider } from "@mui/material";
+import theme from "./base/Theme";
 
-const root = ReactDOM.createRoot(document.getElementById('tryevo_root'));
+const root = ReactDOM.createRoot(document.getElementById("tryevo_root"));
 root.render(
   <React.StrictMode>
     <AuthProvider>
-      <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <LocalizationProvider
+        dateAdapter={AdapterDayjs}
+        adapterLocale="pt-br"
+      >
         <ThemeProvider theme={theme}>
           <CssBaseline />
           <Router />

@@ -25,6 +25,17 @@ const DadosIdiomasForm = ({ data, onChange }) => {
       tipoLabel="Fluência do Idioma"
       name="linguagens"
       onChange={handleChange}
+      valueOptions={[
+        { value: "Portugues", label: "Portugues" },
+        { value: "Inglês", label: "Inglês" },
+        { value: "Espanhol", label: "Espanhol" },
+        { value: "Francês", label: "Francês" },
+        { value: "Italiano", label: "Italiano" },
+        { value: "Alemão", label: "Alemão" },
+        { value: "Japonês", label: "Japonês" },
+        { value: "Mandarim-Chinês", label: "Mandarim-Chinês" },
+        { value: "Russo", label: "Russo" },
+      ]}
       options={[
         { value: "NENHUMA", label: "Nenhuma" },
         { value: "BASICA", label: "Básica" },

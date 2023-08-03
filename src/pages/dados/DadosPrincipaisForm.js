@@ -38,6 +38,7 @@ const DadosPrincipaisForm = ({ data, onChange }) => {
             name="nomePrimeiro"
             data={dados}
             onChange={handleChange}
+            required
           />
         </Grid>
         <Grid item xs={12} sm={6}>
@@ -64,6 +65,7 @@ const DadosPrincipaisForm = ({ data, onChange }) => {
             name="genero"
             data={dados}
             onChange={handleChange}
+            required
             options={[
               { value: "NAO_ESPECIFICADO", label: "Não Especificado" },
               { value: "MASCULINO", label: "Masculino" },
@@ -108,14 +110,6 @@ const DadosPrincipaisForm = ({ data, onChange }) => {
           <FormCheckbox
             label="Portador de Deficiência"
             name="isAleijado"
-            data={dados}
-            onChange={handleChange}
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <FormCheckbox
-            label="É Psiquiatra"
-            name="isPsiquiatra"
             data={dados}
             onChange={handleChange}
           />
