@@ -22,6 +22,34 @@ export const forgotPassword = async ({ user }) => {
   }
 }
 
+export const changePassword = async ({ senha }) => {
+  const { success, data, error } = await doCall('auth/change-password', {
+    method: 'POST',
+    body: { senha },
+  });
+  
+  if (success && data) {
+    return data;
+  } else {
+    if (error.message) throw new Error(error.message);
+    throw new Error(error);
+  }
+}
+
+export const changeTipoConta = async ({ tipo }) => {
+  const { success, data, error } = await doCall('auth/change-account-type', {
+    method: 'POST',
+    body: { tipo },
+  });
+  
+  if (success && data) {
+    return data;
+  } else {
+    if (error.message) throw new Error(error.message);
+    throw new Error(error);
+  }
+}
+
 export const signIn = async (newUserData) => {
   // { email: "", senha: "", isEmpresa: true }
   const { success, data, error } = await doCall('auth/register', {

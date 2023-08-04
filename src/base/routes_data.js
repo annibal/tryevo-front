@@ -1,4 +1,3 @@
-import { matchPath } from "react-router-dom";
 import { ACCOUNT_FEATURES } from "./AuthContext";
 
 import WorkIcon from "@mui/icons-material/Work";

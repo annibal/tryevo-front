@@ -4,13 +4,24 @@ import {
   getFeaturesFromPlano,
   useAuth,
 } from "../../base/AuthContext";
-import { Box, Button, Grid, TextField, Typography } from "@mui/material";
+import { Box, Button, Grid, Typography } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 import allRoutesData from "../../base/routes_data";
+import FormPassword from "./form/FormPassword";
+import { useState } from "react";
+import FormInput from "./form/FormInput";
 
 const LoginPage = () => {
   const auth = useAuth();
   const navigate = useNavigate();
+  const [dados, setDados] = useState({});
+
+  const handleChange = (value, name, data) => {
+    setDados({
+      ...data,
+      [name]: value,
+    });
+  };
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -37,7 +48,7 @@ const LoginPage = () => {
 
   return (
     <>
-      <Typography variant="h4" sx={{ mb: 2 }}>
+      <Typography variant="h4" sx={{ mb: 6 }}>
         Login
       </Typography>
 
@@ -50,23 +61,24 @@ const LoginPage = () => {
       <form onSubmit={handleSubmit}>
         <Grid container spacing={2}>
           <Grid item xs={12}>
-            <TextField
+            <FormInput
               label="Email"
               name="email"
               type="email"
               placeholder="Email"
+              data={dados}
+              onChange={handleChange}
               required
-              fullWidth
             />
           </Grid>
           <Grid item xs={12}>
-            <TextField
+            <FormPassword
               label="Senha"
               name="senha"
-              type="password"
               placeholder="Senha"
+              data={dados}
+              onChange={handleChange}
               required
-              fullWidth
             />
           </Grid>
           <Grid item sm={6}>

@@ -11,15 +11,32 @@ import {
 } from "@mui/material";
 import allRoutesData from "../../base/routes_data";
 import LoadingButton from "@mui/lab/LoadingButton";
+import { useState } from "react";
+import FormInput from "./form/FormInput";
+import FormPassword from "./form/FormPassword";
 
 const CriarContaPage = () => {
   const auth = useAuth();
   const navigate = useNavigate();
+  const [dados, setDados] = useState({});
 
-  function handleSubmit(event) {
-    event.preventDefault();
+  const handleChange = (value, name, data) => {
+    setDados({
+      ...data,
+      [name]: value,
+    });
+  };
 
-    const formData = Object.fromEntries(new FormData(event.currentTarget));
+  function handleSubmit(isEmpresa) {
+    // event.preventDefault();
+    // const formData = Object.fromEntries(new FormData(event.currentTarget));
+
+    const formData = {
+      email: dados.email,
+      senha: dados.senha,
+      checksenha: dados.checksenha,
+      isEmpresa,
+    }
 
     auth.signIn(formData).then((objUser) => {
       if (objUser && objUser.plano) {
@@ -39,7 +56,7 @@ const CriarContaPage = () => {
 
   return (
     <>
-      <Typography variant="h4" sx={{ mb: 2 }}>
+      <Typography variant="h4" sx={{ mb: 6 }}>
         Criar Conta
       </Typography>
 
@@ -52,58 +69,67 @@ const CriarContaPage = () => {
       <form onSubmit={handleSubmit}>
         <Grid container spacing={2}>
           <Grid item xs={12}>
-            <TextField
+            <FormInput
               label="Email"
               name="email"
               type="email"
               placeholder="Email"
+              data={dados}
+              onChange={handleChange}
               required
-              fullWidth
             />
           </Grid>
           <Grid item xs={12}>
-            <TextField
+            <FormPassword
               label="Senha"
               name="senha"
-              type="password"
               placeholder="Senha"
+              data={dados}
+              onChange={handleChange}
               required
-              fullWidth
             />
           </Grid>
           <Grid item xs={12}>
-            <TextField
+            <FormPassword
               label="Validar Senha"
               name="checksenha"
-              type="password"
               placeholder="Senha de novo"
+              data={dados}
+              onChange={handleChange}
               required
-              fullWidth
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <FormControlLabel
-              name="isEmpresa"
-              control={<Switch />}
-              label="Pessoa Jurídica"
             />
           </Grid>
 
-          <Grid item sm={6}>
+          <Grid item xs={4}>
             <LoadingButton
               loading={auth.loading}
-              type="submit"
+              onClick={() => handleSubmit(false)}
               variant="contained"
+              color="primary"
+              fullWidth
             >
-              Criar Conta
+              Criar conta Candidato
             </LoadingButton>
           </Grid>
-          <Grid item sm={6}>
+          <Grid item xs={4}>
+            <LoadingButton
+              loading={auth.loading}
+              onClick={() => handleSubmit(true)}
+              variant="contained"
+              color="secondary"
+              fullWidth
+            >
+              Criar conta Empresa
+            </LoadingButton>
+          </Grid>
+          <Grid item xs={4}>
             <div className="text-right">
               <Button
-                variant="text"
+                variant="outlined"
                 LinkComponent={Link}
                 to={`/app/${allRoutesData.login.path}`}
+                fullWidth
+                disabled
               >
                 Esqueci a senha
               </Button>

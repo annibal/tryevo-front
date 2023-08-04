@@ -8,4 +8,6 @@ const theme = createTheme({
   ptBR
 });
 
+console.log(theme)
+
 export default theme;
