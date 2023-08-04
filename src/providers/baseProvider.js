@@ -32,7 +32,6 @@ export const doCall = async (path = "", config = {}) => {
   if (typeof config?.body !== "string") {
     requestConfig.body = JSON.stringify(config.body);
   }
-  console.log({ requestConfig, config });
 
   let response = {
     success: false,
@@ -64,6 +63,7 @@ export const doCall = async (path = "", config = {}) => {
     response.error = e;
     console.error(e, e?.stack);
   }
+  console.log({ requestConfig, config, response });
 
   return response;
 };

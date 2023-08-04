@@ -1,6 +1,7 @@
 import { Link, useParams } from "react-router-dom";
 import { useAuth } from "../../base/AuthContext";
 import allRoutesData from "../../base/routes_data";
+import { Helmet } from "react-helmet";
 
 const VagaPage = () => {
   let { vagaId, vagaNome } = useParams();
@@ -8,6 +9,11 @@ const VagaPage = () => {
 
   return (
     <div className="vaga">
+      <Helmet>
+        <title>
+          {vagaNome} - Vaga em TryEvo
+        </title>
+      </Helmet>
       <h2>
         Vaga {vagaNome} #{vagaId}
       </h2>

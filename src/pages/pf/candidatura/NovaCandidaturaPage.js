@@ -1,15 +1,15 @@
 import { Link, useParams } from "react-router-dom";
 import allRoutesData from "../../../base/routes_data";
 
-const NovaPropostaPage = () => {
+const NovaCandidaturaPage = () => {
   let { vagaId, vagaNome } = useParams();
 
   return (
     <>
-      <h2>Nova Proposta</h2>
+      <h2>Nova Candidatura</h2>
       <p>para a vaga {vagaNome} #{vagaId}</p>
       <br />
-      <Link to={'/app/' + allRoutesData.pfPropostas.path + (vagaId * 17) + '/' + vagaNome}>
+      <Link to={'/app/' + allRoutesData.pfCandidaturas.path + (vagaId * 17) + '/' + vagaNome}>
         <button>
           Enviar
         </button>
@@ -18,4 +18,4 @@ const NovaPropostaPage = () => {
   );
 }
 
-export default NovaPropostaPage;
+export default NovaCandidaturaPage;

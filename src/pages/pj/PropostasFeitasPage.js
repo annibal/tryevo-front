@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import allRoutesData from "../../base/routes_data";
 
-const candidaturas = [
+const propostas = [
   {
     _id: 123,
     vaga: { _id: 124, nome: "Programador" },
@@ -34,26 +34,26 @@ const candidaturas = [
   },
 ];
 
-const CandidaturasFeitasPage = () => {
+const PropostasFeitasPage = () => {
   return (
     <div>
-      <h2>Candidaturas Feitas</h2>
+      <h2>Propostas Feitas</h2>
       <p>- Em construção -</p>
       <hr />
 
       <ul>
-        {candidaturas.map((candidatura) => (
+        {propostas.map((proposta) => (
           <li>
             <p>
-              <strong>{candidatura.pf.nome}</strong>{" "}
+              <strong>{proposta.pf.nome}</strong>{" "}
               se candidatou para a vaga{" "}
-              <Link to={"/app/" + allRoutesData.pjMinhaVaga.path + candidatura.vaga._id + '/' + candidatura.vaga.nome}>
-                {candidatura.vaga.nome}{" "}
+              <Link to={"/app/" + allRoutesData.pjMinhaVaga.path + proposta.vaga._id + '/' + proposta.vaga.nome}>
+                {proposta.vaga.nome}{" "}
               </Link>
               em 01/02/2023
             </p>
-            <Link to={"/app/" + allRoutesData.pjCandidaturaFeita.path + candidatura._id}>
-              Ver Candidatura
+            <Link to={"/app/" + allRoutesData.pjPropostaFeita.path + proposta._id}>
+              Ver Proposta
             </Link>
           </li>
         ))}
@@ -62,4 +62,4 @@ const CandidaturasFeitasPage = () => {
   );
 };
 
-export default CandidaturasFeitasPage;
+export default PropostasFeitasPage;

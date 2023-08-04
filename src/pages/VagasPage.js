@@ -6,6 +6,8 @@ import VagaCard from "../components/VagaCard";
 const VagasPage = () => {
   const vagasResponse = useFetch('GET', 'vagas');
 
+  console.log(vagasResponse)
+
   return (
     <div className="vagas">
       

@@ -2,20 +2,20 @@ import { Grid } from "@mui/material";
 import { Link } from "react-router-dom";
 import allRoutesData from "../../../base/routes_data";
 
-const propostasData = [
+const candidaturasData = [
   6,
   7,
 ]
 
-const PropostasPage = () => {
+const CandidaturasPage = () => {
   return (
-    <div className="propostas">
+    <div className="candidaturas">
       <Grid container>
-        {propostasData.map((item) => (
+        {candidaturasData.map((item) => (
           <Grid item xs={12} key={item}>
             <div className="card">
-              <Link to={'/app/' + allRoutesData.pfPropostas.path + item}>
-                <h4>Proposta {item}</h4>
+              <Link to={'/app/' + allRoutesData.pfCandidaturas.path + item}>
+                <h4>Candidatura {item}</h4>
                 <p>Enviada em 01/01/2023</p>
                 <p>Descrição da proposta feita</p>
               </Link>
@@ -27,4 +27,4 @@ const PropostasPage = () => {
   );
 }
 
-export default PropostasPage;
+export default CandidaturasPage;

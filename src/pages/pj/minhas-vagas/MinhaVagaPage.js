@@ -22,13 +22,13 @@ const MinhaVagaPage = () => {
 
       <ul>
         <li>
-          <Link to={'/app/' + allRoutesData.pjCandidaturaFeita.path + '1234'}>Candidatura feita em 15/02/2023</Link>
+          <Link to={'/app/' + allRoutesData.pjPropostaFeita.path + '1234'}>Candidatura feita em 15/02/2023</Link>
         </li>
         <li>
-          <Link to={'/app/' + allRoutesData.pjCandidaturaFeita.path + '5678'}>Candidatura feita em 16/02/2023</Link>
+          <Link to={'/app/' + allRoutesData.pjPropostaFeita.path + '5678'}>Candidatura feita em 16/02/2023</Link>
         </li>
         <li>
-          <Link to={'/app/' + allRoutesData.pjCandidaturaFeita.path + '9012'}>Candidatura feita em 27/02/2023</Link>
+          <Link to={'/app/' + allRoutesData.pjPropostaFeita.path + '9012'}>Candidatura feita em 27/02/2023</Link>
         </li>
       </ul>
     </div>

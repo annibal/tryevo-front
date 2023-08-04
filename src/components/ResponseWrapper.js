@@ -2,7 +2,7 @@ const DefaultLoadingComponent = ({ props }) => (
   <div {...props}>Carregando...</div>
 );
 const DefaultErrorComponent = ({ error, ...restProps }) => (
-  <div {...restProps}>{error}</div>
+  <div {...restProps}>{String(error)}</div>
 );
 const DefaultEmptyComponent = ({ ...restProps }) => (
   <div {...restProps}>Vazio</div>

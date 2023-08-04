@@ -1,19 +1,21 @@
-import WorkIcon from '@mui/icons-material/Work';
-import SupportIcon from '@mui/icons-material/Support';
-import InfoIcon from '@mui/icons-material/Info';
-import PaymentsIcon from '@mui/icons-material/Payments';
-import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
-import PersonAddIcon from '@mui/icons-material/PersonAdd';
-import LogoutIcon from '@mui/icons-material/Logout';
-import LoginIcon from '@mui/icons-material/Login';
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import BookmarksIcon from '@mui/icons-material/Bookmarks';
-import BookmarkIcon from '@mui/icons-material/Bookmark';
-import BookmarkAddIcon from '@mui/icons-material/BookmarkAdd';
-import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
-import SettingsIcon from '@mui/icons-material/Settings';
-import HandshakeIcon from '@mui/icons-material/Handshake';
-import { ACCOUNT_FEATURES } from './AuthContext';
+import { matchPath } from "react-router-dom";
+import { ACCOUNT_FEATURES } from "./AuthContext";
+
+import WorkIcon from "@mui/icons-material/Work";
+import SupportIcon from "@mui/icons-material/Support";
+import InfoIcon from "@mui/icons-material/Info";
+import PaymentsIcon from "@mui/icons-material/Payments";
+import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
+import PersonAddIcon from "@mui/icons-material/PersonAdd";
+import LogoutIcon from "@mui/icons-material/Logout";
+import LoginIcon from "@mui/icons-material/Login";
+import DashboardIcon from "@mui/icons-material/Dashboard";
+import BookmarksIcon from "@mui/icons-material/Bookmarks";
+import BookmarkIcon from "@mui/icons-material/Bookmark";
+import BookmarkAddIcon from "@mui/icons-material/BookmarkAdd";
+import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
+import SettingsIcon from "@mui/icons-material/Settings";
+import HandshakeIcon from "@mui/icons-material/Handshake";
 
 export const commonRoutes = {
   vagas: {
@@ -56,21 +58,21 @@ export const commonRoutes = {
     path: "ajuda/",
     icon: <SupportIcon />,
     title: "Ajuda",
-    auth: false
+    auth: false,
   },
   sobre: {
     priority: 400,
     path: "sobre/",
     icon: <InfoIcon />,
     title: "Sobre",
-    auth: false
+    auth: false,
   },
   assinatura: {
     priority: 150,
     path: "assinatura/",
     icon: <PaymentsIcon />,
     title: "Assinaturas",
-    auth: false
+    auth: false,
   },
 };
 
@@ -95,7 +97,7 @@ export const pessoaFisicaRoutes = {
     icon: <BookmarksIcon />,
     title: "Vagas Salvas",
     rules: [ACCOUNT_FEATURES.LOGGED, ACCOUNT_FEATURES.PF],
-    endData: 'vagasSalvas',
+    endData: "vagasSalvas",
   },
   pfDados: {
     priority: 101,
@@ -103,22 +105,26 @@ export const pessoaFisicaRoutes = {
     icon: <ManageAccountsIcon />,
     title: "Meus Dados",
     rules: [ACCOUNT_FEATURES.LOGGED, ACCOUNT_FEATURES.PF],
-    endData: 'missingInfo',
+    endData: "missingInfo",
   },
-  pfPropostas: {
+  pfCandidaturas: {
     priority: 104,
     path: "pf/candidaturas/",
     icon: <HandshakeIcon />,
     title: "Candidaturas",
     rules: [ACCOUNT_FEATURES.LOGGED, ACCOUNT_FEATURES.PF],
-    endData: 'activeProposals',
+    endData: "activeProposals",
   },
-  pfNovaProposta: {
+  pfNovaCandidatura: {
     priority: 104,
     path: "pf/nova-candidatura/",
     icon: <HandshakeIcon />,
     title: "Nova Candidatura",
-    rules: [ACCOUNT_FEATURES.LOGGED, ACCOUNT_FEATURES.PF, ACCOUNT_FEATURES.IGNORE_ON_SIDEBAR],
+    rules: [
+      ACCOUNT_FEATURES.LOGGED,
+      ACCOUNT_FEATURES.PF,
+      ACCOUNT_FEATURES.IGNORE_ON_SIDEBAR,
+    ],
   },
   pfConfiguracoes: {
     priority: 200,
@@ -126,7 +132,7 @@ export const pessoaFisicaRoutes = {
     icon: <SettingsIcon />,
     title: "Configurações",
     rules: [ACCOUNT_FEATURES.LOGGED, ACCOUNT_FEATURES.PF],
-    endData: 'highlightSettings',
+    endData: "highlightSettings",
   },
 };
 
@@ -150,21 +156,33 @@ export const pessoaJuridicaRoutes = {
     path: "pj/minha-vaga/",
     icon: <BookmarkIcon />,
     title: "Minha Vaga",
-    rules: [ACCOUNT_FEATURES.LOGGED, ACCOUNT_FEATURES.PJ, ACCOUNT_FEATURES.IGNORE_ON_SIDEBAR],
+    rules: [
+      ACCOUNT_FEATURES.LOGGED,
+      ACCOUNT_FEATURES.PJ,
+      ACCOUNT_FEATURES.IGNORE_ON_SIDEBAR,
+    ],
   },
   pjNovaMinhaVaga: {
     priority: 102,
     path: "pj/nova-vaga/",
     icon: <BookmarkAddIcon />,
     title: "Nova Vaga",
-    rules: [ACCOUNT_FEATURES.LOGGED, ACCOUNT_FEATURES.PJ, ACCOUNT_FEATURES.IGNORE_ON_SIDEBAR],
+    rules: [
+      ACCOUNT_FEATURES.LOGGED,
+      ACCOUNT_FEATURES.PJ,
+      ACCOUNT_FEATURES.IGNORE_ON_SIDEBAR,
+    ],
   },
   pjEditarMinhaVaga: {
     priority: 102,
     path: "pj/editar-vaga/",
     icon: <BookmarkBorderIcon />,
     title: "Editar Vaga",
-    rules: [ACCOUNT_FEATURES.LOGGED, ACCOUNT_FEATURES.PJ, ACCOUNT_FEATURES.IGNORE_ON_SIDEBAR],
+    rules: [
+      ACCOUNT_FEATURES.LOGGED,
+      ACCOUNT_FEATURES.PJ,
+      ACCOUNT_FEATURES.IGNORE_ON_SIDEBAR,
+    ],
   },
   pjDados: {
     priority: 101,
@@ -173,19 +191,23 @@ export const pessoaJuridicaRoutes = {
     title: "Meus Dados",
     rules: [ACCOUNT_FEATURES.LOGGED, ACCOUNT_FEATURES.PJ],
   },
-  pjCandidaturasFeitas: {
+  pjPropostasFeitas: {
     priority: 104,
     path: "pj/propostas/",
     icon: <HandshakeIcon />,
     title: "Propostas",
     rules: [ACCOUNT_FEATURES.LOGGED, ACCOUNT_FEATURES.PJ],
   },
-  pjCandidaturaFeita: {
+  pjPropostaFeita: {
     priority: 104,
     path: "pj/proposta/",
     icon: <HandshakeIcon />,
     title: "Proposta",
-    rules: [ACCOUNT_FEATURES.LOGGED, ACCOUNT_FEATURES.PJ, ACCOUNT_FEATURES.IGNORE_ON_SIDEBAR],
+    rules: [
+      ACCOUNT_FEATURES.LOGGED,
+      ACCOUNT_FEATURES.PJ,
+      ACCOUNT_FEATURES.IGNORE_ON_SIDEBAR,
+    ],
   },
   pjConfiguracoes: {
     priority: 200,
@@ -196,16 +218,17 @@ export const pessoaJuridicaRoutes = {
   },
 };
 
-
 const allRoutesData = {
   ...commonRoutes,
   ...pessoaFisicaRoutes,
-  ...pessoaJuridicaRoutes
-}
+  ...pessoaJuridicaRoutes,
+};
 
-export const allRoutesArray = Object.entries(allRoutesData).map((entry) => ({
-  ...entry[1],
-  key: entry[0]
-})).sort((a,b) => a.priority - b.priority)
+export const allRoutesArray = Object.entries(allRoutesData)
+  .map((entry) => ({
+    ...entry[1],
+    key: entry[0],
+  }))
+  .sort((a, b) => a.priority - b.priority);
 
 export default allRoutesData;
