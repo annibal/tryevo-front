@@ -1,5 +1,5 @@
 import { Navigate, useLocation, useMatches } from "react-router-dom";
-import { AUTH_READY_STATE, useAuth } from "../base/AuthContext";
+import { ACCOUNT_FEATURES, AUTH_READY_STATE, useAuth } from "../base/AuthContext";
 import LoaderTryEvo from "./LoaderTryEvo";
 
 function ProtectedRoute({ children }) {
@@ -18,7 +18,8 @@ function ProtectedRoute({ children }) {
   
   if (currentRouteData?.rules?.length > 1) {
     const routeRules = currentRouteData.rules;
-    const userFeatures = auth.features;
+    const userFeatures = {...auth.features};
+    userFeatures[ACCOUNT_FEATURES.IGNORE_ON_SIDEBAR] = true;
     const routeAllowed = routeRules.every(rule => userFeatures[rule])
     if (!routeAllowed) {
       console.log('Route not allowed', { currentRouteData, userFeatures });

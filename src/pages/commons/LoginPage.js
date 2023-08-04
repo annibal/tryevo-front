@@ -81,25 +81,26 @@ const LoginPage = () => {
               required
             />
           </Grid>
-          <Grid item sm={6}>
+          <Grid item xs={6}>
             <LoadingButton
               loading={auth.loading}
               type="submit"
               variant="contained"
+              fullWidth
             >
               Login
             </LoadingButton>
           </Grid>
-          <Grid item sm={6}>
-            <div className="text-right">
-              <Button
-                variant="text"
-                LinkComponent={Link}
-                to={`/app/${allRoutesData.esqueciSenha.path}`}
-              >
-                Esqueci a senha
-              </Button>
-            </div>
+          <Grid item xs={6}>
+            <Button
+              variant="outlined"
+              LinkComponent={Link}
+              to={`/app/${allRoutesData.esqueciSenha.path}`}
+              fullWidth
+              disabled
+            >
+              Esqueci a senha
+            </Button>
           </Grid>
         </Grid>
       </form>

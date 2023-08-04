@@ -100,7 +100,7 @@ export const pessoaFisicaRoutes = {
   },
   pfDados: {
     priority: 101,
-    path: "dados/",
+    path: "pf/dados/",
     icon: <ManageAccountsIcon />,
     title: "Meus Dados",
     rules: [ACCOUNT_FEATURES.LOGGED, ACCOUNT_FEATURES.PF],
@@ -185,7 +185,7 @@ export const pessoaJuridicaRoutes = {
   },
   pjDados: {
     priority: 101,
-    path: "dados/",
+    path: "pj/dados/",
     icon: <ManageAccountsIcon />,
     title: "Meus Dados",
     rules: [ACCOUNT_FEATURES.LOGGED, ACCOUNT_FEATURES.PJ],

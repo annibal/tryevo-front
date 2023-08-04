@@ -21,9 +21,9 @@ const VagaPage = () => {
       <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Beatae ipsam blanditiis error minus maxime voluptatum recusandae nobis dolores quia optio, dolor pariatur placeat modi natus suscipit architecto mollitia molestias assumenda.</p>
       <br />
       {auth.user && (
-        <Link to={'/app/' + allRoutesData.pfNovaProposta.path + vagaId + '/' + vagaNome}>
+        <Link to={'/app/' + allRoutesData.pfNovaCandidatura.path + vagaId + '/' + vagaNome}>
           <button>
-            Mandar Proposta
+            Me Candidatar
           </button>
         </Link>
       )}

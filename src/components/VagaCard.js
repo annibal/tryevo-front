@@ -12,7 +12,7 @@ import { Link } from "react-router-dom";
 import allRoutesData from "../base/routes_data";
 import { ACCOUNT_FEATURES, useAuth } from "../base/AuthContext";
 
-const VagaCard = ({ _id, titulo, desc, qualificacoes }) => {
+const VagaCard = ({ _id, titulo, desc, qualificacoes, disableFavorite }) => {
   const auth = useAuth();
   if (auth.loading) return '';
 
@@ -25,7 +25,7 @@ const VagaCard = ({ _id, titulo, desc, qualificacoes }) => {
     <Card>
       <CardHeader
         action={
-          auth.features[ACCOUNT_FEATURES.LOGGED] && (
+          auth.features[ACCOUNT_FEATURES.LOGGED] && !disableFavorite && (
             <IconButton
               aria-label="favorite"
               color={isFavorite ? "primary" : "default"}

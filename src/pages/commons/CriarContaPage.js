@@ -3,10 +3,7 @@ import { ACCOUNT_FEATURES, getFeaturesFromPlano, useAuth } from "../../base/Auth
 import {
   Box,
   Button,
-  FormControlLabel,
   Grid,
-  Switch,
-  TextField,
   Typography,
 } from "@mui/material";
 import allRoutesData from "../../base/routes_data";
@@ -123,17 +120,15 @@ const CriarContaPage = () => {
             </LoadingButton>
           </Grid>
           <Grid item xs={4}>
-            <div className="text-right">
-              <Button
-                variant="outlined"
-                LinkComponent={Link}
-                to={`/app/${allRoutesData.login.path}`}
-                fullWidth
-                disabled
-              >
-                Esqueci a senha
-              </Button>
-            </div>
+            <Button
+              variant="outlined"
+              LinkComponent={Link}
+              type="reset"
+              to={`/app/${allRoutesData.login.path}`}
+              fullWidth
+            >
+              Login
+            </Button>
           </Grid>
         </Grid>
       </form>

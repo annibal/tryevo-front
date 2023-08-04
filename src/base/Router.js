@@ -164,12 +164,11 @@ const router = createBrowserRouter([
             handle: allRoutesData.pjDashboard,
             element: <ProtectedRoute><DashboardPJPage /></ProtectedRoute>,
           },
-          // {
-          //   element: <ProtectedRoute><DadosPage /></ProtectedRoute>,
-          //   path: allRoutesData.pfDados.path,
-          //   handle: allRoutesData.pfDados,
-          //   // same as pfDados
-          // },
+          {
+            element: <ProtectedRoute><DadosPage /></ProtectedRoute>,
+            path: allRoutesData.pjDados.path,
+            handle: allRoutesData.pjDados,
+          },
           {
             path: allRoutesData.pjMinhasVagas.path,
             handle: allRoutesData.pjMinhasVagas,

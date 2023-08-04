@@ -1,25 +1,49 @@
-import { Grid } from "@mui/material";
+import { Box, Button, Grid, Typography } from "@mui/material";
 import useFetch from "../providers/useFetch";
 import ResponseWrapper from "../components/ResponseWrapper";
 import VagaCard from "../components/VagaCard";
+import FormInput from "./commons/form/FormInput";
+import SearchIcon from "@mui/icons-material/Search";
+import { useState } from "react";
 
 const VagasPage = () => {
+  const [dados, setDados] = useState({});
+  const handleChange = (value, name, data) => {
+    setDados({ ...data, [name]: value });
+  };
+  
   const vagasResponse = useFetch('GET', 'vagas');
 
+  const handleSubmit = (event) => {
+    event.preventDefault()
+  }
+
   return (
-    <div className="vagas">
-      
-      <div className="card card-search-vagas">
-        <h2>Buscar Vagas</h2>
-        <Grid container spacing={2}>
+    <Box>
+      <form onSubmit={handleSubmit}>
+        <Grid container spacing={2} sx={{ mb: 4 }}>
           <Grid item xs>
-            <input type="search" placeholder="Buscar" />
+            <FormInput
+              label="Buscar vagas"
+              name="senha"
+              placeholder="Buscar vagas"
+              data={dados}
+              onChange={handleChange}
+            />
           </Grid>
           <Grid item>
-            <button>Buscar</button>
+            <Button
+              type="submit"
+              size="large"
+              disableElevation
+              variant="contained"
+              startIcon={<SearchIcon />}
+            >
+              Buscar
+            </Button>
           </Grid>
         </Grid>
-      </div>
+      </form>
 
       <ResponseWrapper
         {...vagasResponse}
@@ -31,8 +55,7 @@ const VagasPage = () => {
           </Grid>
         )}
       />
-
-    </div>
+    </Box>
   );
 }
 

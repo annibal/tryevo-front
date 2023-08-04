@@ -3,7 +3,6 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import * as authProvider from "../providers/authProvider";
 import { useState } from "react";
 import { ACCOUNT_FEATURES, useAuth } from "../base/AuthContext";
-import { useNavigate } from "react-router-dom";
 
 const AlterarTipoContaForm = () => {
   const auth = useAuth();
