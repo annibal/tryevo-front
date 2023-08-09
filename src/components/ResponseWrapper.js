@@ -39,7 +39,9 @@ const ResponseWrapper = ({
 
   if (error) {
     const ErrorComponent = errorComponent ?? DefaultErrorComponent;
-    return <ErrorComponent error={error} {...restProps} />;
+    let err = error;
+    if (err.message) err = err.message
+    return <ErrorComponent error={err} {...restProps} />;
   }
 
   if (list) {

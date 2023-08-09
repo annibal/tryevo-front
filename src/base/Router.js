@@ -39,6 +39,8 @@ import NovaMinhaVagaPage from "../pages/pj/minhas-vagas/NovaMinhaVagaPage";
 import EditarMinhaVagaPage from "../pages/pj/minhas-vagas/EditarMinhaVagaPage";
 import PropostasFeitasPage from "../pages/pj/PropostasFeitasPage";
 import PropostaFeitaPage from "../pages/pj/PropostaFeitaPage";
+import MasterAdminHome from "../pages/master-admin/MasterAdminHome";
+import ManageCBO from "../pages/master-admin/ManageCBO";
 
 
 const router = createBrowserRouter([
@@ -213,6 +215,18 @@ const router = createBrowserRouter([
             path: allRoutesData.pjConfiguracoes.path,
             handle: allRoutesData.pjConfiguracoes,
             element: <ProtectedRoute><ConfiguracoesPJPage /></ProtectedRoute>,
+          },
+
+          // Master Admin
+          {
+            path: allRoutesData.masterAdminHome.path,
+            handle: allRoutesData.masterAdminHome,
+            element: <ProtectedRoute><MasterAdminHome /></ProtectedRoute>,
+          },
+          {
+            path: allRoutesData.masterAdminCBO.path,
+            handle: allRoutesData.masterAdminCBO,
+            element: <ProtectedRoute><ManageCBO /></ProtectedRoute>,
           },
 
           {

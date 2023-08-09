@@ -57,7 +57,11 @@ export const doCall = async (path = "", config = {}) => {
         }
       })
       .catch((e) => {
-        response.error = e;
+        if (response.status === 404) {
+          response.error = `404 Not Found - ${requestConfig.method} "${requestConfig.url}"`;
+        } else {
+          response.error = e;
+        }
       });
   } catch (e) {
     response.error = e;

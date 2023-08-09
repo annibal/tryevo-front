@@ -15,6 +15,8 @@ import BookmarkAddIcon from "@mui/icons-material/BookmarkAdd";
 import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 import SettingsIcon from "@mui/icons-material/Settings";
 import HandshakeIcon from "@mui/icons-material/Handshake";
+import HomeIcon from "@mui/icons-material/Home";
+import ArticleIcon from "@mui/icons-material/Article";
 
 export const commonRoutes = {
   vagas: {
@@ -217,10 +219,28 @@ export const pessoaJuridicaRoutes = {
   },
 };
 
+export const masterAdminRoutes = {
+  masterAdminHome: {
+    priority: 100,
+    path: "master-admin/home/",
+    icon: <HomeIcon />,
+    title: "Master Admin Home",
+    rules: [ACCOUNT_FEATURES.MASTER_ADMIN],
+  },
+  masterAdminCBO: {
+    priority: 101,
+    path: "master-admin/cbo/",
+    icon: <ArticleIcon />,
+    title: "Gerenciar CBOs",
+    rules: [ACCOUNT_FEATURES.MASTER_ADMIN],
+  },
+}
+
 const allRoutesData = {
   ...commonRoutes,
   ...pessoaFisicaRoutes,
   ...pessoaJuridicaRoutes,
+  ...masterAdminRoutes,
 };
 
 export const allRoutesArray = Object.entries(allRoutesData)

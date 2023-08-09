@@ -6,6 +6,7 @@ export const ACCOUNT_FEATURES = {
   IGNORE_ON_SIDEBAR: "ignore-on-sidebar",
   LOGGED: "account-is-logged-in",
   NOT_LOGGED: "account-none",
+  MASTER_ADMIN: "MASTER_ADMIN",
   PF: "PF",
   PF_DASH: "PF_DASH",
   PF_RANKING: "PF_RANKING",
@@ -36,6 +37,10 @@ export const getFeaturesFromPlano = (plano) => {
 
     if (plano.startsWith("PJ")) {
       features[ACCOUNT_FEATURES.PJ] = true;
+    }
+
+    if (plano === ACCOUNT_FEATURES.MASTER_ADMIN) {
+      features[ACCOUNT_FEATURES.MASTER_ADMIN] = true;
     }
   }
 

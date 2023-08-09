@@ -41,6 +41,9 @@ const LoginPage = () => {
           if (features[ACCOUNT_FEATURES.PJ]) {
             navigate(`/app/${allRoutesData.pjDashboard.path}`);
           }
+          if (features[ACCOUNT_FEATURES.MASTER_ADMIN]) {
+            navigate(`/app/${allRoutesData.masterAdminHome.path}`);
+          }
         }
       }
     });

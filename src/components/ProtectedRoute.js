@@ -20,7 +20,12 @@ function ProtectedRoute({ children }) {
     const routeRules = currentRouteData.rules;
     const userFeatures = {...auth.features};
     userFeatures[ACCOUNT_FEATURES.IGNORE_ON_SIDEBAR] = true;
-    const routeAllowed = routeRules.every(rule => userFeatures[rule])
+    let routeAllowed = routeRules.every(rule => userFeatures[rule])
+    
+    if (userFeatures[ACCOUNT_FEATURES.MASTER_ADMIN]) {
+      routeAllowed = true;
+    }
+
     if (!routeAllowed) {
       console.log('Route not allowed', { currentRouteData, userFeatures });
       return <Navigate to="/" state={{ from: location }} replace />;

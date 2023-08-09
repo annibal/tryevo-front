@@ -1,11 +1,18 @@
 import { Box, Divider, Typography } from "@mui/material";
 
-const Section = ({ title, withoutDivider, children }) => {
+const Section = ({ title, subtitle, withoutDivider, children }) => {
   return (
     <Box sx={{ mb: withoutDivider ? 6 : 2 }}>
-      <Typography variant="h4" sx={{ mb: 6 }}>
-        {title}
-      </Typography>
+      <Box  sx={{ mb: 6 }}>
+        <Typography variant="h4">
+          {title}
+        </Typography>
+        {subtitle && (
+          <Typography variant="body2">
+            {subtitle}
+          </Typography>
+        )}
+      </Box>
 
       {children}
 

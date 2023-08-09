@@ -25,7 +25,7 @@ const VagasPage = () => {
           <Grid item xs>
             <FormInput
               label="Buscar vagas"
-              name="senha"
+              name="busca"
               placeholder="Buscar vagas"
               data={dados}
               onChange={handleChange}
