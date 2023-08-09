@@ -17,6 +17,7 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import HandshakeIcon from "@mui/icons-material/Handshake";
 import HomeIcon from "@mui/icons-material/Home";
 import ArticleIcon from "@mui/icons-material/Article";
+import SummarizeIcon from '@mui/icons-material/Summarize';
 
 export const commonRoutes = {
   vagas: {
@@ -232,6 +233,13 @@ export const masterAdminRoutes = {
     path: "master-admin/cbo/",
     icon: <ArticleIcon />,
     title: "Gerenciar CBOs",
+    rules: [ACCOUNT_FEATURES.MASTER_ADMIN],
+  },
+  masterAdminHabilidades: {
+    priority: 101,
+    path: "master-admin/habilidades/",
+    icon: <SummarizeIcon />,
+    title: "Gerenciar Habilidades",
     rules: [ACCOUNT_FEATURES.MASTER_ADMIN],
   },
 }

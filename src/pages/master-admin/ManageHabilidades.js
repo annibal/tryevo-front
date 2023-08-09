@@ -27,7 +27,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import { doCall } from "../../providers/baseProvider";
 import FormRadio from "../commons/form/FormRadio";
 
-const ManageCBO = () => {
+const ManageHabilidades = () => {
   const [dadosEdit, setDadosEdit] = useState({});
   const [dadosImport, setDadosImport] = useState({});
   const [dadosSearch, setDadosSearch] = useState({ valid: "any" });
@@ -51,7 +51,7 @@ const ManageCBO = () => {
     handleSetCboUrl(false, value);
   };
 
-  const [cboListUrl, setCboListUrl] = useState("cbo?valid=any&to=50");
+  const [cboListUrl, setCboListUrl] = useState("habilidade?valid=any&to=50");
 
   const handleSetCboUrl = (cache, sValid) => {
     const params = {
@@ -62,14 +62,14 @@ const ManageCBO = () => {
     if (cache) params.cache = (Math.random() * 10 ** 6) | 0;
     if (dadosSearch.q) params.q = dadosSearch.q;
     const query = new URLSearchParams(params).toString();
-    setCboListUrl(`cbo?${query}`);
+    setCboListUrl(`habilidade?${query}`);
   };
 
   const handleEditSubmit = (event) => {
     event.preventDefault();
     setLoadingEdit(true);
     setSaveError(null);
-    const path = cboEdit ? `cbo/${cboEdit._id}` : "cbo";
+    const path = cboEdit ? `habilidade/${cboEdit._id}` : "habilidade";
     doCall(path, { method: "POST", body: dadosEdit }).then(
       ({ error }) => {
         if (error) {
@@ -86,7 +86,7 @@ const ManageCBO = () => {
     event.preventDefault();
     setLoadingImport(true);
     setImportError(null);
-    doCall('cbo-import', { method: 'POST', body: dadosImport }).then(({ error }) => {
+    doCall('habilidade-import', { method: 'POST', body: dadosImport }).then(({ error }) => {
       if (error) {
         setImportError(error?.message || error);
       } else {
@@ -100,10 +100,10 @@ const ManageCBO = () => {
     handleSetCboUrl();
   };
 
-  const handleToggleValid = (cbo) => {
+  const handleToggleValid = (habilidade) => {
     setListActionError(false);
-    const path = cbo.valid ? "invalidate" : "validate";
-    doCall(`cbo/${path}/${cbo._id}`).then(({ error }) => {
+    const path = habilidade.valid ? "invalidate" : "validate";
+    doCall(`habilidade/${path}/${habilidade._id}`).then(({ error }) => {
       if (error) {
         setListActionError(error?.message || error);
       } else {
@@ -111,17 +111,17 @@ const ManageCBO = () => {
       }
     });
   };
-  const handleEdit = (cbo) => {
-    setCboEdit(cbo);
-    setDadosEdit(cbo);
+  const handleEdit = (habilidade) => {
+    setCboEdit(habilidade);
+    setDadosEdit(habilidade);
   };
   const handleEditOff = () => {
     setCboEdit(null);
     setDadosEdit({});
   };
-  const handleDelete = (cbo) => {
+  const handleDelete = (habilidade) => {
     setListActionError(false);
-    doCall(`cbo/${cbo._id}`, { method: "DELETE" }).then(
+    doCall(`habilidade/${habilidade._id}`, { method: "DELETE" }).then(
       ({ error }) => {
         if (error) {
           setListActionError(error?.message || error);
@@ -137,103 +137,13 @@ const ManageCBO = () => {
   return (
     <div>
       <Box sx={{ mb: 6 }}>
-        <Typography variant="h3">Gerenciar CBOs</Typography>
+        <Typography variant="h3">Gerenciar Habilidades</Typography>
         <Typography variant="body2">
-          Classificação Brasileira de Ocupações
+          Lista controlada apenas pelo admin tryevo
         </Typography>
       </Box>
 
-      <Section title="Importar CBOs">
-        {importError && (
-          <Box sx={{ pb: 2 }}>
-            <Typography color="error">{String(importError)}</Typography>
-          </Box>
-        )}
-        <form onSubmit={handleImportSubmit}>
-          <Grid container spacing={2} sx={{ mb: 4 }}>
-            <Grid item xs={12}>
-              <FormInput
-                label="Lista de CBOs para importar"
-                name="lista"
-                data={dadosImport}
-                onChange={handleChangeImport}
-                multiline
-                rows={6}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <Box sx={{ justifyContent: "flex-end", display: "flex" }}>
-                <LoadingButton
-                  type="submit"
-                  loading={loadingImport}
-                  variant="contained"
-                  startIcon={<FileUploadIcon />}
-                >
-                  Importar
-                </LoadingButton>
-              </Box>
-            </Grid>
-          </Grid>
-        </form>
-      </Section>
-
-      <Section
-        title={cboEdit ? "Editar CBO" : "Criar CBO"}
-        subtitle={cboEdit ? `Editando ${cboEdit._id} - ${cboEdit.nome}` : null}
-      >
-        {saveError && (
-          <Box sx={{ pb: 2 }}>
-            <Typography color="error">{String(saveError)}</Typography>
-          </Box>
-        )}
-        <form onSubmit={handleEditSubmit}>
-          <Grid container spacing={2} sx={{ mb: 4 }}>
-            <Grid item xs={8}>
-              <FormInput
-                label="Nome do CBO"
-                name="nome"
-                data={dadosEdit}
-                onChange={handleChangeEdit}
-              />
-            </Grid>
-            <Grid item xs={4}>
-              <FormInput
-                label="Código"
-                placeholder="0000-00"
-                name="codigo"
-                data={dadosEdit}
-                onChange={handleChangeEdit}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <Box sx={{ justifyContent: "flex-end", display: "flex" }}>
-                <LoadingButton
-                  type="submit"
-                  loading={loadingEdit}
-                  variant="contained"
-                  startIcon={<SaveIcon />}
-                >
-                  Salvar
-                </LoadingButton>
-                {cboEdit && (
-                  <Button
-                    sx={{ ml: 1 }}
-                    type="reset"
-                    color="secondary"
-                    variant="contained"
-                    startIcon={<ClearIcon />}
-                    onClick={handleEditOff}
-                  >
-                    Cancelar
-                  </Button>
-                )}
-              </Box>
-            </Grid>
-          </Grid>
-        </form>
-      </Section>
-
-      <Section title="Todos os CBOs">
+      <Section title="Todas as Habilidades">
         {listActionError && (
           <Box sx={{ pb: 2 }}>
             <Typography color="error">{String(listActionError)}</Typography>
@@ -242,23 +152,9 @@ const ManageCBO = () => {
 
         <form onSubmit={handleSearchSubmit}>
           <Grid container spacing={2} sx={{ mb: 4 }}>
-            <Grid item xs={12}>
-              <FormRadio
-                label="Tipo"
-                name="valid"
-                row
-                data={dadosSearch}
-                onChange={handleSearchTipoChange}
-                options={[
-                  { value: "any", label: "Todos" },
-                  { value: "yes", label: "Validos" },
-                  { value: "no", label: "Invalidos" },
-                ]}
-              />
-            </Grid>
             <Grid item xs>
               <FormInput
-                label="Buscar CBO por nome"
+                label="Buscar Habilidade por nome"
                 name="q"
                 type="search"
                 data={dadosSearch}
@@ -288,26 +184,6 @@ const ManageCBO = () => {
             <ListItem
               secondaryAction={
                 <>
-                  <Tooltip
-                    placement="left"
-                    title={
-                      item.valid
-                        ? "Permitido, clique para invalidar"
-                        : "Bloqueado, clique para validar"
-                    }
-                  >
-                    <IconButton
-                      aria-label="alterar permitido"
-                      onClick={() => handleToggleValid(item)}
-                    >
-                      {item.valid ? (
-                        <CheckCircleIcon color="success" />
-                      ) : (
-                        <UnpublishedIcon />
-                      )}
-                    </IconButton>
-                  </Tooltip>
-
                   <IconButton
                     aria-label="editar"
                     onClick={() => handleEdit(item)}
@@ -324,13 +200,62 @@ const ManageCBO = () => {
                 </>
               }
             >
-              <ListItemText primary={(item.codigo ? (item.codigo + ' - ') : '') + item.nome} />
+              <ListItemText primary={item.nome} />
             </ListItem>
           )}
         />
+      </Section>
+      
+      <Section
+        title={cboEdit ? "Editar Habilidade" : "Criar Habilidade"}
+        subtitle={cboEdit ? `Editando ${cboEdit._id} - ${cboEdit.nome}` : null}
+      >
+        {saveError && (
+          <Box sx={{ pb: 2 }}>
+            <Typography color="error">{String(saveError)}</Typography>
+          </Box>
+        )}
+        <form onSubmit={handleEditSubmit}>
+          <Grid container spacing={2} sx={{ mb: 4 }}>
+            <Grid item xs>
+              <FormInput
+                label="Habilidade"
+                name="nome"
+                data={dadosEdit}
+                onChange={handleChangeEdit}
+              />
+            </Grid>
+            <Grid item>
+              <LoadingButton
+                type="submit"
+                loading={loadingEdit}
+                variant="contained"
+                size="large"
+                disableElevation
+                startIcon={<SaveIcon />}
+              >
+                Salvar
+              </LoadingButton>
+              {cboEdit && (
+                <Button
+                  sx={{ ml: 1 }}
+                  type="reset"
+                  color="secondary"
+                  variant="contained"
+                  size="large"
+                  disableElevation
+                  startIcon={<ClearIcon />}
+                  onClick={handleEditOff}
+                >
+                  Cancelar
+                </Button>
+              )}
+            </Grid>
+          </Grid>
+        </form>
       </Section>
     </div>
   );
 };
 
-export default ManageCBO;
+export default ManageHabilidades;

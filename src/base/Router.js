@@ -41,6 +41,7 @@ import PropostasFeitasPage from "../pages/pj/PropostasFeitasPage";
 import PropostaFeitaPage from "../pages/pj/PropostaFeitaPage";
 import MasterAdminHome from "../pages/master-admin/MasterAdminHome";
 import ManageCBO from "../pages/master-admin/ManageCBO";
+import ManageHabilidades from "../pages/master-admin/ManageHabilidades";
 
 
 const router = createBrowserRouter([
@@ -227,6 +228,11 @@ const router = createBrowserRouter([
             path: allRoutesData.masterAdminCBO.path,
             handle: allRoutesData.masterAdminCBO,
             element: <ProtectedRoute><ManageCBO /></ProtectedRoute>,
+          },
+          {
+            path: allRoutesData.masterAdminHabilidades.path,
+            handle: allRoutesData.masterAdminHabilidades,
+            element: <ProtectedRoute><ManageHabilidades /></ProtectedRoute>,
           },
 
           {
