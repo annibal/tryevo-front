@@ -63,6 +63,7 @@ export const commonRoutes = {
     icon: <SupportIcon />,
     title: "Ajuda",
     auth: false,
+    rules: [ACCOUNT_FEATURES.NOT_LOGGED],
   },
   sobre: {
     priority: 400,
@@ -70,6 +71,7 @@ export const commonRoutes = {
     icon: <InfoIcon />,
     title: "Sobre",
     auth: false,
+    rules: [ACCOUNT_FEATURES.NOT_LOGGED],
   },
   assinatura: {
     priority: 150,
@@ -77,6 +79,7 @@ export const commonRoutes = {
     icon: <PaymentsIcon />,
     title: "Assinaturas",
     auth: false,
+    rules: [ACCOUNT_FEATURES.NOT_LOGGED],
   },
 };
 
@@ -137,6 +140,27 @@ export const pessoaFisicaRoutes = {
     title: "Configurações",
     rules: [ACCOUNT_FEATURES.LOGGED, ACCOUNT_FEATURES.PF],
     endData: "highlightSettings",
+  },
+  pfAjuda: {
+    priority: 400,
+    path: "ajuda/",
+    icon: <SupportIcon />,
+    title: "Ajuda",
+    rules: [ACCOUNT_FEATURES.LOGGED, ACCOUNT_FEATURES.PF],
+  },
+  pfSobre: {
+    priority: 400,
+    path: "sobre/",
+    icon: <InfoIcon />,
+    title: "Sobre",
+    rules: [ACCOUNT_FEATURES.LOGGED, ACCOUNT_FEATURES.PF],
+  },
+  pfAssinatura: {
+    priority: 150,
+    path: "assinatura/",
+    icon: <PaymentsIcon />,
+    title: "Assinaturas",
+    rules: [ACCOUNT_FEATURES.LOGGED, ACCOUNT_FEATURES.PF],
   },
 };
 
@@ -218,6 +242,27 @@ export const pessoaJuridicaRoutes = {
     path: "pj/configuracoes/",
     icon: <SettingsIcon />,
     title: "Configurações",
+    rules: [ACCOUNT_FEATURES.LOGGED, ACCOUNT_FEATURES.PJ],
+  },
+  pjAjuda: {
+    priority: 400,
+    path: "ajuda/",
+    icon: <SupportIcon />,
+    title: "Ajuda",
+    rules: [ACCOUNT_FEATURES.LOGGED, ACCOUNT_FEATURES.PJ],
+  },
+  pjSobre: {
+    priority: 400,
+    path: "sobre/",
+    icon: <InfoIcon />,
+    title: "Sobre",
+    rules: [ACCOUNT_FEATURES.LOGGED, ACCOUNT_FEATURES.PJ],
+  },
+  pjAssinatura: {
+    priority: 150,
+    path: "assinatura/",
+    icon: <PaymentsIcon />,
+    title: "Assinaturas",
     rules: [ACCOUNT_FEATURES.LOGGED, ACCOUNT_FEATURES.PJ],
   },
 };

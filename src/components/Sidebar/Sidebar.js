@@ -22,6 +22,8 @@ const Sidebar = () => {
 
   const userFeatures = (auth?.features || {});
 
+  // console.log(allRoutesArray.map(item => ({...item, userFeatures, allowed: (item.rules || []).every(rule => userFeatures[rule]), })))
+
   return (
     <div className={sidebarClassName}>
       <div className="logo-container" onClick={() => setSidebarOpen(!sidebarOpen)}>
