@@ -26,7 +26,7 @@ import { doCall } from "../../providers/baseProvider";
 const ManageHabilidades = () => {
   const [dadosEdit, setDadosEdit] = useState({});
   const [dadosSearch, setDadosSearch] = useState({});
-  const [cboEdit, setCboEdit] = useState();
+  const [habilidadeEdit, setHabilidadeEdit] = useState();
   const [listActionError, setListActionError] = useState(null);
   const [saveError, setSaveError] = useState(null);
   const [loadingEdit, setLoadingEdit] = useState(false);
@@ -39,7 +39,7 @@ const ManageHabilidades = () => {
 
   const [habilidadesListUrl, setHabilidadesListUrl] = useState("habilidade?&to=300");
 
-  const handleSetCboUrl = (args) => {
+  const handleSetHabilidadeUrl = (args) => {
     const params = {
       from: 0,
       to: 300,
@@ -58,13 +58,13 @@ const ManageHabilidades = () => {
     event.preventDefault();
     setLoadingEdit(true);
     setSaveError(null);
-    const path = cboEdit ? `habilidade/${cboEdit._id}` : "habilidade";
+    const path = habilidadeEdit ? `habilidade/${habilidadeEdit._id}` : "habilidade";
     doCall(path, { method: "POST", body: dadosEdit }).then(
       ({ error }) => {
         if (error) {
           setSaveError(error?.message || error);
         } else {
-          handleSetCboUrl(dadosSearch);
+          handleSetHabilidadeUrl(dadosSearch);
           handleEditOff();
         }
         setLoadingEdit(false);
@@ -73,14 +73,14 @@ const ManageHabilidades = () => {
   };
   const handleSearchSubmit = (event) => {
     if (event) event.preventDefault();
-    handleSetCboUrl(dadosSearch);
+    handleSetHabilidadeUrl(dadosSearch);
   };
   const handleEdit = (habilidade) => {
-    setCboEdit(habilidade);
+    setHabilidadeEdit(habilidade);
     setDadosEdit(habilidade);
   };
   const handleEditOff = () => {
-    setCboEdit(null);
+    setHabilidadeEdit(null);
     setDadosEdit({});
   };
   const handleDelete = (habilidade) => {
@@ -90,7 +90,7 @@ const ManageHabilidades = () => {
         if (error) {
           setListActionError(error?.message || error);
         } else {
-          handleSetCboUrl(dadosSearch);
+          handleSetHabilidadeUrl(dadosSearch);
         }
       }
     );
@@ -176,14 +176,14 @@ const ManageHabilidades = () => {
           rowsPerPage={habilidadesResponse.meta?.perPage}
           rowsPerPageOptions={[300]}
           onPageChange={(evt, value) =>
-            handleSetCboUrl({ ...dadosSearch, page: value })
+            handleSetHabilidadeUrl({ ...dadosSearch, page: value })
           }
         />
       </Section>
       
       <Section
-        title={cboEdit ? "Editar Habilidade" : "Criar Habilidade"}
-        subtitle={cboEdit ? `Editando ${cboEdit._id} - ${cboEdit.nome}` : null}
+        title={habilidadeEdit ? "Editar Habilidade" : "Criar Habilidade"}
+        subtitle={habilidadeEdit ? `Editando ${habilidadeEdit._id} - ${habilidadeEdit.nome}` : null}
       >
         {saveError && (
           <Box sx={{ pb: 2 }}>
@@ -211,7 +211,7 @@ const ManageHabilidades = () => {
               >
                 Salvar
               </LoadingButton>
-              {cboEdit && (
+              {habilidadeEdit && (
                 <Button
                   sx={{ ml: 1 }}
                   type="reset"

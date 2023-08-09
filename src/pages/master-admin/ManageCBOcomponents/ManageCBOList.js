@@ -66,16 +66,6 @@ const ManageCBOList = ({ onEdit, cboListUrl, setCboListUrl }) => {
 
   const cbosResponse = useFetch("GET", cboListUrl);
 
-  const totalsSubheader = [
-    "Mostrando",
-    cbosResponse?.meta?.from,
-    "a",
-    cbosResponse?.meta?.to,
-    "de",
-    cbosResponse?.meta?.total,
-    "itens",
-  ].join(" ");
-
   const renderCboItem = ({ index, style }) => {
     const item = cbosResponse.data?.[index];
     if (!item) return null;
@@ -150,7 +140,7 @@ const ManageCBOList = ({ onEdit, cboListUrl, setCboListUrl }) => {
 
       <ManageCBOListSearch dados={dSearch} onSubmit={handleSearchSubmit} />
 
-      <Box sx={{ width: "100%", height: 420, overflow: "hidden scroll" }}>
+      <Box sx={{ width: "100%", height: 420 }}>
         {cbosResponse.loading ? (
           <LoaderTryEvo />
         ) : (

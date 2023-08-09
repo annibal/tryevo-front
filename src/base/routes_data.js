@@ -17,7 +17,9 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import HandshakeIcon from "@mui/icons-material/Handshake";
 import HomeIcon from "@mui/icons-material/Home";
 import ArticleIcon from "@mui/icons-material/Article";
-import SummarizeIcon from '@mui/icons-material/Summarize';
+import SummarizeIcon from "@mui/icons-material/Summarize";
+import LocalOfferIcon from "@mui/icons-material/LocalOffer";
+import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 
 export const commonRoutes = {
   vagas: {
@@ -228,21 +230,42 @@ export const masterAdminRoutes = {
     title: "Master Admin Home",
     rules: [ACCOUNT_FEATURES.MASTER_ADMIN],
   },
-  masterAdminCBO: {
+  masterAdminUsuarios: {
     priority: 101,
-    path: "master-admin/cbo/",
-    icon: <ArticleIcon />,
-    title: "Gerenciar CBOs",
+    path: "master-admin/usuarios/",
+    icon: <AdminPanelSettingsIcon />,
+    title: "Todos os Usuários",
     rules: [ACCOUNT_FEATURES.MASTER_ADMIN],
+  },
+  masterAdminUsuario: {
+    priority: 101,
+    path: "master-admin/usuario/",
+    icon: <AdminPanelSettingsIcon />,
+    title: "Gerenciar Usuário",
+    rules: [ACCOUNT_FEATURES.MASTER_ADMIN, ACCOUNT_FEATURES.IGNORE_ON_SIDEBAR],
   },
   masterAdminHabilidades: {
-    priority: 101,
+    priority: 102,
     path: "master-admin/habilidades/",
     icon: <SummarizeIcon />,
-    title: "Gerenciar Habilidades",
+    title: "Habilidades",
     rules: [ACCOUNT_FEATURES.MASTER_ADMIN],
   },
-}
+  masterAdminCBO: {
+    priority: 103,
+    path: "master-admin/cbo/",
+    icon: <ArticleIcon />,
+    title: "CBOs",
+    rules: [ACCOUNT_FEATURES.MASTER_ADMIN],
+  },
+  masterAdminCompetencias: {
+    priority: 104,
+    path: "master-admin/competencias/",
+    icon: <LocalOfferIcon />,
+    title: "Competências",
+    rules: [ACCOUNT_FEATURES.MASTER_ADMIN],
+  },
+};
 
 const allRoutesData = {
   ...commonRoutes,

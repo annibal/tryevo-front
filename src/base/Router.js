@@ -42,6 +42,9 @@ import PropostaFeitaPage from "../pages/pj/PropostaFeitaPage";
 import MasterAdminHome from "../pages/master-admin/MasterAdminHome";
 import ManageCBO from "../pages/master-admin/ManageCBO";
 import ManageHabilidades from "../pages/master-admin/ManageHabilidades";
+import ManageCompetencias from "../pages/master-admin/ManageCompetencias";
+import ManageAllUsers from "../pages/master-admin/ManageAllUsers";
+import ManageSingleUser from "../pages/master-admin/ManageSingleUser";
 
 
 const router = createBrowserRouter([
@@ -233,6 +236,21 @@ const router = createBrowserRouter([
             path: allRoutesData.masterAdminHabilidades.path,
             handle: allRoutesData.masterAdminHabilidades,
             element: <ProtectedRoute><ManageHabilidades /></ProtectedRoute>,
+          },
+          {
+            path: allRoutesData.masterAdminCompetencias.path,
+            handle: allRoutesData.masterAdminCompetencias,
+            element: <ProtectedRoute><ManageCompetencias /></ProtectedRoute>,
+          },
+          {
+            path: allRoutesData.masterAdminUsuarios.path,
+            handle: allRoutesData.masterAdminUsuarios,
+            element: <ProtectedRoute><ManageAllUsers /></ProtectedRoute>,
+          },
+          {
+            path: allRoutesData.masterAdminUsuario.path + ":usuarioId",
+            handle: allRoutesData.masterAdminUsuario,
+            element: <ProtectedRoute><ManageSingleUser /></ProtectedRoute>,
           },
 
           {
