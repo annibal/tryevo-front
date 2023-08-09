@@ -38,6 +38,15 @@ theme = createTheme({
         },
       },
     },
+    MuiAccordion: {
+      styleOverrides: {
+        root: {
+          '&.Mui-expanded': {
+            // margin: 0,
+          },
+        }
+      }
+    }
   },
   ptBR,
 });
