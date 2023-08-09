@@ -5,6 +5,7 @@ const useFetch = (method, url, params) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [data, setData] = useState(null);
+  const [meta, setMeta] = useState(null);
 
   useEffect(() => {
     (async () => {
@@ -27,6 +28,7 @@ const useFetch = (method, url, params) => {
       setLoading(false);
       if (response.success) {
         setData(response.data);
+        setMeta(response.meta);
       } else {
         setError(response.error);
       }
@@ -37,6 +39,7 @@ const useFetch = (method, url, params) => {
     loading,
     error,
     data,
+    meta,
   }
 }
 

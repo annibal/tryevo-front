@@ -37,6 +37,7 @@ export const doCall = async (path = "", config = {}) => {
     success: false,
     data: null,
     error: null,
+    meta: null,
   };
 
   try {
@@ -54,6 +55,15 @@ export const doCall = async (path = "", config = {}) => {
             ...response,
             ...response.data,
           };
+        }
+        if (data?.data?.meta) {
+          response.meta = data.data.meta;
+          if (response.meta.from != null && response.meta.to != null && response.meta.total != null) {
+            const perPage = response.meta.to - response.meta.from;
+            response.meta.pages = Math.ceil(response.meta.total / perPage);
+            response.meta.page = Math.ceil(response.meta.from / perPage);
+            response.meta.perPage = perPage;
+          }
         }
       })
       .catch((e) => {

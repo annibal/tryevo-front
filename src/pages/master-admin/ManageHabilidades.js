@@ -7,7 +7,7 @@ import {
   List,
   ListItem,
   ListItemText,
-  Tooltip,
+  TablePagination,
   Typography,
 } from "@mui/material";
 import Section from "../../components/Section";
@@ -18,51 +18,40 @@ import { LoadingButton } from "@mui/lab";
 import SaveIcon from "@mui/icons-material/Save";
 import ClearIcon from "@mui/icons-material/Clear";
 import ResponseWrapper from "../../components/ResponseWrapper";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import UnpublishedIcon from "@mui/icons-material/Unpublished";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
-import FileUploadIcon from "@mui/icons-material/FileUpload";
 import SearchIcon from "@mui/icons-material/Search";
 import { doCall } from "../../providers/baseProvider";
-import FormRadio from "../commons/form/FormRadio";
 
 const ManageHabilidades = () => {
   const [dadosEdit, setDadosEdit] = useState({});
-  const [dadosImport, setDadosImport] = useState({});
-  const [dadosSearch, setDadosSearch] = useState({ valid: "any" });
+  const [dadosSearch, setDadosSearch] = useState({});
   const [cboEdit, setCboEdit] = useState();
   const [listActionError, setListActionError] = useState(null);
   const [saveError, setSaveError] = useState(null);
-  const [importError, setImportError] = useState(null);
   const [loadingEdit, setLoadingEdit] = useState(false);
-  const [loadingImport, setLoadingImport] = useState(false);
   const handleChangeEdit = (value, name, data) => {
     setDadosEdit({ ...data, [name]: value });
-  };
-  const handleChangeImport = (value, name, data) => {
-    setDadosImport({ ...data, [name]: value });
   };
   const handleChangeSearch = (value, name, data) => {
     setDadosSearch({ ...data, [name]: value });
   };
-  const handleSearchTipoChange = (value, name, data) => {
-    setDadosSearch({ ...data, [name]: value });
-    handleSetCboUrl(false, value);
-  };
 
-  const [cboListUrl, setCboListUrl] = useState("habilidade?valid=any&to=50");
+  const [habilidadesListUrl, setHabilidadesListUrl] = useState("habilidade?&to=300");
 
-  const handleSetCboUrl = (cache, sValid) => {
+  const handleSetCboUrl = (args) => {
     const params = {
-      valid: dadosSearch.valid,
-      to: 50,
+      from: 0,
+      to: 300,
+      cache: +new Date(),
     };
-    if (sValid) params.valid = sValid;
-    if (cache) params.cache = (Math.random() * 10 ** 6) | 0;
-    if (dadosSearch.q) params.q = dadosSearch.q;
+    if (args.q) params.q = args.q;
+    if (args.page)
+      params.from = habilidadesResponse.meta?.perPage * (args.page + 0);
+    if (args.page)
+      params.to = habilidadesResponse.meta?.perPage * (args.page + 1);
     const query = new URLSearchParams(params).toString();
-    setCboListUrl(`habilidade?${query}`);
+    setHabilidadesListUrl(`habilidade?${query}`);
   };
 
   const handleEditSubmit = (event) => {
@@ -75,41 +64,16 @@ const ManageHabilidades = () => {
         if (error) {
           setSaveError(error?.message || error);
         } else {
-          handleSetCboUrl(true);
+          handleSetCboUrl(dadosSearch);
           handleEditOff();
         }
         setLoadingEdit(false);
       }
     );
   };
-  const handleImportSubmit = (event) => {
-    event.preventDefault();
-    setLoadingImport(true);
-    setImportError(null);
-    doCall('habilidade-import', { method: 'POST', body: dadosImport }).then(({ error }) => {
-      if (error) {
-        setImportError(error?.message || error);
-      } else {
-        handleSetCboUrl(true);
-      }
-      setLoadingImport(false);
-    });
-  };
   const handleSearchSubmit = (event) => {
     if (event) event.preventDefault();
-    handleSetCboUrl();
-  };
-
-  const handleToggleValid = (habilidade) => {
-    setListActionError(false);
-    const path = habilidade.valid ? "invalidate" : "validate";
-    doCall(`habilidade/${path}/${habilidade._id}`).then(({ error }) => {
-      if (error) {
-        setListActionError(error?.message || error);
-      } else {
-        handleSetCboUrl(true);
-      }
-    });
+    handleSetCboUrl(dadosSearch);
   };
   const handleEdit = (habilidade) => {
     setCboEdit(habilidade);
@@ -126,13 +90,13 @@ const ManageHabilidades = () => {
         if (error) {
           setListActionError(error?.message || error);
         } else {
-          handleSetCboUrl(true);
+          handleSetCboUrl(dadosSearch);
         }
       }
     );
   };
 
-  const cbosResponse = useFetch("GET", cboListUrl);
+  const habilidadesResponse = useFetch("GET", habilidadesListUrl);
 
   return (
     <div>
@@ -177,7 +141,7 @@ const ManageHabilidades = () => {
           </Grid>
         </form>
         <ResponseWrapper
-          {...cbosResponse}
+          {...habilidadesResponse}
           list
           dataComponent={({ children }) => <List dense>{children}</List>}
           dataItemComponent={({ item }) => (
@@ -203,6 +167,17 @@ const ManageHabilidades = () => {
               <ListItemText primary={item.nome} />
             </ListItem>
           )}
+        />
+
+        <TablePagination
+          component="div"
+          count={habilidadesResponse.meta?.total}
+          page={habilidadesResponse.meta?.page}
+          rowsPerPage={habilidadesResponse.meta?.perPage}
+          rowsPerPageOptions={[300]}
+          onPageChange={(evt, value) =>
+            handleSetCboUrl({ ...dadosSearch, page: value })
+          }
         />
       </Section>
       
