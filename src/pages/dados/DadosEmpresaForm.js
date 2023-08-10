@@ -93,15 +93,21 @@ const DadosEmpresaForm = ({ data, onChange }) => {
           <Typography variant="h6" sx={{ mt: 4, mb: 3 }}>
             Documentos
           </Typography>
-          <ManyForm
-            label="Documento"
-            name="documentos"
+        </Grid>
+        <Grid item xs={12}>
+          <FormInput
+            label="CNPJ"
+            name="cnpj"
             data={dados}
             onChange={handleChange}
-            options={[
-              { value: "CNPJ", label: "CNPJ" },
-              { value: "INSCRICAO_ESTADUAL", label: "Inscrição Estadual" },
-            ]}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <FormInput
+            label="Inscrição Estadual"
+            name="inscricaoEstadual"
+            data={dados}
+            onChange={handleChange}
           />
         </Grid>
 

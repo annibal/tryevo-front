@@ -42,7 +42,14 @@ const DadosPage = () => {
 
     try {
       let pfObj = formDataToObject(formData);
-      if (!pfObj.habilidades) pfObj.habilidades = []
+      if (!pfObj.habilidades) pfObj.habilidades = [];
+      if (!pfObj.objetivos) pfObj.objetivos = [];
+      if (!pfObj.telefones) pfObj.telefones = [];
+      if (!pfObj.links) pfObj.links = [];
+      if (!pfObj.linguagens) pfObj.linguagens = [];
+      if (!pfObj.experienciasProfissionais) pfObj.experienciasProfissionais = [];
+      if (!pfObj.escolaridades) pfObj.escolaridades = [];
+      if (!pfObj.projetosPessoais) pfObj.projetosPessoais = [];
       if (pfObj.endereco && Object.values(pfObj.endereco).every(value => value === '')) {
         delete pfObj.endereco;
       }

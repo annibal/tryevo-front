@@ -46,8 +46,10 @@ const WidgetPF = ({ onClick }) => {
 
   let completeness = {
     'Dados Pessoais': !!userInfo.nomePrimeiro && !!userInfo.nomeUltimo && !!userInfo.nascimento && !!userInfo.genero,
+    'Objetivos': userInfo.objetivos?.length > 0,
+    'Habilidades': userInfo.habilidades?.length > 0,
     'Telefone': userInfo.telefones?.length > 0,
-    'Documentos': userInfo.documentos?.length > 1 && userInfo.documentos.find(doc => doc.tipo === 'CPF'),
+    'Documentos': userInfo.cpf?.length > 1 && userInfo.rg.length > 1,
     'Endereço': userInfo.endereco && !!userInfo.endereco.cep && !!userInfo.endereco.numero,
     'Idiomas': userInfo.linguagens?.length > 0 && !!userInfo.linguagens[0],
     'Graduação': userInfo.escolaridades?.length > 0 && !!userInfo.escolaridades[0],

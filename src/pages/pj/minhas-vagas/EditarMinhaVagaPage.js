@@ -19,7 +19,7 @@ const EditarMinhaVagaPage = () => {
       <br />
       <br />
 
-      <DadosMinhaVagaForm onSubmit={handleSubmit} />
+      <DadosMinhaVagaForm data={{}} onSubmit={handleSubmit} />
 
       {created && (
         <Navigate to={'/app/' + allRoutesData.pjMinhaVaga.path + vagaId + '/' + vagaNome} />

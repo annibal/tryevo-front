@@ -39,8 +39,8 @@ const WidgetPJ = ({ onClick }) => {
     'Dados Pessoais': !!userInfo.nomeResponsavel && !!userInfo.nomeFantasia && !!userInfo.razaoSocial,
     'Telefone': userInfo.telefones?.length > 0,
     'Redes Sociais': userInfo.links?.length > 0,
-    'CNPJ': (userInfo.documentos || []).find(doc => doc.tipo === 'CNPJ'),
-    'Inscrição Estadual': (userInfo.documentos || []).find(doc => doc.tipo === 'INSCRICAO_ESTADUAL'),
+    'CNPJ': userInfo.cnpj?.length > 1,
+    'Inscrição Estadual': userInfo.inscricaoEstadual?.length > 1,
     'Endereço': userInfo.endereco && !!userInfo.endereco.cep && !!userInfo.endereco.numero,
     // Projetos
     // Qualificações

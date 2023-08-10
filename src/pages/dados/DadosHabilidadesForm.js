@@ -10,9 +10,13 @@ const DadosHabilidadesForm = ({ data, onChange }) => {
 
   useEffect(() => {
     if (habilidadesResponse.data && Object.keys(dados).length === 0) {
+      let dHab = data?.habilidades || [];
+      if (!(dHab instanceof Array)) {
+        dHab = Object.keys(dHab);
+      }
       const hydratedDados = habilidadesResponse.data.reduce((a, c) => ({
         ...a,
-        [c?._id]: Boolean((data?.habilidades || []).find((h) => h?._id === c?._id)),
+        [c?._id]: Boolean(dHab.find((h) => h?._id === c?._id)),
       }), {});
       setDados(hydratedDados);
     }
