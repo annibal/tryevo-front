@@ -69,13 +69,13 @@ const FormQualificacoes = ({
       toggleOpen(true);
       setDialogValue({ nome: newValue.inputValue, descricao: '' });
     } else {
-      setAutocompleteValue('');
-      setTimeout(() => {
-        try {
-          autocompleteElement.current.querySelector('.MuiAutocomplete-clearIndicator').click()
-        } catch (e) { console.error(e) }
-      })
+      setAutocompleteValue(newValue);
       if (newValue?._id) {
+        setTimeout(() => {
+          try {
+            autocompleteElement.current.querySelector('.MuiAutocomplete-clearIndicator').click()
+          } catch (e) { console.error(e) }
+        })
         onChangeAdd(newValue);
       }
     }
