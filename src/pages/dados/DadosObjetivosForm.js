@@ -39,9 +39,6 @@ const DadosObjetivosForm = ({ data, onChange }) => {
 
   return (
     <>
-      <Typography variant="h6" sx={{ mt: 4, mb: 3 }}>
-        Objetivos ({dados.length} / 3)
-      </Typography>
       <Grid container spacing={2}>
         {dados.map((objetivo, idx) => (
           <Fragment key={idx}>

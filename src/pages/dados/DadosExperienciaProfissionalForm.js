@@ -82,6 +82,7 @@ const DadosExperienciaProfissionalForm = ({ data, onChange }) => {
               <Grid item xs={10} sm={11}>
                 <FormInput
                   label={`Nome da Empresa ${idx + 1}`}
+                  required
                   name={`experienciasProfissionais[${idx}][empresa]`}
                   data={dados}
                   getValue={() => expProf.empresa}
@@ -106,6 +107,7 @@ const DadosExperienciaProfissionalForm = ({ data, onChange }) => {
               <Grid item xs={12} sm={6}>
                 <FormInput
                   label={`Ramo de Atividade da Empresa`}
+                  required
                   name={`experienciasProfissionais[${idx}][ramoAtividadeEmpresa]`}
                   data={dados}
                   getValue={() => expProf.ramoAtividadeEmpresa}

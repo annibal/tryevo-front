@@ -27,7 +27,7 @@ const DadosPessoaisForm = ({ data, onChange, loading }) => {
     <>
       <Grid container spacing={2}>
         <Grid item xs={12}>
-          <Typography variant="h6" sx={{ mt: 4, mb: 3 }}>
+          <Typography variant="h6" sx={{ mt: 0, mb: 3 }}>
             Telefones
           </Typography>
           <ManyForm

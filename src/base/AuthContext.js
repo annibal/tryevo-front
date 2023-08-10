@@ -70,50 +70,50 @@ export function AuthProvider({ children }) {
     }
   };
 
-  useEffect(() => {
-    async function loadUser() {
-      setLoading(true);
-      setLoadedUser(false);
-      let objUser;
+  async function loadUser(silent = false) {
+    if (silent) setLoading(true);
+    setLoadedUser(false);
+    let objUser;
 
-      try {
-        objUser = await authProvider.getAuthData();
-        setUserData(objUser);
-      } catch (e) {
-        if ((e.message || e).toString().includes('jwt')) {
-          await logOut();
-        } else {
-          setError(e);
-        }
+    try {
+      objUser = await authProvider.getAuthData();
+      setUserData(objUser);
+    } catch (e) {
+      if ((e.message || e).toString().includes('jwt')) {
+        await logOut();
+      } else {
+        setError(e);
       }
-
-      if (objUser == null) {
-        setReadyState(AUTH_READY_STATE.DONE);
-      }
-      setLoadedUser(true);
-      setLoading(false);
     }
 
-    async function loadUserInfo() {
-      setLoading(true);
-      setLoadedUserInfo(false);
-
-      try {
-        const objUserInfo = await userInfoProvider.getOwnInfo();
-        setUserInfo(objUserInfo || {});
-      } catch (e) {
-        if ((e.message || e).toString().includes('jwt')) {
-          await logOut();
-        } else {
-          setError(e);
-        }
-      }
-
+    if (objUser == null) {
       setReadyState(AUTH_READY_STATE.DONE);
-      setLoadedUserInfo(true);
-      setLoading(false);
+    }
+    setLoadedUser(true);
+    setLoading(false);
+  }
+
+  async function loadUserInfo(silent = false) {
+    if (silent) setLoading(true);
+    setLoadedUserInfo(false);
+
+    try {
+      const objUserInfo = await userInfoProvider.getOwnInfo();
+      setUserInfo(objUserInfo || {});
+    } catch (e) {
+      if ((e.message || e).toString().includes('jwt')) {
+        await logOut();
+      } else {
+        setError(e);
+      }
     }
 
+    setReadyState(AUTH_READY_STATE.DONE);
+    setLoadedUserInfo(true);
+    setLoading(false);
+  }
+
+  useEffect(() => {
     if (!loadedUser && !loading) {
       setReadyState(AUTH_READY_STATE.FETCHING_DATA);
       loadUser();
@@ -123,6 +123,11 @@ export function AuthProvider({ children }) {
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user, loadedUser, loadedUserInfo, userInfo, loading]);
+
+  const updateData = async () => {
+    await loadUser(true);
+    await loadUserInfo(true);
+  }
 
   const invalidate = () => {
     setUser(false);
@@ -196,6 +201,7 @@ export function AuthProvider({ children }) {
     logIn,
     logOut,
     invalidate,
+    updateData,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

@@ -1,4 +1,14 @@
-import { Box, Divider, Grid, Typography } from "@mui/material";
+import {
+  Box,
+  Divider,
+  Grid,
+  Step,
+  StepButton,
+  StepContent,
+  StepLabel,
+  Stepper,
+  Typography,
+} from "@mui/material";
 import DadosPessoaisForm from "./DadosPessoaisForm";
 import { ACCOUNT_FEATURES, useAuth } from "../../base/AuthContext";
 import IdiomasForm from "./DadosIdiomasForm";
@@ -17,19 +27,21 @@ import DadosHabilidadesForm from "./DadosHabilidadesForm";
 
 const DadosPage = () => {
   const auth = useAuth();
-  const [dados, setDados] = useState(auth?.userInfo);
+  const [dados, setDados] = useState(auth?.userInfo || {});
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [hasChanges, setHasChanges] = useState(false);
-  
-  console.log({ dados, hasChanges, loading, error, auth })
+  const [activeStep, setActiveStep] = useState(0);
+  const [completedSteps, setCompletedSteps] = useState({});
+
+  console.log({ dados, hasChanges, loading, error, auth });
 
   useEffect(() => {
     if (auth?.userInfo) setDados(auth.userInfo);
   }, [auth?.userInfo]);
 
   const handleChange = () => {
-    setHasChanges(true)
+    setHasChanges(true);
   };
 
   //
@@ -47,10 +59,14 @@ const DadosPage = () => {
       if (!pfObj.telefones) pfObj.telefones = [];
       if (!pfObj.links) pfObj.links = [];
       if (!pfObj.linguagens) pfObj.linguagens = [];
-      if (!pfObj.experienciasProfissionais) pfObj.experienciasProfissionais = [];
+      if (!pfObj.experienciasProfissionais)
+        pfObj.experienciasProfissionais = [];
       if (!pfObj.escolaridades) pfObj.escolaridades = [];
       if (!pfObj.projetosPessoais) pfObj.projetosPessoais = [];
-      if (pfObj.endereco && Object.values(pfObj.endereco).every(value => value === '')) {
+      if (
+        pfObj.endereco &&
+        Object.values(pfObj.endereco).every((value) => value === "")
+      ) {
         delete pfObj.endereco;
       }
       // console.log({ formData, pfObj });
@@ -58,7 +74,7 @@ const DadosPage = () => {
       await userInfoProvider.saveInfoPF(pfObj);
 
       setHasChanges(false);
-      auth.invalidate();
+      auth.updateData();
     } catch (error) {
       console.log({ error, msg: error.message });
       setError(error);
@@ -74,7 +90,10 @@ const DadosPage = () => {
 
     try {
       let pjObj = formDataToObject(formData);
-      if (pjObj.endereco && Object.values(pjObj.endereco).every(value => value === '')) {
+      if (
+        pjObj.endereco &&
+        Object.values(pjObj.endereco).every((value) => value === "")
+      ) {
         delete pjObj.endereco;
       }
       // console.log({ formData, pjObj });
@@ -96,31 +115,91 @@ const DadosPage = () => {
     return "Loading";
   }
 
+  const saveContent = (
+    <Grid container spacing={2}>
+      <Grid item xs>
+        {!loading && error && (
+          <Box sx={{ pb: 2 }}>
+            <Typography color="error">{String(error)}</Typography>
+          </Box>
+        )}
+      </Grid>
+      <Grid item>
+        <LoadingButton
+          loading={loading}
+          variant={hasChanges ? "contained" : "outlined"}
+          color="primary"
+          type="submit"
+        >
+          Salvar
+        </LoadingButton>
+      </Grid>
+    </Grid>
+  );
+
   const saveBar = (
     <div className="floating-save-button">
-      <div className="content">
-        <Grid container spacing={2}>
-          <Grid item xs>
-            {!loading && error && (
-              <Box sx={{ pb: 2 }}>
-                <Typography color="error">{String(error)}</Typography>
-              </Box>
-            )}
-          </Grid>
-          <Grid item>
-            <LoadingButton
-              loading={loading}
-              variant={hasChanges ? "contained" : "outlined"}
-              color="primary"
-              type="submit"
-            >
-              Salvar
-            </LoadingButton>
-          </Grid>
-        </Grid>
-      </div>
+      <div className="content">{saveContent}</div>
     </div>
   );
+
+  // return (
+  //   <Box>
+  //     <form onSubmit={handleSubmitPF}>
+  //       <Stepper nonLinear activeStep={activeStep} orientation="vertical">
+  //         <Step completed={completedSteps[0]}>
+  //           <StepButton color="inherit" onClick={() => setActiveStep(0)}>
+  //             Dados Principais
+  //           </StepButton>
+  //           <StepContent sx={{ pt: 4 }} >
+  //             <DadosPrincipaisForm data={dados || {}} onChange={handleChange} />
+  //             <Box sx={{ mt: 4 }}>{saveContent}</Box>
+  //           </StepContent>
+  //         </Step>
+
+  //         <Step completed={completedSteps[1]}>
+  //           <StepButton color="inherit" onClick={() => setActiveStep(1)}>
+  //             Objetivos
+  //           </StepButton>
+  //           <StepContent sx={{ pt: 4 }} >
+  //             <DadosObjetivosForm data={dados || {}} onChange={handleChange} />
+  //             <Box sx={{ mt: 4 }}>{saveContent}</Box>
+  //           </StepContent>
+  //         </Step>
+
+  //         <Step completed={completedSteps[2]}>
+  //           <StepButton color="inherit" onClick={() => setActiveStep(2)}>
+  //             Habilidades
+  //           </StepButton>
+  //           <StepContent sx={{ pt: 4 }} >
+  //             <DadosHabilidadesForm data={dados || {}} onChange={handleChange} />
+  //             <Box sx={{ mt: 4 }}>{saveContent}</Box>
+  //           </StepContent>
+  //         </Step>
+
+  //         <Step completed={completedSteps[3]}>
+  //           <StepButton color="inherit" onClick={() => setActiveStep(3)}>
+  //             Dados Pessoais
+  //           </StepButton>
+  //           <StepContent sx={{ pt: 4 }} >
+  //             <DadosPessoaisForm data={dados || {}} onChange={handleChange} />
+  //             <Box sx={{ mt: 4 }}>{saveContent}</Box>
+  //           </StepContent>
+  //         </Step>
+
+  //         <Step completed={completedSteps[4]}>
+  //           <StepButton color="inherit" onClick={() => setActiveStep(4)}>
+  //             Endereço
+  //           </StepButton>
+  //           <StepContent sx={{ pt: 4 }} >
+  //             <DadosEnderecoForm data={dados} onChange={handleChange} />
+  //             <Box sx={{ mt: 4 }}>{saveContent}</Box>
+  //           </StepContent>
+  //         </Step>
+  //       </Stepper>
+  //     </form>
+  //   </Box>
+  // );
 
   if (auth.features[ACCOUNT_FEATURES.PF]) {
     return (
@@ -131,57 +210,45 @@ const DadosPage = () => {
           <Typography variant="h4" sx={{ mb: 6 }}>
             Dados Pessoais
           </Typography>
-          <DadosPrincipaisForm
-            data={dados || {}}
-            onChange={handleChange}
-          />
-          <DadosObjetivosForm
-            data={dados || {}}
-            onChange={handleChange}
-          />
-
-          <Typography variant="h4" sx={{ mt: 6, mb: 6 }}>
-            Habilidades
-          </Typography>
-          <DadosHabilidadesForm
-            data={dados || {}}
-            onChange={handleChange}
-          />
-
-          <DadosPessoaisForm
-            data={dados || {}}
-            onChange={handleChange}
-          />
+          <DadosPrincipaisForm data={dados || {}} onChange={handleChange} />
 
           <Divider sx={{ mt: 6, mb: 2 }} />
+          <Typography variant="h4" sx={{ mb: 6 }}>
+            Objetivos
+          </Typography>
+          <DadosObjetivosForm data={dados || {}} onChange={handleChange} />
 
+          <Divider sx={{ mt: 6, mb: 2 }} />
+          <Typography variant="h4" sx={{ mb: 6 }}>
+            Habilidades
+          </Typography>
+          <DadosHabilidadesForm data={dados || {}} onChange={handleChange} />
+
+          <Divider sx={{ mt: 6, mb: 2 }} />
+          <Typography variant="h4" sx={{ mb: 6 }}>
+            Contato e Documentos
+          </Typography>
+          <DadosPessoaisForm data={dados || {}} onChange={handleChange} />
+
+          <Divider sx={{ mt: 6, mb: 2 }} />
           <Typography variant="h4" sx={{ mb: 6 }}>
             Endereço
           </Typography>
-          <DadosEnderecoForm
-            data={dados}
-            onChange={handleChange}
-          />
+          <DadosEnderecoForm data={dados} onChange={handleChange} />
 
           <Divider sx={{ mt: 6, mb: 2 }} />
-
           <Typography variant="h4" sx={{ mb: 6 }}>
             Idiomas
           </Typography>
           <IdiomasForm data={dados} onChange={handleChange} />
 
           <Divider sx={{ mt: 6, mb: 2 }} />
-
           <Typography variant="h4" sx={{ mb: 6 }}>
             Escolaridade
           </Typography>
-          <DadosEscolaridadeForm
-            data={dados}
-            onChange={handleChange}
-          />
+          <DadosEscolaridadeForm data={dados} onChange={handleChange} />
 
           <Divider sx={{ mt: 6, mb: 2 }} />
-
           <Typography variant="h4" sx={{ mb: 6 }}>
             Experiencia Profissional
           </Typography>
@@ -191,7 +258,6 @@ const DadosPage = () => {
           />
 
           <Divider sx={{ mt: 6, mb: 2 }} />
-
           <Typography variant="h4" sx={{ mb: 6 }}>
             Projetos
           </Typography>
@@ -214,20 +280,14 @@ const DadosPage = () => {
           <Typography variant="h4" sx={{ mb: 6 }}>
             Dados da Empresa
           </Typography>
-          <DadosEmpresaForm
-            data={dados}
-            onChange={handleChange}
-          />
+          <DadosEmpresaForm data={dados} onChange={handleChange} />
 
           <Divider sx={{ mt: 6, mb: 2 }} />
 
           <Typography variant="h4" sx={{ mb: 6 }}>
             Endereço
           </Typography>
-          <DadosEnderecoForm
-            data={dados}
-            onChange={handleChange}
-          />
+          <DadosEnderecoForm data={dados} onChange={handleChange} />
         </form>
       </Box>
     );

@@ -1,8 +1,17 @@
-import { Box, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@mui/material";
+import {
+  Box,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+  Typography,
+} from "@mui/material";
 import { useAuth } from "../../base/AuthContext";
 import AlterarSenhaForm from "../../components/AlterarSenhaForm";
 import Section from "../../components/Section";
 import AlterarTipoContaForm from "../../components/AlterarTipoContaForm";
+import RemocaoDeDados from "../../components/RemocaoDeDados";
 
 const ConfiguracoesPFPage = () => {
   const { features } = useAuth();
@@ -25,7 +34,7 @@ const ConfiguracoesPFPage = () => {
             {Object.entries(features || {}).map((entry) => (
               <TableRow key={entry[0]}>
                 <TableCell>{entry[0]}</TableCell>
-                <TableCell>{entry[1] ? 'SIM' : 'NÃO'}</TableCell>
+                <TableCell>{entry[1] ? "SIM" : "NÃO"}</TableCell>
               </TableRow>
             ))}
           </TableBody>
@@ -40,11 +49,13 @@ const ConfiguracoesPFPage = () => {
         <AlterarTipoContaForm />
       </Section>
 
+      <Section title="Remoção de Dados">
+        <RemocaoDeDados />
+      </Section>
+
       <Section title="Notificações" withoutDivider>
         - em construção -
       </Section>
-
-
     </Box>
   );
 };

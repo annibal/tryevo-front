@@ -1,5 +1,6 @@
 import {
   Autocomplete,
+  Box,
   Button,
   Chip,
   CircularProgress,
@@ -216,10 +217,10 @@ const FormQualificacoes = ({
         )}
       />
       
-      <Stack sx={{ mt: 2 }} direction="row" spacing={2}>
+      <Box>
         {value.map((v, idx) => (
           <Fragment key={v?._id}>
-            <Chip label={v?.nome} onDelete={() => onChangeRemove(v)} />
+            <Chip label={v?.nome} onDelete={() => onChangeRemove(v)} sx={{ mr: 2, mt: 2 }} />
             <input
               type="hidden"
               name={`${name}[${idx}][_id]`}
@@ -227,7 +228,7 @@ const FormQualificacoes = ({
             />
           </Fragment>
         ))}
-      </Stack>
+      </Box>
 
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Criar Competência</DialogTitle>
