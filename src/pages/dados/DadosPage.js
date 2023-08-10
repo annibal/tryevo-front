@@ -12,6 +12,8 @@ import { useEffect, useState } from "react";
 import DadosPrincipaisForm from "./DadosPrincipaisForm";
 import { LoadingButton } from "@mui/lab";
 import formDataToObject from "../../utils/formDataToObject";
+import DadosObjetivosForm from "./DadosObjetivosForm";
+import DadosHabilidadesForm from "./DadosHabilidadesForm";
 
 const DadosPage = () => {
   const auth = useAuth();
@@ -40,6 +42,7 @@ const DadosPage = () => {
 
     try {
       let pfObj = formDataToObject(formData);
+      if (!pfObj.habilidades) pfObj.habilidades = []
       if (pfObj.endereco && Object.values(pfObj.endereco).every(value => value === '')) {
         delete pfObj.endereco;
       }
@@ -125,6 +128,19 @@ const DadosPage = () => {
             data={dados || {}}
             onChange={handleChange}
           />
+          <DadosObjetivosForm
+            data={dados || {}}
+            onChange={handleChange}
+          />
+
+          <Typography variant="h4" sx={{ mt: 6, mb: 6 }}>
+            Habilidades
+          </Typography>
+          <DadosHabilidadesForm
+            data={dados || {}}
+            onChange={handleChange}
+          />
+
           <DadosPessoaisForm
             data={dados || {}}
             onChange={handleChange}

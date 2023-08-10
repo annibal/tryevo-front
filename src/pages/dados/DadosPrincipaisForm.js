@@ -106,13 +106,23 @@ const DadosPrincipaisForm = ({ data, onChange }) => {
           />
         </Grid>
 
-        <Grid item xs={12}>
+        <Grid item xs={12} sm={4}>
           <FormCheckbox
             label="Portador de Deficiência"
-            name="isAleijado"
+            name="pcd"
             data={dados}
             onChange={handleChange}
           />
+        </Grid>
+        <Grid item xs={12} sm={8}>
+          {dados.pcd && (
+            <FormInput
+              label="Descrição da Deficiência"
+              name="pcdDescricao"
+              data={dados}
+              onChange={handleChange}
+            />
+          )}
         </Grid>
 
         <Grid item xs={12} sm={4}>

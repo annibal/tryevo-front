@@ -41,7 +41,6 @@ const ManageCBO = () => {
     setDadosEdit({});
   };
 
-
   const handleEditSubmit = (event) => {
     event.preventDefault();
     setLoadingEdit(true);

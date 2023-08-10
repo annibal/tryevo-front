@@ -2,12 +2,15 @@ import {
   Grid,
   Button,
   IconButton,
+  Box,
 } from "@mui/material";
 import { Fragment, useEffect, useState } from "react";
 import FormDatepicker from "../commons/form/FormDatepicker";
 import FormCheckbox from "../commons/form/FormCheckbox";
 import FormInput from "../commons/form/FormInput";
 import { Add, Delete } from "@mui/icons-material";
+import FormCBO from "../commons/form/FormCBO";
+import FormQualificacoes from "../commons/form/FormQualificacoes";
 
 // experienciasProfissionais: [
 //   {
@@ -75,8 +78,8 @@ const DadosExperienciaProfissionalForm = ({ data, onChange }) => {
       <Grid container spacing={2}>
         {dados.map((expProf, idx) => {
           return (
-            <Fragment key={idx}>
-              <Grid item xs={11}>
+            <Grid item xs={12} container spacing={2} key={idx} sx={{ mb: 5 }}>
+              <Grid item xs={10} sm={11}>
                 <FormInput
                   label={`Nome da Empresa ${idx + 1}`}
                   name={`experienciasProfissionais[${idx}][empresa]`}
@@ -85,10 +88,29 @@ const DadosExperienciaProfissionalForm = ({ data, onChange }) => {
                   onChange={(value) => updateItem(value, "empresa", idx)}
                 />
               </Grid>
-              <Grid item xs={1}>
+              <Grid item xs={2} sm={1} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <IconButton onClick={() => removeItem(idx)} tabIndex={-1}>
                   <Delete />
                 </IconButton>
+              </Grid>
+
+              <Grid item xs={12} sm={6}>
+                <FormCBO
+                  label={`Seu Cargo`}
+                  name={`experienciasProfissionais[${idx}][cargo]`}
+                  data={dados}
+                  getValue={() => expProf.cargo}
+                  onChange={(value) => updateItem(value, "cargo", idx)}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <FormInput
+                  label={`Ramo de Atividade da Empresa`}
+                  name={`experienciasProfissionais[${idx}][ramoAtividadeEmpresa]`}
+                  data={dados}
+                  getValue={() => expProf.ramoAtividadeEmpresa}
+                  onChange={(value) => updateItem(value, "ramoAtividadeEmpresa", idx)}
+                />
               </Grid>
 
               <Grid item xs={12}>
@@ -103,16 +125,7 @@ const DadosExperienciaProfissionalForm = ({ data, onChange }) => {
                 />
               </Grid>
 
-              <Grid item xs={12} sm={6}>
-                <FormInput
-                  label={`Ramo de Atividade`}
-                  name={`experienciasProfissionais[${idx}][cargo]`}
-                  data={dados}
-                  getValue={() => expProf.cargo}
-                  onChange={(value) => updateItem(value, "cargo", idx)}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={6} sm={4}>
                 <FormDatepicker
                   label="Início"
                   name={`experienciasProfissionais[${idx}][inicio]`}
@@ -121,8 +134,7 @@ const DadosExperienciaProfissionalForm = ({ data, onChange }) => {
                   onChange={(value) => updateItem(value, "inicio", idx)}
                 />
               </Grid>
-
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={6} sm={4} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <FormCheckbox
                   label="Trabalho Atual"
                   name={`experienciasProfissionais[${idx}][isAtual]`}
@@ -132,7 +144,7 @@ const DadosExperienciaProfissionalForm = ({ data, onChange }) => {
                 />
               </Grid>
 
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={6} sm={4}>
                 {!expProf.isAtual && (
                   <FormDatepicker
                     label="Fim"
@@ -143,7 +155,17 @@ const DadosExperienciaProfissionalForm = ({ data, onChange }) => {
                   />
                 )}
               </Grid>
-            </Fragment>
+
+              <Grid item xs={12}>
+                <FormQualificacoes
+                  label="Competências"
+                  name={`experienciasProfissionais[${idx}][qualificacoes]`}
+                  data={dados}
+                  getValue={() => expProf.qualificacoes}
+                  onChange={(value) => updateItem(value, "qualificacoes", idx)}
+                />
+              </Grid>
+            </Grid>
           );
         })}
 

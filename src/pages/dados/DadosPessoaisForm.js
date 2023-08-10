@@ -6,6 +6,7 @@ import {
 import ManyForm from "../commons/ManyForm";
 import { useEffect, useState } from "react";
 import FormSelect from "../commons/form/FormSelect";
+import FormInput from "../commons/form/FormInput";
 
 const DadosPessoaisForm = ({ data, onChange, loading }) => {
   const [dados, setDados] = useState(data || {});
@@ -67,20 +68,40 @@ const DadosPessoaisForm = ({ data, onChange, loading }) => {
         </Grid>
 
         <Grid item xs={12}>
-          <Typography variant="h6" sx={{ mt: 4, mb: 3 }}>
+          <Typography variant="h6" sx={{ mt: 4 }}>
             Documentos
           </Typography>
-          <ManyForm
-            label="Documento"
-            name="documentos"
+        </Grid>
+        <Grid item sm={6} xs={12}>
+          <FormInput
+            label="CPF"
+            name="cpf"
             data={dados}
             onChange={handleChange}
-            options={[
-              { value: "CPF", label: "CPF" },
-              { value: "RG", label: "RG" },
-              { value: "PASSAPORTE", label: "Passaporte" },
-              { value: "CNH", label: "CNH" },
-            ]}
+          />
+        </Grid>
+        <Grid item sm={6} xs={12}>
+          <FormInput
+            label="RG"
+            name="rg"
+            data={dados}
+            onChange={handleChange}
+          />
+        </Grid>
+        <Grid item sm={6} xs={12}>
+          <FormInput
+            label="Passaporte"
+            name="passaporte"
+            data={dados}
+            onChange={handleChange}
+          />
+        </Grid>
+        <Grid item sm={6} xs={12}>
+          <FormInput
+            label="CNH"
+            name="cnh"
+            data={dados}
+            onChange={handleChange}
           />
         </Grid>
 

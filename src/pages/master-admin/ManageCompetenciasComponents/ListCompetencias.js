@@ -39,7 +39,7 @@ const ListCompetencias = ({ onEdit, itemEdit }) => {
   };
   const handleDelete = (item) => {
     setListActionError(null);
-    doCall(`qualificacao/${item._id}`, { method: "DELTE" }).then(
+    doCall(`qualificacao/${item._id}`, { method: "DELETE" }).then(
       ({ error }) => {
         if (error) {
           setListActionError(error?.message || error);

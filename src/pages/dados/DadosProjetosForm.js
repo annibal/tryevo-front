@@ -98,13 +98,14 @@ const DadosProjetosForm = ({ data, onChange }) => {
                   onChange={(value) => updateItem(value, "quando", idx)}
                 />
               </Grid>
+              <Grid item xs={12} sx={{ mb: 3 }} />
             </Fragment>
           );
         })}
 
         <Grid item xs={12}>
           <Button variant="outlined" onClick={addItem} startIcon={<Add />}>
-            Adicionar Experiencia Profissional
+            Adicionar Projeto
           </Button>
         </Grid>
       </Grid>

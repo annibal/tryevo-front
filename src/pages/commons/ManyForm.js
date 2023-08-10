@@ -44,7 +44,7 @@ const ManyForm = ({
 
           return (
             <Fragment key={idx}>
-              <Grid item xs={7}>
+              <Grid item sm={7} xs={12}>
                 {valueOptions ? (
                   <FormSelect
                     label={`${label} ${strIdx}`}
@@ -66,7 +66,7 @@ const ManyForm = ({
                   />
                 )}
               </Grid>
-              <Grid item xs={4}>
+              <Grid item sm={4} xs={10}>
                 <FormSelect
                   label={strTipoLabel}
                   name={tipoName}
@@ -77,11 +77,12 @@ const ManyForm = ({
                   options={options}
                 />
               </Grid>
-              <Grid item xs={1} sx={{ display: "flex", alignItems: "center" }}>
+              <Grid item sm={1} xs={2} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <IconButton onClick={() => removeItem(idx)} tabIndex={-1}>
                   <Delete />
                 </IconButton>
               </Grid>
+              <Grid item xs={12} sx={{ mb: 2, display: { xs: 'block', sm: 'none' } }}/>
             </Fragment>
           );
         })}

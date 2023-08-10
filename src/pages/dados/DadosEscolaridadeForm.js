@@ -53,7 +53,7 @@ const DadosEscolaridadeForm = ({ data, onChange }) => {
       <Grid container spacing={2}>
         {dados.map((escolaridade, idx) => (
           <Fragment key={idx}>
-            <Grid item xs={11}>
+            <Grid item xs={10} sm={11}>
               <FormInput
                 label={`Nome da Instituição de Ensino ${idx + 1}`}
                 name={`escolaridades[${idx}][nome]`}
@@ -62,7 +62,7 @@ const DadosEscolaridadeForm = ({ data, onChange }) => {
                 onChange={(value) => updateItem(value, "nome", idx)}
               />
             </Grid>
-            <Grid item xs={1}>
+            <Grid item xs={2} sm={1} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <IconButton onClick={() => removeItem(idx)} tabIndex={-1}>
                 <Delete />
               </IconButton>
@@ -86,7 +86,9 @@ const DadosEscolaridadeForm = ({ data, onChange }) => {
                 ]}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={6} sx={{ display: { xs: 'none', sm: 'block' } }} />
+
+            <Grid item xs={6} sm={4}>
               <FormDatepicker
                 label="Início"
                 name={`escolaridades[${idx}][inicio]`}
@@ -96,7 +98,7 @@ const DadosEscolaridadeForm = ({ data, onChange }) => {
               />
             </Grid>
 
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={6} sm={4} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }} >
               <FormCheckbox
                 label="Completou"
                 name={`escolaridades[${idx}][isCompleto]`}
@@ -106,7 +108,7 @@ const DadosEscolaridadeForm = ({ data, onChange }) => {
               />
             </Grid>
 
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={6} sm={4}>
               {escolaridade.isCompleto && (
                 <FormDatepicker
                   label="Fim"
@@ -117,6 +119,7 @@ const DadosEscolaridadeForm = ({ data, onChange }) => {
                 />
               )}
             </Grid>
+            <Grid item xs={12} sx={{ mb: 3 }} />
           </Fragment>
         ))}
 
