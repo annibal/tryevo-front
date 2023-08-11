@@ -1,24 +1,24 @@
+import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import AddIcon from '@mui/icons-material/Add';
-import DeleteIcon from '@mui/icons-material/Delete';
 import { Button, Grid, IconButton } from "@mui/material";
 import { Fragment } from "react";
 import FormInput from "./form/FormInput";
 import FormSelect from "./form/FormSelect";
 
-const ManyForm = ({
+const ManyFormSingle = ({
   data,
   onChange,
   label,
   labelAdd,
   name,
+  getValue,
   type = "text",
-  tipoLabel,
   options,
-  valueOptions,
-  typeIsText = false,
-  typeType,
 }) => {
-  const items = data[name] || [];
+  const fnGetValue =
+    typeof getValue === "function" ? getValue : () => data[name] || '';
+
+  const items = fnGetValue();
 
   const removeItem = (itemIndex) => {
     const newItems = items.filter((i, idx) => idx !== itemIndex);
@@ -26,13 +26,13 @@ const ManyForm = ({
   };
 
   const addItem = () => {
-    const newItems = [...items, { valor: "", tipo: "" }];
+    const newItems = [...items, ""];
     onChange(newItems, name, data);
   };
 
-  const updateItem = (itemVal, itemName, itemIndex) => {
+  const updateItem = (itemVal, itemIndex) => {
     const newItems = items.map((item, idx) =>
-      idx === itemIndex ? { ...item, [itemName]: itemVal } : item
+      idx === itemIndex ? itemVal : item
     );
     onChange(newItems, name, data);
   };
@@ -41,63 +41,39 @@ const ManyForm = ({
   if (labelAdd) strBtnAddLabel = labelAdd;
 
   return (
-    <div className="many-form">
+    <div className="many-form-single">
       <Grid container spacing={2}>
         {(items || []).map((item, idx) => {
-          const valorName = `${name}[${idx}][valor]`;
-          const tipoName = `${name}[${idx}][tipo]`;
+          const valorName = `${name}[${idx}][value]`;
           const strIdx = `${idx + 1}`;
-          const strTipoLabel = tipoLabel ? tipoLabel : `Tipo de ${label}`;
 
           return (
             <Fragment key={idx}>
-              <Grid item sm={7} xs={12}>
-                {valueOptions ? (
+              <Grid item sm={11} xs={10}>
+                {options ? (
                   <FormSelect
                     label={`${label} ${strIdx}`}
                     name={valorName}
-                    getValue={() => item.valor}
+                    getValue={() => item}
                     data={item}
-                    onChange={(value) => updateItem(value, "valor", idx)}
+                    onChange={(value) => updateItem(value, idx)}
                     id={valorName}
-                    options={valueOptions}
+                    options={options}
                   />
                 ) : (
                   <FormInput
                     label={`${label} ${strIdx}`}
                     name={valorName}
-                    getValue={() => item.valor}
+                    getValue={() => item}
                     data={item}
-                    onChange={(value) => updateItem(value, "valor", idx)}
+                    onChange={(value) => updateItem(value, idx)}
                     type={type}
-                  />
-                )}
-              </Grid>
-              <Grid item sm={4} xs={10}>
-                {typeIsText ? (
-                  <FormInput
-                    label={strTipoLabel}
-                    name={tipoName}
-                    getValue={() => item.tipo}
-                    data={item}
-                    onChange={(value) => updateItem(value, "tipo", idx)}
-                    type={typeType}
-                  />
-                ) : (
-                  <FormSelect
-                    label={strTipoLabel}
-                    name={tipoName}
-                    getValue={() => item.tipo}
-                    data={item}
-                    onChange={(value) => updateItem(value, "tipo", idx)}
-                    id={tipoName}
-                    options={options}
                   />
                 )}
               </Grid>
               <Grid item sm={1} xs={2} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <IconButton onClick={() => removeItem(idx)} tabIndex={-1}>
-                  <DeleteIcon />
+                  <RemoveCircleOutlineIcon />
                 </IconButton>
               </Grid>
               <Grid item xs={12} sx={{ mb: 2, display: { xs: 'block', sm: 'none' } }}/>
@@ -114,4 +90,4 @@ const ManyForm = ({
   );
 };
 
-export default ManyForm;
+export default ManyFormSingle;

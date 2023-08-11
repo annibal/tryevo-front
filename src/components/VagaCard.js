@@ -14,7 +14,7 @@ import { ACCOUNT_FEATURES, useAuth } from "../base/AuthContext";
 
 const VagaCard = ({ _id, titulo, desc, qualificacoes, disableFavorite }) => {
   const auth = useAuth();
-  if (auth.loading) return '';
+  if (auth.loading) return "";
 
   const vagaUrl = `/app/${allRoutesData.vagas.path}${_id}/${titulo}`;
   const isFavorite = false;
@@ -25,7 +25,8 @@ const VagaCard = ({ _id, titulo, desc, qualificacoes, disableFavorite }) => {
     <Card>
       <CardHeader
         action={
-          auth.features[ACCOUNT_FEATURES.LOGGED] && !disableFavorite && (
+          auth.features[ACCOUNT_FEATURES.LOGGED] &&
+          !disableFavorite && (
             <IconButton
               aria-label="favorite"
               color={isFavorite ? "primary" : "default"}
@@ -40,13 +41,10 @@ const VagaCard = ({ _id, titulo, desc, qualificacoes, disableFavorite }) => {
         <Typography variant="body2" color="text.secondary">
           {desc}
         </Typography>
-        {qualificacoes?.length > 1 && (
-          <Stack direction="row" spacing={1}>
-            {qualificacoes.map((qualificacao) => (
-              <Chip label={qualificacao} />
-            ))}
-          </Stack>
-        )}
+        {qualificacoes?.length > 1 &&
+          qualificacoes.map((qualificacao) => (
+            <Chip label={qualificacao} sx={{ mr: 2, mt: 2 }} />
+          ))}
       </CardContent>
     </Card>
   );

@@ -1,18 +1,20 @@
 import { Link } from "react-router-dom";
 import allRoutesData from "../../../base/routes_data";
 import { Box, Button, Grid, Typography } from "@mui/material";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import UnpublishedIcon from "@mui/icons-material/Unpublished";
 import AddIcon from "@mui/icons-material/Add";
 import ResponseWrapper from "../../../components/ResponseWrapper";
 import useFetch from "../../../providers/useFetch";
-
-const vagasData = [
-  'Analista de Sistemas',
-  'Programador Web',
-  'Vendedor de Coxinha',
-]
+import SearchMinhasVagas from "./components/SearchMinhasVagas";
+import useUrlWithParams from "../../../components/useUrlWithParams";
 
 const MinhasVagasPage = () => {
-  const minhasVagasResponse = useFetch('GET', 'minhas-vagas');
+  const [searchDados, setSearchDados, minhasVagasUrl] = useUrlWithParams(
+    "minhas-vagas",
+    { from: 0, to: 30 }
+  );
+  const minhasVagasResponse = useFetch("GET", minhasVagasUrl);
 
   return (
     <Box>
@@ -25,7 +27,7 @@ const MinhasVagasPage = () => {
           variant="contained"
           color="success"
           LinkComponent={Link}
-          to={'/app/' + allRoutesData.pjNovaMinhaVaga.path}
+          to={"/app/" + allRoutesData.pjNovaMinhaVaga.path}
           startIcon={<AddIcon />}
         >
           Nova Vaga
@@ -33,11 +35,8 @@ const MinhasVagasPage = () => {
       </Box>
 
       <Grid container spacing={2}>
-        <Grid item xs>
-          <input type="search" placeholder="Buscar" />
-        </Grid>
-        <Grid item>
-          <button>Buscar</button>
+        <Grid item xs={12}>
+          <SearchMinhasVagas dados={searchDados} onSubmit={setSearchDados} />
         </Grid>
 
         <ResponseWrapper
@@ -45,22 +44,34 @@ const MinhasVagasPage = () => {
           list
           dataComponent={({ children }) => children}
           dataItemComponent={({ item }) => (
-            <Grid item xs={12}>
-              <Typography variant="h5">
-                <Link to={'/app/' + allRoutesData.pjMinhaVaga.path + item._id + '/' + item.titulo}>
-                  {item.titulo}
-                </Link>
-              </Typography>
-              <Typography>
-                {item.tipoContrato}
-              </Typography>
-              <Typography>
-                {item.desc}
-              </Typography>
+            <Grid item xs={12} container spacing={2}>
+              <Grid item xs>
+                <Typography variant="h5">
+                  <Link
+                    to={
+                      "/app/" +
+                      allRoutesData.pjMinhaVaga.path +
+                      item._id +
+                      "/" +
+                      item.titulo
+                    }
+                  >
+                    {item.titulo}
+                  </Link>
+                </Typography>
+                <Typography>{item.tipoContrato}</Typography>
+                <Typography>{item.desc}</Typography>
+              </Grid>
+              <Grid item>
+                {item.active ? (
+                  <CheckCircleIcon color="primary" />
+                  ) : (
+                  <UnpublishedIcon sx={{ opacity: 0.6 }} />
+                )}
+              </Grid>
             </Grid>
           )}
         />
-
       </Grid>
     </Box>
   );

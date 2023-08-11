@@ -2,29 +2,36 @@ import { Navigate, useParams } from "react-router-dom";
 import allRoutesData from "../../../base/routes_data";
 import DadosMinhaVagaForm from "./DadosMinhaVagaForm.js";
 import { useState } from "react";
+import useFetch from "../../../providers/useFetch";
+import { Box, Typography } from "@mui/material";
+import ResponseWrapper from "../../../components/ResponseWrapper";
 
 const EditarMinhaVagaPage = () => {
   let { vagaId, vagaNome } = useParams();
-  const [created, setCreated] = useState(false)
+  const [created, setCreated] = useState(false);
+  const vagaResponse = useFetch("GET", `vaga/${vagaId}`);
 
   const handleSubmit = () => {
     setCreated(true);
   }
 
   return (
-    <div>
-      <h2>Editar Vaga {vagaNome}</h2>
-      <p>- Em construção -</p>
-      <hr />
-      <br />
-      <br />
+    <Box>
+      <Box sx={{ mb: 6 }}>
+        <Typography variant="h3">{vagaNome}</Typography>
+        <Typography variant="caption">
+          Editando
+        </Typography>
+      </Box>
 
-      <DadosMinhaVagaForm data={{}} onSubmit={handleSubmit} />
+      <ResponseWrapper {...vagaResponse}>
+        <DadosMinhaVagaForm data={vagaResponse.data} onSubmit={handleSubmit} />
+      </ResponseWrapper>
 
       {created && (
         <Navigate to={'/app/' + allRoutesData.pjMinhaVaga.path + vagaId + '/' + vagaNome} />
       )}
-    </div>
+    </Box>
   );
 };
 

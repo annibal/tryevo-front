@@ -8,13 +8,15 @@ import { useState } from "react";
 
 const VagasPage = () => {
   const [dados, setDados] = useState({});
+  const [listUrl, setListUrl] = useState('vagas');
   const handleChange = (value, name, data) => {
     setDados({ ...data, [name]: value });
   };
   
-  const vagasResponse = useFetch('GET', 'vagas');
+  const vagasResponse = useFetch('GET', listUrl);
 
   const handleSubmit = (event) => {
+    setListUrl(`vagas?q=${dados.busca}`);
     event.preventDefault()
   }
 
