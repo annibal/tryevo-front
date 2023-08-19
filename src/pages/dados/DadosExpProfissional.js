@@ -24,7 +24,7 @@ import FormQualificacoes from "../commons/form/FormQualificacoes";
 //   },
 // ],
 
-const DadosExperienciaProfissionalForm = ({ data, onChange }) => {
+const DadosExpProfissional = ({ data, onChange }) => {
   const [dados, setDados] = useState(data?.experienciasProfissionais || []);
 
   useEffect(() => {
@@ -181,4 +181,4 @@ const DadosExperienciaProfissionalForm = ({ data, onChange }) => {
   );
 };
 
-export default DadosExperienciaProfissionalForm;
+export default DadosExpProfissional;

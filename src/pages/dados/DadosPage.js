@@ -15,7 +15,7 @@ import IdiomasForm from "./DadosIdiomasForm";
 import DadosEmpresaForm from "./DadosEmpresaForm";
 import DadosEnderecoForm from "./DadosEnderecoForm";
 import DadosEscolaridadeForm from "./DadosEscolaridadeForm";
-import DadosExperienciaProfissionalForm from "./DadosExperienciaProfissionalForm";
+import DadosExpProfissional from "./DadosExpProfissional";
 import DadosProjetosForm from "./DadosProjetosForm";
 import * as userInfoProvider from "../../providers/userInfoProvider";
 import { useEffect, useState } from "react";
@@ -24,6 +24,8 @@ import { LoadingButton } from "@mui/lab";
 import formDataToObject from "../../utils/formDataToObject";
 import DadosObjetivosForm from "./DadosObjetivosForm";
 import DadosHabilidadesForm from "./DadosHabilidadesForm";
+import DadosResumo from "./DadosResumo";
+import DadosCursosForm from "./DadosCursosForm";
 
 const DadosPage = () => {
   const auth = useAuth();
@@ -201,6 +203,18 @@ const DadosPage = () => {
   //   </Box>
   // );
 
+  // 1.	Dados Pessoais
+  // 2.	Contato e Documentos
+  // 3.	Endereço
+  // 4.	Objetivos
+  // 5.	Escolaridade
+  // 6.	Idiomas
+  // 7.	Resumo Profissional
+  // 8.	Experiencia Profissional
+  // 9.	Habilidades
+  // 10.	Cursos
+  // 11.	Projetos e Informações Complementares
+
   if (auth.features[ACCOUNT_FEATURES.PF]) {
     return (
       <Box sx={{ pt: 2 }}>
@@ -211,18 +225,6 @@ const DadosPage = () => {
             Dados Pessoais
           </Typography>
           <DadosPrincipaisForm data={dados || {}} onChange={handleChange} />
-
-          <Divider sx={{ mt: 6, mb: 2 }} />
-          <Typography variant="h4" sx={{ mb: 6 }}>
-            Objetivos
-          </Typography>
-          <DadosObjetivosForm data={dados || {}} onChange={handleChange} />
-
-          <Divider sx={{ mt: 6, mb: 2 }} />
-          <Typography variant="h4" sx={{ mb: 6 }}>
-            Habilidades
-          </Typography>
-          <DadosHabilidadesForm data={dados || {}} onChange={handleChange} />
 
           <Divider sx={{ mt: 6, mb: 2 }} />
           <Typography variant="h4" sx={{ mb: 6 }}>
@@ -238,9 +240,9 @@ const DadosPage = () => {
 
           <Divider sx={{ mt: 6, mb: 2 }} />
           <Typography variant="h4" sx={{ mb: 6 }}>
-            Idiomas
+            Objetivos
           </Typography>
-          <IdiomasForm data={dados} onChange={handleChange} />
+          <DadosObjetivosForm data={dados || {}} onChange={handleChange} />
 
           <Divider sx={{ mt: 6, mb: 2 }} />
           <Typography variant="h4" sx={{ mb: 6 }}>
@@ -250,22 +252,39 @@ const DadosPage = () => {
 
           <Divider sx={{ mt: 6, mb: 2 }} />
           <Typography variant="h4" sx={{ mb: 6 }}>
+            Idiomas
+          </Typography>
+          <IdiomasForm data={dados} onChange={handleChange} />
+
+          <Divider sx={{ mt: 6, mb: 2 }} />
+          <Typography variant="h4" sx={{ mb: 6 }}>
+            Resumo Profissional
+          </Typography>
+          <DadosResumo data={dados || {}} onChange={handleChange} />
+
+          <Divider sx={{ mt: 6, mb: 2 }} />
+          <Typography variant="h4" sx={{ mb: 6 }}>
+            Habilidades
+          </Typography>
+          <DadosHabilidadesForm data={dados || {}} onChange={handleChange} />
+
+          <Divider sx={{ mt: 6, mb: 2 }} />
+          <Typography variant="h4" sx={{ mb: 6 }}>
             Experiencia Profissional
           </Typography>
-          <DadosExperienciaProfissionalForm
-            data={dados}
-            onChange={handleChange}
-          />
+          <DadosExpProfissional data={dados} onChange={handleChange} />
+
+          <Divider sx={{ mt: 6, mb: 2 }} />
+          <Typography variant="h4" sx={{ mb: 6 }}>
+            Cursos
+          </Typography>
+          <DadosCursosForm data={dados} onChange={handleChange} />
 
           <Divider sx={{ mt: 6, mb: 2 }} />
           <Typography variant="h4" sx={{ mb: 6 }}>
             Projetos
           </Typography>
-          <DadosProjetosForm
-            data={dados}
-            onChange={handleChange}
-            loading={loading}
-          />
+          <DadosProjetosForm data={dados} onChange={handleChange} />
         </form>
       </Box>
     );

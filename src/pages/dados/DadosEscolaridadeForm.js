@@ -79,9 +79,9 @@ const DadosEscolaridadeForm = ({ data, onChange }) => {
                   { value: "FUNDAMENTAL", label: "Fundamental" },
                   { value: "ENSINO_MEDIO", label: "Ensino Médio" },
                   { value: "SUPERIOR", label: "Superior (Faculdade)" },
+                  { value: "POS_GRADUADO", label: "Pós Graduado" },
                   { value: "MESTRADO", label: "Mestrado" },
                   { value: "DOUTORADO", label: "Doutorado" },
-                  { value: "POS_DOUTORADO", label: "Pós Doutorado" },
                   { value: "MBA", label: "MBA" },
                 ]}
               />
