@@ -5,7 +5,7 @@ const DadosIdiomasForm = ({ data, onChange }) => {
   const [dados, setDados] = useState(data || {});
 
   useEffect(() => {
-    if (data) {
+    if (data && data.linguagens) {
       setDados(data);
     }
   }, [data]);

@@ -1,19 +1,17 @@
+import { Grid, Button, IconButton } from "@mui/material";
+import { Fragment, useEffect, useState } from "react";
+import FormInput from "../commons/form/FormInput";
+import { Add, Delete } from "@mui/icons-material";
+import FormDatepicker from "../commons/form/FormDatepicker";
+import FormCheckbox from "../commons/form/FormCheckbox";
 
-import { Grid, Button, IconButton } from '@mui/material';
-import { Fragment, useEffect, useState } from 'react';
-import FormInput from '../commons/form/FormInput';
-import { Add, Delete } from '@mui/icons-material';
-import FormDatepicker from '../commons/form/FormDatepicker';
-
-
-// cursos: [
-//   {
-//     titulo: "",
-//     url: "",
-//     descricao: "",
-//     quando: "",
-//   },
-// ],
+// Titulo do Curso (já tem)
+// Descrição do Curso (já tem)
+// Nome da Escola
+// Início (mês e ano)
+// Cursando (Sim/Não)
+// Carga Horária (Número de horas)
+// Possui Diploma (Sim/Não)
 
 const DadosCursosForm = ({ data, onChange }) => {
   const [dados, setDados] = useState(data?.cursos || []);
@@ -33,7 +31,15 @@ const DadosCursosForm = ({ data, onChange }) => {
   const addItem = () => {
     const newItems = [
       ...dados,
-      { titulo: "", descricao: "" },
+      {
+        titulo: "",
+        descricao: "",
+        nomeEscola: "",
+        inicio: "",
+        isCursando: false,
+        cargaHoraria: 0,
+        hasDiploma: false,
+      },
     ];
     setDados(newItems);
     onChange();
@@ -80,6 +86,73 @@ const DadosCursosForm = ({ data, onChange }) => {
                   rows={4}
                 />
               </Grid>
+
+              <Grid item xs={6}>
+                <FormInput
+                  label={`Nome da Escola`}
+                  name={`cursos[${idx}][nomeEscola]`}
+                  data={dados}
+                  getValue={() => curso.nomeEscola}
+                  onChange={(value) => updateItem(value, "nomeEscola", idx)}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <FormInput
+                  label={`Carga Horária`}
+                  name={`cursos[${idx}][cargaHoraria]`}
+                  data={dados}
+                  getValue={() => curso.cargaHoraria}
+                  onChange={(value) => updateItem(value, "cargaHoraria", idx)}
+                  type="number"
+                />
+              </Grid>
+
+              <Grid item xs={12} sm={4}>
+                <FormDatepicker
+                  label="Início"
+                  name={`cursos[${idx}][inicio]`}
+                  data={dados}
+                  getValue={() => curso.inicio}
+                  onChange={(value) => updateItem(value, "inicio", idx)}
+                />
+              </Grid>
+              <Grid
+                item
+                xs={6}
+                sm={4}
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <FormCheckbox
+                  label="Cursando"
+                  name={`cursos[${idx}][isCursando]`}
+                  data={dados}
+                  getValue={() => curso.isCursando}
+                  onChange={(value) => updateItem(value, "isCursando", idx)}
+                />
+              </Grid>
+              <Grid
+                item
+                xs={6}
+                sm={4}
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <FormCheckbox
+                  label="Tem Diploma"
+                  name={`cursos[${idx}][hasDiploma]`}
+                  data={dados}
+                  getValue={() => curso.hasDiploma}
+                  onChange={(value) => updateItem(value, "hasDiploma", idx)}
+                />
+              </Grid>
+
               <Grid item xs={12} sx={{ mb: 3 }} />
             </Fragment>
           );

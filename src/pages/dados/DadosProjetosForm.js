@@ -70,7 +70,7 @@ const DadosProjetosForm = ({ data, onChange }) => {
 
               <Grid item xs={12}>
                 <FormInput
-                  label={`Descrição do projeto`}
+                  label={`Informações Complementares`}
                   name={`projetosPessoais[${idx}][descricao]`}
                   data={dados}
                   getValue={() => projeto.descricao}

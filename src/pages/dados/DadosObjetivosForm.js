@@ -115,14 +115,19 @@ const DadosObjetivosForm = ({ data, onChange }) => {
                 onChange={(value) => updateItem(value, "jornada", idx)}
                 type="number"
                 options={[
-                  { value: "DIURNO", label: "Diurno" },
-                  { value: "VESPERTINO", label: "Vespertino" },
-                  { value: "NOTURNO", label: "Noturno" },
-                  {
-                    value: "HORARIO_DE_TRABALHO",
-                    label: "Horário de Trabalho",
-                  },
-                  { value: "ESCALA", label: "Escala" },
+                  // { value: "DIURNO", label: "Diurno" },
+                  // { value: "VESPERTINO", label: "Vespertino" },
+                  // { value: "NOTURNO", label: "Noturno" },
+                  // {
+                  //   value: "HORARIO_DE_TRABALHO",
+                  //   label: "Horário de Trabalho",
+                  // },
+                  // { value: "ESCALA", label: "Escala" },
+                  { value: "INTEGRAL", label: "Integral" },
+                  { value: "MANHA", label: "Manhã" },
+                  { value: "TARDE", label: "Tarde" },
+                  { value: "NOITE", label: "Noite" },
+                  { value: "ESCALA_DE_REVEZAMENTO", label: "Escala de Revezamento" },
                 ]}
               />
             </Grid>
