@@ -74,7 +74,7 @@ const WidgetPJ = ({ onClick }) => {
       </div>
       <div className="complete-seu-perfil">
         <Grid container>
-          <Grid item>Empresa:</Grid>
+          <Grid item>Empresa:&nbsp;</Grid>
           <Grid item xs>
             <div className="text-right">{completePercent}% completa</div>
           </Grid>

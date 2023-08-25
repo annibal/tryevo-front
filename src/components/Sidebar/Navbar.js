@@ -24,39 +24,39 @@ const LinkBehavior = forwardRef((props, ref) => {
   return <NavLink ref={ref} to={href} {...other} />;
 });
 
-const Sidebar = () => {
+const Navbar = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   let auth = useAuth();
   const userFeatures = auth?.features || {};
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [navbarOpen, setNavbarOpen] = useState(false);
   
-  // sidebar only for mobile now
-  if (!isMobile) return '';
+  // navbar only for > 600px
+  if (isMobile) return '';
 
-  const sidebarClassName = `sidebar${sidebarOpen ? " open" : ""}`;
+  const navbarClassName = `navbar`;
 
   // console.log(allRoutesArray.map(item => ({...item, userFeatures, allowed: (item.rules || []).every(rule => userFeatures[rule]), })))
 
   return (
-    <Box className={sidebarClassName}>
+    <Box className={navbarClassName}>
       <div
         className="logo-container"
-        onClick={() => setSidebarOpen(!sidebarOpen)}
+        onClick={() => setNavbarOpen(!navbarOpen)}
       >
         <img src={logoFull} alt="tryEvo" />
         <MenuIcon className="hamburguer" />
       </div>
 
       {userFeatures[ACCOUNT_FEATURES.PF] && (
-        <WidgetPF onClick={() => setSidebarOpen(false)} />
+        <WidgetPF onClick={() => setNavbarOpen(false)} />
       )}
 
       {userFeatures[ACCOUNT_FEATURES.PJ] && (
-        <WidgetPJ onClick={() => setSidebarOpen(false)} />
+        <WidgetPJ onClick={() => setNavbarOpen(false)} />
       )}
 
-      <List onClick={() => setSidebarOpen(false)}>
+      <List onClick={() => setNavbarOpen(false)}>
         {allRoutesArray.map((item) => {
           if ((item.rules || []).every((rule) => userFeatures[rule])) {
             return (
@@ -76,9 +76,9 @@ const Sidebar = () => {
         })}
       </List>
 
-      <div className="sidebar-bottom-spacer" />
+      <div className="navbar-bottom-spacer" />
     </Box>
   );
 };
 
-export default Sidebar;
+export default Navbar;

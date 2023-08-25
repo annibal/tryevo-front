@@ -84,7 +84,7 @@ const WidgetPF = ({ onClick }) => {
       </div>
       <div className="complete-seu-perfil">
         <Grid container>
-          <Grid item>Perfil:</Grid>
+          <Grid item>Perfil:&nbsp;</Grid>
           <Grid item xs>
             <div className="text-right">{completePercent}% completo</div>
           </Grid>
