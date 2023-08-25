@@ -17,6 +17,9 @@ const ManyForm = ({
   valueOptions,
   typeIsText = false,
   typeType,
+  invertOrder = false,
+  valorName = 'valor',
+  tipoName = 'tipo',
 }) => {
   const items = data[name] || [];
 
@@ -26,7 +29,7 @@ const ManyForm = ({
   };
 
   const addItem = () => {
-    const newItems = [...items, { valor: "", tipo: "" }];
+    const newItems = [...items, { [valorName]: "", [tipoName]: "" }];
     onChange(newItems, name, data);
   };
 
@@ -44,64 +47,64 @@ const ManyForm = ({
     <div className="many-form">
       <Grid container spacing={2}>
         {(items || []).map((item, idx) => {
-          const valorName = `${name}[${idx}][valor]`;
-          const tipoName = `${name}[${idx}][tipo]`;
+          const strValorName = `${name}[${idx}][${valorName}]`;
+          const strTipoName = `${name}[${idx}][${tipoName}]`;
           const strIdx = `${idx + 1}`;
           const strTipoLabel = tipoLabel ? tipoLabel : `Tipo de ${label}`;
 
           return (
-            <Fragment key={idx}>
-              <Grid item sm={7} xs={12}>
+            <Grid item xs={12} container spacing={2} key={idx}>
+              <Grid item sm={7} xs={12} order={invertOrder ? 2 : 1}>
                 {valueOptions ? (
                   <FormSelect
                     label={`${label} ${strIdx}`}
-                    name={valorName}
-                    getValue={() => item.valor}
+                    name={strValorName}
+                    getValue={() => item[valorName]}
                     data={item}
-                    onChange={(value) => updateItem(value, "valor", idx)}
-                    id={valorName}
+                    onChange={(value) => updateItem(value, valorName, idx)}
+                    id={strValorName}
                     options={valueOptions}
                   />
                 ) : (
                   <FormInput
                     label={`${label} ${strIdx}`}
-                    name={valorName}
-                    getValue={() => item.valor}
+                    name={strValorName}
+                    getValue={() => item[valorName]}
                     data={item}
-                    onChange={(value) => updateItem(value, "valor", idx)}
+                    onChange={(value) => updateItem(value, valorName, idx)}
                     type={type}
                   />
                 )}
               </Grid>
-              <Grid item sm={4} xs={10}>
+              <Grid item sm={4} xs={10} order={invertOrder ? 1 : 2}>
                 {typeIsText ? (
                   <FormInput
                     label={strTipoLabel}
-                    name={tipoName}
-                    getValue={() => item.tipo}
+                    name={strTipoName}
+                    getValue={() => item[tipoName]}
                     data={item}
-                    onChange={(value) => updateItem(value, "tipo", idx)}
+                    onChange={(value) => updateItem(value, tipoName, idx)}
                     type={typeType}
                   />
                 ) : (
                   <FormSelect
                     label={strTipoLabel}
-                    name={tipoName}
-                    getValue={() => item.tipo}
+                    name={strTipoName}
+                    getValue={() => item[tipoName]}
                     data={item}
-                    onChange={(value) => updateItem(value, "tipo", idx)}
-                    id={tipoName}
+                    onChange={(value) => updateItem(value, tipoName, idx)}
+                    id={strTipoName}
                     options={options}
                   />
                 )}
               </Grid>
-              <Grid item sm={1} xs={2} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <Grid item sm={1} xs={2} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }} order={3}>
                 <IconButton onClick={() => removeItem(idx)} tabIndex={-1}>
                   <DeleteIcon />
                 </IconButton>
               </Grid>
-              <Grid item xs={12} sx={{ mb: 2, display: { xs: 'block', sm: 'none' } }}/>
-            </Fragment>
+              <Grid item xs={12} sx={{ mb: 2, display: { xs: 'block', sm: 'none' } }} order={4}/>
+            </Grid>
           );
         })}
         <Grid item xs={12}>

@@ -254,6 +254,8 @@ const DadosMinhaVagaForm = ({ data, onSubmit }) => {
               name="beneficiosOferecidos"
               typeIsText
               typeType="number"
+              valorName="nome"
+              tipoName="valor"
               onChange={handleChange}
             />
           </Grid>
@@ -281,7 +283,7 @@ const DadosMinhaVagaForm = ({ data, onSubmit }) => {
           </Grid>
           <Grid item xs={12} sm={6}>
             <FormInput
-              label="Experiência Mínima"
+              label="Experiência Mínima (anos)"
               name="experiencia"
               data={dados}
               onChange={handleChange}
