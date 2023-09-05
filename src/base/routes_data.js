@@ -21,6 +21,14 @@ import SummarizeIcon from "@mui/icons-material/Summarize";
 import LocalOfferIcon from "@mui/icons-material/LocalOffer";
 import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 
+export const NAVBAR_PLACE = {
+  NONE: "NONE",
+  IS_LOGO: "IS_LOGO",
+  START_SIDE: "START_SIDE",
+  END_SIDE: "END_SIDE",
+  UNDER_USER: "UNDER_USER",
+};
+
 export const commonRoutes = {
   vagas: {
     priority: 302,
@@ -28,6 +36,9 @@ export const commonRoutes = {
     icon: <WorkIcon />,
     title: "Vagas",
     rules: [ACCOUNT_FEATURES.NOT_LOGGED],
+    navbar: {
+      place: NAVBAR_PLACE.NONE,
+    },
   },
   login: {
     priority: 300,
@@ -35,6 +46,9 @@ export const commonRoutes = {
     icon: <LoginIcon />,
     title: "Login",
     rules: [ACCOUNT_FEATURES.NOT_LOGGED],
+    navbar: {
+      place: NAVBAR_PLACE.END_SIDE,
+    },
   },
   esqueciSenha: {
     priority: 300,
@@ -42,6 +56,9 @@ export const commonRoutes = {
     icon: <LoginIcon />,
     title: "Esqueci a Senha",
     rules: [ACCOUNT_FEATURES.IGNORE_ON_SIDEBAR],
+    navbar: {
+      place: NAVBAR_PLACE.NONE,
+    },
   },
   criarConta: {
     priority: 301,
@@ -49,6 +66,9 @@ export const commonRoutes = {
     icon: <PersonAddIcon />,
     title: "Criar Conta",
     rules: [ACCOUNT_FEATURES.NOT_LOGGED],
+    navbar: {
+      place: NAVBAR_PLACE.END_SIDE,
+    },
   },
   sair: {
     priority: 999,
@@ -56,6 +76,9 @@ export const commonRoutes = {
     icon: <LogoutIcon />,
     title: "Logout",
     rules: [ACCOUNT_FEATURES.LOGGED],
+    navbar: {
+      place: NAVBAR_PLACE.UNDER_USER,
+    },
   },
   ajuda: {
     priority: 400,
@@ -64,6 +87,10 @@ export const commonRoutes = {
     title: "Ajuda",
     auth: false,
     rules: [ACCOUNT_FEATURES.NOT_LOGGED],
+    navbar: {
+      place: NAVBAR_PLACE.END_SIDE,
+      group: "Menu",
+    },
   },
   sobre: {
     priority: 400,
@@ -72,6 +99,10 @@ export const commonRoutes = {
     title: "Sobre",
     auth: false,
     rules: [ACCOUNT_FEATURES.NOT_LOGGED],
+    navbar: {
+      place: NAVBAR_PLACE.END_SIDE,
+      group: "Menu",
+    },
   },
   assinatura: {
     priority: 150,
@@ -80,6 +111,10 @@ export const commonRoutes = {
     title: "Assinaturas",
     auth: false,
     rules: [ACCOUNT_FEATURES.NOT_LOGGED],
+    navbar: {
+      place: NAVBAR_PLACE.END_SIDE,
+      group: "Menu",
+    },
   },
 };
 
@@ -90,6 +125,9 @@ export const pessoaFisicaRoutes = {
     icon: <DashboardIcon />,
     title: "Dashboard",
     rules: [ACCOUNT_FEATURES.LOGGED, ACCOUNT_FEATURES.PF],
+    navbar: {
+      place: NAVBAR_PLACE.IS_LOGO,
+    },
   },
   pfVagas: {
     priority: 102,
@@ -97,6 +135,9 @@ export const pessoaFisicaRoutes = {
     icon: <WorkIcon />,
     title: "Vagas",
     rules: [ACCOUNT_FEATURES.LOGGED, ACCOUNT_FEATURES.PF],
+    navbar: {
+      place: NAVBAR_PLACE.NONE,
+    },
   },
   pfVagasSalvas: {
     priority: 103,
@@ -104,7 +145,10 @@ export const pessoaFisicaRoutes = {
     icon: <BookmarksIcon />,
     title: "Vagas Salvas",
     rules: [ACCOUNT_FEATURES.LOGGED, ACCOUNT_FEATURES.PF],
-    endData: "vagasSalvas",
+    // endData: "vagasSalvas",
+    navbar: {
+      place: NAVBAR_PLACE.UNDER_USER,
+    },
   },
   pfDados: {
     priority: 101,
@@ -112,7 +156,10 @@ export const pessoaFisicaRoutes = {
     icon: <ManageAccountsIcon />,
     title: "Meus Dados",
     rules: [ACCOUNT_FEATURES.LOGGED, ACCOUNT_FEATURES.PF],
-    endData: "missingInfo",
+    // endData: "missingInfo",
+    navbar: {
+      place: NAVBAR_PLACE.UNDER_USER,
+    },
   },
   pfCandidaturas: {
     priority: 104,
@@ -120,7 +167,10 @@ export const pessoaFisicaRoutes = {
     icon: <HandshakeIcon />,
     title: "Candidaturas",
     rules: [ACCOUNT_FEATURES.LOGGED, ACCOUNT_FEATURES.PF],
-    endData: "activeProposals",
+    // endData: "activeProposals",
+    navbar: {
+      place: NAVBAR_PLACE.START_SIDE,
+    },
   },
   pfNovaCandidatura: {
     priority: 104,
@@ -132,6 +182,9 @@ export const pessoaFisicaRoutes = {
       ACCOUNT_FEATURES.PF,
       ACCOUNT_FEATURES.IGNORE_ON_SIDEBAR,
     ],
+    navbar: {
+      place: NAVBAR_PLACE.NONE,
+    },
   },
   pfConfiguracoes: {
     priority: 200,
@@ -139,7 +192,11 @@ export const pessoaFisicaRoutes = {
     icon: <SettingsIcon />,
     title: "Configurações",
     rules: [ACCOUNT_FEATURES.LOGGED, ACCOUNT_FEATURES.PF],
-    endData: "highlightSettings",
+    // endData: "highlightSettings",
+    navbar: {
+      place: NAVBAR_PLACE.END_SIDE,
+      group: "Menu",
+    },
   },
   pfAjuda: {
     priority: 400,
@@ -147,6 +204,10 @@ export const pessoaFisicaRoutes = {
     icon: <SupportIcon />,
     title: "Ajuda",
     rules: [ACCOUNT_FEATURES.LOGGED, ACCOUNT_FEATURES.PF],
+    navbar: {
+      place: NAVBAR_PLACE.END_SIDE,
+      group: "Menu",
+    },
   },
   pfSobre: {
     priority: 400,
@@ -154,6 +215,10 @@ export const pessoaFisicaRoutes = {
     icon: <InfoIcon />,
     title: "Sobre",
     rules: [ACCOUNT_FEATURES.LOGGED, ACCOUNT_FEATURES.PF],
+    navbar: {
+      place: NAVBAR_PLACE.END_SIDE,
+      group: "Menu",
+    },
   },
   pfAssinatura: {
     priority: 150,
@@ -161,6 +226,10 @@ export const pessoaFisicaRoutes = {
     icon: <PaymentsIcon />,
     title: "Assinaturas",
     rules: [ACCOUNT_FEATURES.LOGGED, ACCOUNT_FEATURES.PF],
+    navbar: {
+      place: NAVBAR_PLACE.END_SIDE,
+      group: "Menu",
+    },
   },
 };
 
@@ -171,6 +240,9 @@ export const pessoaJuridicaRoutes = {
     icon: <DashboardIcon />,
     title: "Dashboard",
     rules: [ACCOUNT_FEATURES.LOGGED, ACCOUNT_FEATURES.PJ],
+    navbar: {
+      place: NAVBAR_PLACE.IS_LOGO,
+    },
   },
   pjMinhasVagas: {
     priority: 102,
@@ -178,6 +250,9 @@ export const pessoaJuridicaRoutes = {
     icon: <BookmarksIcon />,
     title: "Minhas Vagas",
     rules: [ACCOUNT_FEATURES.LOGGED, ACCOUNT_FEATURES.PJ],
+    navbar: {
+      place: NAVBAR_PLACE.START_SIDE,
+    },
   },
   pjMinhaVaga: {
     priority: 102,
@@ -189,6 +264,9 @@ export const pessoaJuridicaRoutes = {
       ACCOUNT_FEATURES.PJ,
       ACCOUNT_FEATURES.IGNORE_ON_SIDEBAR,
     ],
+    navbar: {
+      place: NAVBAR_PLACE.NONE,
+    },
   },
   pjNovaMinhaVaga: {
     priority: 102,
@@ -200,6 +278,9 @@ export const pessoaJuridicaRoutes = {
       ACCOUNT_FEATURES.PJ,
       ACCOUNT_FEATURES.IGNORE_ON_SIDEBAR,
     ],
+    navbar: {
+      place: NAVBAR_PLACE.NONE,
+    },
   },
   pjEditarMinhaVaga: {
     priority: 102,
@@ -211,6 +292,9 @@ export const pessoaJuridicaRoutes = {
       ACCOUNT_FEATURES.PJ,
       ACCOUNT_FEATURES.IGNORE_ON_SIDEBAR,
     ],
+    navbar: {
+      place: NAVBAR_PLACE.NONE,
+    },
   },
   pjDados: {
     priority: 101,
@@ -218,6 +302,9 @@ export const pessoaJuridicaRoutes = {
     icon: <ManageAccountsIcon />,
     title: "Meus Dados",
     rules: [ACCOUNT_FEATURES.LOGGED, ACCOUNT_FEATURES.PJ],
+    navbar: {
+      place: NAVBAR_PLACE.UNDER_USER,
+    },
   },
   pjPropostasFeitas: {
     priority: 104,
@@ -225,6 +312,9 @@ export const pessoaJuridicaRoutes = {
     icon: <HandshakeIcon />,
     title: "Propostas",
     rules: [ACCOUNT_FEATURES.LOGGED, ACCOUNT_FEATURES.PJ],
+    navbar: {
+      place: NAVBAR_PLACE.START_SIDE,
+    },
   },
   pjPropostaFeita: {
     priority: 104,
@@ -236,6 +326,9 @@ export const pessoaJuridicaRoutes = {
       ACCOUNT_FEATURES.PJ,
       ACCOUNT_FEATURES.IGNORE_ON_SIDEBAR,
     ],
+    navbar: {
+      place: NAVBAR_PLACE.NONE,
+    },
   },
   pjConfiguracoes: {
     priority: 200,
@@ -243,6 +336,10 @@ export const pessoaJuridicaRoutes = {
     icon: <SettingsIcon />,
     title: "Configurações",
     rules: [ACCOUNT_FEATURES.LOGGED, ACCOUNT_FEATURES.PJ],
+    navbar: {
+      place: NAVBAR_PLACE.END_SIDE,
+      group: "Menu",
+    },
   },
   pjAjuda: {
     priority: 400,
@@ -250,6 +347,10 @@ export const pessoaJuridicaRoutes = {
     icon: <SupportIcon />,
     title: "Ajuda",
     rules: [ACCOUNT_FEATURES.LOGGED, ACCOUNT_FEATURES.PJ],
+    navbar: {
+      place: NAVBAR_PLACE.END_SIDE,
+      group: "Menu",
+    },
   },
   pjSobre: {
     priority: 400,
@@ -257,6 +358,10 @@ export const pessoaJuridicaRoutes = {
     icon: <InfoIcon />,
     title: "Sobre",
     rules: [ACCOUNT_FEATURES.LOGGED, ACCOUNT_FEATURES.PJ],
+    navbar: {
+      place: NAVBAR_PLACE.END_SIDE,
+      group: "Menu",
+    },
   },
   pjAssinatura: {
     priority: 150,
@@ -264,6 +369,10 @@ export const pessoaJuridicaRoutes = {
     icon: <PaymentsIcon />,
     title: "Assinaturas",
     rules: [ACCOUNT_FEATURES.LOGGED, ACCOUNT_FEATURES.PJ],
+    navbar: {
+      place: NAVBAR_PLACE.END_SIDE,
+      group: "Menu",
+    },
   },
 };
 
@@ -274,6 +383,9 @@ export const masterAdminRoutes = {
     icon: <HomeIcon />,
     title: "Master Admin Home",
     rules: [ACCOUNT_FEATURES.MASTER_ADMIN],
+    navbar: {
+      place: NAVBAR_PLACE.NONE,
+    },
   },
   masterAdminUsuarios: {
     priority: 101,
@@ -281,6 +393,10 @@ export const masterAdminRoutes = {
     icon: <AdminPanelSettingsIcon />,
     title: "Todos os Usuários",
     rules: [ACCOUNT_FEATURES.MASTER_ADMIN],
+    navbar: {
+      place: NAVBAR_PLACE.START_SIDE,
+      group: "Listas",
+    },
   },
   masterAdminUsuario: {
     priority: 101,
@@ -288,6 +404,9 @@ export const masterAdminRoutes = {
     icon: <AdminPanelSettingsIcon />,
     title: "Gerenciar Usuário",
     rules: [ACCOUNT_FEATURES.MASTER_ADMIN, ACCOUNT_FEATURES.IGNORE_ON_SIDEBAR],
+    navbar: {
+      place: NAVBAR_PLACE.NONE,
+    },
   },
   masterAdminHabilidades: {
     priority: 102,
@@ -295,6 +414,10 @@ export const masterAdminRoutes = {
     icon: <SummarizeIcon />,
     title: "Habilidades",
     rules: [ACCOUNT_FEATURES.MASTER_ADMIN],
+    navbar: {
+      place: NAVBAR_PLACE.START_SIDE,
+      group: "Cadastros",
+    },
   },
   masterAdminCBO: {
     priority: 103,
@@ -302,6 +425,10 @@ export const masterAdminRoutes = {
     icon: <ArticleIcon />,
     title: "CBOs",
     rules: [ACCOUNT_FEATURES.MASTER_ADMIN],
+    navbar: {
+      place: NAVBAR_PLACE.START_SIDE,
+      group: "Cadastros",
+    },
   },
   masterAdminCompetencias: {
     priority: 104,
@@ -309,6 +436,10 @@ export const masterAdminRoutes = {
     icon: <LocalOfferIcon />,
     title: "Competências",
     rules: [ACCOUNT_FEATURES.MASTER_ADMIN],
+    navbar: {
+      place: NAVBAR_PLACE.START_SIDE,
+      group: "Cadastros",
+    },
   },
 };
 

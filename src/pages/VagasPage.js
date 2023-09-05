@@ -22,41 +22,67 @@ const VagasPage = () => {
 
   return (
     <Box>
-      <form onSubmit={handleSubmit}>
-        <Grid container spacing={2} sx={{ mb: 4 }}>
-          <Grid item xs>
-            <FormInput
-              label="Buscar vagas"
-              name="busca"
-              placeholder="Buscar vagas"
-              data={dados}
-              onChange={handleChange}
-            />
-          </Grid>
-          <Grid item>
-            <Button
-              type="submit"
-              size="large"
-              disableElevation
-              variant="contained"
-              startIcon={<SearchIcon />}
-            >
-              Buscar
-            </Button>
-          </Grid>
-        </Grid>
-      </form>
+      <Grid container spacing={2}>
 
-      <ResponseWrapper
-        {...vagasResponse}
-        list
-        dataComponent={({ children }) => <Grid container spacing={2}>{children}</Grid>}
-        dataItemComponent={({ item }) => (
-          <Grid item xs={12}>
-            <VagaCard {...item} />
-          </Grid>
-        )}
-      />
+        <Grid item sm={8} xs={12} sx={{ order: { xs: 2, sm: 1}}}>
+          <ResponseWrapper
+            {...vagasResponse}
+            list
+            dataComponent={({ children }) => <Grid container spacing={2}>{children}</Grid>}
+            dataItemComponent={({ item }) => (
+              <Grid item xs={12}>
+                <VagaCard {...item} />
+              </Grid>
+            )}
+          />
+        </Grid>
+
+        <Grid item sm={4} xs={12} sx={{ order: { xs: 1, sm: 2}}}>
+          <form onSubmit={handleSubmit}>
+            <Grid container spacing={2} sx={{ mb: 4 }}>
+              <Grid item xs={12}>
+                <FormInput
+                  label="Filtros de Vagas"
+                  name="busca"
+                  placeholder="Filtros de vagas"
+                  data={dados}
+                  onChange={handleChange}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <FormInput
+                  label="Filtros de Vagas"
+                  name="busca"
+                  placeholder="Filtros de vagas"
+                  data={dados}
+                  onChange={handleChange}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <FormInput
+                  label="Filtros de Vagas"
+                  name="busca"
+                  placeholder="Filtros de vagas"
+                  data={dados}
+                  onChange={handleChange}
+                />
+              </Grid>
+              <Grid item>
+                <Button
+                  type="submit"
+                  size="large"
+                  disableElevation
+                  variant="contained"
+                  startIcon={<SearchIcon />}
+                >
+                  Buscar
+                </Button>
+              </Grid>
+            </Grid>
+          </form>
+        </Grid>
+
+      </Grid>
     </Box>
   );
 }

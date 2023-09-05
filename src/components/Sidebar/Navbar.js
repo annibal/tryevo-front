@@ -1,21 +1,28 @@
 import { forwardRef, useState } from "react";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { ACCOUNT_FEATURES, useAuth } from "../../base/AuthContext";
 import logoFull from "../../assets/logo-full.png";
 import MenuIcon from "@mui/icons-material/Menu";
 import { allRoutesArray } from "../../base/routes_data";
 import {
+  AppBar,
   Box,
+  Button,
+  Container,
+  Grid,
   List,
   ListItem,
   ListItemButton,
   ListItemIcon,
   ListItemText,
+  Toolbar,
   useMediaQuery,
 } from "@mui/material";
 import WidgetPF from "./WidgetPF";
 import WidgetPJ from "./WidgetPJ";
 import { useTheme } from "@emotion/react";
+import NavbarMenu from "./NavbarMenu";
+import NavbarSearch from "./NavbarSearch";
 
 // const fnClassName = ({ isActive }) => isActive ? "selected active" : ""
 
@@ -26,13 +33,13 @@ const LinkBehavior = forwardRef((props, ref) => {
 
 const Navbar = () => {
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   let auth = useAuth();
   const userFeatures = auth?.features || {};
   const [navbarOpen, setNavbarOpen] = useState(false);
-  
+
   // navbar only for > 600px
-  if (isMobile) return '';
+  if (isMobile) return "";
 
   const navbarClassName = `navbar`;
 
@@ -40,43 +47,63 @@ const Navbar = () => {
 
   return (
     <Box className={navbarClassName}>
-      <div
-        className="logo-container"
-        onClick={() => setNavbarOpen(!navbarOpen)}
-      >
-        <img src={logoFull} alt="tryEvo" />
-        <MenuIcon className="hamburguer" />
-      </div>
+      <AppBar color="inherit">
+        <Container maxWidth="lg">
+          <Toolbar variant="dense" disableGutters>
+            <Grid container spacing={0} wrap="nowrap">
 
-      {userFeatures[ACCOUNT_FEATURES.PF] && (
-        <WidgetPF onClick={() => setNavbarOpen(false)} />
-      )}
-
-      {userFeatures[ACCOUNT_FEATURES.PJ] && (
-        <WidgetPJ onClick={() => setNavbarOpen(false)} />
-      )}
-
-      <List onClick={() => setNavbarOpen(false)}>
-        {allRoutesArray.map((item) => {
-          if ((item.rules || []).every((rule) => userFeatures[rule])) {
-            return (
-              <ListItem disablePadding key={item.key}>
-                <ListItemButton
-                  component={LinkBehavior}
-                  to={`/app/${item.path}`}
+              <Grid item>
+                <Button
+                  LinkComponent={Link}
+                  to={'/'}
+                  className="navbar-logo"
                 >
-                  <ListItemIcon>{item.icon}</ListItemIcon>
-                  <ListItemText primary={item.title} />
-                </ListItemButton>
-              </ListItem>
-            );
-          }
+                  <img src={logoFull} alt="tryEvo" />
+                </Button>
+              </Grid>
+              <Grid item>
+                <Button
+                  size="large"
+                  className="navbar-button"
+                  LinkComponent={Link}
+                  to={'/'}
+                >
+                  Candidaturas
+                </Button>
+              </Grid>
+              <Grid item>
+                <Button
+                  size="large"
+                  className="navbar-button"
+                  LinkComponent={Link}
+                  to={'/'}
+                >
+                  Link 2
+                </Button>
+              </Grid>
 
-          return "";
-        })}
-      </List>
+              <Grid item xs>
+                <NavbarSearch />
+              </Grid>
+              
+              <Grid item>
+                <Button
+                  size="large"
+                  className="navbar-button"
+                  LinkComponent={Link}
+                  to={'/'}
+                >
+                  Link 2
+                </Button>
+              </Grid>
+              <Grid item>
+                <NavbarMenu />
+              </Grid>
 
-      <div className="navbar-bottom-spacer" />
+            </Grid>
+          </Toolbar>
+        </Container>
+      </AppBar>
     </Box>
   );
 };

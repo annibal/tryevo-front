@@ -10,16 +10,24 @@ theme = createTheme({
   palette: {
     primary: theme.palette.augmentColor({
       color: {
-        main: '#02617d',
+        main: "#02617d",
       },
     }),
     secondary: theme.palette.augmentColor({
       color: {
-        main: '#df9c10',
+        main: "#df9c10",
       },
     }),
   },
   components: {
+    MuiToolbar: {
+      styleOverrides: {
+        dense: {
+          height: 60,
+          minHeight: 60,
+        },
+      },
+    },
     MuiButton: {
       styleOverrides: {
         root: ({ ownerState }) => {
@@ -31,7 +39,7 @@ theme = createTheme({
           if (ownerState.size === "large") {
             return {
               padding: "14px 28px",
-              fontSize: '1rem',
+              fontSize: "1rem",
             };
           }
           // console.log(ownerState);
@@ -41,15 +49,16 @@ theme = createTheme({
     MuiAccordion: {
       styleOverrides: {
         root: {
-          '&.Mui-expanded': {
+          "&.Mui-expanded": {
             // margin: 0,
           },
-        }
-      }
-    }
+        },
+      },
+    },
   },
   ptBR,
 });
+console.log(theme)
 
 // console.log(theme)
 

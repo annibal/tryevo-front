@@ -22,12 +22,13 @@ a {
 a:hover {
   text-decoration: underline;
 }
-.page {
+/* .page {
   display: flex;
   padding-left: 300px;
-}
+} */
 .page-layout {
   display: flex;
+  padding-top: 80px;
 }
 
 .sidebar {
@@ -48,6 +49,20 @@ a:hover {
 }
 .sidebar-bottom-spacer {
   height: 30vh;
+}
+
+body .navbar-logo {
+  display: block;
+  height: 60px;
+  padding-inline-start: 1.5rem;
+  padding-inline-end: 1.5rem;
+  margin-inline-start: -1.5rem;
+}
+.navbar-logo img {
+  height: 100%;
+}
+.navbar-button {
+  height: 60px;
 }
 
 .logo-container {
@@ -121,11 +136,13 @@ nav li a:hover {
   text-decoration: none;
 }
 
-.content {
+.old-content {
   width: 100%;
   max-width: 1280px;
   padding: 10px;
   margin: 0 auto;
+}
+.content {
   padding-bottom: 30vh;
 }
 
@@ -244,7 +261,7 @@ body .hamburguer {
   max-height: 20vh;
   overflow: auto;
 }
-.page .floating-save-button {
+.page-layout .floating-save-button {
   left: 300px;
 }
 .floating-save-button .content {
@@ -270,13 +287,9 @@ body .hamburguer {
 
 
 @media (max-width: 600px) {
-  .page {
-    flex-wrap: wrap;
-    padding-left: 0;
-  }
-  
 
   .sidebar {
+    top: 0px;
     height: 70px;
     padding-bottom: 0;
     position: fixed;
@@ -284,10 +297,6 @@ body .hamburguer {
     max-width: 100%;
     transition: height .4s ease, padding-top .4s ease;
     overflow: hidden;
-  }
-
-  .content {
-    margin-top: 70px;
   }
 
   .sidebar.open {

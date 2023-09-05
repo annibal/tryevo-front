@@ -1,15 +1,16 @@
 import { Outlet } from "react-router-dom";
 import Sidebar from "../components/Sidebar/Sidebar";
 import Navbar from "../components/Sidebar/Navbar";
+import { Container } from "@mui/material";
 
 const PageLayout = () => {
   return (
     <div className="page-layout">
       <Sidebar />
       <Navbar />
-      <div className="content">
+      <Container className="content" maxWidth="lg">
         <Outlet />
-      </div>
+      </Container>
     </div>
   );
 }
