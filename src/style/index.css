@@ -310,6 +310,7 @@ body .hamburguer {
 }
 
 .floating-save-button {
+  padding: 8px;
   position: fixed;
   bottom: 0;
   background: #f3f7f7;
@@ -322,9 +323,9 @@ body .hamburguer {
   max-height: 20vh;
   overflow: auto;
 }
-.page-layout .floating-save-button {
+/* .page-layout .floating-save-button {
   left: 300px;
-}
+} */
 .floating-save-button .content {
   padding-bottom: 10px;
 }

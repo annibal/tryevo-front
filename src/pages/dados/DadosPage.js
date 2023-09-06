@@ -2,6 +2,9 @@ import {
   Box,
   Divider,
   Grid,
+  List,
+  ListItemButton,
+  ListItemText,
   Step,
   StepButton,
   StepContent,
@@ -27,16 +30,76 @@ import DadosHabilidadesForm from "./DadosHabilidadesForm";
 import DadosResumo from "./DadosResumo";
 import DadosCursosForm from "./DadosCursosForm";
 
+
+// return (
+//   <Box>
+//     <form onSubmit={handleSubmitPF}>
+//       <Stepper nonLinear activeStep={activeStep} orientation="vertical">
+//         <Step completed={completedSteps[0]}>
+//           <StepButton color="inherit" onClick={() => setActiveStep(0)}>
+//             Dados Principais
+//           </StepButton>
+//           <StepContent sx={{ pt: 4 }} >
+//             <DadosPrincipaisForm data={dados || {}} onChange={handleChange} />
+//             <Box sx={{ mt: 4 }}>{saveContent}</Box>
+//           </StepContent>
+//         </Step>
+
+//         <Step completed={completedSteps[1]}>
+//           <StepButton color="inherit" onClick={() => setActiveStep(1)}>
+//             Objetivos
+//           </StepButton>
+//           <StepContent sx={{ pt: 4 }} >
+//             <DadosObjetivosForm data={dados || {}} onChange={handleChange} />
+//             <Box sx={{ mt: 4 }}>{saveContent}</Box>
+//           </StepContent>
+//         </Step>
+
+//         <Step completed={completedSteps[2]}>
+//           <StepButton color="inherit" onClick={() => setActiveStep(2)}>
+//             Habilidades
+//           </StepButton>
+//           <StepContent sx={{ pt: 4 }} >
+//             <DadosHabilidadesForm data={dados || {}} onChange={handleChange} />
+//             <Box sx={{ mt: 4 }}>{saveContent}</Box>
+//           </StepContent>
+//         </Step>
+
+//         <Step completed={completedSteps[3]}>
+//           <StepButton color="inherit" onClick={() => setActiveStep(3)}>
+//             Dados Pessoais
+//           </StepButton>
+//           <StepContent sx={{ pt: 4 }} >
+//             <DadosPessoaisForm data={dados || {}} onChange={handleChange} />
+//             <Box sx={{ mt: 4 }}>{saveContent}</Box>
+//           </StepContent>
+//         </Step>
+
+//         <Step completed={completedSteps[4]}>
+//           <StepButton color="inherit" onClick={() => setActiveStep(4)}>
+//             Endereço
+//           </StepButton>
+//           <StepContent sx={{ pt: 4 }} >
+//             <DadosEnderecoForm data={dados} onChange={handleChange} />
+//             <Box sx={{ mt: 4 }}>{saveContent}</Box>
+//           </StepContent>
+//         </Step>
+//       </Stepper>
+//     </form>
+//   </Box>
+// );
+
 const DadosPage = () => {
   const auth = useAuth();
   const [dados, setDados] = useState(auth?.userInfo || {});
   const [loading, setLoading] = useState(false);
+  const [activeFormItem, setActiveFormItem] = useState([]);
   const [error, setError] = useState(null);
   const [hasChanges, setHasChanges] = useState(false);
   const [activeStep, setActiveStep] = useState(0);
   const [completedSteps, setCompletedSteps] = useState({});
 
-  console.log({ dados, hasChanges, loading, error, auth });
+  // console.log({ dados, hasChanges, loading, error, auth });
 
   useEffect(() => {
     if (auth?.userInfo) setDados(auth.userInfo);
@@ -45,6 +108,37 @@ const DadosPage = () => {
   const handleChange = () => {
     setHasChanges(true);
   };
+
+  let formItems = [];
+
+  const handleScroll = (event) => {
+
+    let activeItem = null;
+    for (let i=0; i<formItems.length; i++) {
+      const elm = document.getElementById(formItems[i].id)
+      if (elm) {
+        const y = elm.getBoundingClientRect().top;
+        if (y >= 0 && y <= window.innerHeight ) {
+          activeItem = i;
+          break;
+        }
+        if (y > window.innerHeight) {
+          activeItem = i - 1;
+          break;
+        }
+      }
+    }
+    setActiveFormItem(activeItem);
+  };
+  
+  useEffect(() => {
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [])
 
   //
 
@@ -145,146 +239,136 @@ const DadosPage = () => {
     </div>
   );
 
-  // return (
-  //   <Box>
-  //     <form onSubmit={handleSubmitPF}>
-  //       <Stepper nonLinear activeStep={activeStep} orientation="vertical">
-  //         <Step completed={completedSteps[0]}>
-  //           <StepButton color="inherit" onClick={() => setActiveStep(0)}>
-  //             Dados Principais
-  //           </StepButton>
-  //           <StepContent sx={{ pt: 4 }} >
-  //             <DadosPrincipaisForm data={dados || {}} onChange={handleChange} />
-  //             <Box sx={{ mt: 4 }}>{saveContent}</Box>
-  //           </StepContent>
-  //         </Step>
-
-  //         <Step completed={completedSteps[1]}>
-  //           <StepButton color="inherit" onClick={() => setActiveStep(1)}>
-  //             Objetivos
-  //           </StepButton>
-  //           <StepContent sx={{ pt: 4 }} >
-  //             <DadosObjetivosForm data={dados || {}} onChange={handleChange} />
-  //             <Box sx={{ mt: 4 }}>{saveContent}</Box>
-  //           </StepContent>
-  //         </Step>
-
-  //         <Step completed={completedSteps[2]}>
-  //           <StepButton color="inherit" onClick={() => setActiveStep(2)}>
-  //             Habilidades
-  //           </StepButton>
-  //           <StepContent sx={{ pt: 4 }} >
-  //             <DadosHabilidadesForm data={dados || {}} onChange={handleChange} />
-  //             <Box sx={{ mt: 4 }}>{saveContent}</Box>
-  //           </StepContent>
-  //         </Step>
-
-  //         <Step completed={completedSteps[3]}>
-  //           <StepButton color="inherit" onClick={() => setActiveStep(3)}>
-  //             Dados Pessoais
-  //           </StepButton>
-  //           <StepContent sx={{ pt: 4 }} >
-  //             <DadosPessoaisForm data={dados || {}} onChange={handleChange} />
-  //             <Box sx={{ mt: 4 }}>{saveContent}</Box>
-  //           </StepContent>
-  //         </Step>
-
-  //         <Step completed={completedSteps[4]}>
-  //           <StepButton color="inherit" onClick={() => setActiveStep(4)}>
-  //             Endereço
-  //           </StepButton>
-  //           <StepContent sx={{ pt: 4 }} >
-  //             <DadosEnderecoForm data={dados} onChange={handleChange} />
-  //             <Box sx={{ mt: 4 }}>{saveContent}</Box>
-  //           </StepContent>
-  //         </Step>
-  //       </Stepper>
-  //     </form>
-  //   </Box>
-  // );
-
-  // 1.	Dados Pessoais
-  // 2.	Contato e Documentos
-  // 3.	Endereço
-  // 4.	Objetivos
-  // 5.	Escolaridade
-  // 6.	Idiomas
-  // 7.	Resumo Profissional
-  // 8.	Experiencia Profissional
-  // 9.	Habilidades
-  // 10.	Cursos
-  // 11.	Projetos e Informações Complementares
-
   if (auth.features[ACCOUNT_FEATURES.PF]) {
+    formItems = [
+      {
+        id: "dados_pessoais",
+        title: "Dados Pessoais",
+        comp: DadosPrincipaisForm, // elm
+      },
+      {
+        id: "contato_documentos",
+        title: "Contato e Documentos",
+        comp: DadosPessoaisForm, // elm
+      },
+      {
+        id: "endereco",
+        title: "Endereço",
+        comp: DadosEnderecoForm, // elm
+      },
+      {
+        id: "objetivos",
+        title: "Objetivos",
+        comp: DadosObjetivosForm, // elm
+      },
+      {
+        id: "escolaridade",
+        title: "Escolaridade",
+        comp: DadosEscolaridadeForm, // elm
+      },
+      {
+        id: "idiomas",
+        title: "Idiomas",
+        comp: IdiomasForm, // elm
+      },
+      {
+        id: "resumo_profissional",
+        title: "Resumo Profissional",
+        comp: DadosResumo, // elm
+      },
+      {
+        id: "habilidades",
+        title: "Habilidades",
+        comp: DadosHabilidadesForm, // elm
+      },
+      {
+        id: "experiencia_profissional",
+        title: "Experiencia Profissional",
+        comp: DadosExpProfissional, // elm
+      },
+      {
+        id: "cursos",
+        title: "Cursos",
+        comp: DadosCursosForm, // elm
+      },
+      {
+        id: "projetos",
+        title: "Projetos",
+        comp: DadosProjetosForm, // elm
+      },
+    ];
+
     return (
       <Box sx={{ pt: 2 }}>
         <form onSubmit={handleSubmitPF}>
-          {saveBar}
-
-          <Typography variant="h4" sx={{ mb: 6 }}>
-            Dados Pessoais
-          </Typography>
-          <DadosPrincipaisForm data={dados || {}} onChange={handleChange} />
-
-          <Divider sx={{ mt: 6, mb: 2 }} />
-          <Typography variant="h4" sx={{ mb: 6 }}>
-            Contato e Documentos
-          </Typography>
-          <DadosPessoaisForm data={dados || {}} onChange={handleChange} />
-
-          <Divider sx={{ mt: 6, mb: 2 }} />
-          <Typography variant="h4" sx={{ mb: 6 }}>
-            Endereço
-          </Typography>
-          <DadosEnderecoForm data={dados} onChange={handleChange} />
-
-          <Divider sx={{ mt: 6, mb: 2 }} />
-          <Typography variant="h4" sx={{ mb: 6 }}>
-            Objetivos
-          </Typography>
-          <DadosObjetivosForm data={dados || {}} onChange={handleChange} />
-
-          <Divider sx={{ mt: 6, mb: 2 }} />
-          <Typography variant="h4" sx={{ mb: 6 }}>
-            Escolaridade
-          </Typography>
-          <DadosEscolaridadeForm data={dados} onChange={handleChange} />
-
-          <Divider sx={{ mt: 6, mb: 2 }} />
-          <Typography variant="h4" sx={{ mb: 6 }}>
-            Idiomas
-          </Typography>
-          <IdiomasForm data={dados} onChange={handleChange} />
-
-          <Divider sx={{ mt: 6, mb: 2 }} />
-          <Typography variant="h4" sx={{ mb: 6 }}>
-            Resumo Profissional
-          </Typography>
-          <DadosResumo data={dados || {}} onChange={handleChange} />
-
-          <Divider sx={{ mt: 6, mb: 2 }} />
-          <Typography variant="h4" sx={{ mb: 6 }}>
-            Habilidades
-          </Typography>
-          <DadosHabilidadesForm data={dados || {}} onChange={handleChange} />
-
-          <Divider sx={{ mt: 6, mb: 2 }} />
-          <Typography variant="h4" sx={{ mb: 6 }}>
-            Experiencia Profissional
-          </Typography>
-          <DadosExpProfissional data={dados} onChange={handleChange} />
-
-          <Divider sx={{ mt: 6, mb: 2 }} />
-          <Typography variant="h4" sx={{ mb: 6 }}>
-            Cursos
-          </Typography>
-          <DadosCursosForm data={dados} onChange={handleChange} />
-
-          <Divider sx={{ mt: 6, mb: 2 }} />
-          <Typography variant="h4" sx={{ mb: 6 }}>
-            Projetos
-          </Typography>
-          <DadosProjetosForm data={dados} onChange={handleChange} />
+          <Box sx={{ display: { sm: "none" } }}>{saveBar}</Box>
+          <Grid container spacing={2}>
+            <Grid
+              item
+              xs={12}
+              sm={4}
+              sx={{ display: { xs: "none", sm: "block" } }}
+            >
+              <Box sx={{ position: "sticky", top: "60px" }}>
+                <List component="nav">
+                  {formItems.map((formItem, idx) => (
+                    <ListItemButton
+                      component="a"
+                      href={`#${formItem.id}`}
+                      key={formItem.id}
+                      selected={idx === activeFormItem}
+                    >
+                      <ListItemText primary={formItem.title} />
+                    </ListItemButton>
+                  ))}
+                </List>
+                <Divider sx={{ mt: 0, mb: 2 }} />
+                {!loading && error && (
+                  <Box sx={{ pb: 2 }}>
+                    <Typography color="error">{String(error)}</Typography>
+                  </Box>
+                )}
+                <LoadingButton
+                  loading={loading}
+                  variant={hasChanges ? "contained" : "outlined"}
+                  color="primary"
+                  type="submit"
+                  fullWidth
+                >
+                  Salvar
+                </LoadingButton>
+              </Box>
+            </Grid>
+            <Grid item xs={12} sm={8}>
+              {formItems.map((formItem, idx) => {
+                const Comp = formItem.comp;
+                return (
+                  <>
+                    {idx > 0 ? (
+                      <>
+                        <div
+                          id={formItem.id}
+                          style={{ transform: "translateY(-12px)" }}
+                        />
+                        <Divider sx={{ mt: 6, mb: 2 }} />
+                      </>
+                    ) : (
+                      <>
+                        <div
+                          id={formItem.id}
+                          style={{ transform: "translateY(-80px)" }}
+                        />
+                      </>
+                    )}
+                    <Typography key={formItem.id} variant="h4" sx={{ mb: 6 }}>
+                      {formItem.title}
+                    </Typography>
+                    <Comp data={dados || {}} onChange={handleChange} />
+                  </>
+                );
+              })}
+            </Grid>
+          </Grid>
         </form>
       </Box>
     );
@@ -296,14 +380,14 @@ const DadosPage = () => {
         <form onSubmit={handleSubmitPJ}>
           {saveBar}
 
-          <Typography variant="h4" sx={{ mb: 6 }}>
+          <Typography id="dados_empresa" variant="h4" sx={{ mb: 6 }}>
             Dados da Empresa
           </Typography>
           <DadosEmpresaForm data={dados} onChange={handleChange} />
 
           <Divider sx={{ mt: 6, mb: 2 }} />
 
-          <Typography variant="h4" sx={{ mb: 6 }}>
+          <Typography id="endereco" variant="h4" sx={{ mb: 6 }}>
             Endereço
           </Typography>
           <DadosEnderecoForm data={dados} onChange={handleChange} />

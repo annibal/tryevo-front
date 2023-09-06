@@ -52,7 +52,7 @@ const DadosProjetosForm = ({ data, onChange }) => {
         {dados.map((projeto, idx) => {
           return (
             <Fragment key={idx}>
-              <Grid item xs={11}>
+              <Grid item xs={10}>
                 <FormInput
                   label={`Título do Projeto ${idx + 1}`}
                   name={`projetosPessoais[${idx}][titulo]`}
@@ -62,7 +62,7 @@ const DadosProjetosForm = ({ data, onChange }) => {
                   onChange={(value) => updateItem(value, "titulo", idx)}
                 />
               </Grid>
-              <Grid item xs={1}>
+              <Grid item xs={2}>
                 <IconButton onClick={() => removeItem(idx)} tabIndex={-1}>
                   <Delete />
                 </IconButton>
