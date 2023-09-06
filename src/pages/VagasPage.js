@@ -18,13 +18,13 @@ const VagasPage = () => {
 
   useEffect(() => {
     setListUrl(`vagas${q ? `?q=${q}` : ''}`);
-    handleChange(q, 'busca', dados)
+    handleChange(q, 'titulo', dados)
   }, [q])
 
   const vagasResponse = useFetch("GET", listUrl);
 
   const handleSubmit = (event) => {
-    setListUrl(`vagas?q=${dados.busca}`);
+    setListUrl(`vagas?q=${dados.titulo}`);
     event.preventDefault();
   };
 
@@ -49,42 +49,77 @@ const VagasPage = () => {
         </Grid>
 
         <Grid item sm={4} xs={12} sx={{ order: { xs: 1, sm: 2 } }}>
+          <Typography variant="h5" sx={{ mt: 1, mb: 2 }}>
+            Encontrar Vagas
+          </Typography>
           <form onSubmit={handleSubmit}>
             <Grid container spacing={2} sx={{ mb: 4 }}>
               <Grid item xs={12}>
                 <FormInput
-                  label="Filtros de Vagas"
-                  name="busca"
-                  placeholder="Filtros de vagas"
+                  label="Texto no título"
+                  name="titulo"
                   data={dados}
                   onChange={handleChange}
                 />
               </Grid>
               <Grid item xs={12}>
                 <FormInput
-                  label="Filtros de Vagas (Teste 2)"
-                  name="busca1"
-                  placeholder="Filtros de vagas"
+                  disabled
+                  label="Texto na descrição"
+                  name="desc"
+                  data={dados}
+                  onChange={handleChange}
+                />
+              </Grid>
+
+              <Grid item xs={6}>
+                <FormInput
+                  disabled
+                  type="number"
+                  label="Salário Base"
+                  name="salarioMin"
+                  data={dados}
+                  onChange={handleChange}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <FormInput
+                  disabled
+                  type="number"
+                  label="Salário Máximo"
+                  name="salarioMax"
+                  data={dados}
+                  onChange={handleChange}
+                />
+              </Grid>
+              
+              <Grid item xs={12}>
+                <FormInput
+                  disabled
+                  label="Tipo de Contrato"
+                  name="tipoContrato"
                   data={dados}
                   onChange={handleChange}
                 />
               </Grid>
               <Grid item xs={12}>
                 <FormInput
-                  label="Filtros de Vagas (Teste)"
-                  name="busca2"
-                  placeholder="Filtros de vagas"
+                  disabled
+                  label="Qualificações"
+                  name="qualificacoes"
                   data={dados}
                   onChange={handleChange}
                 />
               </Grid>
-              <Grid item>
+
+              <Grid item xs={12}>
                 <Button
                   type="submit"
                   size="large"
                   disableElevation
                   variant="contained"
                   startIcon={<SearchIcon />}
+                  sx={{ width: { xs: 'auto', sm: '100%' } }}
                 >
                   Buscar
                 </Button>
