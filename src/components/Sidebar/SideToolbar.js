@@ -40,7 +40,7 @@ const SideToolbar = ({ open, onClose }) => {
                 (item.rules || []).every((rule) => userFeatures[rule])
               ) {
                 return (
-                  <Tooltip placement="right" title={item.title}>
+                  <Tooltip placement="right" title={item.title} key={item.key}>
                     <ListItem
                       disablePadding
                       key={item.key}

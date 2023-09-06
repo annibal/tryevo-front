@@ -134,7 +134,7 @@ export const pessoaFisicaRoutes = {
     title: "Vagas",
     rules: [ACCOUNT_FEATURES.LOGGED, ACCOUNT_FEATURES.PF],
     navbar: {
-      place: NAVBAR_PLACE.NONE,
+      place: NAVBAR_PLACE.START_SIDE,
     },
   },
   pfVagasSalvas: {

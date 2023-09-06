@@ -22,7 +22,7 @@ import {
 } from "@mui/material";
 import { useTheme } from "@emotion/react";
 import NavbarMenu from "./NavbarMenu";
-import NavbarSearch from "./NavbarSearch";
+import NavbarSearchVagas from "./NavbarSearchVagas";
 import NavbarAccount from "./NavbarAccount";
 
 // const fnClassName = ({ isActive }) => isActive ? "selected active" : ""
@@ -152,11 +152,9 @@ const Navbar = ({ toolbarOpen, onSetToolbarOpen }) => {
               </Grid>
             ))}
 
-            <Grid item>
-              <NavbarSearch />
+            <Grid item xs>
+              {userFeatures[ACCOUNT_FEATURES.PF] && <NavbarSearchVagas />}
             </Grid>
-
-            <Grid item xs />
 
             {menusAtEnd.root
               .slice()

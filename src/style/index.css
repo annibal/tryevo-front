@@ -110,7 +110,12 @@ body .navbar-button .MuiButton-startIcon {
   height: 60px;
   display: flex;
   align-items: center;
+  justify-content: flex-end;
   margin-inline-start: 8px;
+}
+.navbar-search form {
+  flex: 1;
+  max-width: 600px;
 }
 
 body .side-toolbar {

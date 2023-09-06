@@ -88,7 +88,6 @@ const NavbarMenu = ({
         transformOrigin={{ horizontal, vertical: "top" }}
         anchorOrigin={{ horizontal, vertical: "bottom" }}
       >
-        {widget}
         {(items || []).map((item) => (
           <MenuItem
             onClick={handleClose}
@@ -102,6 +101,7 @@ const NavbarMenu = ({
             {item.title}
           </MenuItem>
         ))}
+        {widget}
       </Menu>
     </>
   );

@@ -4,31 +4,42 @@ import ResponseWrapper from "../components/ResponseWrapper";
 import VagaCard from "../components/VagaCard";
 import FormInput from "./commons/form/FormInput";
 import SearchIcon from "@mui/icons-material/Search";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 
 const VagasPage = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const q = searchParams.get('q');
   const [dados, setDados] = useState({});
-  const [listUrl, setListUrl] = useState('vagas');
+  const [listUrl, setListUrl] = useState(`vagas${q ? `?q=${q}` : ''}`);
   const handleChange = (value, name, data) => {
     setDados({ ...data, [name]: value });
   };
-  
-  const vagasResponse = useFetch('GET', listUrl);
+
+  useEffect(() => {
+    setListUrl(`vagas${q ? `?q=${q}` : ''}`);
+    handleChange(q, 'busca', dados)
+  }, [q])
+
+  const vagasResponse = useFetch("GET", listUrl);
 
   const handleSubmit = (event) => {
     setListUrl(`vagas?q=${dados.busca}`);
-    event.preventDefault()
-  }
+    event.preventDefault();
+  };
 
   return (
     <Box>
       <Grid container spacing={2}>
-
-        <Grid item sm={8} xs={12} sx={{ order: { xs: 2, sm: 1}}}>
+        <Grid item sm={8} xs={12} sx={{ order: { xs: 2, sm: 1 } }}>
           <ResponseWrapper
             {...vagasResponse}
             list
-            dataComponent={({ children }) => <Grid container spacing={2}>{children}</Grid>}
+            dataComponent={({ children }) => (
+              <Grid container spacing={2}>
+                {children}
+              </Grid>
+            )}
             dataItemComponent={({ item }) => (
               <Grid item xs={12}>
                 <VagaCard {...item} />
@@ -37,7 +48,7 @@ const VagasPage = () => {
           />
         </Grid>
 
-        <Grid item sm={4} xs={12} sx={{ order: { xs: 1, sm: 2}}}>
+        <Grid item sm={4} xs={12} sx={{ order: { xs: 1, sm: 2 } }}>
           <form onSubmit={handleSubmit}>
             <Grid container spacing={2} sx={{ mb: 4 }}>
               <Grid item xs={12}>
@@ -81,10 +92,9 @@ const VagasPage = () => {
             </Grid>
           </form>
         </Grid>
-
       </Grid>
     </Box>
   );
-}
+};
 
 export default VagasPage;
