@@ -1,11 +1,12 @@
-import { forwardRef, useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { ACCOUNT_FEATURES, useAuth } from "../../base/AuthContext";
 import logoFull from "../../assets/logo-full.png";
 import MenuIcon from "@mui/icons-material/Menu";
-import { allRoutesArray } from "../../base/routes_data";
+import FirstPageIcon from "@mui/icons-material/FirstPage";
+import { NAVBAR_PLACE, allRoutesArray } from "../../base/routes_data";
 import {
   AppBar,
+  Avatar,
   Box,
   Button,
   Container,
@@ -16,27 +17,21 @@ import {
   ListItemIcon,
   ListItemText,
   Toolbar,
+  Typography,
   useMediaQuery,
 } from "@mui/material";
-import WidgetPF from "./WidgetPF";
-import WidgetPJ from "./WidgetPJ";
 import { useTheme } from "@emotion/react";
 import NavbarMenu from "./NavbarMenu";
 import NavbarSearch from "./NavbarSearch";
+import NavbarAccount from "./NavbarAccount";
 
 // const fnClassName = ({ isActive }) => isActive ? "selected active" : ""
 
-const LinkBehavior = forwardRef((props, ref) => {
-  const { href, ...other } = props;
-  return <NavLink ref={ref} to={href} {...other} />;
-});
-
-const Navbar = () => {
+const Navbar = ({ toolbarOpen, onSetToolbarOpen }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   let auth = useAuth();
   const userFeatures = auth?.features || {};
-  const [navbarOpen, setNavbarOpen] = useState(false);
 
   // navbar only for > 600px
   if (isMobile) return "";
@@ -45,64 +40,159 @@ const Navbar = () => {
 
   // console.log(allRoutesArray.map(item => ({...item, userFeatures, allowed: (item.rules || []).every(rule => userFeatures[rule]), })))
 
+  let logoLink = "/";
+  const logoRoute = allRoutesArray.find(
+    (item) =>
+      item.navbar.place === NAVBAR_PLACE.IS_LOGO &&
+      (item.rules || []).every((rule) => userFeatures[rule])
+  );
+  if (logoRoute) {
+    logoLink = `/app/${logoRoute.path}`;
+  }
+
+  const menusAtStart = allRoutesArray
+    .filter(
+      (item) =>
+        item.navbar.place === NAVBAR_PLACE.START_SIDE &&
+        (item.rules || []).every((rule) => userFeatures[rule])
+    )
+    .reduce(
+      (all, curr) => {
+        if (curr.navbar.group) {
+          all.groups[curr.navbar.group] = [
+            ...(all.groups[curr.navbar.group] || []),
+            curr,
+          ];
+        } else {
+          all.root.push(curr);
+        }
+        return all;
+      },
+      { root: [], groups: {} }
+    );
+  const menusAtEnd = allRoutesArray
+    .filter(
+      (item) =>
+        item.navbar.place === NAVBAR_PLACE.END_SIDE &&
+        (item.rules || []).every((rule) => userFeatures[rule])
+    )
+    .reduce(
+      (all, curr) => {
+        if (curr.navbar.group) {
+          all.groups[curr.navbar.group] = [
+            ...(all.groups[curr.navbar.group] || []),
+            curr,
+          ];
+        } else {
+          all.root.push(curr);
+        }
+        return all;
+      },
+      { root: [], groups: {} }
+    );
+
+  // console.log(menusAtStart, menusAtEnd)
+
+  const hasToolbar =
+    allRoutesArray.filter(
+      (item) =>
+        item.navbar.place === NAVBAR_PLACE.TOOLBAR &&
+        (item.rules || []).every((rule) => userFeatures[rule])
+    ).length > 0;
+
   return (
     <Box className={navbarClassName}>
-      <AppBar color="inherit">
-        <Container maxWidth="lg">
-          <Toolbar variant="dense" disableGutters>
-            <Grid container spacing={0} wrap="nowrap">
+      <AppBar color="inherit" className="navbar-app-bar">
+        <Toolbar variant="dense" disableGutters>
+          <Grid container spacing={0} wrap="nowrap">
+            {hasToolbar && (
+              <Grid item>
+                <Button
+                  onClick={() => onSetToolbarOpen(!toolbarOpen)}
+                  className="navbar-button navbar-toggle-sidebar"
+                >
+                  {toolbarOpen ? <FirstPageIcon /> : <MenuIcon />}
+                </Button>
+              </Grid>
+            )}
 
-              <Grid item>
-                <Button
-                  LinkComponent={Link}
-                  to={'/'}
-                  className="navbar-logo"
-                >
-                  <img src={logoFull} alt="tryEvo" />
-                </Button>
-              </Grid>
-              <Grid item>
-                <Button
-                  size="large"
-                  className="navbar-button"
-                  LinkComponent={Link}
-                  to={'/'}
-                >
-                  Candidaturas
-                </Button>
-              </Grid>
-              <Grid item>
-                <Button
-                  size="large"
-                  className="navbar-button"
-                  LinkComponent={Link}
-                  to={'/'}
-                >
-                  Link 2
-                </Button>
-              </Grid>
-
-              <Grid item xs>
-                <NavbarSearch />
-              </Grid>
-              
-              <Grid item>
-                <Button
-                  size="large"
-                  className="navbar-button"
-                  LinkComponent={Link}
-                  to={'/'}
-                >
-                  Link 2
-                </Button>
-              </Grid>
-              <Grid item>
-                <NavbarMenu />
-              </Grid>
-
+            <Grid item>
+              <Button
+                LinkComponent={Link}
+                to={logoLink}
+                className="navbar-logo"
+              >
+                <img src={logoFull} alt="tryEvo" />
+              </Button>
             </Grid>
-          </Toolbar>
-        </Container>
+
+            {menusAtStart.root.map((item) => (
+              <Grid item key={item.key}>
+                <Button
+                  size="large"
+                  className="navbar-button"
+                  LinkComponent={Link}
+                  to={`/app/${item.path}`}
+                  startIcon={item.icon}
+                >
+                  {item.title}
+                </Button>
+              </Grid>
+            ))}
+            {Object.entries(menusAtStart.groups).map(([group, items]) => (
+              <Grid item key={group}>
+                <NavbarMenu
+                  horizontal="left"
+                  icon
+                  id={`start menu ${group}`}
+                  items={items}
+                >
+                  {group}
+                </NavbarMenu>
+              </Grid>
+            ))}
+
+            <Grid item>
+              <NavbarSearch />
+            </Grid>
+
+            <Grid item xs />
+
+            {menusAtEnd.root
+              .slice()
+              .reverse()
+              .map((item) => (
+                <Grid item key={item.key}>
+                  <Button
+                    size="large"
+                    className="navbar-button"
+                    LinkComponent={Link}
+                    to={`/app/${item.path}`}
+                    endIcon={item.icon}
+                  >
+                    {item.title}
+                  </Button>
+                </Grid>
+              ))}
+            {Object.entries(menusAtEnd.groups).map(([group, items]) => (
+              <Grid item key={group}>
+                <NavbarMenu
+                  icon
+                  id={`end menu ${group}`}
+                  items={items.slice().reverse()}
+                >
+                  {group}
+                </NavbarMenu>
+              </Grid>
+            ))}
+
+            {userFeatures[ACCOUNT_FEATURES.LOGGED] && (
+              <Grid item>
+                <NavbarAccount />
+              </Grid>
+            )}
+          </Grid>
+        </Toolbar>
       </AppBar>
     </Box>
   );

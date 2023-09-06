@@ -8,6 +8,7 @@ theme = createTheme({
     fontFamily: "Poppins, sans-serif",
   },
   palette: {
+    // mode: 'dark',
     primary: theme.palette.augmentColor({
       color: {
         main: "#02617d",

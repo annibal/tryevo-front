@@ -27,6 +27,7 @@ export const NAVBAR_PLACE = {
   START_SIDE: "START_SIDE",
   END_SIDE: "END_SIDE",
   UNDER_USER: "UNDER_USER",
+  TOOLBAR: "TOOLBAR",
 };
 
 export const commonRoutes = {
@@ -88,8 +89,7 @@ export const commonRoutes = {
     auth: false,
     rules: [ACCOUNT_FEATURES.NOT_LOGGED],
     navbar: {
-      place: NAVBAR_PLACE.END_SIDE,
-      group: "Menu",
+      place: NAVBAR_PLACE.TOOLBAR,
     },
   },
   sobre: {
@@ -100,8 +100,7 @@ export const commonRoutes = {
     auth: false,
     rules: [ACCOUNT_FEATURES.NOT_LOGGED],
     navbar: {
-      place: NAVBAR_PLACE.END_SIDE,
-      group: "Menu",
+      place: NAVBAR_PLACE.TOOLBAR,
     },
   },
   assinatura: {
@@ -112,8 +111,7 @@ export const commonRoutes = {
     auth: false,
     rules: [ACCOUNT_FEATURES.NOT_LOGGED],
     navbar: {
-      place: NAVBAR_PLACE.END_SIDE,
-      group: "Menu",
+      place: NAVBAR_PLACE.TOOLBAR,
     },
   },
 };
@@ -194,8 +192,7 @@ export const pessoaFisicaRoutes = {
     rules: [ACCOUNT_FEATURES.LOGGED, ACCOUNT_FEATURES.PF],
     // endData: "highlightSettings",
     navbar: {
-      place: NAVBAR_PLACE.END_SIDE,
-      group: "Menu",
+      place: NAVBAR_PLACE.TOOLBAR,
     },
   },
   pfAjuda: {
@@ -205,8 +202,7 @@ export const pessoaFisicaRoutes = {
     title: "Ajuda",
     rules: [ACCOUNT_FEATURES.LOGGED, ACCOUNT_FEATURES.PF],
     navbar: {
-      place: NAVBAR_PLACE.END_SIDE,
-      group: "Menu",
+      place: NAVBAR_PLACE.TOOLBAR,
     },
   },
   pfSobre: {
@@ -216,8 +212,7 @@ export const pessoaFisicaRoutes = {
     title: "Sobre",
     rules: [ACCOUNT_FEATURES.LOGGED, ACCOUNT_FEATURES.PF],
     navbar: {
-      place: NAVBAR_PLACE.END_SIDE,
-      group: "Menu",
+      place: NAVBAR_PLACE.TOOLBAR,
     },
   },
   pfAssinatura: {
@@ -227,8 +222,7 @@ export const pessoaFisicaRoutes = {
     title: "Assinaturas",
     rules: [ACCOUNT_FEATURES.LOGGED, ACCOUNT_FEATURES.PF],
     navbar: {
-      place: NAVBAR_PLACE.END_SIDE,
-      group: "Menu",
+      place: NAVBAR_PLACE.TOOLBAR,
     },
   },
 };
@@ -337,8 +331,7 @@ export const pessoaJuridicaRoutes = {
     title: "Configurações",
     rules: [ACCOUNT_FEATURES.LOGGED, ACCOUNT_FEATURES.PJ],
     navbar: {
-      place: NAVBAR_PLACE.END_SIDE,
-      group: "Menu",
+      place: NAVBAR_PLACE.TOOLBAR,
     },
   },
   pjAjuda: {
@@ -348,8 +341,7 @@ export const pessoaJuridicaRoutes = {
     title: "Ajuda",
     rules: [ACCOUNT_FEATURES.LOGGED, ACCOUNT_FEATURES.PJ],
     navbar: {
-      place: NAVBAR_PLACE.END_SIDE,
-      group: "Menu",
+      place: NAVBAR_PLACE.TOOLBAR,
     },
   },
   pjSobre: {
@@ -359,8 +351,7 @@ export const pessoaJuridicaRoutes = {
     title: "Sobre",
     rules: [ACCOUNT_FEATURES.LOGGED, ACCOUNT_FEATURES.PJ],
     navbar: {
-      place: NAVBAR_PLACE.END_SIDE,
-      group: "Menu",
+      place: NAVBAR_PLACE.TOOLBAR,
     },
   },
   pjAssinatura: {
@@ -370,8 +361,7 @@ export const pessoaJuridicaRoutes = {
     title: "Assinaturas",
     rules: [ACCOUNT_FEATURES.LOGGED, ACCOUNT_FEATURES.PJ],
     navbar: {
-      place: NAVBAR_PLACE.END_SIDE,
-      group: "Menu",
+      place: NAVBAR_PLACE.TOOLBAR,
     },
   },
 };

@@ -1,5 +1,3 @@
-import { forwardRef, useState } from "react";
-import { NavLink } from "react-router-dom";
 import { ACCOUNT_FEATURES, useAuth } from "../../base/AuthContext";
 import logoFull from "../../assets/logo-full.png";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -16,13 +14,10 @@ import {
 import WidgetPF from "./WidgetPF";
 import WidgetPJ from "./WidgetPJ";
 import { useTheme } from "@emotion/react";
+import { useState } from "react";
+import LinkBehavior from "../LinkBehavior";
 
 // const fnClassName = ({ isActive }) => isActive ? "selected active" : ""
-
-const LinkBehavior = forwardRef((props, ref) => {
-  const { href, ...other } = props;
-  return <NavLink ref={ref} to={href} {...other} />;
-});
 
 const Sidebar = () => {
   const theme = useTheme();
