@@ -62,8 +62,8 @@ const VagasPage = () => {
               </Grid>
               <Grid item xs={12}>
                 <FormInput
-                  label="Filtros de Vagas"
-                  name="busca"
+                  label="Filtros de Vagas (Teste 2)"
+                  name="busca1"
                   placeholder="Filtros de vagas"
                   data={dados}
                   onChange={handleChange}
@@ -71,8 +71,8 @@ const VagasPage = () => {
               </Grid>
               <Grid item xs={12}>
                 <FormInput
-                  label="Filtros de Vagas"
-                  name="busca"
+                  label="Filtros de Vagas (Teste)"
+                  name="busca2"
                   placeholder="Filtros de vagas"
                   data={dados}
                   onChange={handleChange}

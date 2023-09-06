@@ -1,6 +1,7 @@
 import { TextField } from "@mui/material";
+import { forwardRef } from "react";
 
-const FormInput = ({ label, name, data, onChange, getValue, ...restProps }) => {
+const FormInput = forwardRef( ({ label, name, data, onChange, getValue, ...restProps }, ref) => {
   const fnGetValue =
     typeof getValue === "function" ? getValue : () => data[name] || '';
 
@@ -8,6 +9,7 @@ const FormInput = ({ label, name, data, onChange, getValue, ...restProps }) => {
 
   return (
     <TextField
+      ref={ref}
       label={label}
       name={name}
       value={value}
@@ -16,6 +18,6 @@ const FormInput = ({ label, name, data, onChange, getValue, ...restProps }) => {
       {...restProps}
     />
   );
-};
+});
 
 export default FormInput;

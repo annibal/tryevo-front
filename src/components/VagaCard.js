@@ -4,7 +4,6 @@ import {
   CardHeader,
   Chip,
   IconButton,
-  Stack,
   Typography,
 } from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
@@ -43,7 +42,7 @@ const VagaCard = ({ _id, titulo, desc, qualificacoes, disableFavorite }) => {
         </Typography>
         {qualificacoes?.length > 1 &&
           qualificacoes.map((qualificacao) => (
-            <Chip label={qualificacao} sx={{ mr: 2, mt: 2 }} />
+            <Chip label={qualificacao} key={qualificacao} sx={{ mr: 2, mt: 2 }} />
           ))}
       </CardContent>
     </Card>

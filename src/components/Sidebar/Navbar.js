@@ -153,7 +153,7 @@ const Navbar = ({ toolbarOpen, onSetToolbarOpen }) => {
             ))}
 
             <Grid item xs>
-              {userFeatures[ACCOUNT_FEATURES.PF] && <NavbarSearchVagas />}
+              {userFeatures[ACCOUNT_FEATURES.PF] || userFeatures[ACCOUNT_FEATURES.NOT_LOGGED] && <NavbarSearchVagas />}
             </Grid>
 
             {menusAtEnd.root

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import FormInput from "../../pages/commons/form/FormInput";
 import { Box, IconButton, InputAdornment } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
@@ -9,17 +9,25 @@ import allRoutesData from "../../base/routes_data";
 const NavbarSearchVagas = () => {
   const navigate = useNavigate();
   const [searchText, setSearchText] = useState("");
+  const formInputRef = useRef();
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    navigate(`/app/${allRoutesData.pfVagas.path}?q=${searchText}`);
-    setSearchText("")
+    navigate(`/app/${allRoutesData.pfVagas.path}${searchText ? `?q=${searchText}` : ''}`);
+    // setSearchText("");
+    formInputRef.current.blur();
   };
+
+  const handleClear = () => {
+    setSearchText("");
+    formInputRef.current.focus();
+  }
 
   return (
     <Box className="navbar-search">
       <form onSubmit={handleSubmit}>
         <FormInput
+          inputRef={formInputRef}
           className="navbar-search-input"
           size="small"
           name="searchText"
@@ -27,22 +35,19 @@ const NavbarSearchVagas = () => {
           data={{ searchText }}
           onChange={(value) => setSearchText(value)}
           InputProps={{
+            onBlur: () => {},
             endAdornment: (
               <InputAdornment position="end">
                 {searchText?.length > 0 && (
                   <IconButton
                     type="button"
-                    onClick={() => setSearchText("")}
+                    onClick={handleClear}
                     tabIndex={500}
                   >
                     <ClearIcon />
                   </IconButton>
                 )}
-                <IconButton
-                  type="submit"
-                  edge="end"
-                  color="primary"
-                >
+                <IconButton type="submit" edge="end" color="primary">
                   <SearchIcon />
                 </IconButton>
               </InputAdornment>
