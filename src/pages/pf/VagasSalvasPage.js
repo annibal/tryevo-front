@@ -1,28 +1,37 @@
-import { Grid } from "@mui/material";
-import { Link } from "react-router-dom";
-
-const vagasSalvasData = [
-  3,
-  4,
-  7,
-]
+import { Box, Divider, Grid, Typography } from "@mui/material";
+import { useState } from "react";
+import useFetch from "../../providers/useFetch";
+import ResponseWrapper from "../../components/ResponseWrapper";
+import VagaCard from "../../components/VagaCard";
 
 const VagasSalvasPage = () => {
+  const [dados, setDados] = useState({});
+
+  const vagasSalvasResponse = useFetch("GET", '/vagas-salvas');
+
   return (
     <div className="vagas-salvas">
-      <h3>Vagas Salvas</h3>
+      <Box sx={{ mb: 4 }}>
+        <Typography variant="h4" sx={{ mb: 2}}>
+          Vagas Salvas
+        </Typography>
+        <Divider />
+      </Box>
       <Grid container>
-        {vagasSalvasData.map((item) => (
-          <Grid item xs={12} key={item}>
-            <div className="card">
-              <Link to={`/app/vaga/${item}`}>
-                <h4>Vaga {item}</h4>
-                <p>Descrição da vaga</p>
-                <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Beatae ipsam blanditiis error minus maxime voluptatum recusandae nobis dolores quia optio, dolor pariatur placeat modi natus suscipit architecto mollitia molestias assumenda.</p>
-              </Link>
-            </div>
-          </Grid>
-        ))}
+        <ResponseWrapper
+          {...vagasSalvasResponse}
+          list
+          dataComponent={({ children }) => (
+            <Grid container spacing={2}>
+              {children}
+            </Grid>
+          )}
+          dataItemComponent={({ item }) => (
+            <Grid item xs={12}>
+              <VagaCard vaga={item} />
+            </Grid>
+          )}
+        />
       </Grid>
     </div>
   );

@@ -202,6 +202,7 @@ export function AuthProvider({ children }) {
     logOut,
     invalidate,
     updateData,
+    setUserInfo,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

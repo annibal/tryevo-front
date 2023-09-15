@@ -42,7 +42,7 @@ const VagasPage = () => {
             )}
             dataItemComponent={({ item }) => (
               <Grid item xs={12}>
-                <VagaCard {...item} />
+                <VagaCard vaga={item} />
               </Grid>
             )}
           />
