@@ -62,7 +62,16 @@ const DadosEscolaridadeForm = ({ data, onChange }) => {
                 onChange={(value) => updateItem(value, "nome", idx)}
               />
             </Grid>
-            <Grid item xs={2} sm={1} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <Grid
+              item
+              xs={2}
+              sm={1}
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
               <IconButton onClick={() => removeItem(idx)} tabIndex={-1}>
                 <Delete />
               </IconButton>
@@ -86,39 +95,71 @@ const DadosEscolaridadeForm = ({ data, onChange }) => {
                 ]}
               />
             </Grid>
-            <Grid item xs={6} sx={{ display: { xs: 'none', sm: 'block' } }} />
-
-            <Grid item xs={6} sm={4}>
-              <FormDatepicker
-                label="Início"
-                name={`escolaridades[${idx}][inicio]`}
+            <Grid item xs={12} sm={6}>
+              <FormSelect
+                label="Status"
+                name={`escolaridades[${idx}][status]`}
                 data={dados}
-                getValue={() => escolaridade.inicio}
-                onChange={(value) => updateItem(value, "inicio", idx)}
+                getValue={() => escolaridade.status}
+                onChange={(value) => updateItem(value, "status", idx)}
+                options={[
+                  { value: "COMPLETO", label: "Completo" },
+                  { value: "CURSANDO", label: "Cursando" },
+                  { value: "INCOMPLETO", label: "Incompleto" },
+                ]}
               />
             </Grid>
 
-            <Grid item xs={6} sm={4} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }} >
-              <FormCheckbox
-                label="Completou"
-                name={`escolaridades[${idx}][isCompleto]`}
-                data={dados}
-                getValue={() => escolaridade.isCompleto}
-                onChange={(value) => updateItem(value, "isCompleto", idx)}
-              />
-            </Grid>
-
-            <Grid item xs={6} sm={4}>
-              {escolaridade.isCompleto && (
-                <FormDatepicker
-                  label="Fim"
-                  name={`escolaridades[${idx}][fim]`}
-                  data={dados}
-                  getValue={() => escolaridade.fim}
-                  onChange={(value) => updateItem(value, "fim", idx)}
+            {escolaridade.status === "COMPLETO" && (
+              <>
+                <Grid
+                  item
+                  xs={6}
+                  sx={{ display: { xs: "none", sm: "block" } }}
                 />
-              )}
-            </Grid>
+                <Grid item xs={6}>
+                  <FormDatepicker
+                    views={["year", "month"]}
+                    format="MMMM YYYY"
+                    label="Data de Conclusão"
+                    name={`escolaridades[${idx}][dataConclusao]`}
+                    data={dados}
+                    getValue={() => escolaridade.dataConclusao}
+                    onChange={(value) =>
+                      updateItem(value, "dataConclusao", idx)
+                    }
+                  />
+                </Grid>
+              </>
+            )}
+            {escolaridade.status === "CURSANDO" && (
+              <>
+                <Grid item xs={6}>
+                  <FormDatepicker
+                    views={["year", "month"]}
+                    format="MMMM YYYY"
+                    label="Data de Início"
+                    name={`escolaridades[${idx}][dataInicio]`}
+                    data={dados}
+                    getValue={() => escolaridade.dataInicio}
+                    onChange={(value) => updateItem(value, "dataInicio", idx)}
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <FormDatepicker
+                    views={["year", "month"]}
+                    format="MMMM YYYY"
+                    label="Previsão de Término"
+                    name={`escolaridades[${idx}][dataPrevisaoTermino]`}
+                    data={dados}
+                    getValue={() => escolaridade.dataPrevisaoTermino}
+                    onChange={(value) =>
+                      updateItem(value, "dataPrevisaoTermino", idx)
+                    }
+                  />
+                </Grid>
+              </>
+            )}
             <Grid item xs={12} sx={{ mb: 3 }} />
           </Fragment>
         ))}

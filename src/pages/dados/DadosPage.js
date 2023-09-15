@@ -277,14 +277,14 @@ const DadosPage = () => {
         comp: DadosResumo, // elm
       },
       {
-        id: "habilidades",
-        title: "Habilidades",
-        comp: DadosHabilidadesForm, // elm
-      },
-      {
         id: "experiencia_profissional",
         title: "Experiencia Profissional",
         comp: DadosExpProfissional, // elm
+      },
+      {
+        id: "habilidades",
+        title: "Habilidades",
+        comp: DadosHabilidadesForm, // elm
       },
       {
         id: "cursos",

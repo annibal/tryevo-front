@@ -15,7 +15,7 @@ const FormDatepicker = ({ label, name, data, onChange, getValue, ...restProps })
         label={label}
         value={value}
         onChange={(value) => onChange(value, name, data)}
-        fullWidth
+        slotProps={{ textField: { fullWidth: true } }}
         clearable
         inputVariant="outlined"
         format="DD/MM/YYYY"

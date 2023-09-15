@@ -11,7 +11,7 @@ const PropostaFeitaPage = () => {
       <p>Dados da vaga</p>
       <p>Dados da proposta</p>
       <p>Dados do cliente</p>
-      <button>Contratar</button>
+      <button className="nb-btn">Contratar</button>
     </div>
   );
 };

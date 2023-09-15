@@ -39,12 +39,14 @@ const DadosEnderecoForm = ({ data, onChange }) => {
         cepData.complemento = '';
       }
       setDados({
-        ...data,
+        ...dados,
         ...cepData
       })
     }
     setIsLoadingCEP(false);
   };
+
+  console.log(dados)
 
   return (
     <>
@@ -64,10 +66,10 @@ const DadosEnderecoForm = ({ data, onChange }) => {
           <FormInput
             label="País"
             name="endereco[pais]"
-            getValue={() => dados.pais}
+            getValue={() => "Brasil"}
             data={dados}
             onChange={(value, name, data) => handleChange(value, 'pais', data)}
-            disabled={isLoadingCEP}
+            disabled
           />
         </Grid>
         <Grid item xs={12} sm={6}>

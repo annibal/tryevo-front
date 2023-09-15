@@ -10,7 +10,7 @@ const NovaCandidaturaPage = () => {
       <p>para a vaga {vagaNome} #{vagaId}</p>
       <br />
       <Link to={'/app/' + allRoutesData.pfCandidaturas.path + (vagaId * 17) + '/' + vagaNome}>
-        <button>
+        <button className="nb-btn">
           Enviar
         </button>
       </Link>

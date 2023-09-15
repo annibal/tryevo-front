@@ -15,12 +15,14 @@ const FormSelect = ({
     typeof getValue === "function" ? getValue : () => data[name];
 
   let value = fnGetValue();
-  if (value === undefined) value = '';
+  if (value === undefined) value = "";
   const strId = id || name;
 
   return (
     <FormControl fullWidth>
-      <InputLabel id={`${strId}-label`}>{label}</InputLabel>
+      <InputLabel id={`${strId}-label`} shrink={!!value}>
+        {label}
+      </InputLabel>
       <Select
         labelId={`${strId}-label`}
         id={strId}

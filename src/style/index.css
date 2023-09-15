@@ -147,7 +147,7 @@ input {
   font-size: 1rem;
 }
 
-button {
+button.nb-btn {
   padding: 10px 30px;
   border: none;
   background: #02617d;
