@@ -84,12 +84,12 @@ const VagaPage = () => {
                       </a>
                     </Typography>
                   ))}
-                {vaga.empresa.telefones?.length > 0 &&
+                {/* {vaga.empresa.telefones?.length > 0 &&
                   vaga.empresa.telefones.map((telefone) => (
                     <Typography sx={{ mb: 2 }}>
                       {telefone.tipo}: {telefone.valor}
                     </Typography>
-                  ))}
+                  ))} */}
               </Box>
             )}
 
@@ -113,27 +113,27 @@ const VagaPage = () => {
                 Experiência Mínima: {vaga.experiencia} anos
               </Typography>
             )}
-            {vaga.salarioMinimo != null && (
+            {/* {vaga.salarioMinimo != null && (
               <Typography sx={{ mb: 2 }}>
                 Salário Base Oferecido: {(+vaga.salarioMinimo).toLocaleString()}
               </Typography>
-            )}
-            {vaga.salarioMaximo != null && (
+            )} */}
+            {/* {vaga.salarioMaximo != null && (
               <Typography sx={{ mb: 2 }}>
                 Salário Máximo Disponível:{" "}
                 {(+vaga.salarioMaximo).toLocaleString()}
               </Typography>
-            )}
-            {vaga.idadeMinima != null && (
+            )} */}
+            {/* {vaga.idadeMinima != null && (
               <Typography sx={{ mb: 2 }}>
                 Idade Mínima Exigida: {vaga.idadeMinima} anos
               </Typography>
-            )}
-            {vaga.idadeMaxima != null && (
+            )} */}
+            {/* {vaga.idadeMaxima != null && (
               <Typography sx={{ mb: 2 }}>
                 Idade Máxima Exigida: {vaga.idadeMaxima} anos
               </Typography>
-            )}
+            )} */}
             {vaga.tipoContrato && (
               <Typography sx={{ mb: 2 }}>
                 Tipo de Contrato: {vaga.tipoContrato}
@@ -162,11 +162,11 @@ const VagaPage = () => {
                 Escolaridade Mínima: {vaga.escolaridade}
               </Typography>
             )}
-            {vaga.genero && (
+            {/* {vaga.genero && (
               <Typography sx={{ mb: 2 }}>
                 Apenas para pessoas do Gênero {vaga.genero}
               </Typography>
-            )}
+            )} */}
             {vaga.linguagens?.length > 0 &&
               vaga.linguagens.map((idioma) => (
                 <Typography sx={{ mb: 2 }}>
