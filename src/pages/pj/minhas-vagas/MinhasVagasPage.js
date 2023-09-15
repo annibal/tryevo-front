@@ -1,6 +1,14 @@
 import { Link } from "react-router-dom";
 import allRoutesData from "../../../base/routes_data";
-import { Box, Button, Grid, Tooltip, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  CircularProgress,
+  Grid,
+  IconButton,
+  Tooltip,
+  Typography,
+} from "@mui/material";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import UnpublishedIcon from "@mui/icons-material/Unpublished";
 import AddIcon from "@mui/icons-material/Add";
@@ -9,13 +17,16 @@ import useFetch from "../../../providers/useFetch";
 import SearchMinhasVagas from "./components/SearchMinhasVagas";
 import useUrlWithParams from "../../../components/useUrlWithParams";
 import { DataGrid } from "@mui/x-data-grid";
+import { useState } from "react";
+import { doCall } from "../../../providers/baseProvider";
 
 const MinhasVagasPage = () => {
   const [searchDados, setSearchDados, minhasVagasUrl] = useUrlWithParams(
     "minhas-vagas",
-    { from: 0, to: 30 }
+    { from: 0, to: 30, cache: 0 }
   );
   const minhasVagasResponse = useFetch("GET", minhasVagasUrl);
+  const [toggleActiveLoading, setToggleActiveLoading] = useState(false);
 
   // '_id',
   // 'titulo',
@@ -27,35 +38,40 @@ const MinhasVagasPage = () => {
   // 'tipoContrato',
   // 'qualificacoes'
 
+  const handleSetActive = (id, active) => {
+    setToggleActiveLoading(id);
+    doCall(`vaga/${id}`, {
+      method: "POST",
+      body: {
+        active: active,
+      },
+    }).then((response) => {
+      if (response.error) {
+        // setActionError(response.error?.message || response.error);
+      } else {
+        setSearchDados({ cache: +new Date() });
+      }
+      setToggleActiveLoading(false);
+    });
+  };
+
   const columns = [
     {
       field: "_id",
       headerName: "ID",
       width: 90,
       renderCell: (params) => (
-        <Link
-          to={
-            "/app/" +
-            allRoutesData.pjMinhaVaga.path +
-            params.row._id
-          }
-        >
+        <Link to={"/app/" + allRoutesData.pjMinhaVaga.path + params.row._id}>
           {params.row._id}
         </Link>
-      )
+      ),
     },
     {
       field: "nome",
       headerName: "Nome",
       description: "Apelido, ou Título da Vaga",
       renderCell: (params) => (
-        <Link
-          to={
-            "/app/" +
-            allRoutesData.pjMinhaVaga.path +
-            params.row._id
-          }
-        >
+        <Link to={"/app/" + allRoutesData.pjMinhaVaga.path + params.row._id}>
           {params.row.apelido || params.row.titulo}
         </Link>
       ),
@@ -79,20 +95,43 @@ const MinhasVagasPage = () => {
     },
     {
       field: "active",
-      headerName: "Ativa",
+      headerName: "Status",
       width: 90,
       align: "center",
       headerAlign: "center",
-      renderCell: (params) =>
-        params.row.active ? (
-          <Tooltip title="Ativa">
-            <CheckCircleIcon color="primary" />
-          </Tooltip>
-        ) : (
-          <Tooltip title="Inativa">
-            <UnpublishedIcon sx={{ opacity: 0.6 }} />
-          </Tooltip>
-        ),
+      renderCell: (params) => {
+        return (
+          <Box sx={{ width: "50px" }}>
+            {toggleActiveLoading === params.row._id ? (
+              <>
+                <CircularProgress />
+              </>
+            ) : (
+              <>
+                {params.row.active ? (
+                  <Tooltip title="Ativa" placement="left">
+                    <IconButton
+                      aria-label="ativar"
+                      onClick={() => handleSetActive(params.row._id, false)}
+                    >
+                      <CheckCircleIcon color="primary" />
+                    </IconButton>
+                  </Tooltip>
+                ) : (
+                  <Tooltip title="Inativa" placement="left">
+                    <IconButton
+                      aria-label="inativar"
+                      onClick={() => handleSetActive(params.row._id, true)}
+                    >
+                      <UnpublishedIcon sx={{ opacity: 0.6 }} />
+                    </IconButton>
+                  </Tooltip>
+                )}
+              </>
+            )}
+          </Box>
+        );
+      },
     },
   ];
 

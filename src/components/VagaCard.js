@@ -15,7 +15,7 @@ const VagaCard = ({ _id, titulo, desc, qualificacoes, disableFavorite }) => {
   const auth = useAuth();
   if (auth.loading) return "";
 
-  const vagaUrl = `/app/${allRoutesData.vagas.path}${_id}/${titulo}`;
+  const vagaUrl = `/app/${allRoutesData.vagas.path}${_id}/${encodeURIComponent(titulo)}`;
   const isFavorite = false;
 
   // subheader="September 14, 2016"

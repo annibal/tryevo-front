@@ -163,6 +163,7 @@ const Navbar = ({ toolbarOpen, onSetToolbarOpen }) => {
                 <Grid item key={item.key}>
                   <Button
                     size="large"
+                    variant={item.navbar?.highlight ? "contained" : "text"}
                     className="navbar-button"
                     LinkComponent={Link}
                     to={`/app/${item.path}`}

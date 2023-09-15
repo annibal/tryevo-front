@@ -49,6 +49,7 @@ export const commonRoutes = {
     rules: [ACCOUNT_FEATURES.NOT_LOGGED],
     navbar: {
       place: NAVBAR_PLACE.END_SIDE,
+      highlight: true,
     },
   },
   esqueciSenha: {
