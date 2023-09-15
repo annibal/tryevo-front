@@ -25,6 +25,8 @@ const DadosIdiomasForm = ({ data, onChange }) => {
       tipoLabel="Fluência do Idioma"
       name="linguagens"
       onChange={handleChange}
+      tipoRequired={true}
+      valorRequired={true}
       valueOptions={[
         { value: "Portugues", label: "Portugues" },
         { value: "Inglês", label: "Inglês" },

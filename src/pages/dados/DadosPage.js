@@ -21,7 +21,7 @@ import DadosEscolaridadeForm from "./DadosEscolaridadeForm";
 import DadosExpProfissional from "./DadosExpProfissional";
 import DadosProjetosForm from "./DadosProjetosForm";
 import * as userInfoProvider from "../../providers/userInfoProvider";
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import DadosPrincipaisForm from "./DadosPrincipaisForm";
 import { LoadingButton } from "@mui/lab";
 import formDataToObject from "../../utils/formDataToObject";
@@ -343,7 +343,7 @@ const DadosPage = () => {
               {formItems.map((formItem, idx) => {
                 const Comp = formItem.comp;
                 return (
-                  <>
+                  <Fragment key={formItem.id}>
                     {idx > 0 ? (
                       <>
                         <div
@@ -364,7 +364,7 @@ const DadosPage = () => {
                       {formItem.title}
                     </Typography>
                     <Comp data={dados || {}} onChange={handleChange} />
-                  </>
+                  </Fragment>
                 );
               })}
             </Grid>

@@ -7,6 +7,7 @@ import ManyForm from "../commons/ManyForm";
 import { useEffect, useState } from "react";
 import FormSelect from "../commons/form/FormSelect";
 import FormInput from "../commons/form/FormInput";
+import FormMaskedInput from "../commons/form/FormMaskedInput";
 
 const DadosPessoaisForm = ({ data, onChange, loading }) => {
   const [dados, setDados] = useState(data || {});
@@ -34,6 +35,9 @@ const DadosPessoaisForm = ({ data, onChange, loading }) => {
             label="Telefone"
             name="telefones"
             type="phone"
+            valorMask="PHONE"
+            tipoRequired={true}
+            valorRequired={true}
             data={dados}
             onChange={handleChange}
             options={[
@@ -55,6 +59,8 @@ const DadosPessoaisForm = ({ data, onChange, loading }) => {
             name="links"
             data={dados}
             onChange={handleChange}
+            tipoRequired={true}
+            valorRequired={true}
             options={[
               { value: "WEBSITE", label: "Web Site" },
               { value: "LINKEDIN", label: "LinkedIn" },
@@ -73,32 +79,40 @@ const DadosPessoaisForm = ({ data, onChange, loading }) => {
           </Typography>
         </Grid>
         <Grid item sm={6} xs={12}>
-          <FormInput
+          <FormMaskedInput
             label="CPF"
+            maskType="CPF"
+            placeholder="000.000.000-00"
             name="cpf"
             data={dados}
             onChange={handleChange}
           />
         </Grid>
         <Grid item sm={6} xs={12}>
-          <FormInput
+          <FormMaskedInput
             label="RG"
+            maskType="RG"
+            placeholder="00.000.000-X"
             name="rg"
             data={dados}
             onChange={handleChange}
           />
         </Grid>
         <Grid item sm={6} xs={12}>
-          <FormInput
+          <FormMaskedInput
             label="Passaporte"
+            maskType="PASSPORT"
+            placeholder="AA000000"
             name="passaporte"
             data={dados}
             onChange={handleChange}
           />
         </Grid>
         <Grid item sm={6} xs={12}>
-          <FormInput
+          <FormMaskedInput
             label="CNH"
+            maskType="CNH"
+            placeholder="0000.00000-00"
             name="cnh"
             data={dados}
             onChange={handleChange}

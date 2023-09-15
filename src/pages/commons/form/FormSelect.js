@@ -24,7 +24,7 @@ const FormSelect = ({
         {label}
       </InputLabel>
       <Select
-        labelId={`${strId}-label`}
+        // labelId={`${strId}-label`}
         id={strId}
         label={label}
         name={name}

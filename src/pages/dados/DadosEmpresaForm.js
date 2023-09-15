@@ -4,6 +4,7 @@ import {
 import { useEffect, useState } from "react";
 import FormInput from "../commons/form/FormInput";
 import ManyForm from "../commons/ManyForm";
+import FormMaskedInput from "../commons/form/FormMaskedInput";
 
 const DadosEmpresaForm = ({ data, onChange }) => {
   const [dados, setDados] = useState(data || {});
@@ -95,16 +96,18 @@ const DadosEmpresaForm = ({ data, onChange }) => {
           </Typography>
         </Grid>
         <Grid item xs={12}>
-          <FormInput
+          <FormMaskedInput
             label="CNPJ"
+            maskType="CNPJ"
             name="cnpj"
             data={dados}
             onChange={handleChange}
           />
         </Grid>
         <Grid item xs={12}>
-          <FormInput
+          <FormMaskedInput
             label="Inscrição Estadual"
+            maskType="INSCRICAO_ESTADUAL"
             name="inscricaoEstadual"
             data={dados}
             onChange={handleChange}

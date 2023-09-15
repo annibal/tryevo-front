@@ -4,6 +4,7 @@ import { Button, Grid, IconButton } from "@mui/material";
 import { Fragment } from "react";
 import FormInput from "./form/FormInput";
 import FormSelect from "./form/FormSelect";
+import FormMaskedInput from './form/FormMaskedInput';
 
 const ManyForm = ({
   data,
@@ -20,6 +21,10 @@ const ManyForm = ({
   invertOrder = false,
   valorName = 'valor',
   tipoName = 'tipo',
+  valorMask,
+  tipoMask,
+  valorRequired = false,
+  tipoRequired = false,
 }) => {
   const items = data[name] || [];
 
@@ -64,27 +69,32 @@ const ManyForm = ({
                     onChange={(value) => updateItem(value, valorName, idx)}
                     id={strValorName}
                     options={valueOptions}
+                    required={valorRequired}
                   />
                 ) : (
-                  <FormInput
+                  <FormMaskedInput
                     label={`${label} ${strIdx}`}
                     name={strValorName}
+                    maskType={valorMask}
                     getValue={() => item[valorName]}
                     data={item}
                     onChange={(value) => updateItem(value, valorName, idx)}
                     type={type}
+                    required={valorRequired}
                   />
                 )}
               </Grid>
               <Grid item sm={4} xs={10} order={invertOrder ? 1 : 2}>
                 {typeIsText ? (
-                  <FormInput
+                  <FormMaskedInput
                     label={strTipoLabel}
                     name={strTipoName}
+                    maskType={tipoMask}
                     getValue={() => item[tipoName]}
                     data={item}
                     onChange={(value) => updateItem(value, tipoName, idx)}
                     type={typeType}
+                    required={tipoRequired}
                   />
                 ) : (
                   <FormSelect
@@ -95,6 +105,7 @@ const ManyForm = ({
                     onChange={(value) => updateItem(value, tipoName, idx)}
                     id={strTipoName}
                     options={options}
+                    required={tipoRequired}
                   />
                 )}
               </Grid>
