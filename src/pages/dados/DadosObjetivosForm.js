@@ -22,13 +22,16 @@ const DadosObjetivosForm = ({ data, onChange }) => {
 
   const addItem = () => {
     if (dados.length >= 3) return;
-    const newItems = [...dados, {
-      cargo: "",
-      remuneracao: "",
-      tipoContrato: "",
-      jornada: "",
-      modeloContrato: "",
-    }];
+    const newItems = [
+      ...dados,
+      {
+        cargo: "",
+        remuneracao: "",
+        tipoContrato: "",
+        jornada: "",
+        modeloContrato: "",
+      },
+    ];
     setDados(newItems);
     onChange();
   };
@@ -98,10 +101,9 @@ const DadosObjetivosForm = ({ data, onChange }) => {
                   { value: "ESTAGIO", label: "Estágio" },
                   { value: "TEMPORARIO", label: "Temporário" },
                   { value: "PRAZO_DETERMINADO", label: "Prazo Determinado" },
-                  {
-                    value: "CONTRATO_INTERMITENTE",
-                    label: "Contrato Intermitente",
-                  },
+                  { value: "AUTONOMO", label: "Autônomo" },
+                  { value: "TRAINEE", label: "Trainee" },
+                  { value: "JOVEM_APRENDIZ", label: "Jovem Aprendiz" },
                 ]}
               />
             </Grid>
@@ -127,7 +129,10 @@ const DadosObjetivosForm = ({ data, onChange }) => {
                   { value: "MANHA", label: "Manhã" },
                   { value: "TARDE", label: "Tarde" },
                   { value: "NOITE", label: "Noite" },
-                  { value: "ESCALA_DE_REVEZAMENTO", label: "Escala de Revezamento" },
+                  {
+                    value: "ESCALA_DE_REVEZAMENTO",
+                    label: "Escala de Revezamento",
+                  },
                 ]}
               />
             </Grid>

@@ -48,6 +48,24 @@ const DadosEmpresaForm = ({ data, onChange }) => {
             onChange={handleChange}
           />
         </Grid>
+        <Grid item xs={12} sm={6}>
+          <FormInput
+            label="Quantidade de Funcionários"
+            name="qtdFuncionarios"
+            type="number"
+            data={dados}
+            onChange={handleChange}
+          />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <FormInput
+            label="Faturamento Anual"
+            name="faturamentoAnual"
+            type="number"
+            data={dados}
+            onChange={handleChange}
+          />
+        </Grid>
         
         <Grid item xs={12}>
           <Typography variant="h6" sx={{ mt: 0, mb: 3 }}>
