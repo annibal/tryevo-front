@@ -47,7 +47,7 @@ const PropostasFeitasPage = () => {
             <p>
               <strong>{proposta.pf.nome}</strong>{" "}
               se candidatou para a vaga{" "}
-              <Link to={"/app/" + allRoutesData.pjMinhaVaga.path + proposta.vaga._id + '/' + proposta.vaga.nome}>
+              <Link to={"/app/" + allRoutesData.pjMinhaVaga.path + proposta.vaga._id + '/' + encodeURIComponent(proposta.vaga.nome)}>
                 {proposta.vaga.nome}{" "}
               </Link>
               em 01/02/2023

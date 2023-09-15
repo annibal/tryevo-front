@@ -57,11 +57,31 @@ const MinhaVagaPage = () => {
     <Box>
       <Box sx={{ mb: 6 }}>
         <Typography variant="caption">Minha Vaga - {vagaId}</Typography>
-        <Typography variant="h3">{vagaNome}</Typography>
+        {vagaResponse?.data?.apelido ? (
+          <>
+            <Typography variant="h3">{vagaResponse?.data?.titulo}</Typography>
+            <Typography sx={{ py: 2 }} color="textSecondary">Apelido: {vagaResponse?.data?.apelido}</Typography>
+          </>
+        ) : (
+          <Typography variant="h3">{vagaResponse?.data?.titulo || vagaNome}</Typography>
+        )}
         <Typography variant="caption">
           {vagaResponse.data?.active
-            ? "Ativa - aparece na busca e permite receber candidaturas"
-            : "Inativa - não aparece na busca e não recebe mais propostas"}
+            ? (
+              <>
+                <Typography component="span" color="primary" fontSize="inherit" fontWeight="bold">Ativa</Typography>
+                {' - '}
+                aparece na busca e permite receber candidaturas
+              </>
+            )
+            : (
+              <>
+                <Typography component="span" color="textSecondary" fontSize="inherit" fontWeight="bold">Inativa</Typography>
+                {' - '}
+                não aparece na busca e não recebe mais propostas
+              </>
+            )
+          }
         </Typography>
       </Box>
 
@@ -81,7 +101,7 @@ const MinhaVagaPage = () => {
                     allRoutesData.pjEditarMinhaVaga.path +
                     vagaId +
                     "/" +
-                    vagaNome
+                    encodeURIComponent(vagaResponse?.data?.apelido ? vagaResponse?.data?.apelido : vagaResponse?.data?.titulo)
                   }
                 >
                   Editar
@@ -127,16 +147,17 @@ const MinhaVagaPage = () => {
           </Section>
         )}
 
-        <Box sx={{ height: "300px", overflow: "auto", mb: 6 }}>
-          <PrettyPrint keyName="Dados da Vaga" value={vagaResponse.data} />
-        </Box>
-
         <Section
           title="Candidaturas"
           subtitle="Propostas enviadas por candidatos para esta vaga"
         >
           - não implementado - 
         </Section>
+
+        <Box sx={{ height: "300px", overflow: "auto", mb: 6 }}>
+          <PrettyPrint keyName="Dados da Vaga" value={vagaResponse.data} />
+        </Box>
+
       </ResponseWrapper>
     </Box>
   );

@@ -23,7 +23,7 @@ const NovaMinhaVagaPage = () => {
       <DadosMinhaVagaForm data={{}} onSubmit={handleSubmit} />
 
       {created && (
-        <Navigate to={'/app/' + allRoutesData.pjMinhaVaga.path + vagaCreated._id + '/' + vagaCreated.titulo} />
+        <Navigate to={'/app/' + allRoutesData.pjMinhaVaga.path + vagaCreated._id + '/' + encodeURIComponent(vagaCreated.titulo)} />
       )}
     </Box>
   );

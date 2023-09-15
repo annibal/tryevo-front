@@ -1,4 +1,4 @@
-import { Grid, Typography } from "@mui/material";
+import { Box, Grid, Typography } from "@mui/material";
 import FormInput from "../../commons/form/FormInput";
 import FormSelect from "../../commons/form/FormSelect";
 import FormCheckbox from "../../commons/form/FormCheckbox";
@@ -24,6 +24,16 @@ const DadosMinhaVagaPrincipal = ({ data, onChange, loading }) => {
 
   return (
     <Grid container spacing={2}>
+      <Grid item xs={8}>
+        <Box sx={{ mb: 2}}>
+          <FormInput
+            label="Apelido"
+            name="apelido"
+            data={dados}
+            onChange={handleChange}
+          />
+        </Box>
+      </Grid>
       <Grid item xs={12}>
         <FormInput
           required

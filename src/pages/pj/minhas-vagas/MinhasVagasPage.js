@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import allRoutesData from "../../../base/routes_data";
-import { Box, Button, Grid, Typography } from "@mui/material";
+import { Box, Button, Grid, Tooltip, Typography } from "@mui/material";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import UnpublishedIcon from "@mui/icons-material/Unpublished";
 import AddIcon from "@mui/icons-material/Add";
@@ -8,6 +8,7 @@ import ResponseWrapper from "../../../components/ResponseWrapper";
 import useFetch from "../../../providers/useFetch";
 import SearchMinhasVagas from "./components/SearchMinhasVagas";
 import useUrlWithParams from "../../../components/useUrlWithParams";
+import { DataGrid } from "@mui/x-data-grid";
 
 const MinhasVagasPage = () => {
   const [searchDados, setSearchDados, minhasVagasUrl] = useUrlWithParams(
@@ -15,6 +16,85 @@ const MinhasVagasPage = () => {
     { from: 0, to: 30 }
   );
   const minhasVagasResponse = useFetch("GET", minhasVagasUrl);
+
+  // '_id',
+  // 'titulo',
+  // 'apelido',
+  // 'cargo',
+  // 'active',
+  // 'descricao',
+  // 'desc',
+  // 'tipoContrato',
+  // 'qualificacoes'
+
+  const columns = [
+    {
+      field: "_id",
+      headerName: "ID",
+      width: 90,
+      renderCell: (params) => (
+        <Link
+          to={
+            "/app/" +
+            allRoutesData.pjMinhaVaga.path +
+            params.row._id
+          }
+        >
+          {params.row._id}
+        </Link>
+      )
+    },
+    {
+      field: "nome",
+      headerName: "Nome",
+      description: "Apelido, ou Título da Vaga",
+      renderCell: (params) => (
+        <Link
+          to={
+            "/app/" +
+            allRoutesData.pjMinhaVaga.path +
+            params.row._id
+          }
+        >
+          {params.row.apelido || params.row.titulo}
+        </Link>
+      ),
+      flex: 5,
+      sortable: false,
+    },
+    {
+      field: "desc",
+      headerName: "Descrição",
+      flex: 12,
+    },
+    {
+      field: "cargo",
+      headerName: "Cargo",
+      flex: 4,
+    },
+    {
+      field: "tipoContrato",
+      headerName: "Contrato",
+      width: 90,
+    },
+    {
+      field: "active",
+      headerName: "Ativa",
+      width: 90,
+      align: "center",
+      headerAlign: "center",
+      renderCell: (params) =>
+        params.row.active ? (
+          <Tooltip title="Ativa">
+            <CheckCircleIcon color="primary" />
+          </Tooltip>
+        ) : (
+          <Tooltip title="Inativa">
+            <UnpublishedIcon sx={{ opacity: 0.6 }} />
+          </Tooltip>
+        ),
+    },
+  ];
 
   return (
     <Box>
@@ -42,6 +122,30 @@ const MinhasVagasPage = () => {
         <ResponseWrapper
           {...minhasVagasResponse}
           list
+          dataComponent={() => (
+            <Grid item xs={12}>
+              <DataGrid
+                rows={minhasVagasResponse?.data}
+                columns={columns}
+                getRowId={(row) => row._id}
+                initialState={{
+                  pagination: {
+                    paginationModel: {
+                      pageSize: 50,
+                    },
+                  },
+                }}
+                pageSizeOptions={[5, 10, 25, 50, 100, 250]}
+                checkboxSelection
+                disableRowSelectionOnClick
+              />
+            </Grid>
+          )}
+          dataItemComponent={() => ""}
+        />
+        {/* <ResponseWrapper
+          {...minhasVagasResponse}
+          list
           dataComponent={({ children }) => children}
           dataItemComponent={({ item }) => (
             <Grid item xs={12} container spacing={2}>
@@ -53,7 +157,7 @@ const MinhasVagasPage = () => {
                       allRoutesData.pjMinhaVaga.path +
                       item._id +
                       "/" +
-                      item.titulo
+                      encodeURIComponent(item.titulo)
                     }
                   >
                     {item.titulo}
@@ -71,7 +175,7 @@ const MinhasVagasPage = () => {
               </Grid>
             </Grid>
           )}
-        />
+        /> */}
       </Grid>
     </Box>
   );

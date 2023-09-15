@@ -38,6 +38,7 @@ const PrettyPrint = ({ keyName, value, ignoreFields }) => {
         <Box sx={{ pl: 2, pb: 1 }}>
           {value.map((val, idx) => (
             <PrettyPrint
+              key={idx}
               keyName={`#${idx}`}
               value={val}
               ignoreFields={ignoreFields}
@@ -56,6 +57,7 @@ const PrettyPrint = ({ keyName, value, ignoreFields }) => {
         <Box sx={{ pl: 2, pb: 1 }}>
           {Object.entries(value).map(([valueKey, valueVal]) => (
             <PrettyPrint
+              key={valueKey}
               keyName={valueKey}
               value={valueVal}
               ignoreFields={ignoreFields}
