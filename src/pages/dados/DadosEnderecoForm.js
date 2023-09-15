@@ -1,6 +1,7 @@
 import { Grid } from "@mui/material";
 import { useEffect, useState } from "react";
 import FormInput from "../commons/form/FormInput";
+import FormMaskedInput from "../commons/form/FormMaskedInput";
 
 const DadosEnderecoForm = ({ data, onChange }) => {
   const [isLoadingCEP, setIsLoadingCEP] = useState(false);
@@ -29,6 +30,7 @@ const DadosEnderecoForm = ({ data, onChange }) => {
     ).then((r) => r.json());
     if (addressData) {
       let cepData = {};
+      if (addressData.cep) cepData.cep = addressData.cep;
       if (addressData.state) cepData.estado = addressData.state;
       if (addressData.city) cepData.cidade = addressData.city;
       if (addressData.neighborhood) cepData.bairro = addressData.neighborhood;
@@ -46,14 +48,13 @@ const DadosEnderecoForm = ({ data, onChange }) => {
     setIsLoadingCEP(false);
   };
 
-  console.log(dados)
-
   return (
     <>
       <Grid container spacing={2}>
         <Grid item xs={12}>
-          <FormInput
+          <FormMaskedInput
             fullWidth={false}
+            maskType="CEP"
             label="CEP"
             name="endereco[cep]"
             getValue={() => dados.cep}
