@@ -110,6 +110,7 @@ const DadosPage = () => {
   };
 
   let formItems = [];
+  let submitFn = () => {}
 
   const handleScroll = (event) => {
 
@@ -297,104 +298,100 @@ const DadosPage = () => {
         comp: DadosProjetosForm, // elm
       },
     ];
-
-    return (
-      <Box sx={{ pt: 2 }}>
-        <form onSubmit={handleSubmitPF}>
-          <Box sx={{ display: { sm: "none" } }}>{saveBar}</Box>
-          <Grid container spacing={2}>
-            <Grid
-              item
-              xs={12}
-              sm={4}
-              sx={{ display: { xs: "none", sm: "block" } }}
-            >
-              <Box sx={{ position: "sticky", top: "60px" }}>
-                <List component="nav">
-                  {formItems.map((formItem, idx) => (
-                    <ListItemButton
-                      component="a"
-                      href={`#${formItem.id}`}
-                      key={formItem.id}
-                      selected={idx === activeFormItem}
-                    >
-                      <ListItemText primary={formItem.title} />
-                    </ListItemButton>
-                  ))}
-                </List>
-                <Divider sx={{ mt: 0, mb: 2 }} />
-                {!loading && error && (
-                  <Box sx={{ pb: 2 }}>
-                    <Typography color="error">{String(error)}</Typography>
-                  </Box>
-                )}
-                <LoadingButton
-                  loading={loading}
-                  variant={hasChanges ? "contained" : "outlined"}
-                  color="primary"
-                  type="submit"
-                  fullWidth
-                >
-                  Salvar
-                </LoadingButton>
-              </Box>
-            </Grid>
-            <Grid item xs={12} sm={8}>
-              {formItems.map((formItem, idx) => {
-                const Comp = formItem.comp;
-                return (
-                  <Fragment key={formItem.id}>
-                    {idx > 0 ? (
-                      <>
-                        <div
-                          id={formItem.id}
-                          style={{ transform: "translateY(-12px)" }}
-                        />
-                        <Divider sx={{ mt: 6, mb: 2 }} />
-                      </>
-                    ) : (
-                      <>
-                        <div
-                          id={formItem.id}
-                          style={{ transform: "translateY(-80px)" }}
-                        />
-                      </>
-                    )}
-                    <Typography key={formItem.id} variant="h4" sx={{ mb: 6 }}>
-                      {formItem.title}
-                    </Typography>
-                    <Comp data={dados || {}} onChange={handleChange} />
-                  </Fragment>
-                );
-              })}
-            </Grid>
-          </Grid>
-        </form>
-      </Box>
-    );
+    submitFn = handleSubmitPF;
   }
 
+  
   if (auth.features[ACCOUNT_FEATURES.PJ]) {
-    return (
-      <Box sx={{ pt: 2 }}>
-        <form onSubmit={handleSubmitPJ}>
-          {saveBar}
-
-          <Typography id="dados_empresa" variant="h4" sx={{ mb: 6 }}>
-            Dados da Empresa
-          </Typography>
-          <DadosEmpresaForm data={dados} onChange={handleChange} />
-
-          <Divider sx={{ mt: 6, mb: 2 }} />
-
-          <Typography id="endereco" variant="h4" sx={{ mb: 6 }}>
-            Endereço
-          </Typography>
-          <DadosEnderecoForm data={dados} onChange={handleChange} />
-        </form>
-      </Box>
-    );
+    formItems = [
+      {
+        id: "dados_empresa",
+        title: "Dados da Empresa",
+        comp: DadosEmpresaForm, // elm
+      },
+      {
+        id: "endereco",
+        title: "Endereço",
+        comp: DadosEnderecoForm, // elm
+      },
+    ]
+    submitFn = handleSubmitPJ;
   }
+
+  return (
+    <Box sx={{ pt: 2 }}>
+      <form onSubmit={submitFn}>
+        <Box sx={{ display: { sm: "none" } }}>{saveBar}</Box>
+        <Grid container spacing={2}>
+          <Grid
+            item
+            xs={12}
+            sm={4}
+            sx={{ display: { xs: "none", sm: "block" } }}
+          >
+            <Box sx={{ position: "sticky", top: "60px" }}>
+              <List component="nav">
+                {formItems.map((formItem, idx) => (
+                  <ListItemButton
+                    component="a"
+                    href={`#${formItem.id}`}
+                    key={formItem.id}
+                    selected={idx === activeFormItem}
+                  >
+                    <ListItemText primary={formItem.title} />
+                  </ListItemButton>
+                ))}
+              </List>
+              <Divider sx={{ mt: 0, mb: 2 }} />
+              {!loading && error && (
+                <Box sx={{ pb: 2 }}>
+                  <Typography color="error">{String(error)}</Typography>
+                </Box>
+              )}
+              <LoadingButton
+                loading={loading}
+                variant={hasChanges ? "contained" : "outlined"}
+                color="primary"
+                type="submit"
+                fullWidth
+              >
+                Salvar
+              </LoadingButton>
+            </Box>
+          </Grid>
+          <Grid item xs={12} sm={8}>
+            {formItems.map((formItem, idx) => {
+              const Comp = formItem.comp;
+              return (
+                <Fragment key={formItem.id}>
+                  {idx > 0 ? (
+                    <>
+                      <div
+                        id={formItem.id}
+                        style={{ transform: "translateY(-12px)" }}
+                      />
+                      <Divider sx={{ mt: 6, mb: 2 }} />
+                    </>
+                  ) : (
+                    <>
+                      <div
+                        id={formItem.id}
+                        style={{ transform: "translateY(-80px)" }}
+                      />
+                    </>
+                  )}
+                  <Typography key={formItem.id} variant="h4" sx={{ mb: 6 }}>
+                    {formItem.title}
+                  </Typography>
+                  <Comp data={dados || {}} onChange={handleChange} />
+                </Fragment>
+              );
+            })}
+          </Grid>
+        </Grid>
+      </form>
+    </Box>
+  );
 };
 
 export default DadosPage;

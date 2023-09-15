@@ -33,12 +33,13 @@ const MASKS = {
   NONE: getMaskComponent(/.*/),
   CEP: getMaskComponent("00000-000"),
   CPF: getMaskComponent("000.000.000-00"),
+  CNPJ: getMaskComponent("00.000.000/0000-00"),
   RG: getMaskComponent("00.000.000-X"),
   CNH: getMaskComponent("0000.00000-00"),
   PASSPORT: getMaskComponent("aa000000"),
   PHONE: getMaskComponent("(00) [0]0000-0000"),
   // http://www.sintegra.gov.br/
-  INSCRICAO_ESTADUAL: getMaskComponent("99999999[999999]"),
+  INSCRICAO_ESTADUAL: getMaskComponent("00000000[000000]"),
 
   // {
   //   "AC": "01.292.299/873-08",       "0129229987308",

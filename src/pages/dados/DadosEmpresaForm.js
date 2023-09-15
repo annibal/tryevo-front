@@ -50,13 +50,16 @@ const DadosEmpresaForm = ({ data, onChange }) => {
         </Grid>
         
         <Grid item xs={12}>
-          <Typography variant="h6" sx={{ mt: 4, mb: 3 }}>
+          <Typography variant="h6" sx={{ mt: 0, mb: 3 }}>
             Telefones
           </Typography>
           <ManyForm
             label="Telefone"
             name="telefones"
             type="phone"
+            valorMask="PHONE"
+            tipoRequired={true}
+            valorRequired={true}
             data={dados}
             onChange={handleChange}
             options={[
@@ -78,6 +81,8 @@ const DadosEmpresaForm = ({ data, onChange }) => {
             name="links"
             data={dados}
             onChange={handleChange}
+            tipoRequired={true}
+            valorRequired={true}
             options={[
               { value: "WEBSITE", label: "Web Site" },
               { value: "LINKEDIN", label: "LinkedIn" },
