@@ -3,9 +3,13 @@ import * as tokenProvider from "./tokenProvider";
 export const getApiUrl = (path) => {
   const strPath = (path || "").replace(/^\/*/, "");
 
-  const baseUrl = process.env.NODE_ENV === "production"
-    ? ["http", "://", "www.tryevo.com.br:21104/", strPath].join("")
-    : ["http", "://", "localhost:3001/", strPath].join("");
+  const localApi = ["http", "://", "localhost:3001/", strPath].join("");
+  const nodeApi = ["http", "://", "www.tryevo.com.br:21104/", strPath].join("")
+  const proxyApi = ["http", "://", "app.tryevo.com.br/proxy.php?proxy_path=", encodeURIComponent(strPath)].join("");
+
+  const isProd = process.env.NODE_ENV === "production"
+
+  const baseUrl = isProd ? proxyApi : localApi;
   return baseUrl;
 };
 
