@@ -33,6 +33,7 @@ import DadosMinhaVagaPrincipal from "./DadosMinhaVagaPrincipal";
 import DadosMinhaVagaMatch from "./DadosMinhaVagaMatch";
 import DadosMinhaVagaBeneficios from "./DadosMinhaVagaBeneficios";
 import DadosMinhaVagaRequisitos from "./DadosMinhaVagaRequisitos";
+import DadosMinhaVagaIntegracoes from "./DadosMinhaVagaIntegracoes";
 
 const DadosMinhaVagaForm = ({ data, onSubmit }) => {
   const [loading, setLoading] = useState(false);
@@ -91,6 +92,11 @@ const DadosMinhaVagaForm = ({ data, onSubmit }) => {
         id: "principal",
         title: "Principal",
         comp: DadosMinhaVagaPrincipal, // elm
+      },
+      {
+        id: "integracoes",
+        title: "Integrações",
+        comp: DadosMinhaVagaIntegracoes, // elm
       },
       {
         id: "match",

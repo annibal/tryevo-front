@@ -41,8 +41,6 @@ const SimpleBarChart = ({ data, yKey, xKey, fill }) => {
     [data, yKey, xKey]
   );
 
-  console.log(maxTextWidth, maxValueWidth)
-
   const YAxisLeftTick = ({ y, payload: { value } }) => {
     return (
       <Text x={maxTextWidth * 1.5} y={y} textAnchor="end" verticalAnchor="middle">
