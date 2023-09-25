@@ -9,7 +9,7 @@ export const getApiUrl = (path) => {
 
   const isProd = process.env.NODE_ENV === "production"
 
-  const baseUrl = isProd ? proxyApi : localApi;
+  const baseUrl = isProd ? nodeApi : localApi;
   return baseUrl;
 };
 
