@@ -27,6 +27,48 @@ const VagaPage = () => {
       <ResponseWrapper {...vagaResponse}>
         <Grid container spacing={2}>
           <Grid item xs={12} sm={8}>
+            {vaga.match != null && (
+              <Typography sx={{ mb: 2 }}>Match: {Math.floor(vaga.match * 100)}%</Typography>
+            )}
+            {vaga.matchDesc && (
+              <>
+                <Typography sx={{ mb: 0 }}>
+                  Match Palavras:<br />
+                  - {vaga.matchDesc.palavras.vaga} palavras únicas em vaga.descrição,<br />
+                  - {vaga.matchDesc.palavras.candidato} palavras únicas em candidato.resumo,<br />
+                  - {vaga.matchDesc.palavras.comuns} palavras em comum:<br />
+                  - <b>{vaga.matchDesc.palavras.match}</b> match * {vaga.matchDesc.palavras.base} base<br />
+                  {vaga.matchDesc.palavras.match === null && 'vaga não tem descrição, match ignora descrição/resumo'}
+                </Typography>
+                <Typography sx={{ mb: 0 }}>
+                  Match Habilidades:<br />
+                  - {vaga.matchDesc.habilidades.vaga} habilidades únicas na vaga,<br />
+                  - {vaga.matchDesc.habilidades.candidato} habilidades únicas no candidato,<br />
+                  - {vaga.matchDesc.habilidades.comuns} habilidades em comum:<br />
+                  - <b>{vaga.matchDesc.habilidades.match}</b> match * {vaga.matchDesc.habilidades.base} base<br />
+                  {vaga.matchDesc.habilidades.match === null && 'vaga não tem habilidades, match ignora habilidades'}
+                </Typography>
+                <Typography sx={{ mb: 0 }}>
+                  Match Qualificações:<br />
+                  - {vaga.matchDesc.qualificacoes.vaga} qualificacoes únicas na vaga,<br />
+                  - {vaga.matchDesc.qualificacoes.candidato} qualificacoes únicas nas experiencias profissionais do candidato,<br />
+                  - {vaga.matchDesc.qualificacoes.comuns} qualificacoes em comum:<br />
+                  - <b>{vaga.matchDesc.qualificacoes.match}</b> match * {vaga.matchDesc.qualificacoes.base} base<br />
+                  {vaga.matchDesc.qualificacoes.match === null && 'vaga não tem qualificações, match ignora qualificações'}
+                </Typography>
+                <Typography sx={{ mb: 2 }}>
+                  ({[
+                    vaga.matchDesc.palavras.match !== null ? `(${vaga.matchDesc.palavras.match} * ${vaga.matchDesc.palavras.base})` : '',
+                    vaga.matchDesc.habilidades.match !== null ? `(${vaga.matchDesc.habilidades.match} * ${vaga.matchDesc.habilidades.base})` : '',
+                    vaga.matchDesc.qualificacoes.match !== null ? `(${vaga.matchDesc.qualificacoes.match} * ${vaga.matchDesc.qualificacoes.base})` : '',
+                  ].filter(x => x).join(' + ')}) / {
+                    (vaga.matchDesc.palavras.match !== null ? vaga.matchDesc.palavras.base : 0) +
+                    (vaga.matchDesc.habilidades.match !== null ? vaga.matchDesc.habilidades.base : 0) +
+                    (vaga.matchDesc.qualificacoes.match !== null ? vaga.matchDesc.qualificacoes.base : 0)
+                  } = {vaga.match}
+                </Typography>
+              </>
+            )}
             {vaga.cargo?.nome && (
               <Typography sx={{ mb: 2 }}>Cargo: {vaga.cargo?.nome}</Typography>
             )}

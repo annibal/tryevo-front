@@ -31,7 +31,7 @@ const DadosResumo = ({ data, onChange }) => {
             data={dados}
             onChange={handleChange}
             multiline
-            rows={5}
+            rows={20}
           />
         </Grid>
       </Grid>
