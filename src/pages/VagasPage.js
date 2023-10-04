@@ -191,7 +191,7 @@ const VagasPage = () => {
                   name="modeloContrato"
                   data={dados}
                   onChange={handleChange}
-                  options={optionsJornada}
+                  options={optionsModeloContrato}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -201,7 +201,7 @@ const VagasPage = () => {
                   name="jornada"
                   data={dados}
                   onChange={handleChange}
-                  options={optionsModeloContrato}
+                  options={optionsJornada}
                 />
               </Grid>
 
