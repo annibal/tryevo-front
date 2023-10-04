@@ -24,26 +24,8 @@ import {
   optionsModeloContrato,
   optionsTipoContrato,
 } from "../../providers/enumProvider";
-
-const SidebarInfo = ({ title, children }) => (
-  <Box className="vaga-created-at" sx={{ mb: 2 }}>
-    <Grid container spacing={2}>
-      <Grid item>
-        <Typography color="textSecondary">
-          <LabelImportantIcon
-            color="inherit"
-            fontSize="inherit"
-            sx={{ verticalAlign: "-2px" }}
-          />
-        </Typography>
-      </Grid>
-      <Grid item xs>
-        <Typography color="textSecondary">{title}:</Typography>
-        <Typography>{children}</Typography>
-      </Grid>
-    </Grid>
-  </Box>
-);
+import InlineIconInfo from "../../components/InlineIconInfo";
+import { Fragment } from "react";
 
 const VagaPage = () => {
   let { vagaId, vagaNome } = useParams();
@@ -204,135 +186,98 @@ const VagaPage = () => {
                 </Box>
               </Box>
 
-              <Box className="vaga-created-at" sx={{ mb: 4 }}>
-                <Grid container spacing={2}>
-                  <Grid item>
-                    <TodayIcon
-                      color="inherit"
-                      fontSize="inherit"
-                      sx={{ verticalAlign: "-2px" }}
-                    />
-                  </Grid>
-                  <Grid item xs>
-                    <Typography>
-                      {new Date(vaga.createdAt).toLocaleDateString()}
-                    </Typography>
-                  </Grid>
-                </Grid>
-              </Box>
+              <InlineIconInfo
+                Icon={TodayIcon}
+                className="vaga-created-at"
+                sx={{ mb: 4 }}
+              >
+                <Typography>
+                  {new Date(vaga.createdAt).toLocaleDateString()}
+                </Typography>
+              </InlineIconInfo>
 
               {hasRequisitos && (
-                <Box className="vaga-requisitos" sx={{ mb: 4 }}>
-                  <Grid container spacing={2}>
-                    <Grid item>
-                      <ChecklistIcon
-                        color="inherit"
-                        fontSize="inherit"
-                        sx={{ verticalAlign: "-2px" }}
-                      />
-                    </Grid>
-                    <Grid item xs>
-                      <Typography color="textSecondary">Requisitos:</Typography>
-
-                      {exigeCNG && (
-                        <Typography>
-                          CNH Categoria {categoriaCNH.label}
-                        </Typography>
-                      )}
-                      {linguagens?.length > 0 &&
-                        linguagens.map((l) => (
-                          <Typography>
-                            {l.idioma} - {l.fluencia}
-                          </Typography>
-                        ))}
-                      {escolaridade && (
-                        <Typography>
-                          Escolaridade Mínima: {escolaridade.label}
-                        </Typography>
-                      )}
-                      {vaga.pcd && <Typography>Vaga para PCD</Typography>}
-                      {vaga.disponivelViagem && (
-                        <Typography>Exige disponibilidade de Viagem</Typography>
-                      )}
-                      {vaga.disponivelMudanca && (
-                        <Typography>
-                          Exige disponibilidade de Mudança
-                        </Typography>
-                      )}
-                      {vaga.experiencia != null && (
-                        <Typography>
-                          {vaga.experiencia} anos de experiência
-                        </Typography>
-                      )}
-                    </Grid>
-                  </Grid>
-                </Box>
+                <InlineIconInfo
+                  Icon={ChecklistIcon}
+                  className="vaga-requisitos"
+                  sx={{ mb: 4 }}
+                  title="Requisitos"
+                >
+                  {exigeCNG && (
+                    <Typography>CNH Categoria {categoriaCNH.label}</Typography>
+                  )}
+                  {linguagens?.length > 0 &&
+                    linguagens.map((l) => (
+                      <Typography key={l.idioma + l.fluencia}>
+                        {l.idioma} - {l.fluencia}
+                      </Typography>
+                    ))}
+                  {escolaridade && (
+                    <Typography>
+                      Escolaridade Mínima: {escolaridade.label}
+                    </Typography>
+                  )}
+                  {vaga.pcd && <Typography>Vaga para PCD</Typography>}
+                  {vaga.disponivelViagem && (
+                    <Typography>Disponibilidade para Viajar</Typography>
+                  )}
+                  {vaga.disponivelMudanca && (
+                    <Typography>Disponibilidade de Mudança</Typography>
+                  )}
+                  {vaga.experiencia != null && (
+                    <Typography>
+                      {vaga.experiencia} anos de experiência
+                    </Typography>
+                  )}
+                </InlineIconInfo>
               )}
 
               {vaga.endereco && (
-                <Box className="vaga-local" sx={{ mb: 4 }}>
-                  <Grid container spacing={2}>
-                    <Grid item>
-                      <PlaceIcon
-                        color="inherit"
-                        fontSize="inherit"
-                        sx={{ verticalAlign: "-2px" }}
-                      />
-                    </Grid>
-                    <Grid item xs>
-                      <Typography>
-                        {vaga.endereco.rua}, {vaga.endereco.numero}
-                        {vaga.endereco.complemento &&
-                          ` - ${vaga.endereco.complemento}`}
-                        <br />
-                        {vaga.endereco.bairro}
-                        <br />
-                        {vaga.endereco.cidade} - {vaga.endereco.estado},{" "}
-                        {vaga.endereco.cep}
-                      </Typography>
-                    </Grid>
-                  </Grid>
-                </Box>
+                <InlineIconInfo
+                  Icon={PlaceIcon}
+                  className="vaga-local"
+                  sx={{ mb: 4 }}
+                >
+                  <Typography>
+                    {vaga.endereco.rua}, {vaga.endereco.numero}
+                    {vaga.endereco.complemento &&
+                      ` - ${vaga.endereco.complemento}`}
+                    <br />
+                    {vaga.endereco.bairro}
+                    <br />
+                    {vaga.endereco.cidade} - {vaga.endereco.estado},{" "}
+                    {vaga.endereco.cep}
+                  </Typography>
+                </InlineIconInfo>
               )}
 
               {!vaga.ocultarEmpresa && vaga.empresa && (
-                <Box className="vaga-empresa" sx={{ mb: 4 }}>
-                  <Grid container spacing={2}>
-                    <Grid item>
-                      <BusinessIcon
-                        color="inherit"
-                        fontSize="inherit"
-                        sx={{ verticalAlign: "-2px" }}
-                      />
-                    </Grid>
-                    <Grid item xs>
-                      {vaga.empresa.nomeFantasia ? (
-                        <Typography>{vaga.empresa.nomeFantasia}</Typography>
-                      ) : (
-                        <>
-                          {vaga.empresa.razaoSocial && (
-                            <Typography>{vaga.empresa.razaoSocial}</Typography>
-                          )}
-                        </>
+                <InlineIconInfo
+                  Icon={BusinessIcon}
+                  className="vaga-empresa"
+                  sx={{ mb: 4 }}
+                >
+                  {vaga.empresa.nomeFantasia ? (
+                    <Typography>{vaga.empresa.nomeFantasia}</Typography>
+                  ) : (
+                    <>
+                      {vaga.empresa.razaoSocial && (
+                        <Typography>{vaga.empresa.razaoSocial}</Typography>
                       )}
-                      {vaga.empresa.nomeResponsavel && (
-                        <Typography>{vaga.empresa.nomeResponsavel}</Typography>
-                      )}
-                      {vaga.empresa.links?.length > 0 &&
-                        vaga.empresa.links.map((link) => (
-                          <Typography>
-                            <a
-                              href={link.valor}
-                              target="_blank"
-                              rel="noreferrer"
-                            >
-                              {link.tipo}: {link.valor}
-                            </a>
-                          </Typography>
-                        ))}
-                    </Grid>
-                  </Grid>
-                </Box>
+                    </>
+                  )}
+                  {vaga.empresa.nomeResponsavel && (
+                    <Typography>{vaga.empresa.nomeResponsavel}</Typography>
+                  )}
+                  {vaga.empresa.links?.length > 0 &&
+                    vaga.empresa.links.map((link) => (
+                      <Typography key={link.tipo + link.valor}>
+                        <a href={link.valor} target="_blank" rel="noreferrer">
+                          {link.tipo}: {link.valor}
+                        </a>
+                      </Typography>
+                    ))}
+                </InlineIconInfo>
               )}
             </Grid>
 
@@ -340,15 +285,29 @@ const VagaPage = () => {
 
             <Grid item xs={12} sm={4}>
               {vaga.cargo?.nome && (
-                <SidebarInfo title="Cargo">{vaga.cargo.nome}</SidebarInfo>
+                <InlineIconInfo
+                  sx={{ mb: 2 }}
+                  Icon={LabelImportantIcon}
+                  title="Cargo"
+                >
+                  {vaga.cargo.nome}
+                </InlineIconInfo>
               )}
               {tipoContrato && (
-                <SidebarInfo title="Tipo de Contrato">
+                <InlineIconInfo
+                  sx={{ mb: 2 }}
+                  Icon={LabelImportantIcon}
+                  title="Tipo de Contrato"
+                >
                   {tipoContrato.label}
-                </SidebarInfo>
+                </InlineIconInfo>
               )}
               {modeloContrato && (
-                <SidebarInfo title="Modelo de Contrato">
+                <InlineIconInfo
+                  sx={{ mb: 2 }}
+                  Icon={LabelImportantIcon}
+                  title="Modelo de Contrato"
+                >
                   {modeloContrato.label}
                   {vaga.diasPresencial != null && vaga.diasPresencial != 0 && (
                     <>
@@ -356,19 +315,29 @@ const VagaPage = () => {
                       {vaga.diasPresencial} dias presenciais
                     </>
                   )}
-                </SidebarInfo>
+                </InlineIconInfo>
               )}
               {jornada && (
-                <SidebarInfo title="Jornada">{jornada.label}</SidebarInfo>
+                <InlineIconInfo
+                  sx={{ mb: 2 }}
+                  Icon={LabelImportantIcon}
+                  title="Jornada"
+                >
+                  {jornada.label}
+                </InlineIconInfo>
               )}
               {vaga.beneficios?.length > 0 && (
-                <SidebarInfo title="Benefícios">
+                <InlineIconInfo
+                  sx={{ mb: 2 }}
+                  Icon={LabelImportantIcon}
+                  title="Benefícios"
+                >
                   {vaga.beneficios.map((beneficio) => (
-                    <>
+                    <Fragment key={beneficio.tipo + beneficio.valor}>
                       {beneficio.tipo} - {beneficio.valor}
-                    </>
+                    </Fragment>
                   ))}
-                </SidebarInfo>
+                </InlineIconInfo>
               )}
             </Grid>
           </Grid>

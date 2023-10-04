@@ -45,6 +45,7 @@ import ManageHabilidades from "../pages/master-admin/ManageHabilidades";
 import ManageCompetencias from "../pages/master-admin/ManageCompetencias";
 import ManageAllUsers from "../pages/master-admin/ManageAllUsers";
 import ManageSingleUser from "../pages/master-admin/ManageSingleUser";
+import CurriculoCompletoPage from "../pages/pf/CurriculoCompletoPage";
 
 
 const router = createBrowserRouter([
@@ -156,6 +157,11 @@ const router = createBrowserRouter([
             path: allRoutesData.pfDados.path,
             handle: allRoutesData.pfDados,
             element: <ProtectedRoute><DadosPage /></ProtectedRoute>,
+          },
+          {
+            path: allRoutesData.pfCurriculoCompleto.path,
+            handle: allRoutesData.pfCurriculoCompleto,
+            element: <ProtectedRoute><CurriculoCompletoPage /></ProtectedRoute>,
           },
           {
             path: allRoutesData.pfConfiguracoes.path,

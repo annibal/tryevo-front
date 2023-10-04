@@ -160,6 +160,16 @@ export const pessoaFisicaRoutes = {
       place: NAVBAR_PLACE.UNDER_USER,
     },
   },
+  pfCurriculoCompleto: {
+    priority: 500,
+    path: "pf/curriculo-completo/",
+    icon: <InfoIcon />,
+    title: "Curriculo Completo",
+    rules: [ACCOUNT_FEATURES.LOGGED, ACCOUNT_FEATURES.PF],
+    navbar: {
+      place: NAVBAR_PLACE.NONE,
+    },
+  },
   pfCandidaturas: {
     priority: 104,
     path: "pf/candidaturas/",

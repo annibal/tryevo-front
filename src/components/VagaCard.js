@@ -16,6 +16,7 @@ import allRoutesData from "../base/routes_data";
 import { ACCOUNT_FEATURES, useAuth } from "../base/AuthContext";
 import { useEffect, useState } from "react";
 import { doCall } from "../providers/baseProvider";
+import { optionsTipoContrato } from "../providers/enumProvider";
 
 // {
 //   "_id": "UXX5WQ",
@@ -64,6 +65,7 @@ const VagaCard = ({
     empresa,
   },
   disableFavorite,
+  ...restProps
 }) => {
   const auth = useAuth();
   const [isLoadingSalvarVaga, setIsLoadingSalvarVaga] = useState(false);
@@ -85,6 +87,8 @@ const VagaCard = ({
 
   let strEmpresa = empresa?.nome;
   if (ocultarEmpresa) strEmpresa = "";
+
+  const strTipoContrato = optionsTipoContrato.find(o => o.value === tipoContrato);
 
   const handleSalvarVaga = () => {
     setIsLoadingSalvarVaga(true);
@@ -111,6 +115,7 @@ const VagaCard = ({
     <Box
       className="vaga-card"
       sx={{ mb: 1, borderBottom: "1px solid #88888888" }}
+      {...restProps}
     >
       <Box className="vaga-card-header" sx={{ mb: 2 }}>
         <Grid container spacing={2}>
@@ -140,9 +145,9 @@ const VagaCard = ({
       </Box>
 
       <Box className="vaga-card-contract" sx={{ mb: 1 }}>
-        {tipoContrato && (
+        {strTipoContrato && (
           <Typography variant="span" fontWeight="500" color="textSecondary">
-            {tipoContrato}
+            {strTipoContrato.label}
             {" - "}
           </Typography>
         )}
