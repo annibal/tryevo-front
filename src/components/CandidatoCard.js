@@ -210,6 +210,8 @@ const CandidatoCard = ({
       .filter((schools) => schools.length > 0)
       .slice(-1)[0];
 
+    if (!bestSchools) return null;
+
     const completedSchools = bestSchools
       .filter((school) => school.status === "COMPLETO")
       .sort((a, b) => new Date(b.dataConclusao) - new Date(a.dataConclusao));
@@ -239,7 +241,7 @@ const CandidatoCard = ({
 
   const goal = (objetivos || [])[0];
   const goalContrato = optionsTipoContrato.find(
-    (o) => o.value === goal.tipoContrato
+    (o) => o.value === goal?.tipoContrato
   );
 
   const countHabilidades = (habilidades || []).length;
@@ -280,38 +282,50 @@ const CandidatoCard = ({
         </Typography>
       </Box>
 
-      {lastWork && (
-        <InlineIconInfo
-          className="candidato-card-ultimo-trabalho"
-          Icon={BusinessIcon}
-          sx={{ mb: 1 }}
-        >
-          {lastWork.empresa}
-          {lastWork.cargo?.nome && ` - ${lastWork.cargo.nome}`}
-        </InlineIconInfo>
-      )}
+      <InlineIconInfo
+        className="candidato-card-ultimo-trabalho"
+        Icon={BusinessIcon}
+        sx={{ mb: 1 }}
+      >
+        {lastWork ? (
+          <>
+            {lastWork.empresa}
+            {lastWork.cargo?.nome && ` - ${lastWork.cargo.nome}`}
+          </>
+        ) : (
+          "Sem Experiência Profissional"
+        )}
+      </InlineIconInfo>
 
-      {lastSchool && (
-        <InlineIconInfo
-          className="candidato-card-ultima-escola"
-          Icon={SchoolIcon}
-          sx={{ mb: 1 }}
-        >
-          {lastSchool.nome}
-          {lastSchoolNivel && ` - ${lastSchoolNivel.label}`}
-        </InlineIconInfo>
-      )}
+      <InlineIconInfo
+        className="candidato-card-ultima-escola"
+        Icon={SchoolIcon}
+        sx={{ mb: 1 }}
+      >
+        {lastSchool ? (
+          <>
+            {lastSchool.nome}
+            {lastSchoolNivel && ` - ${lastSchoolNivel.label}`}
+          </>
+        ) : (
+          "Sem Escolaridade"
+        )}
+      </InlineIconInfo>
 
-      {goal && (
-        <InlineIconInfo
-          className="candidato-card-objetivo"
-          Icon={TrackChangesIcon}
-          sx={{ mb: 1 }}
-        >
-          {goal.cargo?.nome && `${goal.cargo.nome} - `}
-          {goalContrato?.label}
-        </InlineIconInfo>
-      )}
+      <InlineIconInfo
+        className="candidato-card-objetivo"
+        Icon={TrackChangesIcon}
+        sx={{ mb: 1 }}
+      >
+        {goal ? (
+          <>
+            {goal.cargo?.nome && `${goal.cargo.nome} - `}
+            {goalContrato?.label}
+          </>
+        ) : (
+          "Sem Objetivos"
+        )}
+      </InlineIconInfo>
 
       <Box className="candidato-card-footer" sx={{ mb: 4 }}>
         <Typography variant="span" color="textSecondary">
