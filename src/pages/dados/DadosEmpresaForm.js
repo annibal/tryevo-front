@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import FormInput from "../commons/form/FormInput";
 import ManyForm from "../commons/ManyForm";
 import FormMaskedInput from "../commons/form/FormMaskedInput";
+import { optionsLinks, optionsTelefone } from "../../providers/enumProvider";
 
 const DadosEmpresaForm = ({ data, onChange }) => {
   const [dados, setDados] = useState(data || {});
@@ -80,13 +81,7 @@ const DadosEmpresaForm = ({ data, onChange }) => {
             valorRequired={true}
             data={dados}
             onChange={handleChange}
-            options={[
-              { value: "FIXO", label: "Fixo" },
-              { value: "CELULAR", label: "Celular" },
-              { value: "WHATSAPP", label: "Whatsapp" },
-              { value: "TELEGRAM", label: "Telegram" },
-              { value: "OUTRO", label: "Outro" },
-            ]}
+            options={optionsTelefone}
           />
         </Grid>
 
@@ -101,15 +96,7 @@ const DadosEmpresaForm = ({ data, onChange }) => {
             onChange={handleChange}
             tipoRequired={true}
             valorRequired={true}
-            options={[
-              { value: "WEBSITE", label: "Web Site" },
-              { value: "LINKEDIN", label: "LinkedIn" },
-              { value: "FACEBOOK", label: "Facebook" },
-              { value: "INSTAGRAM", label: "Instagram" },
-              { value: "TWITTER", label: "Twitter" },
-              { value: "YOUTUBE", label: "Youtube" },
-              { value: "OUTRO", label: "Outro" },
-            ]}
+            options={optionsLinks}
           />
         </Grid>
 

@@ -8,6 +8,7 @@ const FormSelect = ({
   onChange,
   getValue,
   hasDefault = true,
+  allowDefault = false,
   options,
   ...restProps
 }) => {
@@ -34,7 +35,7 @@ const FormSelect = ({
         {...restProps}
       >
         {hasDefault && (
-          <MenuItem value="" selected disabled>
+          <MenuItem value="" selected disabled={!allowDefault}>
             - Selecione -
           </MenuItem>
         )}

@@ -34,6 +34,9 @@ export const getFeaturesFromPlano = (plano) => {
     if (plano.startsWith("PF")) {
       features[ACCOUNT_FEATURES.PF] = true;
     }
+    if (plano === "PF_SMART") {
+      features[ACCOUNT_FEATURES.PF_DASH] = true;
+    }
 
     if (plano.startsWith("PJ")) {
       features[ACCOUNT_FEATURES.PJ] = true;

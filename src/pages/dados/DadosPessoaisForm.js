@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import FormSelect from "../commons/form/FormSelect";
 import FormInput from "../commons/form/FormInput";
 import FormMaskedInput from "../commons/form/FormMaskedInput";
+import { optionsCategoriaCNH, optionsLinks, optionsTelefone } from "../../providers/enumProvider";
 
 const DadosPessoaisForm = ({ data, onChange, loading }) => {
   const [dados, setDados] = useState(data || {});
@@ -40,13 +41,7 @@ const DadosPessoaisForm = ({ data, onChange, loading }) => {
             valorRequired={true}
             data={dados}
             onChange={handleChange}
-            options={[
-              { value: "FIXO", label: "Fixo" },
-              { value: "CELULAR", label: "Celular" },
-              { value: "WHATSAPP", label: "Whatsapp" },
-              { value: "TELEGRAM", label: "Telegram" },
-              { value: "OUTRO", label: "Outro" },
-            ]}
+            options={optionsTelefone}
           />
         </Grid>
 
@@ -61,15 +56,7 @@ const DadosPessoaisForm = ({ data, onChange, loading }) => {
             onChange={handleChange}
             tipoRequired={true}
             valorRequired={true}
-            options={[
-              { value: "WEBSITE", label: "Web Site" },
-              { value: "LINKEDIN", label: "LinkedIn" },
-              { value: "FACEBOOK", label: "Facebook" },
-              { value: "INSTAGRAM", label: "Instagram" },
-              { value: "TWITTER", label: "Twitter" },
-              { value: "YOUTUBE", label: "Youtube" },
-              { value: "OUTRO", label: "Outro" },
-            ]}
+            options={optionsLinks}
           />
         </Grid>
 
@@ -126,18 +113,7 @@ const DadosPessoaisForm = ({ data, onChange, loading }) => {
               name="categoriaCNH"
               data={dados}
               onChange={handleChange}
-              options={[
-                { value: "NONE", label: "Não Tem" },
-                { value: "A", label: "A (moto)" },
-                { value: "B", label: "B (carro)" },
-                { value: "C", label: "C (caminhão)" },
-                { value: "D", label: "D (micro ônibus)" },
-                { value: "E", label: "E (articulados)" },
-                { value: "AB",label:  "A e B (moto + carro)" },
-                { value: "AC",label:  "A e C (moto + caminhão)" },
-                { value: "AD",label:  "A e D (moto + micro ônibus)" },
-                { value: "AE",label:  "A e E (moto + articulados)" },
-              ]}
+              options={optionsCategoriaCNH}
             />
           </Box>
         </Grid>

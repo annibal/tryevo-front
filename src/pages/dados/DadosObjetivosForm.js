@@ -4,6 +4,7 @@ import FormInput from "../commons/form/FormInput";
 import { Add, Delete } from "@mui/icons-material";
 import FormCBO from "../commons/form/FormCBO";
 import FormSelect from "../commons/form/FormSelect";
+import { optionsJornada, optionsModeloContrato, optionsTipoContrato } from "../../providers/enumProvider";
 
 const DadosObjetivosForm = ({ data, onChange }) => {
   const [dados, setDados] = useState(data?.objetivos || []);
@@ -95,16 +96,7 @@ const DadosObjetivosForm = ({ data, onChange }) => {
                 getValue={() => objetivo.tipoContrato}
                 onChange={(value) => updateItem(value, "tipoContrato", idx)}
                 type="number"
-                options={[
-                  { value: "CLT", label: "CLT" },
-                  { value: "PJ", label: "PJ" },
-                  { value: "ESTAGIO", label: "Estágio" },
-                  { value: "TEMPORARIO", label: "Temporário" },
-                  { value: "PRAZO_DETERMINADO", label: "Prazo Determinado" },
-                  { value: "AUTONOMO", label: "Autônomo" },
-                  { value: "TRAINEE", label: "Trainee" },
-                  { value: "JOVEM_APRENDIZ", label: "Jovem Aprendiz" },
-                ]}
+                options={optionsTipoContrato}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -116,24 +108,7 @@ const DadosObjetivosForm = ({ data, onChange }) => {
                 getValue={() => objetivo.jornada}
                 onChange={(value) => updateItem(value, "jornada", idx)}
                 type="number"
-                options={[
-                  // { value: "DIURNO", label: "Diurno" },
-                  // { value: "VESPERTINO", label: "Vespertino" },
-                  // { value: "NOTURNO", label: "Noturno" },
-                  // {
-                  //   value: "HORARIO_DE_TRABALHO",
-                  //   label: "Horário de Trabalho",
-                  // },
-                  // { value: "ESCALA", label: "Escala" },
-                  { value: "INTEGRAL", label: "Integral" },
-                  { value: "MANHA", label: "Manhã" },
-                  { value: "TARDE", label: "Tarde" },
-                  { value: "NOITE", label: "Noite" },
-                  {
-                    value: "ESCALA_DE_REVEZAMENTO",
-                    label: "Escala de Revezamento",
-                  },
-                ]}
+                options={optionsJornada}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -145,11 +120,7 @@ const DadosObjetivosForm = ({ data, onChange }) => {
                 getValue={() => objetivo.modeloContrato}
                 onChange={(value) => updateItem(value, "modeloContrato", idx)}
                 type="number"
-                options={[
-                  { value: "PRESENCIAL", label: "Presencial" },
-                  { value: "HOME_OFFICE", label: "Home Office" },
-                  { value: "HIBRIDO", label: "Hibrido" },
-                ]}
+                options={optionsModeloContrato}
               />
             </Grid>
 

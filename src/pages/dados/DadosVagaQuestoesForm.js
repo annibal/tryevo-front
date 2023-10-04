@@ -6,6 +6,7 @@ import FormSelect from "../commons/form/FormSelect";
 import FormCheckbox from "../commons/form/FormCheckbox";
 import FormDatepicker from "../commons/form/FormDatepicker";
 import ManyFormSingle from "../commons/ManyFormSingle";
+import { optionsTipoQuestao } from "../../providers/enumProvider";
 
 const DadosVagaQuestoesForm = ({ data, onChange }) => {
   const [dados, setDados] = useState(data?.questoes || []);
@@ -82,11 +83,7 @@ const DadosVagaQuestoesForm = ({ data, onChange }) => {
                 data={dados}
                 getValue={() => questao.tipo}
                 onChange={(value) => updateItem(value, "tipo", idx)}
-                options={[
-                  { value: "TEXTO", label: "Texto" },
-                  { value: "SLIDER", label: "Slider de Valor" },
-                  { value: "ESCOLHA", label: "Múltipla Escolha" },
-                ]}
+                options={optionsTipoQuestao}
               />
             </Grid>
 

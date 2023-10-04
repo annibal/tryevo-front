@@ -23,7 +23,7 @@ import SimpleBarChart from "../../components/SimpleBarChart";
 const DashboardPFPage = () => {
   const auth = useAuth();
 
-  const hasChartDash = true; //(auth?.features || {})[ACCOUNT_FEATURES.PF_DASH];
+  const hasChartDash = (auth?.features || {})[ACCOUNT_FEATURES.PF_DASH];
 
   const barChartData = [
     { name: "A", value: 10 },

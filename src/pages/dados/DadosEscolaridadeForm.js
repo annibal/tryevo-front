@@ -5,6 +5,7 @@ import { Add, Delete } from "@mui/icons-material";
 import FormSelect from "../commons/form/FormSelect";
 import FormCheckbox from "../commons/form/FormCheckbox";
 import FormDatepicker from "../commons/form/FormDatepicker";
+import { optionsEscolaridade, optionsStatusEscolaridade } from "../../providers/enumProvider";
 
 // escolaridades = [
 //   {
@@ -84,15 +85,7 @@ const DadosEscolaridadeForm = ({ data, onChange }) => {
                 data={dados}
                 getValue={() => escolaridade.nivel}
                 onChange={(value) => updateItem(value, "nivel", idx)}
-                options={[
-                  { value: "FUNDAMENTAL", label: "Fundamental" },
-                  { value: "ENSINO_MEDIO", label: "Ensino Médio" },
-                  { value: "SUPERIOR", label: "Superior (Faculdade)" },
-                  { value: "POS_GRADUADO", label: "Pós Graduado" },
-                  { value: "MESTRADO", label: "Mestrado" },
-                  { value: "DOUTORADO", label: "Doutorado" },
-                  { value: "MBA", label: "MBA" },
-                ]}
+                options={optionsEscolaridade}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -102,11 +95,7 @@ const DadosEscolaridadeForm = ({ data, onChange }) => {
                 data={dados}
                 getValue={() => escolaridade.status}
                 onChange={(value) => updateItem(value, "status", idx)}
-                options={[
-                  { value: "COMPLETO", label: "Completo" },
-                  { value: "CURSANDO", label: "Cursando" },
-                  { value: "INCOMPLETO", label: "Incompleto" },
-                ]}
+                options={optionsStatusEscolaridade}
               />
             </Grid>
 

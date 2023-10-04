@@ -6,6 +6,7 @@ import FormCBO from "../../commons/form/FormCBO";
 import { useEffect, useState } from "react";
 import FormQualificacoes from "../../commons/form/FormQualificacoes";
 import DadosHabilidadesForm from "../../dados/DadosHabilidadesForm";
+import { optionsJornada, optionsModeloContrato, optionsTipoContrato } from "../../../providers/enumProvider";
 
 const DadosMinhaVagaPrincipal = ({ data, onChange, loading }) => {
   const [dados, setDados] = useState(data || {});
@@ -79,16 +80,7 @@ const DadosMinhaVagaPrincipal = ({ data, onChange, loading }) => {
           data={dados}
           onChange={handleChange}
           type="number"
-          options={[
-            { value: "CLT", label: "CLT" },
-            { value: "PJ", label: "PJ" },
-            { value: "ESTAGIO", label: "Estágio" },
-            { value: "TEMPORARIO", label: "Temporário" },
-            { value: "PRAZO_DETERMINADO", label: "Prazo Determinado" },
-            { value: "AUTONOMO", label: "Autônomo" },
-            { value: "TRAINEE", label: "Trainee" },
-            { value: "JOVEM_APRENDIZ", label: "Jovem Aprendiz" },
-          ]}
+          options={optionsTipoContrato}
         />
       </Grid>
       <Grid item xs={12} sm={6}>
@@ -98,21 +90,7 @@ const DadosMinhaVagaPrincipal = ({ data, onChange, loading }) => {
           data={dados}
           onChange={handleChange}
           type="number"
-          options={[
-            // { value: "DIURNO", label: "Diurno" },
-            // { value: "VESPERTINO", label: "Vespertino" },
-            // { value: "NOTURNO", label: "Noturno" },
-            // {
-            //   value: "HORARIO_DE_TRABALHO",
-            //   label: "Horário de Trabalho",
-            // },
-            // { value: "ESCALA", label: "Escala" },
-            { value: "INTEGRAL", label: "Integral" },
-            { value: "MANHA", label: "Manhã" },
-            { value: "TARDE", label: "Tarde" },
-            { value: "NOITE", label: "Noite" },
-            { value: "ESCALA_DE_REVEZAMENTO", label: "Escala de Revezamento" },
-          ]}
+          options={optionsJornada}
         />
       </Grid>
 
@@ -123,11 +101,7 @@ const DadosMinhaVagaPrincipal = ({ data, onChange, loading }) => {
           data={dados}
           onChange={handleChange}
           type="number"
-          options={[
-            { value: "PRESENCIAL", label: "Presencial" },
-            { value: "HOME_OFFICE", label: "Home Office" },
-            { value: "HIBRIDO", label: "Hibrido" },
-          ]}
+          options={optionsModeloContrato}
         />
       </Grid>
       <Grid item xs={12} sm={6}>

@@ -6,6 +6,7 @@ import FormInput from "../commons/form/FormInput";
 import FormSelect from "../commons/form/FormSelect";
 import FormDatepicker from "../commons/form/FormDatepicker";
 import FormCheckbox from "../commons/form/FormCheckbox";
+import { optionsEstadoCivil, optionsGenero } from "../../providers/enumProvider";
 
 const DadosPrincipaisForm = ({ data, onChange }) => {
   const [changeAvailable, setChangeAvailable] = useState(false);
@@ -66,12 +67,7 @@ const DadosPrincipaisForm = ({ data, onChange }) => {
             data={dados}
             onChange={handleChange}
             required
-            options={[
-              { value: "NAO_ESPECIFICADO", label: "Não Especificado" },
-              { value: "MASCULINO", label: "Masculino" },
-              { value: "FEMININO", label: "Feminino" },
-              { value: "OUTRO", label: "Outro" },
-            ]}
+            options={optionsGenero}
           />
         </Grid>
         <Grid item xs={12} sm={6}>
@@ -80,13 +76,7 @@ const DadosPrincipaisForm = ({ data, onChange }) => {
             name="estadoCivil"
             data={dados}
             onChange={handleChange}
-            options={[
-              { value: "SOLTEIRO", label: "Solteiro" },
-              { value: "CASADO", label: "Casado" },
-              { value: "UNIAO_ESTAVEL", label: "União Estável" },
-              { value: "VIUVO", label: "Viuvo" },
-              { value: "OUTRO", label: "Outro" },
-            ]}
+            options={optionsEstadoCivil}
           />
         </Grid>
         <Grid item xs={12} sm={6}>

@@ -10,7 +10,10 @@ const PropostaFeitaPage = () => {
       <p>- Em construção -</p>
       <p>Dados da vaga</p>
       <p>Dados da proposta</p>
-      <p>Dados do cliente</p>
+      <p>Curriculo do candidato</p>
+      <br />
+      <button className="nb-btn">Exibir Dados (paywall)</button>
+      <br />
       <button className="nb-btn">Contratar</button>
     </div>
   );

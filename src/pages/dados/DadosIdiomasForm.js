@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import ManyForm from "../commons/ManyForm";
+import { optionsFluenciaLinguagem, optionsLinguagens } from "../../providers/enumProvider";
 
 const DadosIdiomasForm = ({ data, onChange }) => {
   const [dados, setDados] = useState(data || {});
@@ -27,24 +28,8 @@ const DadosIdiomasForm = ({ data, onChange }) => {
       onChange={handleChange}
       tipoRequired={true}
       valorRequired={true}
-      valueOptions={[
-        { value: "Portugues", label: "Portugues" },
-        { value: "Inglês", label: "Inglês" },
-        { value: "Espanhol", label: "Espanhol" },
-        { value: "Francês", label: "Francês" },
-        { value: "Italiano", label: "Italiano" },
-        { value: "Alemão", label: "Alemão" },
-        { value: "Japonês", label: "Japonês" },
-        { value: "Mandarim-Chinês", label: "Mandarim-Chinês" },
-        { value: "Russo", label: "Russo" },
-      ]}
-      options={[
-        { value: "NENHUMA", label: "Nenhuma" },
-        { value: "BASICA", label: "Básica" },
-        { value: "INTERMEDIARIA", label: "Intermediária" },
-        { value: "PROFICIENTE", label: "Proficiente" },
-        { value: "FLUENTE", label: "Nativo / Fluente" },
-      ]}
+      valueOptions={optionsLinguagens}
+      options={optionsFluenciaLinguagem}
     />
   );
 };

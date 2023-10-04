@@ -4,6 +4,7 @@ import ManyForm from "../../commons/ManyForm";
 import FormCheckbox from "../../commons/form/FormCheckbox";
 import FormSelect from "../../commons/form/FormSelect";
 import FormInput from "../../commons/form/FormInput";
+import { optionsCategoriaCNH, optionsEscolaridade, optionsGenero } from "../../../providers/enumProvider";
 
 const DadosMinhaVagaRequisitos = ({ data, onChange, loading }) => {
   const [dados, setDados] = useState(data || {});
@@ -28,15 +29,7 @@ const DadosMinhaVagaRequisitos = ({ data, onChange, loading }) => {
           name={"escolaridade"}
           data={dados}
           onChange={handleChange}
-          options={[
-            { value: "FUNDAMENTAL", label: "Fundamental" },
-            { value: "ENSINO_MEDIO", label: "Ensino Médio" },
-            { value: "SUPERIOR", label: "Superior (Faculdade)" },
-            { value: "POS_GRADUADO", label: "Pós Graduado" },
-            { value: "MESTRADO", label: "Mestrado" },
-            { value: "DOUTORADO", label: "Doutorado" },
-            { value: "MBA", label: "MBA" },
-          ]}
+          options={optionsEscolaridade}
         />
       </Grid>
       <Grid item xs={12} sm={6}>
@@ -93,18 +86,7 @@ const DadosMinhaVagaRequisitos = ({ data, onChange, loading }) => {
           name="categoriaCNH"
           data={dados}
           onChange={handleChange}
-          options={[
-            { value: "NONE", label: "Não Tem" },
-            { value: "A", label: "A (moto)" },
-            { value: "B", label: "B (carro)" },
-            { value: "C", label: "C (caminhão)" },
-            { value: "D", label: "D (micro ônibus)" },
-            { value: "E", label: "E (articulados)" },
-            { value: "AB", label: "A e B (moto + carro)" },
-            { value: "AC", label: "A e C (moto + caminhão)" },
-            { value: "AD", label: "A e D (moto + micro ônibus)" },
-            { value: "AE", label: "A e E (moto + articulados)" },
-          ]}
+          options={optionsCategoriaCNH}
         />
       </Grid>
       <Grid item xs={12} sm={6}>
@@ -113,12 +95,7 @@ const DadosMinhaVagaRequisitos = ({ data, onChange, loading }) => {
           name="genero"
           data={dados}
           onChange={handleChange}
-          options={[
-            { value: "NAO_ESPECIFICADO", label: "Não Especificado" },
-            { value: "MASCULINO", label: "Masculino" },
-            { value: "FEMININO", label: "Feminino" },
-            { value: "OUTRO", label: "Outro" },
-          ]}
+          options={optionsGenero}
         />
       </Grid>
 
