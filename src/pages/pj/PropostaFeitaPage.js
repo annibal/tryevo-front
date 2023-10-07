@@ -1,4 +1,4 @@
-import { Link, useParams } from "react-router-dom";
+import { Link, Navigate, useParams } from "react-router-dom";
 import useFetch from "../../providers/useFetch";
 import { getStatusCandidatura } from "../pf/candidatura/CandidaturaPage";
 import { Helmet } from "react-helmet";
@@ -60,7 +60,21 @@ const PropostaFeitaPage = () => {
       setVerDadosLoading(false);
     });
   };
-  const handleContratar = () => {};
+  const handleContratar = () => {
+    setContratarLoading(true);
+    setContratarError(null);
+    doCall(`/proposta/${propostaId}/set-contratado`, {
+      method: "POST",
+    }).then((response) => {
+      if (response.error) {
+        setContratarError(response.error?.message || response.error);
+      } else {
+        alert("Contrato feito com sucesso!");
+        setContratarData(response.data);
+      }
+      setContratarLoading(false);
+    });
+  };
 
   // const vagaResponse = useFetch(
   //   "GET",
@@ -220,7 +234,12 @@ const PropostaFeitaPage = () => {
                     (x) => x.value === link.tipo
                   );
                   return (
-                    <a href={link.valor} key={link.valor} target="_blank" rel="noreferrer">
+                    <a
+                      href={link.valor}
+                      key={link.valor}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
                       <Typography color="primary" component="span">
                         {link.valor}
                       </Typography>
@@ -282,15 +301,30 @@ const PropostaFeitaPage = () => {
               </InlineIconInfo>
 
               <Box>
+                {!contratarLoading && contratarError && (
+                  <Box sx={{ pb: 2 }}>
+                    <Typography color="error">
+                      {String(contratarError)}
+                    </Typography>
+                  </Box>
+                )}
+
                 <LoadingButton
                   loading={contratarLoading}
                   onClick={handleContratar}
                   disableElevation
+                  disabled={proposta.contratou}
                   color="primary"
                   variant="contained"
                 >
-                  Contratar
+                  {proposta.contratou ? 'Contratado' : 'Contratar' }
                 </LoadingButton>
+
+                {contratarData && (
+                  <Navigate
+                    to={"/app/" + allRoutesData.pjPropostasFeitas.path}
+                  />
+                )}
 
                 <Button
                   sx={{ ml: 2 }}
@@ -327,21 +361,6 @@ const PropostaFeitaPage = () => {
         </Section>
       </ResponseWrapper>
     </Box>
-  );
-
-  return (
-    <div>
-      <h2>Proposta Feita</h2>
-      <p>#{propostaId}</p>
-      <p>- Em construção -</p>
-      <p>Dados da vaga</p>
-      <p>Dados da proposta</p>
-      <p>Curriculo do candidato</p>
-      <br />
-      <button className="nb-btn">Exibir Dados (paywall)</button>
-      <br />
-      <button className="nb-btn">Contratar</button>
-    </div>
   );
 };
 

@@ -22,7 +22,7 @@ export const getStatusCandidatura = (candidatura) => {
   if (candidatura?._id)
     statusCandidatura = { color: "inherit", label: "Em Aberto" };
   if (candidatura?.viuDados)
-    statusCandidatura = { color: "primary", label: "Visualizada pela Empresa" };
+    statusCandidatura = { color: "primary", label: "Visualizada" };
   if (candidatura?.contratou)
     statusCandidatura = { color: "secondary", label: "Contratado!" };
 
@@ -48,15 +48,17 @@ const CandidaturaPage = () => {
   const vaga = candidatura.vaga || {};
 
   const handleDelete = () => {
+    setActionLoading(true);
+    setActionError(null);
     doCall(`candidatura/${candidaturaId}`, { method: "DELETE" }).then(
       (response) => {
         if (response.error) {
           setActionError(response.error?.message || response.error);
         } else {
           alert("Candidatura excluída.");
+          setIsDeleted(true);
         }
         setActionLoading(false);
-        setIsDeleted(true);
       }
     );
   };
@@ -72,12 +74,19 @@ const CandidaturaPage = () => {
           <Grid container spacing={2}>
             <Grid item xs={12} sm={7} md={8} lg={9}>
               <Typography variant="h4">Candidatura</Typography>
+
+              {!actionLoading && actionError && (
+                <Box sx={{ py: 2 }}>
+                  <Typography color="error">{String(actionError)}</Typography>
+                </Box>
+              )}
             </Grid>
             <Grid item xs={12} sm={5} md={4} lg={3} sx={{ textAlign: "right" }}>
               <LoadingButton
                 loading={actionLoading}
                 onClick={handleDelete}
                 disableElevation
+                disabled={candidatura.contratou}
                 color="error"
                 startIcon={<DeleteForeverIcon />}
                 variant="outlined"
@@ -85,12 +94,6 @@ const CandidaturaPage = () => {
               >
                 Excluir Candidatura
               </LoadingButton>
-
-              {!actionLoading && actionError && (
-                <Box sx={{ pb: 2 }}>
-                  <Typography color="error">{String(actionError)}</Typography>
-                </Box>
-              )}
 
               {isDeleted && (
                 <Navigate to={"/app/" + allRoutesData.pfCandidaturas.path} />

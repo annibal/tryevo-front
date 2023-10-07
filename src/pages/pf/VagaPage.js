@@ -119,7 +119,30 @@ const VagaPage = () => {
               {/* Titulo */}
 
               <Grid item xs={12} sm={8}>
-                <Typography variant="h3">{vagaTitulo}</Typography>
+                {vaga.ativa ? (
+                  <Typography variant="h3">{vagaTitulo}</Typography>
+                ) : (
+                  <>
+                    <Typography variant="h3" color="text.secondary">{vagaTitulo}</Typography>
+                    {vaga.contratou ? (
+                      <Typography color="text.secondary" sx={{ mt: 2 }}>
+                        Esta vaga já foi preenchida
+                      </Typography>
+                    ) : (
+                      <Typography color="text.secondary" sx={{ mt: 1 }}>
+                        Esta vaga não está mais disponível
+                      </Typography>
+                    )}
+                  </>
+                )}
+
+                {vaga.contratou === auth.userInfo?._id && (
+                  <Box sx={{ border: '1px solid', borderColor: "secondary.main", px: 2, py: 4, mt: 2 }}>
+                    <Typography color="secondary" align="center">
+                      Parabéns! Você foi contratado para esta vaga
+                    </Typography>
+                  </Box>
+                )}
               </Grid>
 
               {/* Botoes */}
@@ -132,6 +155,7 @@ const VagaPage = () => {
                       onClick={handleSalvarVaga}
                       size="large"
                       disableElevation
+                      disabled={!vaga.ativa || vaga.contratou}
                       color={isFavorite ? "secondary" : "primary"}
                       variant="outlined"
                       startIcon={<FavoriteIcon />}
@@ -143,6 +167,7 @@ const VagaPage = () => {
                     <Button
                       size="large"
                       disableElevation
+                      disabled={!vaga.ativa || vaga.contratou}
                       variant="contained"
                       startIcon={<HandshakeIcon />}
                       LinkComponent={Link}
