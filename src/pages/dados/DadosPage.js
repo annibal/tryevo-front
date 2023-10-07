@@ -1,5 +1,6 @@
 import {
   Box,
+  Button,
   Divider,
   Grid,
   List,
@@ -29,6 +30,8 @@ import DadosObjetivosForm from "./DadosObjetivosForm";
 import DadosHabilidadesForm from "./DadosHabilidadesForm";
 import DadosResumo from "./DadosResumo";
 import DadosCursosForm from "./DadosCursosForm";
+import allRoutesData from "../../base/routes_data";
+import { Link } from "react-router-dom";
 
 
 // return (
@@ -357,6 +360,17 @@ const DadosPage = () => {
               >
                 Salvar
               </LoadingButton>
+              <Button
+                sx={{ mt: 2 }}
+                disableElevation
+                variant="outlined"
+                LinkComponent={Link}
+                to={"/app/" + allRoutesData.pfCurriculoCompleto.path}
+                target="_blank"
+                fullWidth
+              >
+                Ver CV Completo
+              </Button>
             </Box>
           </Grid>
           <Grid item xs={12} sm={8}>

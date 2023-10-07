@@ -33,6 +33,7 @@ const VagaPage = () => {
   const vagaResponse = useFetch("GET", `vaga/${vagaId}`);
   const [isLoadingSalvarVaga, setIsLoadingSalvarVaga] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
+
   useEffect(() => {
     setIsFavorite((auth.userInfo?.vagasSalvas || []).includes(vagaId));
   }, [auth.userInfo?.vagasSalvas, vagaId]);
@@ -106,6 +107,20 @@ const VagaPage = () => {
     });
   };
 
+  const isContratado =
+    vaga.contratou === auth.userInfo?._id &&
+    vaga.contratou != null &&
+    auth.userInfo?._id != null;
+
+  const candidaturas = vaga.propostas || [];
+  const isCandidatado = candidaturas.find(
+    (p) => p.candidatoId === auth.userInfo?._id
+  );
+
+  const btnCandidaturaUrl = isCandidatado
+    ? "/app/" + allRoutesData.pfCandidaturas.path + isCandidatado._id 
+    : "/app/" + allRoutesData.pfNovaCandidatura.path + vagaId + "/" + vagaNome;
+
   return (
     <Box>
       <Helmet>
@@ -119,11 +134,21 @@ const VagaPage = () => {
               {/* Titulo */}
 
               <Grid item xs={12} sm={8}>
-                {vaga.ativa ? (
-                  <Typography variant="h3">{vagaTitulo}</Typography>
+                {vaga.active !== false ? (
+                  <>
+                    <Typography variant="h3">{vagaTitulo}</Typography>
+                    {candidaturas.length > 0 && (
+                      <Typography color="primary" sx={{ mt: 2 }}>
+                        {candidaturas.length} candidatura
+                        {candidaturas.length === 1 ? "" : "s"} para esta vaga
+                      </Typography>
+                    )}
+                  </>
                 ) : (
                   <>
-                    <Typography variant="h3" color="text.secondary">{vagaTitulo}</Typography>
+                    <Typography variant="h3" color="text.secondary">
+                      {vagaTitulo}
+                    </Typography>
                     {vaga.contratou ? (
                       <Typography color="text.secondary" sx={{ mt: 2 }}>
                         Esta vaga já foi preenchida
@@ -136,8 +161,16 @@ const VagaPage = () => {
                   </>
                 )}
 
-                {vaga.contratou === auth.userInfo?._id && (
-                  <Box sx={{ border: '1px solid', borderColor: "secondary.main", px: 2, py: 4, mt: 2 }}>
+                {isContratado && (
+                  <Box
+                    sx={{
+                      border: "1px solid",
+                      borderColor: "secondary.main",
+                      px: 2,
+                      py: 4,
+                      mt: 2,
+                    }}
+                  >
                     <Typography color="secondary" align="center">
                       Parabéns! Você foi contratado para esta vaga
                     </Typography>
@@ -155,32 +188,27 @@ const VagaPage = () => {
                       onClick={handleSalvarVaga}
                       size="large"
                       disableElevation
-                      disabled={!vaga.ativa || vaga.contratou}
+                      disabled={!vaga.active || vaga.contratou}
                       color={isFavorite ? "secondary" : "primary"}
                       variant="outlined"
                       startIcon={<FavoriteIcon />}
                       sx={{ width: { xs: "auto", sm: "100%" } }}
                     >
-                      {isFavorite ? 'Vaga Salva' : 'Salvar Vaga'}
+                      {isFavorite ? "Vaga Salva" : "Salvar Vaga"}
                     </LoadingButton>
                     <Box sx={{ pt: 1 }} />
                     <Button
                       size="large"
                       disableElevation
-                      disabled={!vaga.ativa || vaga.contratou}
+                      disabled={!vaga.active || vaga.contratou}
                       variant="contained"
+                      color={isCandidatado ? "secondary" : "primary"}
                       startIcon={<HandshakeIcon />}
                       LinkComponent={Link}
-                      to={
-                        "/app/" +
-                        allRoutesData.pfNovaCandidatura.path +
-                        vagaId +
-                        "/" +
-                        vagaNome
-                      }
+                      to={btnCandidaturaUrl}
                       sx={{ width: { xs: "auto", sm: "100%" } }}
                     >
-                      Me Candidatar
+                      {isCandidatado ? "Ver Candidatura" : "Me Candidatar"}
                     </Button>
                   </>
                 )}
