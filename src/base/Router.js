@@ -139,11 +139,6 @@ const router = createBrowserRouter([
             element: <ProtectedRoute><CandidaturaPage /></ProtectedRoute>,
           },
           {
-            path: allRoutesData.pfCandidaturas.path + ":candidaturaId/:vagaNome",
-            handle: allRoutesData.pfCandidaturas,
-            element: <ProtectedRoute><CandidaturaPage /></ProtectedRoute>,
-          },
-          {
             path: allRoutesData.pfNovaCandidatura.path + ":vagaId",
             handle: allRoutesData.pfNovaCandidatura,
             element: <ProtectedRoute><NovaCandidaturaPage /></ProtectedRoute>,

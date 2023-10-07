@@ -1,4 +1,4 @@
-import { Link, useParams } from "react-router-dom";
+import { Link, Navigate, useParams } from "react-router-dom";
 import allRoutesData from "../../../base/routes_data";
 import useFetch from "../../../providers/useFetch";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
@@ -13,14 +13,20 @@ import FormInput from "../../commons/form/FormInput";
 import { useState } from "react";
 import FormSelect from "../../commons/form/FormSelect";
 import FormSlider from "../../commons/form/FormSlider";
+import { doCall } from "../../../providers/baseProvider";
+import { LoadingButton } from "@mui/lab";
 
 const NovaCandidaturaPage = () => {
   const { userInfo } = useAuth();
   let { vagaId, vagaNome } = useParams();
   const vagaResponse = useFetch("GET", `vaga/${vagaId}`);
+  const [isLoading, setIsLoading] = useState(false);
+  const [actionError, setActionError] = useState(null);
+  const [candidaturaCreated, setCandidaturaCreated] = useState(null);
 
   const [dados, setDados] = useState({});
   const handleChange = (value, name, data) => {
+    setActionError(null)
     setDados({
       ...data,
       [name]: value,
@@ -32,20 +38,66 @@ const NovaCandidaturaPage = () => {
   // const url = '/app/' + allRoutesData.pfCandidaturas.path + (vagaId * 17) + '/' + vagaNome
 
   const handleSubmit = (event) => {
-    console.log(dados)
+    const arrQuestoes = vaga.questoes || [];
+    const questoes = [{
+      pergunta: "Carta de Apresentação",
+      resposta: dados.cartaApresentacao,
+    }];
+    Object.entries(dados).forEach((entry) => {
+      const respostaValida = entry[1] != null && entry[1] != "";
+      const questao = arrQuestoes.find((q) => q._id === entry[0]);
+      if (questao && respostaValida) {
+        questoes.push({
+          pergunta: questao.titulo,
+          resposta: entry[1],
+        });
+      }
+    });
+
+    const data = {
+      candidatoId: userInfo._id,
+      vagaId,
+      questoes,
+    }
+
+    setIsLoading(true);
+    setActionError(null);
+    doCall(`/candidaturas`, {
+      method: "POST",
+      body: data,
+    }).then((response) => {
+      if (response.error) {
+        console.error(response.error);
+        setActionError(response.error?.message || response.error);
+      } else {
+        setCandidaturaCreated(response.data)
+      }
+      setIsLoading(false);
+    });
+
     event.preventDefault();
   };
 
   return (
     <Box>
       <Helmet>
-        <title>{vagaTitulo} - Vaga em TryEvo</title>
+        <title>Nova Candidatura para {vagaTitulo} - TryEvo</title>
       </Helmet>
+
+      {candidaturaCreated && (
+        <Navigate to={'/app/' + allRoutesData.pfCandidaturas.path + candidaturaCreated._id} />
+      )}
 
       <ResponseWrapper {...vagaResponse}>
         <Box sx={{ mt: 2, mb: 4 }}>
           <Typography variant="h4">Nova Candidatura</Typography>
         </Box>
+
+      {!isLoading && actionError && (
+        <Box sx={{ pb: 2 }}>
+          <Typography color="error">{String(actionError)}</Typography>
+        </Box>
+      )}
 
         <Box sx={{ mb: 8 }}>
           <Grid container spacing={2}>
@@ -103,18 +155,14 @@ const NovaCandidaturaPage = () => {
         </Box>
 
         <Box sx={{ mb: 4 }}>
-          <Typography>
-            Ao enviar sua candidatura ...
-          </Typography>
+          <Typography>Ao enviar sua candidatura ...</Typography>
         </Box>
 
         <Box sx={{ mb: 4 }}>
           <form onSubmit={handleSubmit}>
             <Grid container spacing={4}>
               <Grid item xs={12} sm={8}>
-                <Typography variant="h6">
-                  Questões pré-candidatura
-                </Typography>
+                <Typography variant="h6">Questões pré-candidatura</Typography>
               </Grid>
 
               <Grid item xs={12} sm={8}>
@@ -129,8 +177,7 @@ const NovaCandidaturaPage = () => {
                 />
               </Grid>
 
-              {(vaga.questoes || []).map(questao => {
-
+              {(vaga.questoes || []).map((questao) => {
                 return (
                   <Grid item xs={12} sm={8} key={questao._id}>
                     {questao.tipo === "TEXTO" && (
@@ -152,7 +199,7 @@ const NovaCandidaturaPage = () => {
                         allowDefault={questao.isObrigatorio !== true}
                         data={dados}
                         onChange={handleChange}
-                        options={(questao.escolhas || []).map(escolha => ({
+                        options={(questao.escolhas || []).map((escolha) => ({
                           value: escolha,
                           label: escolha,
                         }))}
@@ -170,20 +217,21 @@ const NovaCandidaturaPage = () => {
                       />
                     )}
                   </Grid>
-                )
+                );
               })}
 
               <Grid item xs={12} sm={8}>
-                <Button
+                <LoadingButton
                   type="submit"
                   size="large"
                   disableElevation
+                  loading={isLoading}
                   variant="contained"
                   startIcon={<HandshakeIcon />}
                   sx={{ width: { xs: "auto", sm: "100%" } }}
                 >
                   Enviar Candidatura
-                </Button>
+                </LoadingButton>
               </Grid>
             </Grid>
           </form>

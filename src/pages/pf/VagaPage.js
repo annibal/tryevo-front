@@ -132,11 +132,12 @@ const VagaPage = () => {
                       onClick={handleSalvarVaga}
                       size="large"
                       disableElevation
+                      color={isFavorite ? "secondary" : "primary"}
                       variant="outlined"
                       startIcon={<FavoriteIcon />}
                       sx={{ width: { xs: "auto", sm: "100%" } }}
                     >
-                      Salvar Vaga
+                      {isFavorite ? 'Vaga Salva' : 'Salvar Vaga'}
                     </LoadingButton>
                     <Box sx={{ pt: 1 }} />
                     <Button
