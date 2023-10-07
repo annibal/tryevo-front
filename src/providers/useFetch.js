@@ -8,6 +8,7 @@ const useFetch = (method, url, params) => {
   const [meta, setMeta] = useState(null);
 
   useEffect(() => {
+    if (url == null) return;
     (async () => {
       let strUrl = url;
       let options = { method };

@@ -44,18 +44,18 @@ const NovaCandidaturaPage = () => {
       resposta: dados.cartaApresentacao,
     }];
     Object.entries(dados).forEach((entry) => {
-      const respostaValida = entry[1] != null && entry[1] != "";
+      const respostaValida = entry[1] != null && entry[1] !== "";
       const questao = arrQuestoes.find((q) => q._id === entry[0]);
       if (questao && respostaValida) {
         questoes.push({
           pergunta: questao.titulo,
-          resposta: entry[1],
+          resposta: `${entry[1]}`,
         });
       }
     });
 
     const data = {
-      candidatoId: userInfo._id,
+      // candidatoId: userInfo._id,
       vagaId,
       questoes,
     }
@@ -92,12 +92,6 @@ const NovaCandidaturaPage = () => {
         <Box sx={{ mt: 2, mb: 4 }}>
           <Typography variant="h4">Nova Candidatura</Typography>
         </Box>
-
-      {!isLoading && actionError && (
-        <Box sx={{ pb: 2 }}>
-          <Typography color="error">{String(actionError)}</Typography>
-        </Box>
-      )}
 
         <Box sx={{ mb: 8 }}>
           <Grid container spacing={2}>
@@ -221,6 +215,12 @@ const NovaCandidaturaPage = () => {
               })}
 
               <Grid item xs={12} sm={8}>
+                {!isLoading && actionError && (
+                  <Box sx={{ pb: 2 }}>
+                    <Typography color="error">{String(actionError)}</Typography>
+                  </Box>
+                )}
+
                 <LoadingButton
                   type="submit"
                   size="large"
