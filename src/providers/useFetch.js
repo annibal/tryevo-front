@@ -7,6 +7,8 @@ const useFetch = (method, url, params) => {
   const [data, setData] = useState(null);
   const [meta, setMeta] = useState(null);
 
+  const strParams = JSON.stringify(params || {})
+
   useEffect(() => {
     if (url == null) return;
     (async () => {
@@ -34,7 +36,7 @@ const useFetch = (method, url, params) => {
         setError(response.error);
       }
     })();
-  }, [method, url, params])
+  }, [method, url, strParams])
 
   return {
     loading,

@@ -64,6 +64,7 @@ const VagaCard = ({
     ocultarEmpresa,
     empresa,
   },
+  isPJ = false,
   disableFavorite,
   ...restProps
 }) => {
@@ -71,9 +72,9 @@ const VagaCard = ({
   const [isLoadingSalvarVaga, setIsLoadingSalvarVaga] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
 
-  const vagaUrl = `/app/${allRoutesData.vagas.path}${_id}/${encodeURIComponent(
-    titulo
-  )}`;
+  const tituloURL = encodeURIComponent(titulo)
+  const path = isPJ ? allRoutesData.pjMinhaVaga.path : allRoutesData.vagas.path;
+  const vagaUrl = `/app/${path}${_id}/${tituloURL}`;
 
   useEffect(() => {
     setIsFavorite((auth.userInfo?.vagasSalvas || []).includes(_id))

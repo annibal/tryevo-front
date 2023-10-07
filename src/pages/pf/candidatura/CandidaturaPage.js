@@ -26,8 +26,8 @@ export const getStatusCandidatura = (candidatura) => {
   if (candidatura?.contratou)
     statusCandidatura = { color: "secondary", label: "Contratado!" };
 
-  return statusCandidatura
-}
+  return statusCandidatura;
+};
 
 const CandidaturaPage = () => {
   const { userInfo } = useAuth();
@@ -38,13 +38,14 @@ const CandidaturaPage = () => {
 
   const candidaturaResponse = useFetch("GET", `candidatura/${candidaturaId}`);
   const candidatura = candidaturaResponse.data || {};
-  const statusCandidatura = getStatusCandidatura(candidatura)
+  const statusCandidatura = getStatusCandidatura(candidatura);
 
-  const vagaResponse = useFetch(
-    "GET",
-    candidatura.vagaId != null ? `vaga/${candidatura.vagaId}` : null
-  );
-  const vaga = vagaResponse.data || {};
+  // const vagaResponse = useFetch(
+  //   "GET",
+  //   candidatura.vagaId != null ? `vaga/${candidatura.vagaId}` : null
+  // );
+  // const vaga = vagaResponse.data || {}
+  const vaga = candidatura.vaga || {};
 
   const handleDelete = () => {
     doCall(`candidatura/${candidaturaId}`, { method: "DELETE" }).then(
@@ -52,10 +53,10 @@ const CandidaturaPage = () => {
         if (response.error) {
           setActionError(response.error?.message || response.error);
         } else {
-          alert("Candidatura excluída.")
+          alert("Candidatura excluída.");
         }
         setActionLoading(false);
-        setIsDeleted(true)
+        setIsDeleted(true);
       }
     );
   };
@@ -72,7 +73,7 @@ const CandidaturaPage = () => {
             <Grid item xs={12} sm={7} md={8} lg={9}>
               <Typography variant="h4">Candidatura</Typography>
             </Grid>
-            <Grid item xs={12} sm={5} md={4} lg={3} sx={{ textAlign: 'right' }}>
+            <Grid item xs={12} sm={5} md={4} lg={3} sx={{ textAlign: "right" }}>
               <LoadingButton
                 loading={actionLoading}
                 onClick={handleDelete}
@@ -90,9 +91,9 @@ const CandidaturaPage = () => {
                   <Typography color="error">{String(actionError)}</Typography>
                 </Box>
               )}
-              
+
               {isDeleted && (
-                <Navigate to={'/app/' + allRoutesData.pfCandidaturas.path} />
+                <Navigate to={"/app/" + allRoutesData.pfCandidaturas.path} />
               )}
             </Grid>
           </Grid>
@@ -112,7 +113,7 @@ const CandidaturaPage = () => {
 
           <InlineIconInfo
             Icon={LabelImportantIcon}
-            className="candidatura-created-at"
+            className="candidatura-status"
             sx={{ mb: 4 }}
             title="Status"
           >
@@ -143,7 +144,13 @@ const CandidaturaPage = () => {
               <ArrowForwardIcon />
             </Grid>
             <Grid item xs={12} sm={5.5}>
-              {vagaResponse.isLoading ? (
+              <VagaCard
+                vaga={vaga}
+                disableFavorite
+                sx={{ border: "1px solid #88888888", p: 4, pb: 0 }}
+              />
+
+              {/* {vagaResponse.isLoading ? (
                 <>Vaga...</>
               ) : (
                 <VagaCard
@@ -151,7 +158,7 @@ const CandidaturaPage = () => {
                   disableFavorite
                   sx={{ border: "1px solid #88888888", p: 4, pb: 0 }}
                 />
-              )}
+              )} */}
             </Grid>
           </Grid>
         </Box>
@@ -168,7 +175,9 @@ const CandidaturaPage = () => {
               sx={{ mb: 4 }}
               title={questao.pergunta}
             >
-              <Typography sx={{ whiteSpace: "pre-line" }}>{questao.resposta}</Typography>
+              <Typography sx={{ whiteSpace: "pre-line" }}>
+                {questao.resposta}
+              </Typography>
             </InlineIconInfo>
           ))}
         </Box>

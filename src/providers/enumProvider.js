@@ -106,10 +106,10 @@ export const optionsCategoriaCNH = [
 ]
 
 export const optionsGenero = [
-  { value: "NAO_ESPECIFICADO", label: "Não Especificado" },
-  { value: "MASCULINO", label: "Masculino" },
-  { value: "FEMININO", label: "Feminino" },
-  { value: "OUTRO", label: "Outro" },
+  { value: "NAO_ESPECIFICADO", label: "Não Especificado", labelTiny: "n/a" },
+  { value: "MASCULINO", label: "Masculino", labelTiny: "Masc" },
+  { value: "FEMININO", label: "Feminino", labelTiny: "Fem" },
+  { value: "OUTRO", label: "Outro", labelTiny: "Outro" },
 ]
 
 export const optionsEstadoCivil = [

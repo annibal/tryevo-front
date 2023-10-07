@@ -54,8 +54,8 @@ const ResponseWrapper = ({
     const DataItemComponent = dataItemComponent ?? DefaultDataItemComponent;
     return (
       <DataComponent>
-        {data.map((item) => (
-          <DataItemComponent key={item[listKey]} item={item} {...restProps} />
+        {data.map((item, rowIndex) => (
+          <DataItemComponent key={item[listKey]} rowIndex={rowIndex} item={item} {...restProps} />
         ))}
       </DataComponent>
     );
