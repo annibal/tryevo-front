@@ -7,6 +7,15 @@ body {
   padding: 0 !important;
 }
 
+@media print {
+  .print-section {
+    break-inside: avoid;
+  }
+  .print-hidden {
+    display: none;
+  }
+}
+
 /*
   Breakpoints
     xs : 0px

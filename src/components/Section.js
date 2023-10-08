@@ -9,7 +9,7 @@ const Section = ({
   children,
 }) => {
   return (
-    <Box sx={{ mb: withoutDivider ? spacing : 2 }}>
+    <Box sx={{ mb: withoutDivider ? spacing : 2 }} className="print-section">
       <Box sx={{ mb: spacing }}>
         <Typography variant={titleVariant}>{title}</Typography>
         {subtitle && <Typography variant="body2">{subtitle}</Typography>}

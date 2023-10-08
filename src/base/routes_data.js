@@ -164,7 +164,7 @@ export const pessoaFisicaRoutes = {
     priority: 500,
     path: "pf/curriculo-completo/",
     icon: <InfoIcon />,
-    title: "Curriculo Completo",
+    title: "Currículo Completo",
     rules: [ACCOUNT_FEATURES.LOGGED, ACCOUNT_FEATURES.PF],
     navbar: {
       place: NAVBAR_PLACE.NONE,
@@ -373,6 +373,16 @@ export const pessoaJuridicaRoutes = {
     rules: [ACCOUNT_FEATURES.LOGGED, ACCOUNT_FEATURES.PJ],
     navbar: {
       place: NAVBAR_PLACE.TOOLBAR,
+    },
+  },
+  pjCurriculoCompleto: {
+    priority: 500,
+    path: "pj/curriculo-completo/",
+    icon: <InfoIcon />,
+    title: "Currículo Completo",
+    rules: [ACCOUNT_FEATURES.LOGGED, ACCOUNT_FEATURES.PJ],
+    navbar: {
+      place: NAVBAR_PLACE.NONE,
     },
   },
 };

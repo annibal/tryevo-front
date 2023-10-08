@@ -240,15 +240,15 @@ const PropostaFeitaPage = () => {
                       target="_blank"
                       rel="noreferrer"
                     >
-                      <Typography color="primary" component="span">
+                      <Typography color="primary">
                         {link.valor}
+                        {tipoLink && (
+                          <Typography color="textSecondary" component="span">
+                            {" - "}
+                            {tipoLink.label}
+                          </Typography>
+                        )}
                       </Typography>
-                      {tipoLink && (
-                        <Typography color="textSecondary" component="span">
-                          {" - "}
-                          {tipoLink.label}
-                        </Typography>
-                      )}
                     </a>
                   );
                 })}
@@ -318,7 +318,7 @@ const PropostaFeitaPage = () => {
                   color="primary"
                   variant="contained"
                 >
-                  {proposta.contratou ? 'Contratado' : 'Contratar' }
+                  {proposta.contratou ? "Contratado" : "Contratar"}
                 </LoadingButton>
 
                 {contratarData && (
@@ -332,7 +332,11 @@ const PropostaFeitaPage = () => {
                   disableElevation
                   variant="outlined"
                   LinkComponent={Link}
-                  to={"/app/" + allRoutesData.pfCurriculoCompleto.path}
+                  to={
+                    "/app/" +
+                    allRoutesData.pjCurriculoCompleto.path +
+                    propostaId
+                  }
                   target="_blank"
                 >
                   Ver CV Completo

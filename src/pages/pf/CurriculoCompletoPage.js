@@ -1,6 +1,5 @@
 import { useAuth } from "../../base/AuthContext";
 import FullCV from "../../components/FullCV";
-import Section from "../../components/Section";
 
 const CurriculoCompletoPage = () => {
   const { userInfo, user } = useAuth();
@@ -11,9 +10,7 @@ const CurriculoCompletoPage = () => {
   };
 
   return (
-    <Section withoutDivider title="Curriculo Completo">
-      <FullCV cv={dadosCV} />
-    </Section>
+    <FullCV cv={dadosCV} />
   );
 };
 

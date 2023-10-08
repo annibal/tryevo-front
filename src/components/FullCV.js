@@ -1,4 +1,4 @@
-import { Box, Button, Chip, Grid, Typography } from "@mui/material";
+import { Box, Button, Chip, Container, Grid, Typography } from "@mui/material";
 import {
   optionsEstadoCivil,
   optionsFluenciaLinguagem,
@@ -27,7 +27,7 @@ import Section from "./Section";
 import getYears from "../utils/getYears";
 import { Fragment } from "react";
 
-const FullCV = ({ cv }) => {
+const FullCV = ({ cv, title }) => {
   if (!cv) return "";
 
   let nome = cv.nomePreferido;
@@ -63,9 +63,30 @@ const FullCV = ({ cv }) => {
   });
 
   return (
-    <>
+    <Container sx={{ pb: 25 }}>
+      
+      {title && (
+        <Box sx={{ mt: 4 }}>
+          <Section title={title} titleVariant="h6" spacing={2} />
+        </Box>
+      )}
       <Section spacing={4}>
-        <Typography variant="h5">{nome}</Typography>
+        <Grid container spacing={2}>
+          <Grid item xs>
+            <Typography variant="h5">{nome}</Typography>
+          </Grid>
+          <Grid item>
+            <div className="print-hidden">
+              <Button
+                disableElevation
+                variant="text"
+                onClick={() => window.print()}
+              >
+                Salvar como PDF
+              </Button>
+            </div>
+          </Grid>
+        </Grid>
         <Box sx={{ mt: 2 }}>
           <Typography color="textSecondary">
             Gênero: <b>{optGenero?.label}</b>
@@ -116,15 +137,15 @@ const FullCV = ({ cv }) => {
                 target="_blank"
                 rel="noreferrer"
               >
-                <Typography color="primary" component="span">
+                <Typography color="primary">
                   {link.valor}
+                  {tipoLink && (
+                    <Typography color="textSecondary" component="span">
+                      {" - "}
+                      {tipoLink.label}
+                    </Typography>
+                  )}
                 </Typography>
-                {tipoLink && (
-                  <Typography color="textSecondary" component="span">
-                    {" - "}
-                    {tipoLink.label}
-                  </Typography>
-                )}
               </a>
             );
           })}
@@ -361,7 +382,7 @@ const FullCV = ({ cv }) => {
           </Fragment>
         ))}
       </Section>
-    </>
+    </Container>
   );
 };
 
