@@ -278,6 +278,7 @@ const PropostaFeitaPage = () => {
                         })
                       : null;
                   const arrObjetivo = [
+                    objetivo.cargo?.nome,
                     tipoContrato?.label,
                     tipoModelo?.label,
                     tipoJornada?.label,

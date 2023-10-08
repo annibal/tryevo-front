@@ -120,6 +120,7 @@ const NovaCandidaturaPage = () => {
                     sx={{ width: { xs: "auto", sm: "100%" } }}
                     LinkComponent={Link}
                     to={"/app/" + allRoutesData.pfCurriculoCompleto.path}
+                    target="_blank"
                   >
                     Ver CV Completo
                   </Button>
