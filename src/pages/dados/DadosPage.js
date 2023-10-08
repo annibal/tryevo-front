@@ -33,7 +33,6 @@ import DadosCursosForm from "./DadosCursosForm";
 import allRoutesData from "../../base/routes_data";
 import { Link } from "react-router-dom";
 
-
 // return (
 //   <Box>
 //     <form onSubmit={handleSubmitPF}>
@@ -113,16 +112,15 @@ const DadosPage = () => {
   };
 
   let formItems = [];
-  let submitFn = () => {}
+  let submitFn = () => {};
 
   const handleScroll = (event) => {
-
     let activeItem = null;
-    for (let i=0; i<formItems.length; i++) {
-      const elm = document.getElementById(formItems[i].id)
+    for (let i = 0; i < formItems.length; i++) {
+      const elm = document.getElementById(formItems[i].id);
       if (elm) {
         const y = elm.getBoundingClientRect().top;
-        if (y >= 0 && y <= window.innerHeight ) {
+        if (y >= 0 && y <= window.innerHeight) {
           activeItem = i;
           break;
         }
@@ -134,15 +132,14 @@ const DadosPage = () => {
     }
     setActiveFormItem(activeItem);
   };
-  
-  useEffect(() => {
 
-    window.addEventListener('scroll', handleScroll);
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
 
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener("scroll", handleScroll);
     };
-  }, [])
+  }, []);
 
   //
 
@@ -304,7 +301,6 @@ const DadosPage = () => {
     submitFn = handleSubmitPF;
   }
 
-  
   if (auth.features[ACCOUNT_FEATURES.PJ]) {
     formItems = [
       {
@@ -317,7 +313,7 @@ const DadosPage = () => {
         title: "Endereço",
         comp: DadosEnderecoForm, // elm
       },
-    ]
+    ];
     submitFn = handleSubmitPJ;
   }
 
@@ -360,10 +356,27 @@ const DadosPage = () => {
               >
                 Salvar
               </LoadingButton>
+              {auth.features[ACCOUNT_FEATURES.PF] && (
+                <Button
+                  sx={{ mt: 2 }}
+                  disableElevation
+                  variant="outlined"
+                  LinkComponent={Link}
+                  to={"/app/" + allRoutesData.pfCurriculoCompleto.path}
+                  target="_blank"
+                  fullWidth
+                >
+                  Ver CV Completo
+                </Button>
+              )}
+            </Box>
+          </Grid>
+          {auth.features[ACCOUNT_FEATURES.PF] && (
+            <Grid item xs={12} sx={{ m: 4, display: { sm: "none", xs: "block" } }}>
               <Button
-                sx={{ mt: 2 }}
                 disableElevation
                 variant="outlined"
+                color="secondary"
                 LinkComponent={Link}
                 to={"/app/" + allRoutesData.pfCurriculoCompleto.path}
                 target="_blank"
@@ -371,8 +384,8 @@ const DadosPage = () => {
               >
                 Ver CV Completo
               </Button>
-            </Box>
-          </Grid>
+            </Grid>
+          )}
           <Grid item xs={12} sm={8}>
             {formItems.map((formItem, idx) => {
               const Comp = formItem.comp;
