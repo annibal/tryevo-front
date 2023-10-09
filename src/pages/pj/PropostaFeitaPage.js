@@ -1,8 +1,8 @@
-import { Link, Navigate, useParams } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
 import useFetch from "../../providers/useFetch";
 import { getStatusCandidatura } from "../pf/candidatura/CandidaturaPage";
 import { Helmet } from "react-helmet";
-import { Box, Button, Grid, Typography } from "@mui/material";
+import { Box, Grid, Typography } from "@mui/material";
 import InlineIconInfo from "../../components/InlineIconInfo";
 import CandidatoCard from "../../components/CandidatoCard";
 import VagaCard from "../../components/VagaCard";
@@ -30,7 +30,7 @@ import {
 } from "../../providers/enumProvider";
 import { doCall } from "../../providers/baseProvider";
 import allRoutesData from "../../base/routes_data";
-import { CurriculumIcon } from "../../components/CustomIcons";
+import FullCVBtn from "../../components/FullCVBtn";
 
 const PropostaFeitaPage = () => {
   let { propostaId } = useParams();
@@ -90,9 +90,12 @@ const PropostaFeitaPage = () => {
   const dadosCandidato = verDadosData == null ? candidato : verDadosData;
 
   const match = formatPercent(proposta.matchResult?.match, 3);
-  const matchParts = match.split('.');
-  const matchInt = matchParts[0]
-  const matchDecimals = (matchParts[1] ? `,${matchParts[1]}` : '').replace('%', '')
+  const matchParts = match.split(".");
+  const matchInt = matchParts[0];
+  const matchDecimals = (matchParts[1] ? `,${matchParts[1]}` : "").replace(
+    "%",
+    ""
+  );
   const matchPercent = matchParts[1] ? " %" : "";
 
   return (
@@ -338,21 +341,7 @@ const PropostaFeitaPage = () => {
                   />
                 )}
 
-                <Button
-                  sx={{ ml: 2 }}
-                  disableElevation
-                  variant="outlined"
-                  LinkComponent={Link}
-                  startIcon={<CurriculumIcon />}
-                  to={
-                    "/app/" +
-                    allRoutesData.pjCurriculoCompleto.path +
-                    propostaId
-                  }
-                  target="_blank"
-                >
-                  Ver CV Completo
-                </Button>
+                <FullCVBtn proposta={propostaId} sx={{ ml: 2 }} />
               </Box>
             </>
           ) : (

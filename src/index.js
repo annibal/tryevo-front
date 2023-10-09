@@ -12,10 +12,6 @@ import 'dayjs/locale/pt-br';
 import { ThemeProvider } from "@mui/material";
 import theme from "./base/Theme";
 
-window.navigation.addEventListener('navigate', (e) => {
-  console.log(e);
-});
-
 const root = ReactDOM.createRoot(document.getElementById("tryevo_root"));
 root.render(
   <React.StrictMode>

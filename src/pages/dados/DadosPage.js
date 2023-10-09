@@ -33,6 +33,7 @@ import DadosCursosForm from "./DadosCursosForm";
 import allRoutesData from "../../base/routes_data";
 import { Link } from "react-router-dom";
 import { CurriculumIcon } from "../../components/CustomIcons";
+import FullCVBtn from "../../components/FullCVBtn";
 
 // return (
 //   <Box>
@@ -358,35 +359,17 @@ const DadosPage = () => {
                 Salvar
               </LoadingButton>
               {auth.features[ACCOUNT_FEATURES.PF] && (
-                <Button
-                  sx={{ mt: 2 }}
-                  disableElevation
-                  variant="outlined"
-                  LinkComponent={Link}
-                  to={"/app/" + allRoutesData.pfCurriculoCompleto.path}
-                  target="_blank"
-                  fullWidth
-                  startIcon={<CurriculumIcon />}
-                >
-                  Ver CV Completo
-                </Button>
+                <FullCVBtn sx={{ mt: 2 }} fullWidth />
               )}
             </Box>
           </Grid>
           {auth.features[ACCOUNT_FEATURES.PF] && (
-            <Grid item xs={12} sx={{ m: 4, display: { sm: "none", xs: "block" } }}>
-              <Button
-                disableElevation
-                variant="outlined"
-                color="secondary"
-                LinkComponent={Link}
-                to={"/app/" + allRoutesData.pfCurriculoCompleto.path}
-                target="_blank"
-                fullWidth
-                startIcon={<CurriculumIcon />}
-              >
-                Ver CV Completo
-              </Button>
+            <Grid
+              item
+              xs={12}
+              sx={{ m: 4, display: { sm: "none", xs: "block" } }}
+            >
+              <FullCVBtn color="secondary" fullWidth />
             </Grid>
           )}
           <Grid item xs={12} sm={8}>

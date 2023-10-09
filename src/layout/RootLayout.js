@@ -2,6 +2,7 @@ import { Outlet, useMatches } from "react-router-dom";
 import "../style/index.css";
 import "../style/loader-try-evo.css";
 import { Helmet } from "react-helmet";
+import WindowMessageHandler from "../base/WindowMessageHandler";
 
 const RootLayout = () => {
   const matches = useMatches();
@@ -16,6 +17,7 @@ const RootLayout = () => {
       <Helmet>
         <title>{title}</title>
       </Helmet>
+      <WindowMessageHandler />
       <Outlet />
     </>
   );

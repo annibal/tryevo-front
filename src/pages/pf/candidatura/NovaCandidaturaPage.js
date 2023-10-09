@@ -15,7 +15,7 @@ import FormSelect from "../../commons/form/FormSelect";
 import FormSlider from "../../commons/form/FormSlider";
 import { doCall } from "../../../providers/baseProvider";
 import { LoadingButton } from "@mui/lab";
-import { CurriculumIcon } from "../../../components/CustomIcons";
+import FullCVBtn from "../../../components/FullCVBtn";
 
 const NovaCandidaturaPage = () => {
   const { userInfo } = useAuth();
@@ -27,7 +27,7 @@ const NovaCandidaturaPage = () => {
 
   const [dados, setDados] = useState({});
   const handleChange = (value, name, data) => {
-    setActionError(null)
+    setActionError(null);
     setDados({
       ...data,
       [name]: value,
@@ -40,10 +40,12 @@ const NovaCandidaturaPage = () => {
 
   const handleSubmit = (event) => {
     const arrQuestoes = vaga.questoes || [];
-    const questoes = [{
-      pergunta: "Carta de Apresentação",
-      resposta: dados.cartaApresentacao,
-    }];
+    const questoes = [
+      {
+        pergunta: "Carta de Apresentação",
+        resposta: dados.cartaApresentacao,
+      },
+    ];
     Object.entries(dados).forEach((entry) => {
       const respostaValida = entry[1] != null && entry[1] !== "";
       const questao = arrQuestoes.find((q) => q._id === entry[0]);
@@ -59,7 +61,7 @@ const NovaCandidaturaPage = () => {
       // candidatoId: userInfo._id,
       vagaId,
       questoes,
-    }
+    };
 
     setIsLoading(true);
     setActionError(null);
@@ -71,7 +73,7 @@ const NovaCandidaturaPage = () => {
         console.error(response.error);
         setActionError(response.error?.message || response.error);
       } else {
-        setCandidaturaCreated(response.data)
+        setCandidaturaCreated(response.data);
       }
       setIsLoading(false);
     });
@@ -86,7 +88,11 @@ const NovaCandidaturaPage = () => {
       </Helmet>
 
       {candidaturaCreated && (
-        <Navigate to={'/app/' + allRoutesData.pfCandidaturas.path + candidaturaCreated._id} />
+        <Navigate
+          to={
+            "/app/" + allRoutesData.pfCandidaturas.path + candidaturaCreated._id
+          }
+        />
       )}
 
       <ResponseWrapper {...vagaResponse}>
@@ -116,17 +122,7 @@ const NovaCandidaturaPage = () => {
                   </Button>
                 </Grid>
                 <Grid item xs>
-                  <Button
-                    disableElevation
-                    variant="outlined"
-                    sx={{ width: { xs: "auto", sm: "100%" } }}
-                    LinkComponent={Link}
-                    to={"/app/" + allRoutesData.pfCurriculoCompleto.path}
-                    target="_blank"
-                    startIcon={<CurriculumIcon />}
-                  >
-                    Ver CV Completo
-                  </Button>
+                  <FullCVBtn sx={{ width: { xs: "auto", sm: "100%" } }} />
                 </Grid>
               </Grid>
             </Grid>
