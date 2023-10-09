@@ -30,6 +30,7 @@ import {
 } from "../../providers/enumProvider";
 import { doCall } from "../../providers/baseProvider";
 import allRoutesData from "../../base/routes_data";
+import { CurriculumIcon } from "../../components/CustomIcons";
 
 const PropostaFeitaPage = () => {
   let { propostaId } = useParams();
@@ -88,6 +89,12 @@ const PropostaFeitaPage = () => {
   const showDadosCandidato = proposta.viuDados || verDadosData != null;
   const dadosCandidato = verDadosData == null ? candidato : verDadosData;
 
+  const match = formatPercent(proposta.matchResult?.match, 3);
+  const matchParts = match.split('.');
+  const matchInt = matchParts[0]
+  const matchDecimals = (matchParts[1] ? `,${matchParts[1]}` : '').replace('%', '')
+  const matchPercent = matchParts[1] ? " %" : "";
+
   return (
     <Box>
       <Helmet>
@@ -108,7 +115,11 @@ const PropostaFeitaPage = () => {
                 title="Match"
               >
                 <Typography fontWeight="bold">
-                  {formatPercent(proposta.matchResult?.match, 3)}
+                  {matchInt}
+                  <Typography color="textSecondary" variant="caption">
+                    {matchDecimals}
+                  </Typography>
+                  {matchPercent}
                 </Typography>
               </InlineIconInfo>
             </Grid>
@@ -332,6 +343,7 @@ const PropostaFeitaPage = () => {
                   disableElevation
                   variant="outlined"
                   LinkComponent={Link}
+                  startIcon={<CurriculumIcon />}
                   to={
                     "/app/" +
                     allRoutesData.pjCurriculoCompleto.path +

@@ -15,6 +15,7 @@ import FormSelect from "../../commons/form/FormSelect";
 import FormSlider from "../../commons/form/FormSlider";
 import { doCall } from "../../../providers/baseProvider";
 import { LoadingButton } from "@mui/lab";
+import { CurriculumIcon } from "../../../components/CustomIcons";
 
 const NovaCandidaturaPage = () => {
   const { userInfo } = useAuth();
@@ -109,6 +110,7 @@ const NovaCandidaturaPage = () => {
                     sx={{ width: { xs: "auto", sm: "100%" } }}
                     LinkComponent={Link}
                     to={"/app/" + allRoutesData.pfDados.path}
+                    startIcon={allRoutesData.pfDados.icon}
                   >
                     Editar Dados
                   </Button>
@@ -121,6 +123,7 @@ const NovaCandidaturaPage = () => {
                     LinkComponent={Link}
                     to={"/app/" + allRoutesData.pfCurriculoCompleto.path}
                     target="_blank"
+                    startIcon={<CurriculumIcon />}
                   >
                     Ver CV Completo
                   </Button>

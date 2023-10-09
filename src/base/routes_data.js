@@ -20,6 +20,7 @@ import ArticleIcon from "@mui/icons-material/Article";
 import SummarizeIcon from "@mui/icons-material/Summarize";
 import LocalOfferIcon from "@mui/icons-material/LocalOffer";
 import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
+import { CurriculumIcon } from "../components/CustomIcons";
 
 export const NAVBAR_PLACE = {
   NONE: "NONE",
@@ -161,13 +162,13 @@ export const pessoaFisicaRoutes = {
     },
   },
   pfCurriculoCompleto: {
-    priority: 500,
+    priority: 200,
     path: "pf/curriculo-completo/",
-    icon: <InfoIcon />,
+    icon: <CurriculumIcon />,
     title: "Currículo Completo",
     rules: [ACCOUNT_FEATURES.LOGGED, ACCOUNT_FEATURES.PF],
     navbar: {
-      place: NAVBAR_PLACE.NONE,
+      place: NAVBAR_PLACE.UNDER_USER,
     },
   },
   pfCandidaturas: {
@@ -378,7 +379,7 @@ export const pessoaJuridicaRoutes = {
   pjCurriculoCompleto: {
     priority: 500,
     path: "pj/curriculo-completo/",
-    icon: <InfoIcon />,
+    icon: <CurriculumIcon />,
     title: "Currículo Completo",
     rules: [ACCOUNT_FEATURES.LOGGED, ACCOUNT_FEATURES.PJ],
     navbar: {

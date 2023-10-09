@@ -109,7 +109,7 @@ const PropostasFeitasPage = () => {
                         {" - Match: "}
                         <Typography
                           variant="span"
-                          fontWeight="500"
+                          fontWeight="bold"
                         >
                           {formatPercent(match)}
                         </Typography>

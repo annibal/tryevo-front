@@ -13,14 +13,10 @@ import {
   optionsStatusEscolaridade,
 } from "../providers/enumProvider";
 import InlineIconInfo from "./InlineIconInfo";
-import JoinInnerIcon from "@mui/icons-material/JoinInner";
-import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
-import TodayIcon from "@mui/icons-material/Today";
-import LabelImportantIcon from "@mui/icons-material/LabelImportant";
+import AdfScannerIcon from '@mui/icons-material/AdfScanner';
 import EmailIcon from "@mui/icons-material/Email";
 import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
 import LinkIcon from "@mui/icons-material/Link";
-import TrackChangesIcon from "@mui/icons-material/TrackChanges";
 
 import formatTelefone from "../utils/formatTelefone";
 import Section from "./Section";
@@ -81,6 +77,7 @@ const FullCV = ({ cv, title }) => {
                 disableElevation
                 variant="text"
                 onClick={() => window.print()}
+                endIcon={<AdfScannerIcon />}
               >
                 Salvar como PDF
               </Button>

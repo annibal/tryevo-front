@@ -32,6 +32,7 @@ import DadosResumo from "./DadosResumo";
 import DadosCursosForm from "./DadosCursosForm";
 import allRoutesData from "../../base/routes_data";
 import { Link } from "react-router-dom";
+import { CurriculumIcon } from "../../components/CustomIcons";
 
 // return (
 //   <Box>
@@ -365,6 +366,7 @@ const DadosPage = () => {
                   to={"/app/" + allRoutesData.pfCurriculoCompleto.path}
                   target="_blank"
                   fullWidth
+                  startIcon={<CurriculumIcon />}
                 >
                   Ver CV Completo
                 </Button>
@@ -381,6 +383,7 @@ const DadosPage = () => {
                 to={"/app/" + allRoutesData.pfCurriculoCompleto.path}
                 target="_blank"
                 fullWidth
+                startIcon={<CurriculumIcon />}
               >
                 Ver CV Completo
               </Button>
