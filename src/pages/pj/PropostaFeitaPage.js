@@ -341,7 +341,7 @@ const PropostaFeitaPage = () => {
                   />
                 )}
 
-                <FullCVBtn proposta={propostaId} sx={{ ml: 2 }} />
+                <FullCVBtn propostaId={propostaId} sx={{ ml: 2 }} />
               </Box>
             </>
           ) : (
