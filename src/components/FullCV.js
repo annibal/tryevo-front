@@ -216,12 +216,18 @@ const FullCV = ({ cv, title }) => {
             <Box sx={{ mb: 2 }} key={idx}>
               <Typography>
                 {escolaridade.nome}
+                {escolaridade.nomeCurso && (
+                  <Typography color="text.secondary" component="span">
+                    {" - "}
+                    {escolaridade.nomeCurso}
+                  </Typography>
+                )}
+                {" - "}
                 <Typography
                   color="text.secondary"
                   component="span"
                   fontWeight="bold"
                 >
-                  {" - "}
                   {nivel?.label}
                 </Typography>
                 <Typography color="text.secondary" component="span">

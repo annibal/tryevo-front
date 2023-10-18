@@ -1,5 +1,6 @@
 import {
   Box,
+  Button,
   Card,
   CardContent,
   CardHeader,
@@ -11,6 +12,7 @@ import {
 } from "@mui/material";
 import PlaceIcon from "@mui/icons-material/Place";
 import FavoriteIcon from "@mui/icons-material/Favorite";
+import HandshakeIcon from "@mui/icons-material/Handshake";
 import { Link } from "react-router-dom";
 import allRoutesData from "../base/routes_data";
 import { ACCOUNT_FEATURES, useAuth } from "../base/AuthContext";
@@ -66,19 +68,21 @@ const VagaCard = ({
   },
   isPJ = false,
   disableFavorite,
+  showCandidatarBtn = true,
   ...restProps
 }) => {
   const auth = useAuth();
   const [isLoadingSalvarVaga, setIsLoadingSalvarVaga] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
 
-  const tituloURL = encodeURIComponent(titulo)
+  const tituloURL = encodeURIComponent(titulo);
   const path = isPJ ? allRoutesData.pjMinhaVaga.path : allRoutesData.vagas.path;
   const vagaUrl = `/app/${path}${_id}/${tituloURL}`;
+  const candidatarURL = `/app/${allRoutesData.pfNovaCandidatura.path}${_id}/${tituloURL}#questoes-pre-candidatura`;
 
   useEffect(() => {
-    setIsFavorite((auth.userInfo?.vagasSalvas || []).includes(_id))
-  }, [auth.userInfo?.vagasSalvas, _id])
+    setIsFavorite((auth.userInfo?.vagasSalvas || []).includes(_id));
+  }, [auth.userInfo?.vagasSalvas, _id]);
 
   // subheader="September 14, 2016"
   const chips = [
@@ -89,7 +93,9 @@ const VagaCard = ({
   let strEmpresa = empresa?.nome;
   if (ocultarEmpresa) strEmpresa = "";
 
-  const strTipoContrato = optionsTipoContrato.find(o => o.value === tipoContrato);
+  const strTipoContrato = optionsTipoContrato.find(
+    (o) => o.value === tipoContrato
+  );
 
   const handleSalvarVaga = () => {
     setIsLoadingSalvarVaga(true);
@@ -97,14 +103,14 @@ const VagaCard = ({
       method: "POST",
     }).then((response) => {
       if (response.error) {
-        console.error(response.error)
+        console.error(response.error);
         // setActionError(response.error?.message || response.error);
       } else {
         auth.setUserInfo({
           ...auth.userInfo,
-          vagasSalvas: response.data.vagasSalvas
+          vagasSalvas: response.data.vagasSalvas,
         });
-        setIsFavorite(!isFavorite)
+        setIsFavorite(!isFavorite);
       }
       setIsLoadingSalvarVaga(false);
     });
@@ -128,64 +134,34 @@ const VagaCard = ({
             </Link>
           </Grid>
           <Grid item xs={2} sx={{ textAlign: "right" }}>
-            {isLoadingSalvarVaga ? (<>
-              <CircularProgress />
-            </>) : (<>
-              {auth.features[ACCOUNT_FEATURES.LOGGED] && !disableFavorite && (
-                <IconButton
-                  aria-label="favorite"
-                  color={isFavorite ? "secondary" : "textSecondary"}
-                  onClick={handleSalvarVaga}
-                >
-                  <FavoriteIcon />
-                </IconButton>
-              )}
-            </>)}
+            {isLoadingSalvarVaga ? (
+              <>
+                <CircularProgress />
+              </>
+            ) : (
+              <>
+                {auth.features[ACCOUNT_FEATURES.LOGGED] && !disableFavorite && (
+                  <IconButton
+                    aria-label="favorite"
+                    color={isFavorite ? "secondary" : "textSecondary"}
+                    onClick={handleSalvarVaga}
+                  >
+                    <FavoriteIcon />
+                  </IconButton>
+                )}
+              </>
+            )}
           </Grid>
         </Grid>
       </Box>
 
-      <Box className="vaga-card-contract" sx={{ mb: 1 }}>
-        {strTipoContrato && (
-          <Typography variant="span" fontWeight="500" color="textSecondary">
-            {strTipoContrato.label}
-            {" - "}
-          </Typography>
-        )}
-        {cargo && (
-          <Typography variant="span" color="textSecondary">
-            {cargo?.nome}
-            {" - "}
-          </Typography>
-        )}
-        <Typography variant="span" color="textSecondary">
-          {new Date(createdAt).toLocaleDateString()}
-        </Typography>
-      </Box>
-
-      <Box className="vaga-card-desc" sx={{ mb: 1 }}>
-        <Typography>{desc}</Typography>
-      </Box>
-
-      <Box className="vaga-card-chips" sx={{ mb: 2 }}>
-        {chips?.length > 1 &&
-          chips.map((chip) => (
-            <Chip
-              label={chip.nome}
-              key={chip._id}
-              size="small"
-              sx={{ mr: 2, mt: 1 }}
-            />
-          ))}
-      </Box>
-
-      <Box className="vaga-card-footer" sx={{ mb: 4 }}>
+      <Box className="vaga-card-footer" sx={{ mb: 1 }}>
         {strEmpresa && (
           <Typography variant="span" color="textSecondary">
             {strEmpresa}
           </Typography>
         )}
-        {(strEmpresa && endereco) ? " - " : "" }
+        {strEmpresa && endereco ? " - " : ""}
         {endereco && (
           <Typography variant="span" color="textSecondary">
             <PlaceIcon
@@ -201,6 +177,56 @@ const VagaCard = ({
           Match 0%
         </Typography> */}
       </Box>
+
+      <Box className="vaga-card-contract" sx={{ mb: 1 }}>
+        {strTipoContrato && (
+          <Typography variant="span" fontWeight="500" color="textSecondary">
+            {strTipoContrato.label}
+            {" - "}
+          </Typography>
+        )}
+        {/* {cargo && (
+          <Typography variant="span" color="textSecondary">
+            {cargo?.nome}
+            {" - "}
+          </Typography>
+        )} */}
+        <Typography variant="span" color="textSecondary">
+          {new Date(createdAt).toLocaleDateString()}
+        </Typography>
+      </Box>
+
+      <Box className="vaga-card-desc" sx={{ mb: 1 }}>
+        <Typography>{desc}</Typography>
+      </Box>
+
+      <Box className="vaga-card-chips" sx={{ mb: showCandidatarBtn ? 2 : 4 }}>
+        {chips?.length > 1 &&
+          chips.map((chip) => (
+            <Chip
+              label={chip.nome}
+              key={chip._id}
+              size="small"
+              sx={{ mr: 2, mt: 1 }}
+            />
+          ))}
+      </Box>
+
+      {showCandidatarBtn && (
+        <Box className="vaga-card-desc" sx={{ mb: 4, textAlign: "right" }}>
+          <Button
+            disableElevation
+            variant="outlined"
+            color="secondary"
+            startIcon={<HandshakeIcon />}
+            LinkComponent={Link}
+            to={candidatarURL}
+            sx={{ width: { sm: "auto", xs: "100%" } }}
+          >
+            Me Candidatar
+          </Button>
+        </Box>
+      )}
     </Box>
   );
 

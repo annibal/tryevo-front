@@ -111,9 +111,9 @@ export const commonRoutes = {
     icon: <PaymentsIcon />,
     title: "Assinaturas",
     auth: false,
-    rules: [ACCOUNT_FEATURES.NOT_LOGGED],
+    rules: [ACCOUNT_FEATURES.IGNORE_ON_SIDEBAR],
     navbar: {
-      place: NAVBAR_PLACE.TOOLBAR,
+      place: NAVBAR_PLACE.NONE,
     },
   },
 };
@@ -232,9 +232,10 @@ export const pessoaFisicaRoutes = {
     path: "assinatura/",
     icon: <PaymentsIcon />,
     title: "Assinaturas",
-    rules: [ACCOUNT_FEATURES.LOGGED, ACCOUNT_FEATURES.PF],
+    rules: [ACCOUNT_FEATURES.IGNORE_ON_SIDEBAR],
+    // rules: [ACCOUNT_FEATURES.LOGGED, ACCOUNT_FEATURES.PF],
     navbar: {
-      place: NAVBAR_PLACE.TOOLBAR,
+      place: NAVBAR_PLACE.NONE,
     },
   },
 };
@@ -371,9 +372,10 @@ export const pessoaJuridicaRoutes = {
     path: "assinatura/",
     icon: <PaymentsIcon />,
     title: "Assinaturas",
-    rules: [ACCOUNT_FEATURES.LOGGED, ACCOUNT_FEATURES.PJ],
+    rules: [ACCOUNT_FEATURES.IGNORE_ON_SIDEBAR],
+    // rules: [ACCOUNT_FEATURES.LOGGED, ACCOUNT_FEATURES.PJ],
     navbar: {
-      place: NAVBAR_PLACE.TOOLBAR,
+      place: NAVBAR_PLACE.NONE,
     },
   },
   pjCurriculoCompleto: {

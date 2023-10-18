@@ -7,10 +7,10 @@ const AssinaturaPage = () => {
     <div className="assinaturas">
       <h2>Planos:</h2>
 
-      <img src={assinaturaPf} alt="Assinatura PF" />
+      {/* <img src={assinaturaPf} alt="Assinatura PF" />
       <br />
       <br />
-      <img src={assinaturaPj} alt="Assinatura PJ" />
+      <img src={assinaturaPj} alt="Assinatura PJ" /> */}
 
     </div>
   );

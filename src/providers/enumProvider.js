@@ -79,11 +79,11 @@ export const optionsModeloContrato = [
 export const optionsEscolaridade = [
   { value: "FUNDAMENTAL", label: "Fundamental" },
   { value: "ENSINO_MEDIO", label: "Ensino Médio" },
-  { value: "SUPERIOR", label: "Superior (Faculdade)" },
-  { value: "POS_GRADUADO", label: "Pós Graduado" },
-  { value: "MESTRADO", label: "Mestrado" },
-  { value: "DOUTORADO", label: "Doutorado" },
-  { value: "MBA", label: "MBA" },
+  { value: "SUPERIOR", label: "Superior (Faculdade)", hasNomeCurso: true },
+  { value: "POS_GRADUADO", label: "Pós Graduado", hasNomeCurso: true },
+  { value: "MESTRADO", label: "Mestrado", hasNomeCurso: true },
+  { value: "DOUTORADO", label: "Doutorado", hasNomeCurso: true },
+  { value: "MBA", label: "MBA", hasNomeCurso: true },
 ]
 
 export const optionsStatusEscolaridade = [

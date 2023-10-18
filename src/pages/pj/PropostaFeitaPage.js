@@ -178,6 +178,7 @@ const PropostaFeitaPage = () => {
                 vaga={vaga}
                 disableFavorite
                 isPJ
+                showCandidatarBtn={false}
                 sx={{ border: "1px solid #88888888", p: 4, pb: 0 }}
               />
             </Grid>

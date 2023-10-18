@@ -5,7 +5,10 @@ import { Add, Delete } from "@mui/icons-material";
 import FormSelect from "../commons/form/FormSelect";
 import FormCheckbox from "../commons/form/FormCheckbox";
 import FormDatepicker from "../commons/form/FormDatepicker";
-import { optionsEscolaridade, optionsStatusEscolaridade } from "../../providers/enumProvider";
+import {
+  optionsEscolaridade,
+  optionsStatusEscolaridade,
+} from "../../providers/enumProvider";
 
 // escolaridades = [
 //   {
@@ -47,6 +50,11 @@ const DadosEscolaridadeForm = ({ data, onChange }) => {
     );
     setDados(newItems);
     onChange();
+  };
+
+  const isMostraNomeCurso = (nivel) => {
+    const opt = optionsEscolaridade.find((o) => o.value === nivel);
+    return opt?.hasNomeCurso;
   };
 
   return (
@@ -98,6 +106,18 @@ const DadosEscolaridadeForm = ({ data, onChange }) => {
                 options={optionsStatusEscolaridade}
               />
             </Grid>
+
+            {isMostraNomeCurso(escolaridade.nivel) && (
+              <Grid item xs={12}>
+                <FormInput
+                  label={`Nome do Curso ${idx + 1}`}
+                  name={`escolaridades[${idx}][nomeCurso]`}
+                  data={dados}
+                  getValue={() => escolaridade.nomeCurso}
+                  onChange={(value) => updateItem(value, "nomeCurso", idx)}
+                />
+              </Grid>
+            )}
 
             {escolaridade.status === "COMPLETO" && (
               <>

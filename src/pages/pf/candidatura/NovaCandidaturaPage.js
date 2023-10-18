@@ -142,21 +142,22 @@ const NovaCandidaturaPage = () => {
               <VagaCard
                 vaga={vaga}
                 disableFavorite
+                showCandidatarBtn={false}
                 sx={{ border: "1px solid #88888888", p: 4, pb: 0 }}
               />
             </Grid>
           </Grid>
         </Box>
 
-        <Box sx={{ mb: 4 }}>
+        {/* <Box sx={{ mb: 4 }}>
           <Typography>Ao enviar sua candidatura ...</Typography>
-        </Box>
+        </Box> */}
 
         <Box sx={{ mb: 4 }}>
           <form onSubmit={handleSubmit}>
             <Grid container spacing={4}>
               <Grid item xs={12} sm={8}>
-                <Typography variant="h6">Questões pré-candidatura</Typography>
+                <Typography variant="h6" id="questoes-pre-candidatura">Questões pré-candidatura</Typography>
               </Grid>
 
               <Grid item xs={12} sm={8}>
@@ -164,7 +165,6 @@ const NovaCandidaturaPage = () => {
                   label="Carta de Apresentação"
                   name="cartaApresentacao"
                   data={dados}
-                  required
                   onChange={handleChange}
                   multiline
                   rows={6}
