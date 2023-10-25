@@ -26,6 +26,7 @@ import {
 } from "../../providers/enumProvider";
 import InlineIconInfo from "../../components/InlineIconInfo";
 import { Fragment } from "react";
+import capitalize from "../../utils/capitalize";
 
 const VagaPage = () => {
   let { vagaId, vagaNome } = useParams();
@@ -39,7 +40,7 @@ const VagaPage = () => {
   }, [auth.userInfo?.vagasSalvas, vagaId]);
 
   const vaga = vagaResponse.data || {};
-  const vagaTitulo = vaga.titulo || vagaNome;
+  const vagaTitulo = capitalize(vaga.titulo || vagaNome);
   const chips = [
     (vaga.qualificacoes || []).map((x) => ({ ...x, type: "q" })),
     (vaga.habilidades || []).map((x) => ({ ...x, type: "h" })),

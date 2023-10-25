@@ -19,6 +19,7 @@ import { ACCOUNT_FEATURES, useAuth } from "../base/AuthContext";
 import { useEffect, useState } from "react";
 import { doCall } from "../providers/baseProvider";
 import { optionsTipoContrato } from "../providers/enumProvider";
+import capitalize from "../utils/capitalize";
 
 // {
 //   "_id": "UXX5WQ",
@@ -128,8 +129,8 @@ const VagaCard = ({
         <Grid container spacing={2}>
           <Grid item xs={10}>
             <Link to={vagaUrl}>
-              <Typography variant="h5" color="primary">
-                {titulo}
+              <Typography variant="h5" color="primary" sx={{ }}>
+                {capitalize(titulo)}
               </Typography>
             </Link>
           </Grid>
