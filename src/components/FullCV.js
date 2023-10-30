@@ -42,6 +42,7 @@ import formatTelefone from "../utils/formatTelefone";
 import Section from "./Section";
 import getYears from "../utils/getYears";
 import { Fragment } from "react";
+import InfoTable from "./InfoTable";
 
 // className="print-section"
 
@@ -119,28 +120,6 @@ const ObjetivoBox = ({ objetivos, idx }) => {
   //   {": "}
   // </Typography>
 };
-
-const InfoTable = ({ data, width }) => (
-  <Table size="small">
-    <TableBody>
-      {data.map((item, idx) => {
-        if (item.value == null) return "";
-        return (
-          <TableRow key={idx} sx={{ verticalAlign: "top" }}>
-            <TableCell sx={{ border: "none", width, py: 0 }}>
-              <Typography noWrap color="text.secondary" align="right">
-                {item.name}:
-              </Typography>
-            </TableCell>
-            <TableCell sx={{ border: "none", py: 0 }}>
-              <Typography>{item.value}</Typography>
-            </TableCell>
-          </TableRow>
-        );
-      })}
-    </TableBody>
-  </Table>
-);
 
 const FullCV = ({ cv, title }) => {
   if (!cv) return "";
@@ -337,7 +316,7 @@ const FullCV = ({ cv, title }) => {
 
       <CVSection title="Objetivos">
         <Grid container spacing={2}>
-          {cv.objetivos.map((objetivo, idx) => (
+          {(cv.objetivos || []).map((objetivo, idx) => (
             <Grid item xs={12}>
               <ObjetivoBox objetivos={cv.objetivos} idx={idx} />
             </Grid>

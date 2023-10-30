@@ -17,6 +17,8 @@ import { getStatusCandidatura } from "../../pf/candidatura/CandidaturaPage";
 import { optionsGenero } from "../../../providers/enumProvider";
 import getYears from "../../../utils/getYears";
 import formatPercent from "../../../utils/formatPercent";
+import InfoTable from "../../../components/InfoTable";
+import VagaCard from "../../../components/VagaCard";
 
 const MinhaVagaPage = () => {
   const auth = useAuth();
@@ -59,119 +61,132 @@ const MinhaVagaPage = () => {
     });
   };
 
+  const strApelido = vagaResponse?.data?.apelido
+    ? `Apelido: ${vagaResponse?.data?.apelido}`
+    : null;
+
   return (
     <Box>
-      <Box sx={{ mb: 6 }}>
-        <Typography variant="caption">Minha Vaga - {vagaId}</Typography>
-        {vagaResponse?.data?.apelido ? (
-          <>
-            <Typography variant="h3">{vagaResponse?.data?.titulo}</Typography>
-            <Typography sx={{ py: 2 }} color="textSecondary">
-              Apelido: {vagaResponse?.data?.apelido}
-            </Typography>
-          </>
-        ) : (
-          <Typography variant="h3">
-            {vagaResponse?.data?.titulo || vagaNome}
-          </Typography>
-        )}
-        <Typography variant="caption">
-          {vagaResponse.data?.active ? (
-            <>
-              <Typography
-                component="span"
-                color="primary"
-                fontSize="inherit"
-                fontWeight="bold"
-              >
-                Ativa
-              </Typography>
-              {" - "}
-              aparece na busca e permite receber candidaturas
-            </>
-          ) : (
-            <>
-              <Typography
-                component="span"
-                color="textSecondary"
-                fontSize="inherit"
-                fontWeight="bold"
-              >
-                Inativa
-              </Typography>
-              {" - "}
-              não aparece na busca e não recebe mais propostas
-            </>
-          )}
-        </Typography>
-      </Box>
+      <Section
+        title={vagaResponse?.data?.titulo || vagaNome}
+        subtitle={strApelido}
+        spacing={4}
+      >
+        <Grid container spacing={2} wrap="nowrap">
+          <Grid item xs={12} sm={6} lg={8}>
+            <InfoTable
+              data={[
+                { name: "ID da vaga", value: vagaId },
+                {
+                  name: "Status",
+                  value: vagaResponse.data?.active ? (
+                    <>
+                      <Typography
+                        component="span"
+                        color="primary"
+                        fontSize="inherit"
+                        fontWeight="bold"
+                      >
+                        Ativa
+                      </Typography>
+                      {" - "}
+                      aparece na busca e permite receber candidaturas
+                    </>
+                  ) : (
+                    <>
+                      <Typography
+                        component="span"
+                        color="textSecondary"
+                        fontSize="inherit"
+                        fontWeight="bold"
+                      >
+                        Inativa
+                      </Typography>
+                      {" - "}
+                      não aparece na busca e não recebe mais propostas
+                    </>
+                  ),
+                },
+              ]}
+            />
+          </Grid>
+
+          <Grid item xs={12} sm={6} lg={4}>
+            <ResponseWrapper {...vagaResponse}>
+              {isCreatedByMe ? (
+                <Grid container spacing={2}>
+                  <Grid item xs={12}>
+                    <Button
+                      fullWidth
+                      color="primary"
+                      variant="contained"
+                      LinkComponent={Link}
+                      startIcon={<EditNoteIcon />}
+                      to={
+                        "/app/" +
+                        allRoutesData.pjEditarMinhaVaga.path +
+                        vagaId +
+                        "/" +
+                        encodeURIComponent(
+                          vagaResponse?.data?.apelido
+                            ? vagaResponse?.data?.apelido
+                            : vagaResponse?.data?.titulo
+                        )
+                      }
+                    >
+                      Editar
+                    </Button>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <LoadingButton
+                      fullWidth
+                      variant="outlined"
+                      onClick={handleToggleActive}
+                      loading={actionLoading}
+                      color={vagaResponse.data?.active ? "inherit" : "primary"}
+                      startIcon={
+                        vagaResponse.data?.active ? (
+                          <UnpublishedIcon />
+                        ) : (
+                          <CheckCircleIcon />
+                        )
+                      }
+                    >
+                      {vagaResponse.data?.active ? "Desativar" : "Ativar"}
+                    </LoadingButton>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <LoadingButton
+                      fullWidth
+                      variant="contained"
+                      color="error"
+                      onClick={handleDelete}
+                      loading={actionLoading}
+                      startIcon={<DeleteForeverIcon />}
+                    >
+                      Excluir
+                    </LoadingButton>
+                  </Grid>
+
+                  <Grid item xs={12}>
+                    {actionError && (
+                      <Typography color="error">
+                        {String(actionError)}
+                      </Typography>
+                    )}
+                  </Grid>
+                </Grid>
+              ) : (
+                <Typography color="error">
+                  Essa vaga foi criada por outra empresa.
+                </Typography>
+              )}
+            </ResponseWrapper>
+          </Grid>
+        </Grid>
+      </Section>
 
       <ResponseWrapper {...vagaResponse}>
-        {isCreatedByMe && (
-          <Section title="Ações">
-            <Grid container spacing={2}>
-              <Grid item xs>
-                <Button
-                  fullWidth
-                  color="primary"
-                  variant="contained"
-                  LinkComponent={Link}
-                  startIcon={<EditNoteIcon />}
-                  to={
-                    "/app/" +
-                    allRoutesData.pjEditarMinhaVaga.path +
-                    vagaId +
-                    "/" +
-                    encodeURIComponent(
-                      vagaResponse?.data?.apelido
-                        ? vagaResponse?.data?.apelido
-                        : vagaResponse?.data?.titulo
-                    )
-                  }
-                >
-                  Editar
-                </Button>
-              </Grid>
-              <Grid item xs>
-                <LoadingButton
-                  fullWidth
-                  variant="outlined"
-                  onClick={handleToggleActive}
-                  loading={actionLoading}
-                  color={vagaResponse.data?.active ? "inherit" : "primary"}
-                  startIcon={
-                    vagaResponse.data?.active ? (
-                      <UnpublishedIcon />
-                    ) : (
-                      <CheckCircleIcon />
-                    )
-                  }
-                >
-                  {vagaResponse.data?.active ? "Desativar" : "Ativar"}
-                </LoadingButton>
-              </Grid>
-              <Grid item xs>
-                <LoadingButton
-                  fullWidth
-                  variant="contained"
-                  color="error"
-                  onClick={handleDelete}
-                  loading={actionLoading}
-                  startIcon={<DeleteForeverIcon />}
-                >
-                  Excluir
-                </LoadingButton>
-              </Grid>
-            </Grid>
-
-            {actionError && (
-              <Box sx={{ py: 2 }}>
-                <Typography color="error">{String(actionError)}</Typography>
-              </Box>
-            )}
-          </Section>
-        )}
-
         <Section
           title="Candidaturas"
           subtitle="Propostas enviadas por candidatos para esta vaga"
@@ -234,10 +249,7 @@ const MinhaVagaPage = () => {
                         {match != null && (
                           <Typography variant="span" color="text.primary">
                             {" - Match: "}
-                            <Typography
-                              variant="span"
-                              fontWeight="500"
-                            >
+                            <Typography variant="span" fontWeight="500">
                               {formatPercent(match)}
                             </Typography>
                           </Typography>
@@ -262,9 +274,24 @@ const MinhaVagaPage = () => {
           />
         </Section>
 
-        <Box sx={{ height: "300px", overflow: "auto", mb: 6 }}>
-          <PrettyPrint keyName="Dados da Vaga" value={vagaResponse.data} />
-        </Box>
+        <Section
+          title="Pré-visualização da Vaga"
+          subtitle="Como a vaga vai aparecer para o candidato"
+          withoutDivider
+        >
+          {vagaResponse.data && (
+            <Grid container spacing={2}>
+              <Grid item sm={8} xs={12}>
+                <VagaCard
+                  vaga={vagaResponse.data}
+                  disableFavorite
+                  showCandidatarBtn={false}
+                  sx={{ border: "1px solid #88888888", p: 4, pb: 0 }}
+                />
+              </Grid>
+            </Grid>
+          )}
+        </Section>
       </ResponseWrapper>
     </Box>
   );
