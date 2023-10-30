@@ -51,7 +51,7 @@ export const USUARIO_PLANOS = [
 ];
 
 const ManageAllUsers = () => {
-  const [listUsuariosUrl, setListUsuariosUrl] = useState("");
+  const [listUsuariosUrl, setListUsuariosUrl] = useState("auth/users");
   const [searchData, setSearchData] = useState({ valid: "any", perPage: 10 });
 
 
