@@ -133,11 +133,15 @@ const FullCV = ({ cv, title }) => {
       nome += " " + cv.nomeUltimo;
     }
   }
+  if (nome == null || nome.length < 1) {
+    nome = cv.email;
+  }
   const optGenero = optionsGenero.find((o) => o.value === cv.genero);
   const anos = getYears(new Date(), new Date(cv.nascimento));
   const optEstadoCivil = optionsEstadoCivil.find(
     (o) => o.value === cv.estadoCivil
   );
+  const hasEndereco = cv.endereco != null;
   const endereco = cv.endereco || {};
   const linguagens = (cv.linguagens || []).map((l) => {
     let idioma = optionsLinguagens.find((o) => o.value === l.valor);
@@ -272,7 +276,7 @@ const FullCV = ({ cv, title }) => {
               <Typography>
                 <Typography component="span">Idade:&nbsp;</Typography>
                 <Typography component="span" fontWeight={600}>
-                  {anos} anos
+                  {isNaN(anos) ? "" : `${anos} anos`}
                 </Typography>
               </Typography>
               <Typography>
@@ -290,28 +294,32 @@ const FullCV = ({ cv, title }) => {
             </InlineIconInfo>
 
             <InlineIconInfo Icon={PlaceIcon} title="Endereço">
-              <Typography>
-                {endereco.rua}, {endereco.numero}
-                {endereco.complemento && ` - ${endereco.complemento}`}
-                <br />
-                {endereco.bairro}
-                <br />
-                {endereco.cidade} - {endereco.estado}, {endereco.cep}
-              </Typography>
+              {hasEndereco && (
+                <Typography>
+                  {endereco.rua}, {endereco.numero}
+                  {endereco.complemento && ` - ${endereco.complemento}`}
+                  <br />
+                  {endereco.bairro}
+                  <br />
+                  {endereco.cidade} - {endereco.estado}, {endereco.cep}
+                </Typography>
+              )}
             </InlineIconInfo>
           </Grid>
         </Grid>
       </CVSection>
 
       <CVSection title="Objetivos">
-        <Grid container spacing={2}>
-          {(cv.objetivos || []).map((objetivo, idx) => (
-            <Grid item xs={12}>
-              <ObjetivoBox objetivos={cv.objetivos} idx={idx} />
-            </Grid>
-          ))}
-          <Grid item xs />
-        </Grid>
+        {(cv.objetivos || []).length > 0 && (
+          <Grid container spacing={2}>
+            {(cv.objetivos || []).map((objetivo, idx) => (
+              <Grid item xs={12}>
+                <ObjetivoBox objetivos={cv.objetivos} idx={idx} />
+              </Grid>
+            ))}
+            <Grid item xs />
+          </Grid>
+        )}
       </CVSection>
 
       <CVSection title="Habilidades">
@@ -396,24 +404,34 @@ const FullCV = ({ cv, title }) => {
                 name: "Qualificações",
                 value: qualif.length > 0 ? qualif : null,
               },
+              {
+                name: "Descrição",
+                value: xp.descricao ? (
+                  <Typography sx={{ whiteSpace: "pre-line" , mb: 2}}>
+                    {xp.descricao}
+                  </Typography>
+                ) : null,
+              },
             ];
 
             return (
-              <Box key={idx} sx={{ mb: 2 }} className="print-section">
-                <InfoTable data={data} width="160px" />
+              <Box key={idx} sx={{ mb: 2 }}>
+                <InfoTable data={data} width="170px" />
               </Box>
             );
           })}
       </CVSection>
 
       <CVSection title="Idiomas">
-        <InfoTable
-          width="160px"
-          data={linguagens.map((l) => ({
-            name: l.idioma,
-            value: l.fluencia,
-          }))}
-        />
+        {linguagens.length > 0 && (
+          <InfoTable
+            width="170px"
+            data={linguagens.map((l) => ({
+              name: l.idioma,
+              value: l.fluencia,
+            }))}
+          />
+        )}
       </CVSection>
 
       <CVSection title="Formação">
@@ -444,7 +462,7 @@ const FullCV = ({ cv, title }) => {
           ];
           return (
             <Box key={idx} sx={{ mb: 2 }} className="print-section">
-              <InfoTable data={dataEscolaridade} width="160px" />
+              <InfoTable data={dataEscolaridade} width="170px" />
             </Box>
           );
         })}
@@ -500,7 +518,7 @@ const FullCV = ({ cv, title }) => {
 
           return (
             <Box key={idx} sx={{ mb: 2 }} className="print-section">
-              <InfoTable data={dataCurso} width="160px" />
+              <InfoTable data={dataCurso} width="170px" />
             </Box>
           );
         })}
@@ -524,7 +542,7 @@ const FullCV = ({ cv, title }) => {
           ];
           return (
             <Box key={idx} sx={{ mb: 2 }} className="print-section">
-              <InfoTable data={dataProj} width="160px" />
+              <InfoTable data={dataProj} width="170px" />
             </Box>
           );
         })}
