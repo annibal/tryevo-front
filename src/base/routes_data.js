@@ -398,7 +398,7 @@ export const masterAdminRoutes = {
     title: "Master Admin Home",
     rules: [ACCOUNT_FEATURES.MASTER_ADMIN],
     navbar: {
-      place: NAVBAR_PLACE.NONE,
+      place: NAVBAR_PLACE.IS_LOGO,
     },
   },
   masterAdminUsuarios: {
@@ -422,8 +422,29 @@ export const masterAdminRoutes = {
       place: NAVBAR_PLACE.NONE,
     },
   },
-  masterAdminHabilidades: {
+  masterAdminVagas: {
     priority: 102,
+    path: "master-admin/vagas/",
+    icon: <WorkIcon />,
+    title: "Todas as Vagas",
+    rules: [ACCOUNT_FEATURES.MASTER_ADMIN],
+    navbar: {
+      place: NAVBAR_PLACE.START_SIDE,
+      group: "Listas",
+    },
+  },
+  masterAdminVaga: {
+    priority: 102,
+    path: "master-admin/vaga/",
+    icon: <WorkIcon />,
+    title: "Gerenciar Vaga",
+    rules: [ACCOUNT_FEATURES.MASTER_ADMIN, ACCOUNT_FEATURES.IGNORE_ON_SIDEBAR],
+    navbar: {
+      place: NAVBAR_PLACE.NONE,
+    },
+  },
+  masterAdminHabilidades: {
+    priority: 103,
     path: "master-admin/habilidades/",
     icon: <SummarizeIcon />,
     title: "Habilidades",
@@ -434,7 +455,7 @@ export const masterAdminRoutes = {
     },
   },
   masterAdminCBO: {
-    priority: 103,
+    priority: 104,
     path: "master-admin/cbo/",
     icon: <ArticleIcon />,
     title: "CBOs",
@@ -445,7 +466,7 @@ export const masterAdminRoutes = {
     },
   },
   masterAdminCompetencias: {
-    priority: 104,
+    priority: 105,
     path: "master-admin/competencias/",
     icon: <LocalOfferIcon />,
     title: "Competências",

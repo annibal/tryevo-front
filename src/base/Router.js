@@ -47,6 +47,8 @@ import ManageAllUsers from "../pages/master-admin/ManageAllUsers";
 import ManageSingleUser from "../pages/master-admin/ManageSingleUser";
 import CurriculoCompletoPage from "../pages/pf/CurriculoCompletoPage";
 import CurriculoCandidatoPage from "../pages/pj/CurriculoCandidatoPage";
+import ManageAllVagas from "../pages/master-admin/ManageAllVagas";
+import ManageSingleVaga from "../pages/master-admin/ManageSingleVaga";
 
 
 const router = createBrowserRouter([
@@ -258,6 +260,16 @@ const router = createBrowserRouter([
             path: allRoutesData.masterAdminUsuario.path + ":usuarioId",
             handle: allRoutesData.masterAdminUsuario,
             element: <ProtectedRoute><ManageSingleUser /></ProtectedRoute>,
+          },
+          {
+            path: allRoutesData.masterAdminVagas.path,
+            handle: allRoutesData.masterAdminVagas,
+            element: <ProtectedRoute><ManageAllVagas /></ProtectedRoute>,
+          },
+          {
+            path: allRoutesData.masterAdminVaga.path + ":vagaId",
+            handle: allRoutesData.masterAdminVaga,
+            element: <ProtectedRoute><ManageSingleVaga /></ProtectedRoute>,
           },
 
           {

@@ -44,7 +44,7 @@ const ManageCBOList = ({ onEdit, cboListUrl, setCboListUrl }) => {
       if (error) {
         setListActionError(error?.message || error);
       } else {
-        handleSetCboUrl(true);
+        handleSetCboUrl(dSearch);
       }
     });
   };
@@ -54,7 +54,7 @@ const ManageCBOList = ({ onEdit, cboListUrl, setCboListUrl }) => {
       if (error) {
         setListActionError(error?.message || error);
       } else {
-        handleSetCboUrl(true);
+        handleSetCboUrl(dSearch);
       }
     });
   };
@@ -160,7 +160,7 @@ const ManageCBOList = ({ onEdit, cboListUrl, setCboListUrl }) => {
                 ) : (
                   <FixedSizeList
                     height={400}
-                    width={780}
+                    width="100%"
                     itemSize={46}
                     itemCount={cbosResponse.data?.length}
                     overscanCount={5}

@@ -135,7 +135,7 @@ const ManageSingleUser = () => {
               <FormInput
                 data={{ senha: newUserPass }}
                 onChange={(val) => setNewUserPass(val)}
-                disabled={loadingChangePlano}
+                disabled={loadingChangeSenha}
                 name="senha"
                 label="Nova Senha"
               />
@@ -148,7 +148,7 @@ const ManageSingleUser = () => {
                 variant="contained"
                 size="large"
                 disableElevation
-                disabled={newUserPass == null || newUserPass?.length === 0 || loadingChangePlano}
+                disabled={newUserPass == null || newUserPass?.length === 0 || loadingChangeSenha}
                 onClick={() => handleChangeSenha(newUserPass)}
               >
                 Alterar Senha

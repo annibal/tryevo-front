@@ -20,7 +20,7 @@ import { doCall } from "../../../providers/baseProvider";
 import SearchCompetencias from "./SearchCompetencias";
 
 const ListCompetencias = ({ onEdit, itemEdit }) => {
-  const [listCompetenciasUrl, setListCompetenciasUrl] = useState("");
+  const [listCompetenciasUrl, setListCompetenciasUrl] = useState("qualificacao");
   const [searchData, setSearchData] = useState({ valid: "any" });
   const [listActionError, setListActionError] = useState(null);
 
@@ -187,7 +187,7 @@ const ListCompetencias = ({ onEdit, itemEdit }) => {
                 ) : (
                   <FixedSizeList
                     height={400}
-                    width={780}
+                    width="100%"
                     itemSize={70}
                     itemCount={listCompetenciasResponse.data?.length}
                     overscanCount={5}

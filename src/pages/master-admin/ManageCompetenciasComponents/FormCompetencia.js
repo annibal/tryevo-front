@@ -76,25 +76,26 @@ const FormCompetencia = ({ data, onSubmit }) => {
           </Grid>
           <Grid item xs={12}>
             <Box sx={{ textAlign: "right" }}>
-              {isEditando && (
-                <Button
-                  sx={{ mr: 1 }}
-                  type="reset"
-                  variant="outlined"
-                  startIcon={<ClearIcon />}
-                  onClick={() => setDados({})}
-                >
-                  Cancelar
-                </Button>
-              )}
               <LoadingButton
                 type="submit"
                 loading={loading}
                 variant="contained"
                 startIcon={<SaveIcon />}
               >
-                {isEditando ? 'Atualizar' : 'Criar'}
+                {isEditando ? 'Atualizar' : 'Criar Nova'}
               </LoadingButton>
+              {isEditando && (
+                <Button
+                  sx={{ ml: 1 }}
+                  type="reset"
+                  color="secondary"
+                  variant="contained"
+                  startIcon={<ClearIcon />}
+                  onClick={() => setDados({})}
+                >
+                  Cancelar
+                </Button>
+              )}
             </Box>
           </Grid>
         </Grid>
