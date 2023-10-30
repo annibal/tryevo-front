@@ -8,6 +8,10 @@ body {
 }
 
 @media print {
+  body{
+    -webkit-print-color-adjust:exact !important;
+    print-color-adjust:exact !important;
+  }
   .print-section {
     break-inside: avoid;
   }
