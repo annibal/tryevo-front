@@ -5,25 +5,34 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
+import { isValidElement } from "react";
 
 const InfoTable = ({ data, width }) => (
   <Table size="small">
     <TableBody>
       {data.map((item, idx) => {
         if (item.value == null) return "";
+
+        const isNameNode = isValidElement(item.name);
+        const isValueNode = isValidElement(item.value);
         return (
           <TableRow key={idx} sx={{ verticalAlign: "top" }}>
             <TableCell
               sx={{
-                width,
+                minWidth: width,
+                maxWidth: width,
                 border: "none",
                 py: 0,
                 pl: 0,
               }}
             >
-              <Typography noWrap color="text.secondary" align="right">
-                {item.name}:
-              </Typography>
+              {isNameNode ? (
+                item.name
+              ) : (
+                <Typography noWrap color="text.secondary" align="right">
+                  {item.name}:
+                </Typography>
+              )}
             </TableCell>
             <TableCell
               sx={{
@@ -34,7 +43,7 @@ const InfoTable = ({ data, width }) => (
                 pl: 0,
               }}
             >
-              <Typography>{item.value}</Typography>
+              {isValueNode ? item.value : <Typography>{item.value}</Typography>}
             </TableCell>
           </TableRow>
         );

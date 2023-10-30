@@ -31,24 +31,26 @@ import EmailIcon from "@mui/icons-material/Email";
 import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
 import LinkIcon from "@mui/icons-material/Link";
 import PersonIcon from "@mui/icons-material/Person";
-import TrackChangesIcon from "@mui/icons-material/TrackChanges";
-// import Looks1Icon from "@mui/icons-material/Looks1";
-// import Looks2Icon from "@mui/icons-material/Looks2";
-// import Looks3Icon from "@mui/icons-material/Looks3";
-// import Looks4Icon from "@mui/icons-material/Looks4";
 import logoFull from "../assets/logo-full.png";
 
 import formatTelefone from "../utils/formatTelefone";
-import Section from "./Section";
 import getYears from "../utils/getYears";
 import { Fragment } from "react";
 import InfoTable from "./InfoTable";
+import formatDate from "../utils/formatDate";
+import formatDateRange from "../utils/formatDateRange";
 
 // className="print-section"
 
-const CVSection = ({ title, subtitle, withoutDivider, children }) => {
+const CVSection = ({
+  title,
+  subtitle,
+  withoutDivider,
+  className,
+  children,
+}) => {
   return (
-    <Box sx={{ mb: 4 }}>
+    <Box sx={{ mb: 4 }} className={className}>
       <Box sx={{ mb: 2 }}>
         <Typography variant="h5">{title}</Typography>
         {subtitle && <Typography variant="body2">{subtitle}</Typography>}
@@ -166,29 +168,16 @@ const FullCV = ({ cv, title }) => {
       );
       const nivel = optionsEscolaridade[nivelIdx];
 
-      const dataInicio = escolaridade.dataInicio
-        ? new Date(escolaridade.dataInicio).toLocaleDateString().slice(3)
-        : null;
-      const dataConclusao = escolaridade.dataConclusao
-        ? new Date(escolaridade.dataConclusao).toLocaleDateString().slice(3)
-        : null;
-      const dataPrevisaoTermino = escolaridade.dataPrevisaoTermino
-        ? new Date(escolaridade.dataPrevisaoTermino)
-            .toLocaleDateString()
-            .slice(3)
-        : null;
-
       const r = {
         nome: escolaridade.nome,
         nomeCurso: escolaridade.nomeCurso,
         status: status?.label,
         nivel: nivel?.label,
         nivelIdx,
-        dataInicio,
-        dataConclusao,
-        dataPrevisaoTermino,
+        dataInicio: formatDate(escolaridade.dataInicio),
+        dataConclusao: formatDate(escolaridade.dataConclusao),
+        dataPrevisaoTermino: formatDate(escolaridade.dataPrevisaoTermino),
       };
-      console.log(r);
       return r;
     })
     .sort((a, b) => a.nivelIdx - b.nivelIdx);
@@ -232,7 +221,7 @@ const FullCV = ({ cv, title }) => {
                   (x) => x.value === telefone.tipo
                 );
                 return (
-                  <Typography key={telefone.valor}>
+                  <Typography key={telefone.valor + telefone.tipo}>
                     {formatTelefone(telefone.valor)}
                     {tipoTelefone && (
                       <Typography color="textSecondary" component="span">
@@ -325,15 +314,101 @@ const FullCV = ({ cv, title }) => {
         </Grid>
       </CVSection>
 
-      <CVSection title="Resumo Profissional">
+      <CVSection title="Habilidades">
+        {(cv.habilidades || []).map((q) => (
+          <Chip size="small" label={q.nome} key={q._id} sx={{ mr: 2, mt: 1 }} />
+        ))}
+      </CVSection>
+
+      <CVSection title="Resumo Profissional" className="print-section">
         <Typography sx={{ whiteSpace: "pre-line" }}>
           {(cv.resumo || "").trim()}
         </Typography>
       </CVSection>
 
+      <CVSection title="Experiencia Profissional">
+        {(cv.experienciasProfissionais || [])
+          .sort((xpA, xpB) => +new Date(xpB.inicio) - +new Date(xpA.inicio))
+          .map((xp, idx) => {
+            const endDate = xp.isAtual ? null : xp.fim;
+            const formattedRange = formatDateRange(xp.inicio, endDate);
+
+            let strDate = null;
+            if (formattedRange) {
+              strDate = [
+                formattedRange.range,
+                ":",
+                formattedRange.dates[0],
+                "-",
+                formattedRange.dates[1],
+              ].join(" ");
+              if (xp.isAtual) {
+                strDate = [
+                  formattedRange.range,
+                  ":",
+                  formattedRange.dates[0],
+                  "- Cargo Atual",
+                ].join(" ");
+              }
+            }
+
+            const qualif = (xp.qualificacoes || []).map((q) => (
+              <Chip
+                label={q.nome}
+                key={q._id}
+                size="small"
+                sx={{ mr: 2, mb: 1 }}
+              />
+            ));
+
+            const data = [
+              {
+                name: "Empresa",
+                value: (
+                  <Typography>
+                    <Typography
+                      fontWeight={600}
+                      component="span"
+                      sx={{ display: "inline-block", mr: 1 }}
+                    >
+                      {xp.empresa}
+                    </Typography>
+                    <Typography
+                      color="text.secondary"
+                      component="span"
+                      sx={{ display: "inline-block" }}
+                    >
+                      {strDate}
+                    </Typography>
+                  </Typography>
+                ),
+              },
+              { name: "Ramo", value: xp.ramoAtividadeEmpresa },
+              {
+                name: "Cargo",
+                value: (
+                  <Typography fontWeight={600} color="primary">
+                    {xp.cargo?.nome}
+                  </Typography>
+                ),
+              },
+              {
+                name: "Qualificações",
+                value: qualif.length > 0 ? qualif : null,
+              },
+            ];
+
+            return (
+              <Box key={idx} sx={{ mb: 2 }} className="print-section">
+                <InfoTable data={data} width="160px" />
+              </Box>
+            );
+          })}
+      </CVSection>
+
       <CVSection title="Idiomas">
         <InfoTable
-          width="200px"
+          width="160px"
           data={linguagens.map((l) => ({
             name: l.idioma,
             value: l.fluencia,
@@ -341,216 +416,118 @@ const FullCV = ({ cv, title }) => {
         />
       </CVSection>
 
-      <CVSection title="Experiencia Profissional">
-        <Table size="small">
-          <TableBody>
-            {(cv.experienciasProfissionais || []).map((xp, idx) => {
-              return (
-                <Fragment key={idx}>
-                  <TableRow sx={{ verticalAlign: "top" }}>
-                    <TableCell sx={{ py: 0, border: "none" }}>
-                      <Typography color="text.secondary" noWrap>
-                        Empresa:
-                      </Typography>
-                    </TableCell>
-                    <TableCell sx={{ py: 0, border: "none" }}>
-                      <Typography fontWeight={600} noWrap>
-                        {xp.empresa}
-                      </Typography>
-                    </TableCell>
-                    <TableCell sx={{ py: 0, border: "none", width: "100%" }}>
-                      <Typography>
-                        {new Date(xp.inicio).toLocaleDateString().slice(3)}
-                        {" - "}
-                        {xp.isAtual
-                          ? "Cargo Atual"
-                          : new Date(xp.fim).toLocaleDateString().slice(3)}
-                      </Typography>
-                    </TableCell>
-                  </TableRow>
-
-                  <TableRow sx={{ verticalAlign: "top" }}>
-                    <TableCell sx={{ py: 0, border: "none" }}>
-                      <Typography color="text.secondary" noWrap>
-                        Cargo:
-                      </Typography>
-                    </TableCell>
-                    <TableCell colSpan={2} sx={{ py: 0, border: "none" }}>
-                      <Typography noWrap>{xp.cargo?.nome}</Typography>
-                    </TableCell>
-                  </TableRow>
-
-                  <TableRow sx={{ verticalAlign: "top" }}>
-                    <TableCell sx={{ pt: 0, pb: 4, border: "none" }}>
-                      <Typography color="text.secondary" noWrap>
-                        Qualificações:
-                      </Typography>
-                    </TableCell>
-                    <TableCell
-                      colSpan={2}
-                      sx={{ pt: 0, pb: 4, border: "none" }}
-                    >
-                      {(xp.qualificacoes || []).map((q) => (
-                        <Chip
-                          label={q.nome}
-                          key={q._id}
-                          size="small"
-                          sx={{ mr: 2, mt: 1 }}
-                        />
-                      ))}
-                    </TableCell>
-                  </TableRow>
-                </Fragment>
-              );
-            })}
-          </TableBody>
-        </Table>
-      </CVSection>
-
-      <CVSection title="Habilidades">
-        {(cv.habilidades || []).map((q) => (
-          <Chip label={q.nome} key={q._id} sx={{ mr: 2, mt: 1 }} />
-        ))}
-      </CVSection>
-
       <CVSection title="Formação">
-        <Table size="small">
-          <TableBody>
-            {escolaridades.map((escolaridade, idx) => {
-              const isLast = idx === escolaridades.length - 1;
-              const cellStyle = isLast
-                ? { pb: 2, border: "none" }
-                : { pb: 2, borderBottomColor: "rgba(224, 224, 224, 0.5)" };
-              const dataEscolaridade = [
-                { name: "Instituição", value: escolaridade.nome },
-                { name: "Nome do Curso", value: escolaridade.nomeCurso },
-                { name: "Ingressou em", value: escolaridade.dataInicio },
-                { name: "Concluído em", value: escolaridade.dataConclusao },
-                {
-                  name: "Previsão de Término",
-                  value: escolaridade.dataPrevisaoTermino,
-                },
-              ];
-              return (
-                <TableRow key={idx} sx={{ verticalAlign: "top" }}>
-                  <TableCell sx={cellStyle}>
-                    <Typography noWrap fontWeight={600}>
-                      {escolaridade.nivel}
-                    </Typography>
-                    <Typography color="text.secondary">
-                      {" "}
-                      {escolaridade.status}
-                    </Typography>
-                  </TableCell>
-                  <TableCell sx={{ ...cellStyle, width: "100%" }}>
-                    <InfoTable data={dataEscolaridade} width="230px" />
-                  </TableCell>
-                </TableRow>
-              );
-            })}
-          </TableBody>
-        </Table>
+        {escolaridades.map((escolaridade, idx) => {
+          const dataEscolaridade = [
+            {
+              name: "Nível",
+              value: (
+                <Typography noWrap>
+                  <Typography component="span" fontWeight={600}>
+                    {escolaridade.nivel}
+                  </Typography>
+                  <Typography component="span">
+                    {" - "}
+                    {escolaridade.status}
+                  </Typography>
+                </Typography>
+              ),
+            },
+            { name: "Instituição", value: escolaridade.nome },
+            { name: "Nome do Curso", value: escolaridade.nomeCurso },
+            { name: "Ingressou em", value: escolaridade.dataInicio },
+            { name: "Concluído em", value: escolaridade.dataConclusao },
+            {
+              name: "Fim Previsto",
+              value: escolaridade.dataPrevisaoTermino,
+            },
+          ];
+          return (
+            <Box key={idx} sx={{ mb: 2 }} className="print-section">
+              <InfoTable data={dataEscolaridade} width="160px" />
+            </Box>
+          );
+        })}
       </CVSection>
 
       <CVSection title="Cursos">
-        <Table size="small">
-          <TableBody>
-            {(cv.cursos || []).map((curso, idx) => {
-              const cArr = [
-                curso.inicio
-                  ? new Date(curso.inicio).toLocaleDateString().slice(3)
-                  : "",
-                curso.isCursando ? "cursando" : "",
-              ].filter((x) => x);
+        {(cv.cursos || []).map((curso, idx) => {
+          const cArr = [
+            curso.inicio ? formatDate(curso.inicio, "MMM YYYY") : "",
+            curso.isCursando ? "Cursando" : "",
+          ].filter((x) => x);
 
-              return (
-                <Fragment key={idx}>
-                  <TableRow sx={{ verticalAlign: "top" }}>
-                    <TableCell sx={{ py: 0, border: "none" }}>
-                      <Typography color="text.secondary" noWrap>
-                        Curso:
-                      </Typography>
-                    </TableCell>
-                    <TableCell sx={{ py: 0, border: "none" }}>
-                      <Typography fontWeight={600} noWrap>
-                        {curso.titulo}
-                      </Typography>
-                    </TableCell>
-                    <TableCell sx={{ py: 0, border: "none", width: "100%" }}>
-                      <Typography color="text.secondary">
-                        {cArr.map((t, i) => (
-                          <Typography key={i} component="span">
-                            {i > 0 && " - "}
-                            {t}
-                          </Typography>
-                        ))}
-                      </Typography>
-                    </TableCell>
-                  </TableRow>
+          const dataCurso = [
+            {
+              name: "Curso",
+              value: (
+                <Typography>
+                  <Typography
+                    fontWeight={600}
+                    component="span"
+                    sx={{ display: "inline-block", mr: 1 }}
+                  >
+                    {curso.titulo}
+                  </Typography>
+                  <Typography
+                    color="text.secondary"
+                    component="span"
+                    sx={{ display: "inline-block" }}
+                  >
+                    {cArr.length > 0 && " - "}
+                    {cArr.join(" - ")}
+                  </Typography>
+                </Typography>
+              ),
+            },
+            {
+              name: "Carga Horária",
+              value: `${curso.cargaHoraria} horas`,
+            },
+            {
+              name: "Instituição",
+              value: curso.nomeEscola,
+            },
+            {
+              name: "Descrição",
+              value: (
+                <Typography sx={{ whiteSpace: "pre-line" }}>
+                  {curso.descricao}
+                </Typography>
+              ),
+            },
+          ];
 
-                  <TableRow sx={{ verticalAlign: "top" }}>
-                    <TableCell sx={{ py: 0, border: "none" }}>
-                      <Typography color="text.secondary" noWrap>
-                        Carga Horária:
-                      </Typography>
-                    </TableCell>
-                    <TableCell colSpan={2} sx={{ py: 0, border: "none" }}>
-                      <Typography noWrap>{curso.cargaHoraria} Horas</Typography>
-                    </TableCell>
-                  </TableRow>
-
-                  <TableRow sx={{ verticalAlign: "top" }}>
-                    <TableCell sx={{ py: 0, border: "none" }}>
-                      <Typography color="text.secondary" noWrap>
-                        Instituição:
-                      </Typography>
-                    </TableCell>
-                    <TableCell colSpan={2} sx={{ py: 0, border: "none" }}>
-                      <Typography noWrap>{curso.nomeEscola}</Typography>
-                    </TableCell>
-                  </TableRow>
-
-                  <TableRow sx={{ verticalAlign: "top" }}>
-                    <TableCell sx={{ pt: 0, pb: 4, border: "none" }}>
-                      <Typography color="text.secondary" noWrap>
-                        Descrição:
-                      </Typography>
-                    </TableCell>
-                    <TableCell
-                      colSpan={2}
-                      sx={{ pt: 0, pb: 4, border: "none" }}
-                    >
-                      <Typography sx={{ whiteSpace: "pre-line" }}>
-                        {curso.descricao}
-                      </Typography>
-                    </TableCell>
-                  </TableRow>
-                </Fragment>
-              );
-            })}
-          </TableBody>
-        </Table>
+          return (
+            <Box key={idx} sx={{ mb: 2 }} className="print-section">
+              <InfoTable data={dataCurso} width="160px" />
+            </Box>
+          );
+        })}
       </CVSection>
 
       <CVSection title="Projetos">
-        <Table size="small">
-          <TableBody>
-            {(cv.projetosPessoais || []).map((proj, idx) => (
-              <TableRow key={idx} sx={{ verticalAlign: "top" }}>
-                <TableCell sx={{ pl: 0, border: "none" }}>
-                  <Typography noWrap fontWeight={600}>
-                    {proj.titulo}:
-                  </Typography>
-                </TableCell>
-                <TableCell sx={{ pr: 0, border: "none", width: "100%" }}>
-                  <Typography sx={{ whiteSpace: "pre-line" }}>
-                    {(cv.resumo || "").trim()}
-                  </Typography>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+        {(cv.projetosPessoais || []).map((proj, idx) => {
+          const dataProj = [
+            {
+              name: (
+                <Typography noWrap fontWeight={600} align="right">
+                  {proj.titulo}:
+                </Typography>
+              ),
+              value: (
+                <Typography sx={{ whiteSpace: "pre-line" }}>
+                  {(proj.descricao || "").trim()}
+                </Typography>
+              ),
+            },
+          ];
+          return (
+            <Box key={idx} sx={{ mb: 2 }} className="print-section">
+              <InfoTable data={dataProj} width="160px" />
+            </Box>
+          );
+        })}
       </CVSection>
     </Container>
   );
