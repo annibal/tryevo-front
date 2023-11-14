@@ -100,7 +100,6 @@ const LoginPage = () => {
               LinkComponent={Link}
               to={`/app/${allRoutesData.esqueciSenha.path}`}
               fullWidth
-              disabled
             >
               Esqueci a senha
             </Button>
