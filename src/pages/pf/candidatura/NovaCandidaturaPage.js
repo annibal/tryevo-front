@@ -25,6 +25,8 @@ const NovaCandidaturaPage = () => {
   const [actionError, setActionError] = useState(null);
   const [candidaturaCreated, setCandidaturaCreated] = useState(null);
 
+  let enviarCandidaturaEnabled = !!userInfo;
+
   const [dados, setDados] = useState({});
   const handleChange = (value, name, data) => {
     setActionError(null);
@@ -103,16 +105,25 @@ const NovaCandidaturaPage = () => {
         <Box sx={{ mb: 8 }}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={5.5}>
-              <CandidatoCard
-                pf={userInfo || {}}
-                sx={{ border: "1px solid #88888888", p: 4, pb: 0, mb: 2 }}
-              />
+              {userInfo ? (
+                <CandidatoCard
+                  pf={userInfo || {}}
+                  sx={{ border: "1px solid #88888888", p: 4, pb: 0, mb: 2 }}
+                />
+              ) : (
+                <Box sx={{ pb: 2 }}>
+                  <Typography color="error">
+                    Você precisa pelo menos inserir algum dado pessoal antes de 
+                    começar a enviar candidaturas.
+                  </Typography>
+                </Box>
+              )}
 
               <Grid container spacing={2}>
                 <Grid item xs>
                   <Button
                     disableElevation
-                    variant="outlined"
+                    variant={enviarCandidaturaEnabled ? "outlined" : "contained"}
                     sx={{ width: { xs: "auto", sm: "100%" } }}
                     LinkComponent={Link}
                     to={"/app/" + allRoutesData.pfDados.path}
@@ -227,6 +238,7 @@ const NovaCandidaturaPage = () => {
                   disableElevation
                   loading={isLoading}
                   variant="contained"
+                  disabled={!enviarCandidaturaEnabled}
                   startIcon={<HandshakeIcon />}
                   sx={{ width: { xs: "auto", sm: "100%" } }}
                 >

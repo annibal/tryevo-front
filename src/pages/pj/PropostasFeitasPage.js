@@ -1,4 +1,4 @@
-import { Box, Divider, Grid, Typography } from "@mui/material";
+import { Box, Chip, Divider, Grid, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import allRoutesData from "../../base/routes_data";
 import useFetch from "../../providers/useFetch";
@@ -107,10 +107,7 @@ const PropostasFeitasPage = () => {
                     {match != null && (
                       <Typography variant="span" color="text.primary">
                         {" - Match: "}
-                        <Typography
-                          variant="span"
-                          fontWeight="bold"
-                        >
+                        <Typography variant="span" fontWeight="bold">
                           {formatPercent(match)}
                         </Typography>
                       </Typography>
@@ -147,13 +144,17 @@ const PropostasFeitasPage = () => {
                 </Grid>
 
                 <Grid item xs={4} sm={3} md={2} order={{ xs: 2, sm: 3 }}>
-                  <Box sx={{ mr: 2 }}>
+                  <Box sx={{ mr: 2, textAlign: "right" }}>
                     <Typography align="right" color="textSecondary">
                       {new Date(item.createdAt).toLocaleDateString()}
                     </Typography>
-                    <Typography align="right" color={status.color}>
-                      {status.label}
-                    </Typography>
+                    <Chip
+                      label={status.label}
+                      sx={{
+                        backgroundColor: status.color,
+                        color: status.textColor,
+                      }}
+                    />
                   </Box>
                 </Grid>
               </Grid>

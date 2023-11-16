@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import { ACCOUNT_FEATURES, useAuth } from "../../base/AuthContext";
-import logoFull from "../../assets/logo-full.png";
 import MenuIcon from "@mui/icons-material/Menu";
 import FirstPageIcon from "@mui/icons-material/FirstPage";
 import { NAVBAR_PLACE, allRoutesArray } from "../../base/routes_data";
@@ -122,7 +121,7 @@ const Navbar = ({ toolbarOpen, onSetToolbarOpen }) => {
                 to={logoLink}
                 className="navbar-logo"
               >
-                <img src={logoFull} alt="tryEvo" />
+                <img src={process.env.PUBLIC_URL + '/logo-full.png'} alt="tryEvo" />
               </Button>
             </Grid>
 

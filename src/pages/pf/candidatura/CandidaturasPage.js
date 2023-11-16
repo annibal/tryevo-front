@@ -1,4 +1,4 @@
-import { Box, Divider, Grid, Typography } from "@mui/material";
+import { Box, Chip, Divider, Grid, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import allRoutesData from "../../../base/routes_data";
 import useFetch from "../../../providers/useFetch";
@@ -12,7 +12,7 @@ import { Fragment } from "react";
 const CandidaturasPage = () => {
   const candidaturasResponse = useFetch("GET", `candidaturas`);
 
-  //               
+  //
 
   return (
     <Box>
@@ -38,7 +38,9 @@ const CandidaturasPage = () => {
         dataItemComponent={({ item }) => {
           const status = getStatusCandidatura(item);
           const vaga = item.vaga || {};
-          const strTipoContrato = optionsTipoContrato.find(o => o.value === vaga.tipoContrato);
+          const strTipoContrato = optionsTipoContrato.find(
+            (o) => o.value === vaga.tipoContrato
+          );
           const cargo = vaga.cargo;
           const titulo = vaga.titulo;
           let strEmpresa = vaga.empresa?.nome;
@@ -70,15 +72,19 @@ const CandidaturasPage = () => {
                 />{" "}
                 {endereco.cidade}, {endereco.estado}
               </Typography>
-            ) : null
-          ].filter(x => x);
+            ) : null,
+          ].filter((x) => x);
 
           return (
             <Grid item xs={12}>
               <Box sx={{ mb: 2 }}>
                 <Grid container spacing={2}>
                   <Grid item xs>
-                    <Link to={'/app/' + allRoutesData.pfCandidaturas.path + item._id}>
+                    <Link
+                      to={
+                        "/app/" + allRoutesData.pfCandidaturas.path + item._id
+                      }
+                    >
                       <Typography color="primary">{titulo}</Typography>
                     </Link>
 
@@ -90,15 +96,20 @@ const CandidaturasPage = () => {
                         </Fragment>
                       ))}
                     </Box>
-
                   </Grid>
                   <Grid item>
-                    <Typography align="right" color="textSecondary">
-                      {new Date(item.createdAt).toLocaleDateString()}
-                    </Typography>
-                    <Typography align="right" color={status.color}>
-                      {status.label}
-                    </Typography>
+                    <Box sx={{ mr: 2, textAlign: "right" }}>
+                      <Typography align="right" color="textSecondary">
+                        {new Date(item.createdAt).toLocaleDateString()}
+                      </Typography>
+                      <Chip
+                        label={status.label}
+                        sx={{
+                          backgroundColor: status.color,
+                          color: status.textColor,
+                        }}
+                      />
+                    </Box>
                   </Grid>
                 </Grid>
               </Box>

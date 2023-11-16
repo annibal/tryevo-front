@@ -6,7 +6,7 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import UnpublishedIcon from "@mui/icons-material/Unpublished";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import EditNoteIcon from "@mui/icons-material/EditNote";
-import { Box, Button, Typography, Grid, Divider } from "@mui/material";
+import { Box, Button, Typography, Grid, Divider, Chip } from "@mui/material";
 import { useAuth } from "../../../base/AuthContext";
 import PrettyPrint from "../../commons/PrettyPrint";
 import Section from "../../../components/Section";
@@ -31,7 +31,10 @@ const MinhaVagaPage = () => {
 
   const propostasResponse = useFetch("GET", `propostas`, { vaga: vagaId });
 
-  const isCreatedByMe = auth.userInfo?._id === vagaResponse.data?.ownerId;
+  const isCreatedByMe = auth.user?._id === vagaResponse.data?.ownerId;
+  if (!isCreatedByMe) {
+    console.log(auth, vagaResponse);
+  }
 
   const handleToggleActive = () => {
     setActionError(null);
@@ -258,13 +261,17 @@ const MinhaVagaPage = () => {
                     </Grid>
 
                     <Grid item xs>
-                      <Box sx={{ mr: 2 }}>
+                      <Box sx={{ mr: 2, textAlign: "right" }}>
                         <Typography align="right" color="textSecondary">
                           {new Date(item.createdAt).toLocaleDateString()}
                         </Typography>
-                        <Typography align="right" color={status.color}>
-                          {status.label}
-                        </Typography>
+                        <Chip
+                          label={status.label}
+                          sx={{
+                            backgroundColor: status.color,
+                            color: status.textColor,
+                          }}
+                        />
                       </Box>
                     </Grid>
                   </Grid>

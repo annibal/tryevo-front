@@ -31,7 +31,6 @@ import EmailIcon from "@mui/icons-material/Email";
 import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
 import LinkIcon from "@mui/icons-material/Link";
 import PersonIcon from "@mui/icons-material/Person";
-import logoFull from "../assets/logo-full.png";
 
 import formatTelefone from "../utils/formatTelefone";
 import getYears from "../utils/getYears";
@@ -191,7 +190,7 @@ const FullCV = ({ cv, title }) => {
       <Box sx={{ mt: 4, mb: 4 }}>
         <Grid container spacing={2}>
           <Grid item xs>
-            <img src={logoFull} alt="tryEvo" style={{ height: 45 }} />
+            <img src={process.env.PUBLIC_URL + '/logo-full.png'} alt="tryEvo" style={{ height: 45 }} />
           </Grid>
           <Grid item>
             <div className="print-hidden">

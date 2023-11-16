@@ -1,5 +1,4 @@
 import { ACCOUNT_FEATURES, useAuth } from "../../base/AuthContext";
-import logoFull from "../../assets/logo-full.png";
 import MenuIcon from "@mui/icons-material/Menu";
 import { allRoutesArray } from "../../base/routes_data";
 import {
@@ -39,7 +38,7 @@ const Sidebar = () => {
         className="logo-container"
         onClick={() => setSidebarOpen(!sidebarOpen)}
       >
-        <img src={logoFull} alt="tryEvo" />
+        <img src={process.env.PUBLIC_URL + '/logo-full.png'} alt="tryEvo" />
         <MenuIcon className="hamburguer" />
       </div>
 

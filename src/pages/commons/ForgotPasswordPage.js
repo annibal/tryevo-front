@@ -47,13 +47,24 @@ const ForgotPasswordPage = () => {
   };
   const handleSubmitNewPassword = (event) => {
     event.preventDefault();
-
     setNewPasswordLoading(true);
     setNewPasswordError(null);
-
-    setIsPasswordChanged(true);
-    setNewPasswordError("");
-    setNewPasswordLoading(false);
+    
+    doCall("auth/forgot-password-reset-with-code", {
+      method: "POST",
+      body: {
+        email: dadosSendCode.email,
+        code: dadosNewPassword.code,
+        newSenha: dadosNewPassword.pass
+      },
+    }).then(({ success, data, error }) => {
+      setNewPasswordLoading(false);
+      if (success) {
+        setIsPasswordChanged(true);
+      } else {
+        setNewPasswordError(error);
+      }
+    });
   };
 
   return (
@@ -76,6 +87,7 @@ const ForgotPasswordPage = () => {
                 name="email"
                 type="email"
                 placeholder="Email"
+                disabled={isCodeSent && !newPasswordError}
                 data={dadosSendCode}
                 onChange={handleChangeSendCode}
                 required

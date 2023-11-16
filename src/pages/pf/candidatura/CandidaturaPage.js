@@ -20,11 +20,13 @@ import allRoutesData from "../../../base/routes_data";
 export const getStatusCandidatura = (candidatura) => {
   let statusCandidatura = { color: "inherit", label: "???" };
   if (candidatura?._id)
-    statusCandidatura = { color: "inherit", label: "Em Aberto" };
+    statusCandidatura = { textColor: "common.black", color: "", label: "Em Aberto" };
   if (candidatura?.viuDados)
-    statusCandidatura = { color: "primary", label: "Visualizada" };
+    statusCandidatura = { textColor: "common.white", color: "primary.main", label: "Visualizada" };
   if (candidatura?.contratou)
-    statusCandidatura = { color: "secondary", label: "Contratado!" };
+    statusCandidatura = { textColor: "common.white", color: "secondary.main", label: "Contratado!" };
+  if (!candidatura?.contratou && candidatura?.vaga?.contratou)
+    statusCandidatura = { textColor: "text.secondary", color: "action.disabled", label: "Vaga Preenchida" };
 
   return statusCandidatura;
 };
