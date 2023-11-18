@@ -20,6 +20,7 @@ import ArticleIcon from "@mui/icons-material/Article";
 import SummarizeIcon from "@mui/icons-material/Summarize";
 import LocalOfferIcon from "@mui/icons-material/LocalOffer";
 import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
+import DiamondIcon from "@mui/icons-material/Diamond";
 import { CurriculumIcon } from "../components/CustomIcons";
 
 export const NAVBAR_PLACE = {
@@ -401,50 +402,29 @@ export const masterAdminRoutes = {
       place: NAVBAR_PLACE.IS_LOGO,
     },
   },
-  masterAdminUsuarios: {
-    priority: 101,
-    path: "master-admin/usuarios/",
-    icon: <AdminPanelSettingsIcon />,
-    title: "Todos os Usuários",
+  masterAdminPlanosAssinatura: {
+    priority: 102,
+    path: "master-admin/planos-assinatura/",
+    icon: <DiamondIcon />,
+    title: "Planos de Assinatura",
     rules: [ACCOUNT_FEATURES.MASTER_ADMIN],
     navbar: {
       place: NAVBAR_PLACE.START_SIDE,
-      group: "Listas",
+      group: "Cadastros",
     },
   },
-  masterAdminUsuario: {
-    priority: 101,
-    path: "master-admin/usuario/",
-    icon: <AdminPanelSettingsIcon />,
-    title: "Gerenciar Usuário",
-    rules: [ACCOUNT_FEATURES.MASTER_ADMIN, ACCOUNT_FEATURES.IGNORE_ON_SIDEBAR],
-    navbar: {
-      place: NAVBAR_PLACE.NONE,
-    },
-  },
-  masterAdminVagas: {
-    priority: 102,
-    path: "master-admin/vagas/",
-    icon: <WorkIcon />,
-    title: "Todas as Vagas",
+  masterAdminPlanoAssinatura: {
+    priority: 199,
+    path: "master-admin/plano-assinatura/",
+    icon: <DiamondIcon />,
+    title: "Plano de Assinatura",
     rules: [ACCOUNT_FEATURES.MASTER_ADMIN],
     navbar: {
-      place: NAVBAR_PLACE.START_SIDE,
-      group: "Listas",
-    },
-  },
-  masterAdminVaga: {
-    priority: 102,
-    path: "master-admin/vaga/",
-    icon: <WorkIcon />,
-    title: "Gerenciar Vaga",
-    rules: [ACCOUNT_FEATURES.MASTER_ADMIN, ACCOUNT_FEATURES.IGNORE_ON_SIDEBAR],
-    navbar: {
-      place: NAVBAR_PLACE.NONE,
+      place: NAVBAR_PLACE.NONE
     },
   },
   masterAdminHabilidades: {
-    priority: 103,
+    priority: 104,
     path: "master-admin/habilidades/",
     icon: <SummarizeIcon />,
     title: "Habilidades",
@@ -455,7 +435,7 @@ export const masterAdminRoutes = {
     },
   },
   masterAdminCBO: {
-    priority: 104,
+    priority: 106,
     path: "master-admin/cbo/",
     icon: <ArticleIcon />,
     title: "CBOs",
@@ -466,7 +446,7 @@ export const masterAdminRoutes = {
     },
   },
   masterAdminCompetencias: {
-    priority: 105,
+    priority: 108,
     path: "master-admin/competencias/",
     icon: <LocalOfferIcon />,
     title: "Competências",
@@ -474,6 +454,48 @@ export const masterAdminRoutes = {
     navbar: {
       place: NAVBAR_PLACE.START_SIDE,
       group: "Cadastros",
+    },
+  },
+  masterAdminUsuarios: {
+    priority: 200,
+    path: "master-admin/usuarios/",
+    icon: <AdminPanelSettingsIcon />,
+    title: "Todos os Usuários",
+    rules: [ACCOUNT_FEATURES.MASTER_ADMIN],
+    navbar: {
+      place: NAVBAR_PLACE.START_SIDE,
+      group: "Listas",
+    },
+  },
+  masterAdminUsuario: {
+    priority: 200,
+    path: "master-admin/usuario/",
+    icon: <AdminPanelSettingsIcon />,
+    title: "Gerenciar Usuário",
+    rules: [ACCOUNT_FEATURES.MASTER_ADMIN, ACCOUNT_FEATURES.IGNORE_ON_SIDEBAR],
+    navbar: {
+      place: NAVBAR_PLACE.NONE,
+    },
+  },
+  masterAdminVagas: {
+    priority: 202,
+    path: "master-admin/vagas/",
+    icon: <WorkIcon />,
+    title: "Todas as Vagas",
+    rules: [ACCOUNT_FEATURES.MASTER_ADMIN],
+    navbar: {
+      place: NAVBAR_PLACE.START_SIDE,
+      group: "Listas",
+    },
+  },
+  masterAdminVaga: {
+    priority: 202,
+    path: "master-admin/vaga/",
+    icon: <WorkIcon />,
+    title: "Gerenciar Vaga",
+    rules: [ACCOUNT_FEATURES.MASTER_ADMIN, ACCOUNT_FEATURES.IGNORE_ON_SIDEBAR],
+    navbar: {
+      place: NAVBAR_PLACE.NONE,
     },
   },
 };

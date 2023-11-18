@@ -155,7 +155,7 @@ const ManageAllVagas = () => {
           setSearchData(newSearchData);
           handleSetUrl(newSearchData);
         }}
-        rowsPerPageOptions={[5, 10, 20, 50, 300]}
+        rowsPerPageOptions={[5, 10, 20, 50, 140, 300]}
       />
 
       {/* <TablePagination

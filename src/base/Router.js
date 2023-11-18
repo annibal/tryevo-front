@@ -49,6 +49,8 @@ import CurriculoCompletoPage from "../pages/pf/CurriculoCompletoPage";
 import CurriculoCandidatoPage from "../pages/pj/CurriculoCandidatoPage";
 import ManageAllVagas from "../pages/master-admin/ManageAllVagas";
 import ManageSingleVaga from "../pages/master-admin/ManageSingleVaga";
+import ManagePlanosAssinaturaPage from "../pages/master-admin/ManagePlanosAssinatura";
+import ManageSinglePlanoAssinaturaPage from "../pages/master-admin/ManageSinglePlanoAssinatura";
 
 
 const router = createBrowserRouter([
@@ -270,6 +272,16 @@ const router = createBrowserRouter([
             path: allRoutesData.masterAdminVaga.path + ":vagaId",
             handle: allRoutesData.masterAdminVaga,
             element: <ProtectedRoute><ManageSingleVaga /></ProtectedRoute>,
+          },
+          {
+            path: allRoutesData.masterAdminPlanoAssinatura.path,
+            handle: allRoutesData.masterAdminPlanoAssinatura,
+            element: <ProtectedRoute><ManagePlanosAssinaturaPage /></ProtectedRoute>,
+          },
+          {
+            path: allRoutesData.masterAdminPlanoAssinatura.path + ":planoId",
+            handle: allRoutesData.masterAdminPlanoAssinatura,
+            element: <ProtectedRoute><ManageSinglePlanoAssinaturaPage /></ProtectedRoute>,
           },
 
           {
