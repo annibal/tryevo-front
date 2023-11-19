@@ -27,16 +27,16 @@ const ConfiguracoesPFPage = () => {
           <TableHead>
             <TableRow>
               <TableCell>Chave do Recurso</TableCell>
-              <TableCell>Habilitado?</TableCell>
+              <TableCell>Valor</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {Object.entries(features || {}).map((entry) => (
+            {Object.entries(features || {}).map((entry) => entry[1] ? (
               <TableRow key={entry[0]}>
                 <TableCell>{entry[0]}</TableCell>
-                <TableCell>{entry[1] ? "SIM" : "NÃO"}</TableCell>
+                <TableCell>{+entry[1]}</TableCell>
               </TableRow>
-            ))}
+            ) : "")}
           </TableBody>
         </Table>
       </Section>

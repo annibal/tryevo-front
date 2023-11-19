@@ -3,16 +3,34 @@ import * as authProvider from "../providers/authProvider";
 import * as userInfoProvider from "../providers/userInfoProvider";
 
 export const ACCOUNT_FEATURES = {
-  IGNORE_ON_SIDEBAR: "ignore-on-sidebar",
-  LOGGED: "account-is-logged-in",
-  NOT_LOGGED: "account-none",
+  // menus (doesn't show on user features)
+  IGNORE_ON_SIDEBAR: "IGNORE_ON_SIDEBAR",
+
+  // check if logged
+  LOGGED: "LOGGED_IN",
+  NOT_LOGGED: "NOT_LOGGED_IN",
+
+  // map from type
   MASTER_ADMIN: "MASTER_ADMIN",
-  PF: "PF",
-  PF_DASH: "PF_DASH",
-  PF_RANKING: "PF_RANKING",
-  PJ: "PJ",
-  PJ_DASH: "PJ_DASH",
-  PJ_SEE_DATA: "PJ_SEE_DATA",
+  PF: "PF_CANDIDATO",
+  PJ: "PJ_EMPRESA",
+
+  // synced with server
+  VER_DASHBOARD: "VER_DASHBOARD",
+  VER_G_VAGAS_MES: "VER_GRAFICO_VAGAS_MES",
+  VER_G_VAGAS_ESTADO: "VER_GRAFICO_VAGAS_ESTADO",
+  VER_G_CONT_MES: "VER_GRAFICO_CONTRATACOES_MES",
+  VER_G_COMP_ESTADO: "VER_GRAFICO_COMPETENCIAS_ESTADO",
+
+  VER_NOME_EMPRESA: "VER_NOME_EMPRESA",
+  
+  VER_DADOS_CANDIDATO: "VER_DADOS_CANDIDATO",
+  VER_CV_FULL: "VER_CV_FULL",
+
+  LIMITE_CANDIDATURAS: "LIMITE_CANDIDATURAS",
+  LIMITE_VAGAS: "LIMITE_VAGAS",
+
+  ADMIN: "ADMIN",
 };
 
 export const AUTH_READY_STATE = {
@@ -27,22 +45,31 @@ export const getFeaturesFromPlano = (plano) => {
     [ACCOUNT_FEATURES.NOT_LOGGED]: true,
   };
 
-  if (plano) {
-    features[ACCOUNT_FEATURES.LOGGED] = true;
-    features[ACCOUNT_FEATURES.NOT_LOGGED] = false;
+  if (plano && plano.tipo) {
+    const objPlano = {
+      _id: plano._id,
+      nome: plano.nome,
+      tipo: plano.tipo,
+      features: plano.features || {},
+      // features: (plano.features || []).reduce((all, feat) => ({
+      //   ...all,
+      //   [feat.chave]: feat.valor
+      // }), {})
+    }
 
-    if (plano.startsWith("PF")) {
+    features = {
+      ...objPlano.features,
+      [ACCOUNT_FEATURES.LOGGED]: true,
+      [ACCOUNT_FEATURES.NOT_LOGGED]: false,
+    }
+
+    if (objPlano.tipo === "PF") {
       features[ACCOUNT_FEATURES.PF] = true;
     }
-    if (plano === "PF_SMART") {
-      features[ACCOUNT_FEATURES.PF_DASH] = true;
-    }
-
-    if (plano.startsWith("PJ")) {
+    if (objPlano.tipo ==="PJ") {
       features[ACCOUNT_FEATURES.PJ] = true;
     }
-
-    if (plano === ACCOUNT_FEATURES.MASTER_ADMIN) {
+    if (objPlano.tipo ==="MA") {
       features[ACCOUNT_FEATURES.MASTER_ADMIN] = true;
     }
   }
@@ -80,11 +107,21 @@ export function AuthProvider({ children }) {
 
     try {
       objUser = await authProvider.getAuthData();
-      setUserData(objUser);
+      if (objUser) {
+        if (!objUser.plano?.tipo) {
+          throw new Error("Plano inválido");
+        }
+        setUserData(objUser);
+      }
     } catch (e) {
-      if ((e.message || e).toString().includes('jwt')) {
+      const errMsg = (e.message || e).toString()
+      const isJWTerror = errMsg.includes('jwt')
+      const isPlanAssError = errMsg.includes('Plano')
+      console.log(errMsg, isJWTerror, isPlanAssError)
+      if (isJWTerror || isPlanAssError) {
         await logOut();
       } else {
+        console.trace(e);
         setError(e);
       }
     }
@@ -107,6 +144,7 @@ export function AuthProvider({ children }) {
       if ((e.message || e).toString().includes('jwt')) {
         await logOut();
       } else {
+        console.trace(e);
         setError(e);
       }
     }
@@ -154,6 +192,7 @@ export function AuthProvider({ children }) {
       objUser = await authProvider.signIn(newUser);
       setUserData(objUser);
     } catch (e) {
+      console.trace(e)
       setError(e);
     }
     setLoading(false);
@@ -168,6 +207,7 @@ export function AuthProvider({ children }) {
       objUser = await authProvider.logIn(userAndPass);
       setUserData(objUser);
     } catch (e) {
+      console.trace(e)
       setError(e);
     }
     setLoading(false);
@@ -182,6 +222,7 @@ export function AuthProvider({ children }) {
     try {
       authProvider.logOut();
     } catch (e) {
+      console.trace(e)
       setError(e);
     }
     setLoading(false);
@@ -206,6 +247,7 @@ export function AuthProvider({ children }) {
     invalidate,
     updateData,
     setUserInfo,
+    clearError: () => { setError(null) }
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

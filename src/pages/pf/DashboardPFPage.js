@@ -22,8 +22,11 @@ import SimpleBarChart from "../../components/SimpleBarChart";
 
 const DashboardPFPage = () => {
   const auth = useAuth();
+  const userFeatures = auth?.features || {};
 
-  const hasChartDash = (auth?.features || {})[ACCOUNT_FEATURES.PF_DASH];
+  const hasChartDash =
+    userFeatures[ACCOUNT_FEATURES.VER_DASHBOARD] &&
+    userFeatures[ACCOUNT_FEATURES.PF];
 
   const barChartData = [
     { name: "A", value: 10 },
@@ -73,7 +76,7 @@ const DashboardPFPage = () => {
     { name: "CSS", value: 106490 },
     { name: "MySQL", value: 68938 },
     { name: "ABAP", value: 65789 },
-  ]
+  ];
   const dataVagasEstado = [
     { name: "SP", value: 93876 },
     { name: "RJ", value: 61559 },
@@ -82,7 +85,7 @@ const DashboardPFPage = () => {
     { name: "ES", value: 97901 },
     { name: "RS", value: 69897 },
     { name: "RN", value: 74242 },
-  ]
+  ];
 
   return (
     <div>

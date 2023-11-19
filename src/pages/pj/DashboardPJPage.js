@@ -1,13 +1,31 @@
-import React from 'react';
-import { Grid, Card, CardContent, Typography, Box } from '@mui/material';
-import { BarChart, Bar, PieChart, Pie, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, AreaChart, Area } from 'recharts';
-import { ACCOUNT_FEATURES, useAuth } from '../../base/AuthContext';
-import SimpleBarChart from '../../components/SimpleBarChart';
+import React from "react";
+import { Grid, Card, CardContent, Typography, Box } from "@mui/material";
+import {
+  BarChart,
+  Bar,
+  PieChart,
+  Pie,
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+  AreaChart,
+  Area,
+} from "recharts";
+import { ACCOUNT_FEATURES, useAuth } from "../../base/AuthContext";
+import SimpleBarChart from "../../components/SimpleBarChart";
 
 const DashboardPJPage = () => {
   const auth = useAuth();
+  const userFeatures = auth?.features || {};
 
-  const hasChartDash = true; //(auth?.features || {})[ACCOUNT_FEATURES.PJ_DASH];
+  const hasChartDash =
+    userFeatures[ACCOUNT_FEATURES.VER_DASHBOARD] &&
+    userFeatures[ACCOUNT_FEATURES.PJ];
 
   const dataQtdVagas = [
     { name: "Mar", value: 119889 },
@@ -44,7 +62,7 @@ const DashboardPJPage = () => {
     { name: "CSS", value: 106490 },
     { name: "MySQL", value: 68938 },
     { name: "ABAP", value: 65789 },
-  ]
+  ];
   const dataVagasEstado = [
     { name: "SP", value: 93876 },
     { name: "RJ", value: 61559 },
@@ -53,7 +71,7 @@ const DashboardPJPage = () => {
     { name: "ES", value: 97901 },
     { name: "RS", value: 69897 },
     { name: "RN", value: 74242 },
-  ]
+  ];
 
   return (
     <div>
@@ -87,7 +105,12 @@ const DashboardPJPage = () => {
                     <AreaChart width={500} height={200} data={dataQtdVagas}>
                       <XAxis dataKey="name" />
                       <Tooltip />
-                      <Area type="monotone" dataKey="value" fill="#df9c10" stroke="transparent" />
+                      <Area
+                        type="monotone"
+                        dataKey="value"
+                        fill="#df9c10"
+                        stroke="transparent"
+                      />
                     </AreaChart>
                   </ResponsiveContainer>
                 </Box>
@@ -113,7 +136,12 @@ const DashboardPJPage = () => {
                     <AreaChart width={500} height={200} data={dataContratacoes}>
                       <XAxis dataKey="name" />
                       <Tooltip />
-                      <Area type="monotone" dataKey="value" fill="#df9c10" stroke="transparent" />
+                      <Area
+                        type="monotone"
+                        dataKey="value"
+                        fill="#df9c10"
+                        stroke="transparent"
+                      />
                     </AreaChart>
                   </ResponsiveContainer>
                 </Box>
@@ -139,7 +167,12 @@ const DashboardPJPage = () => {
                     <AreaChart width={500} height={200} data={dataEmpresas}>
                       <XAxis dataKey="name" />
                       <Tooltip />
-                      <Area type="monotone" dataKey="value" fill="#df9c10" stroke="transparent" />
+                      <Area
+                        type="monotone"
+                        dataKey="value"
+                        fill="#df9c10"
+                        stroke="transparent"
+                      />
                     </AreaChart>
                   </ResponsiveContainer>
                 </Box>

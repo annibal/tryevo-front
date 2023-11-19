@@ -20,6 +20,7 @@ function ProtectedRoute({ children }) {
   if (currentRouteData?.rules?.length > 1) {
     const routeRules = currentRouteData.rules;
     const userFeatures = {...auth.features};
+    
     userFeatures[ACCOUNT_FEATURES.IGNORE_ON_SIDEBAR] = true;
     let routeAllowed = routeRules.every(rule => userFeatures[rule])
     

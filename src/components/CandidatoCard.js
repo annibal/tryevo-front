@@ -1,173 +1,18 @@
 import {
   Box,
-  Card,
-  CardContent,
-  CardHeader,
-  Chip,
-  CircularProgress,
   Grid,
-  IconButton,
   Typography,
 } from "@mui/material";
 import getYears from "../utils/getYears";
-import PlaceIcon from "@mui/icons-material/Place";
 import BusinessIcon from "@mui/icons-material/Business";
 import SchoolIcon from "@mui/icons-material/School";
 import TrackChangesIcon from "@mui/icons-material/TrackChanges";
-import { Link } from "react-router-dom";
-import allRoutesData from "../base/routes_data";
-import { ACCOUNT_FEATURES, useAuth } from "../base/AuthContext";
-import { useEffect, useState } from "react";
-import { doCall } from "../providers/baseProvider";
 import {
   optionsEscolaridade,
   optionsGenero,
   optionsTipoContrato,
 } from "../providers/enumProvider";
 import InlineIconInfo from "./InlineIconInfo";
-
-// {
-//   "_id": "BHV46L",
-//   "nomePrimeiro": "Teste",
-//   "nomeUltimo": "1B"
-//   "nomePreferido": "Teste 1 PF",
-//   "genero": "MASCULINO",
-//   "nascimento": "2023-09-25T21:48:46.904Z",
-//   "pcd": true,
-//   "aceitaTrabalharDistancia": 65,
-//   "aceitaMudarDistancia": 1,
-//   "categoriaCNH": "NONE",
-//   "resumo": "...",
-//   "estadoCivil": "CASADO",
-//   "habilidades": [
-//       {
-//           "_id": "WNHPEW",
-//           "nome": "Comunicação",
-//           "__v": 0
-//       },
-//   ],
-//   "objetivos": [
-//       {
-//           "cargo": {
-//               "_id": "5GNQUZ",
-//               "nome": "Diretor de programação",
-//               "codigo": "2622-25",
-//               "valid": true,
-//               "__v": 0
-//           },
-//           "remuneracao": 7500,
-//           "tipoContrato": "PJ",
-//           "modeloContrato": "HIBRIDO",
-//           "jornada": "INTEGRAL"
-//       },
-//   ],
-//   "linguagens": [
-//       {
-//           "valor": "Portugues",
-//           "tipo": "FLUENTE",
-//           "isPrimario": false,
-//           "_id": "651d8e6bf19d06461936e933"
-//       },
-//   ],
-//   "projetosPessoais": [
-//       {
-//           "titulo": "TryEvo",
-//           "descricao": "Site de Vagas",
-//           "_id": "651d8e6bf19d06461936e936"
-//       }
-//   ],
-//   "escolaridades": [
-//       {
-//           "nome": "Fatec Carapicuiba",
-//           "nivel": "SUPERIOR",
-//           "status": "COMPLETO",
-//           "dataConclusao": "2016-12-04T15:06:00.943Z",
-//           "dataInicio": null,
-//           "dataPrevisaoTermino": null,
-//           "_id": "651d8e6bf19d06461936e937"
-//       },
-//       {
-//           "nome": "Etec Basilides de Godoy",
-//           "nivel": "ENSINO_MEDIO",
-//           "status": "COMPLETO",
-//           "dataConclusao": "2012-12-04T15:06:22.513Z",
-//           "dataInicio": null,
-//           "dataPrevisaoTermino": null,
-//           "_id": "651d8e6bf19d06461936e938"
-//       }
-//   ],
-// "experienciasProfissionais": [
-//     {
-//         "empresa": "AAA",
-//         "ramoAtividadeEmpresa": "AAA",
-//         "inicio": "2023-08-01T03:00:00.000Z",
-//         "fim": "2023-09-18T03:00:00.000Z",
-//         "qualificacoes": [
-//             {
-//                 "_id": "javascript",
-//                 "nome": "Javascript",
-//                 "valid": true,
-//                 "descricao": "",
-//                 "createdAt": "2023-08-09T18:31:03.915Z",
-//                 "updatedAt": "2023-08-10T03:43:54.734Z",
-//                 "__v": 0
-//             },
-//         ],
-//         "cargo": {
-//             "_id": "B0U27G",
-//             "nome": "Abacaxicultor",
-//             "codigo": "6125-10",
-//             "valid": true,
-//             "__v": 0
-//         },
-//         "_id": "651d8e6bf19d06461936e939"
-//     },
-//     {
-//         "empresa": "IQVIA",
-//         "ramoAtividadeEmpresa": "Website",
-//         "descricao": "Bolota xablau",
-//         "inicio": "2020-08-18T03:00:00.000Z",
-//         "isAtual": "on",
-//         "qualificacoes": [
-//             {
-//                 "_id": "front-end",
-//                 "nome": "Front End",
-//                 "valid": true,
-//                 "createdAt": "2023-08-10T14:14:23.305Z",
-//                 "updatedAt": "2023-08-10T23:09:27.133Z",
-//                 "__v": 0
-//             },
-//         ],
-//         "cargo": {
-//             "_id": "I2UMXZ",
-//             "nome": "Desenvolvedor web (técnico)",
-//             "codigo": "3171-05",
-//             "valid": true,
-//             "__v": 0
-//         },
-//         "_id": "651d8e6bf19d06461936e93a"
-//     }
-// ],
-//   "cursos": [
-//       {
-//           "titulo": "aaaa",
-//           "descricao": "DESC",
-//           "nomeEscola": "AAA",
-//           "inicio": "2000-01-01T17:00:18.437Z",
-//           "isCursando": true,
-//           "cargaHoraria": 400
-//       },
-//   ],
-//   "endereco": {
-//       "cep": "05131000",
-//       "estado": "São Paulo",
-//       "cidade": "SP",
-//       "bairro": "Vila Mangalot",
-//       "rua": "Nome da Rua",
-//       "numero": "1234",
-//       "_id": "651d8e6bf19d06461936e92f"
-//   },
-// }
 
 const CandidatoCard = ({
   pf: {

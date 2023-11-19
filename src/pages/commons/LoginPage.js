@@ -8,13 +8,17 @@ import { Box, Button, Grid, Typography } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 import allRoutesData from "../../base/routes_data";
 import FormPassword from "./form/FormPassword";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import FormInput from "./form/FormInput";
 
 const LoginPage = () => {
   const auth = useAuth();
   const navigate = useNavigate();
   const [dados, setDados] = useState({});
+
+  useEffect(() => {
+    auth.clearError();
+  }, []);
 
   const handleChange = (value, name, data) => {
     setDados({
