@@ -3,6 +3,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import { Box, Button, Grid, Typography } from "@mui/material";
 import FormInput from "../../commons/form/FormInput";
 import FormCheckbox from "../../commons/form/FormCheckbox";
+import getPlanColor from "../ManagePlanosAssinaturaComponents/getPlanColor";
 
 
 const SearchUsers = ({ dados, onSubmit, planos }) => {
@@ -30,10 +31,10 @@ const SearchUsers = ({ dados, onSubmit, planos }) => {
           {planos.map((plano) => (
             <div>
               <FormCheckbox
-                color={plano.color}
-                key={plano.value}
-                label={`${plano.label} - ${plano.type}`}
-                name={plano.value}
+                color={getPlanColor(plano.tipo)}
+                key={plano._id}
+                label={`${plano.tipo} - ${plano.nome}`}
+                name={plano._id}
                 data={dadosSearch}
                 onChange={handleChangeSearch}
               />

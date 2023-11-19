@@ -18,42 +18,23 @@ import LoaderTryEvo from "../../components/LoaderTryEvo";
 import SearchUsers from "./ManageAllUsersComponents/SearchUsers";
 import allRoutesData from "../../base/routes_data";
 import { Link } from "react-router-dom";
-
-export const USUARIO_PLANOS = [
-  { value: "PF_FREE", label: "PF_FREE", type: "Candidato", color: "primary" },
-  { value: "PF_SMART", label: "PF_SMART", type: "Candidato", color: "primary" },
-  {
-    value: "PF_PREMIUM",
-    label: "PF_PREMIUM",
-    type: "Candidato",
-    color: "primary",
-  },
-  { value: "PJ_FREE", label: "PJ_FREE", type: "Empresa", color: "secondary" },
-  { value: "PJ_SMART", label: "PJ_SMART", type: "Empresa", color: "secondary" },
-  {
-    value: "PJ_PREMIUM",
-    label: "PJ_PREMIUM",
-    type: "Empresa",
-    color: "secondary",
-  },
-  {
-    value: "PJ_ENTERPRISE",
-    label: "PJ_ENTERPRISE",
-    type: "Empresa",
-    color: "secondary",
-  },
-  {
-    value: "MASTER_ADMIN",
-    label: "MASTER_ADMIN",
-    type: "Candidato",
-    color: "default",
-  },
-];
+import getPlanColor from "./ManagePlanosAssinaturaComponents/getPlanColor";
 
 const ManageAllUsers = () => {
   const [listUsuariosUrl, setListUsuariosUrl] = useState("auth/users");
   const [searchData, setSearchData] = useState({ valid: "any", perPage: 10 });
 
+  const planAssResponse = useFetch("GET", "planos-assinatura");
+  const planAssData = planAssResponse.data || [];
+
+  const planAssTiposQuery = useFetch("GET", `tipos-planos-assinatura`);
+  const mapTipoPlanAssLabel = (planAssTiposQuery.data || []).reduce(
+    (all, curr) => ({
+      ...all,
+      [curr.tipo]: curr.nome,
+    }),
+    {}
+  );
 
   const handleSetUrl = (args) => {
     let perPage = args.perPage ? args.perPage : 10;
@@ -67,10 +48,12 @@ const ManageAllUsers = () => {
     if (args.page) params.from = perPage * (args.page + 0);
     if (args.page) params.to = perPage * (args.page + 1);
 
-    params.planos = USUARIO_PLANOS.filter((plano) => args[plano.value]).map((plano) => plano.value);
-    
+    params.planos = planAssData
+      .filter((plano) => args[plano._id])
+      .map((plano) => plano._id);
+
     const query = new URLSearchParams(params).toString();
-    console.log(params, query, args)
+    console.log(params, query, args);
     setListUsuariosUrl(`auth/users?${query}`);
   };
   const listHeight = searchData.perPage * 60 + 15;
@@ -100,19 +83,16 @@ const ManageAllUsers = () => {
     const item = listUsuariosResponse.data?.[index];
     if (!item) return null;
 
-    let type = "";
-    let color = "";
-    if (item.plano.startsWith("PJ")) {
-      type = "Empresa";
-      color = "secondary";
+    let planColor = getPlanColor(item.plano?.tipo);
+    if (planColor === "inherit") {
+      planColor = `grey.500`;
+    } else {
+      planColor = `${planColor}.main`;
     }
-    if (item.plano.startsWith("PF")) {
-      type = "Candidato";
-      color = "primary";
-    }
-    if (item.plano.startsWith("MASTER")) type = "Admin TryEvo";
 
-    const avatarText = item.email
+    const planText = mapTipoPlanAssLabel[item.plano?.tipo];
+
+    const avatarText = (item.email || "")
       .split("@")[0]
       .split(".")
       .slice(0, 2)
@@ -121,15 +101,15 @@ const ManageAllUsers = () => {
       .toUpperCase();
 
     return (
-      <ListItem style={style} disablePadding secondaryAction={item.plano}>
+      <ListItem style={style} disablePadding secondaryAction={item.plano?.nome}>
         <ListItemButton
           LinkComponent={Link}
           to={`/app/${allRoutesData.masterAdminUsuario.path}${item._id}`}
         >
           <ListItemAvatar>
-            <Avatar sx={{ bgcolor: `${color}.main` }}>{avatarText}</Avatar>
+            <Avatar sx={{ bgcolor: planColor }}>{avatarText}</Avatar>
           </ListItemAvatar>
-          <ListItemText primary={item.email} secondary={type} />
+          <ListItemText primary={item.email} secondary={planText} />
         </ListItemButton>
       </ListItem>
     );
@@ -147,7 +127,7 @@ const ManageAllUsers = () => {
       <SearchUsers
         dados={searchData}
         onSubmit={handleSearchSubmit}
-        planos={USUARIO_PLANOS}
+        planos={planAssData}
       />
 
       <TablePagination
@@ -187,7 +167,7 @@ const ManageAllUsers = () => {
                   <FixedSizeList
                     dense
                     height={listHeight}
-                    width={780}
+                    width="100%"
                     itemSize={60}
                     itemCount={listUsuariosResponse.data?.length}
                     overscanCount={5}

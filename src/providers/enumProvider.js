@@ -1,9 +1,8 @@
-
 export const optionsTipoQuestao = [
   { value: "TEXTO", label: "Texto" },
   { value: "SLIDER", label: "Slider de Valor" },
   { value: "ESCOLHA", label: "Múltipla Escolha" },
-]
+];
 
 export const optionsTipoContrato = [
   { value: "CLT", label: "CLT" },
@@ -24,7 +23,7 @@ export const optionsLinks = [
   { value: "TWITTER", label: "Twitter" },
   { value: "YOUTUBE", label: "Youtube" },
   { value: "OUTRO", label: "Outro" },
-]
+];
 
 export const optionsTelefone = [
   { value: "FIXO", label: "Fixo" },
@@ -32,7 +31,7 @@ export const optionsTelefone = [
   { value: "WHATSAPP", label: "Whatsapp" },
   { value: "TELEGRAM", label: "Telegram" },
   { value: "OUTRO", label: "Outro" },
-]
+];
 
 export const optionsLinguagens = [
   { value: "Portugues", label: "Portugues" },
@@ -44,7 +43,7 @@ export const optionsLinguagens = [
   { value: "Japonês", label: "Japonês" },
   { value: "Mandarim-Chinês", label: "Mandarim-Chinês" },
   { value: "Russo", label: "Russo" },
-]
+];
 
 export const optionsFluenciaLinguagem = [
   { value: "NENHUMA", label: "Nenhuma" },
@@ -52,7 +51,7 @@ export const optionsFluenciaLinguagem = [
   { value: "INTERMEDIARIA", label: "Intermediária" },
   { value: "PROFICIENTE", label: "Proficiente" },
   { value: "FLUENTE", label: "Nativo / Fluente" },
-]
+];
 
 export const optionsJornada = [
   // { value: "DIURNO", label: "Diurno" },
@@ -68,13 +67,13 @@ export const optionsJornada = [
   { value: "TARDE", label: "Tarde" },
   { value: "NOITE", label: "Noite" },
   { value: "ESCALA_DE_REVEZAMENTO", label: "Escala de Revezamento" },
-]
+];
 
 export const optionsModeloContrato = [
   { value: "PRESENCIAL", label: "Presencial" },
   { value: "HOME_OFFICE", label: "Home Office" },
   { value: "HIBRIDO", label: "Hibrido" },
-]
+];
 
 export const optionsEscolaridade = [
   { value: "FUNDAMENTAL", label: "Fundamental" },
@@ -84,13 +83,13 @@ export const optionsEscolaridade = [
   { value: "MESTRADO", label: "Mestrado", hasNomeCurso: true },
   { value: "DOUTORADO", label: "Doutorado", hasNomeCurso: true },
   { value: "MBA", label: "MBA", hasNomeCurso: true },
-]
+];
 
 export const optionsStatusEscolaridade = [
   { value: "COMPLETO", label: "Completo" },
   { value: "CURSANDO", label: "Cursando" },
   { value: "INCOMPLETO", label: "Incompleto" },
-]
+];
 
 export const optionsCategoriaCNH = [
   { value: "NONE", label: "Não Tem" },
@@ -99,18 +98,18 @@ export const optionsCategoriaCNH = [
   { value: "C", label: "C (caminhão)" },
   { value: "D", label: "D (micro ônibus)" },
   { value: "E", label: "E (articulados)" },
-  { value: "AB",label:  "A e B (moto + carro)" },
-  { value: "AC",label:  "A e C (moto + caminhão)" },
-  { value: "AD",label:  "A e D (moto + micro ônibus)" },
-  { value: "AE",label:  "A e E (moto + articulados)" },
-]
+  { value: "AB", label: "A e B (moto + carro)" },
+  { value: "AC", label: "A e C (moto + caminhão)" },
+  { value: "AD", label: "A e D (moto + micro ônibus)" },
+  { value: "AE", label: "A e E (moto + articulados)" },
+];
 
 export const optionsGenero = [
   { value: "NAO_ESPECIFICADO", label: "Não Especificado", labelTiny: "n/a" },
   { value: "MASCULINO", label: "Masculino", labelTiny: "Masc" },
   { value: "FEMININO", label: "Feminino", labelTiny: "Fem" },
   { value: "OUTRO", label: "Outro", labelTiny: "Outro" },
-]
+];
 
 export const optionsEstadoCivil = [
   { value: "SOLTEIRO", label: "Solteiro" },
@@ -118,4 +117,4 @@ export const optionsEstadoCivil = [
   { value: "UNIAO_ESTAVEL", label: "União Estável" },
   { value: "VIUVO", label: "Viuvo" },
   { value: "OUTRO", label: "Outro" },
-]
+];

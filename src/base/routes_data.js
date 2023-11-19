@@ -423,6 +423,16 @@ export const masterAdminRoutes = {
       place: NAVBAR_PLACE.NONE
     },
   },
+  masterAdminNovoPlanoAssinatura: {
+    priority: 199,
+    path: "master-admin/novo-plano-assinatura/",
+    icon: <DiamondIcon />,
+    title: "Novo Plano de Assinatura",
+    rules: [ACCOUNT_FEATURES.MASTER_ADMIN],
+    navbar: {
+      place: NAVBAR_PLACE.NONE
+    },
+  },
   masterAdminHabilidades: {
     priority: 104,
     path: "master-admin/habilidades/",

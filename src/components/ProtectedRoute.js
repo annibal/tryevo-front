@@ -13,6 +13,7 @@ function ProtectedRoute({ children }) {
   }
 
   if (!auth.loading && !auth.user) {
+    console.log("out")
     return <Navigate to="/" state={{ from: location }} replace />;
   }
   

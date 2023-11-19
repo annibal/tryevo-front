@@ -1,12 +1,18 @@
-import { Box, Tooltip } from "@mui/material";
+import { Box, Button, Chip, Tooltip, Typography } from "@mui/material";
 import useFetch from "../../providers/useFetch";
 import { DataGrid } from "@mui/x-data-grid";
 import formatDate from "../../utils/formatDate";
 import allRoutesData from "../../base/routes_data";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import UnpublishedIcon from "@mui/icons-material/Unpublished";
-import PanoramaFishEyeIcon from "@mui/icons-material/PanoramaFishEye";
 import { Link } from "react-router-dom";
+import Section from "../../components/Section";
+import unslugifyFeatureChave from "./ManagePlanosAssinaturaComponents/unslugifyFeatureChave";
+import getPlanColor from "./ManagePlanosAssinaturaComponents/getPlanColor";
+
+const featureLineHeight = 16;
+const featureRowPadding = 4;
+const defaultRowHeight = 52;
 
 const ManagePlanosAssinaturaPage = () => {
   const planAssResponse = useFetch("GET", "planos-assinatura");
@@ -15,13 +21,13 @@ const ManagePlanosAssinaturaPage = () => {
     {
       field: "active",
       headerName: "Status",
-      width: 90,
+      width: 70,
       align: "center",
       headerAlign: "center",
       renderCell: (params) => {
         return params.row.active ? (
           <Tooltip title="Ativo" placement="left">
-            <CheckCircleIcon color="primary" />
+            <CheckCircleIcon color="success" />
           </Tooltip>
         ) : (
           <Tooltip title="Inativo" placement="left">
@@ -33,13 +39,17 @@ const ManagePlanosAssinaturaPage = () => {
     {
       field: "tipo",
       headerName: "Tipo",
-      width: 90,
-      renderCell: (params) => params.row.tipo,
+      width: 70,
+      align: "center",
+      headerAlign: "center",
+      renderCell: (params) => (
+        <Chip color={getPlanColor(params.row.tipo)} label={params.row.tipo} size="small" />
+      ),
     },
     {
       field: "detaultForTipo",
       headerName: "Padrão",
-      width: 90,
+      width: 70,
       align: "center",
       headerAlign: "center",
       renderCell: (params) => {
@@ -48,13 +58,9 @@ const ManagePlanosAssinaturaPage = () => {
             title={`Padrão para usuários do tipo "${params.row.tipo}"`}
             placement="left"
           >
-            <CheckCircleIcon color="primary" />
+            <CheckCircleIcon color={getPlanColor(params.row.tipo)} />
           </Tooltip>
-        ) : (
-          <Tooltip title="Inativa" placement="left">
-            <PanoramaFishEyeIcon sx={{ opacity: 0.6 }} />
-          </Tooltip>
-        );
+        ) : "";
       },
     },
     {
@@ -63,6 +69,12 @@ const ManagePlanosAssinaturaPage = () => {
       renderCell: (params) => (
         <Link
           to={`/app/${allRoutesData.masterAdminPlanoAssinatura.path}${params.row._id}`}
+          style={{
+            width: "100%",
+            flex: 1,
+            display: "flex",
+            alignItems: "center",
+          }}
         >
           {params.row.nome}
         </Link>
@@ -72,15 +84,52 @@ const ManagePlanosAssinaturaPage = () => {
     },
     {
       field: "preco",
-      headerName: "Preço",
+      headerName: "Preço Mensal",
+      flex: 5,
+      renderCell: (params) => (+params.row.preco).toFixed(2),
+    },
+    {
+      field: "descontoAnual",
+      headerName: "Anual",
       flex: 4,
-      renderCell: (params) => params.row.preco,
+      renderCell: (params) => (+params.row.preco * (100 - params.row.descontoAnual) / 100 * 12).toFixed(2),
     },
     {
       field: "features",
       headerName: "Features",
-      flex: 10,
-      renderCell: (params) => (params.row.features || []).map(f => [f.key, f.value].join(": ")),
+      flex: 14,
+      renderCell: (params) => {
+        return (
+          <div>
+            {(params.row.features || []).map((feat) => (
+              <Typography
+                variant="caption"
+                component="p"
+                sx={{
+                  lineHeight: 1,
+                  margin: 0,
+                  fontSize: featureLineHeight + "px",
+                }}
+              >
+                <Typography
+                  component="span"
+                  color="text.secondary"
+                  sx={{ lineHeight: "inherit", fontSize: "inherit" }}
+                >
+                  {unslugifyFeatureChave(feat.chave)}:{" "}
+                </Typography>
+                <Typography
+                  component="span"
+                  color="text.primary"
+                  sx={{ lineHeight: "inherit", fontSize: "inherit" }}
+                >
+                  {feat.valor}
+                </Typography>
+              </Typography>
+            ))}
+          </div>
+        );
+      },
     },
     {
       field: "createdAt",
@@ -92,22 +141,40 @@ const ManagePlanosAssinaturaPage = () => {
 
   return (
     <Box>
-      <DataGrid
-        loading={planAssResponse.loading}
-        rows={planAssResponse.data}
-        columns={columns}
-        density="compact"
-        getRowId={(row) => row._id}
-        initialState={{
-          pagination: {
-            paginationModel: {
-              pageSize: 150,
+      <Section title="Planos de Assinatura" withoutDivider>
+        <Box sx={{ mb: 2 }}>
+          <Button
+            color="primary"
+            variant="contained"
+            LinkComponent={Link}
+            to={"/app/" + allRoutesData.masterAdminNovoPlanoAssinatura.path}
+          >
+            Criar Plano de Assinatura
+          </Button>
+        </Box>
+        <DataGrid
+          getRowHeight={(params) => {
+            const h =
+              (params.model.features || []).length * featureLineHeight +
+              featureRowPadding * 2;
+            return Math.max(h, defaultRowHeight * params.densityFactor);
+          }}
+          loading={planAssResponse.loading}
+          rows={planAssResponse.data || []}
+          columns={columns}
+          density="compact"
+          getRowId={(row) => row._id}
+          initialState={{
+            pagination: {
+              paginationModel: {
+                pageSize: 100,
+              },
             },
-          },
-        }}
-        pageSizeOptions={[5, 10, 20, 50, 150, 300]}
-        disableRowSelectionOnClick
-      />
+          }}
+          pageSizeOptions={[5, 10, 20, 50, 100]}
+          disableRowSelectionOnClick
+        />
+      </Section>
     </Box>
   );
 };

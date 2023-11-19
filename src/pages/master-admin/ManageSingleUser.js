@@ -5,7 +5,6 @@ import ResponseWrapper from "../../components/ResponseWrapper";
 import PrettyPrint from "../commons/PrettyPrint";
 import FormSelect from "../commons/form/FormSelect";
 import { useEffect, useState } from "react";
-import { USUARIO_PLANOS } from "./ManageAllUsers";
 import { doCall } from "../../providers/baseProvider";
 import Section from "../../components/Section";
 import FormInput from "../commons/form/FormInput";
@@ -19,6 +18,13 @@ const ManageSingleUser = () => {
   const [loadingChangeSenha, setLoadingChangeSenha] = useState(false);
   const [errorChangeSenha, setErrorChangeSenha] = useState(null);
   const [cache, setCache] = useState(+new Date());
+
+  const planAssResponse = useFetch("GET", "planos-assinatura?active=true");
+  const planAssData = planAssResponse.data || [];
+  const optionsPlanAss = planAssData.map((planAss) => ({
+    value: planAss._id,
+    label: `${planAss.tipo} - ${planAss.nome}`,
+  }));
 
   const userAuthResponse = useFetch(
     "GET",
@@ -72,13 +78,12 @@ const ManageSingleUser = () => {
 
   let sectionTitle = usuarioId;
   if (userAuthResponse?.data?.email) {
-    sectionTitle = userAuthResponse.data.email
+    sectionTitle = userAuthResponse.data.email;
   }
 
   return (
     <div>
       <Section title={sectionTitle} subtitle="Gerenciar Usuário" spacing={4}>
-
         <ResponseWrapper {...userAuthResponse}>
           <PrettyPrint
             keyName="Dados da Conta"
@@ -86,7 +91,6 @@ const ManageSingleUser = () => {
             ignoreFields={["_id", "__v", "senha"]}
           />
         </ResponseWrapper>
-
       </Section>
 
       <Section title="Ações de Gerenciamento" spacing={4}>
@@ -98,29 +102,34 @@ const ManageSingleUser = () => {
           )}
           <Grid container spacing={2}>
             <Grid item xs>
-              <FormSelect
-                data={{ plano }}
-                onChange={(val) => setPlano(val)}
-                disabled={loadingChangePlano}
-                name="plano"
-                label="Alterar Plano do Usuário"
-                options={USUARIO_PLANOS}
-              />
+              {planAssResponse.loading ? (
+                ""
+              ) : (
+                <FormSelect
+                  data={{ plano }}
+                  onChange={(val) => setPlano(val)}
+                  disabled={loadingChangePlano}
+                  name="plano"
+                  label="Alterar Plano do Usuário"
+                  options={optionsPlanAss}
+                />
+              )}
             </Grid>
             <Grid item>
-
-            <Box sx={{ justifyContent: "flex-end", display: "flex" }}>
-              <Button
-                type="submit"
-                variant="contained"
-                size="large"
-                disableElevation
-                disabled={plano === userAuthResponse.data?.plano || loadingChangePlano}
-                onClick={() => handleChangePlano(plano)}
-              >
-                Alterar Plano
-              </Button>
-            </Box>
+              <Box sx={{ justifyContent: "flex-end", display: "flex" }}>
+                <Button
+                  type="submit"
+                  variant="contained"
+                  size="large"
+                  disableElevation
+                  disabled={
+                    plano === userAuthResponse.data?.plano || loadingChangePlano
+                  }
+                  onClick={() => handleChangePlano(plano)}
+                >
+                  Alterar Plano
+                </Button>
+              </Box>
             </Grid>
           </Grid>
         </Box>
@@ -141,19 +150,22 @@ const ManageSingleUser = () => {
               />
             </Grid>
             <Grid item>
-
-            <Box sx={{ justifyContent: "flex-end", display: "flex" }}>
-              <Button
-                type="submit"
-                variant="contained"
-                size="large"
-                disableElevation
-                disabled={newUserPass == null || newUserPass?.length === 0 || loadingChangeSenha}
-                onClick={() => handleChangeSenha(newUserPass)}
-              >
-                Alterar Senha
-              </Button>
-            </Box>
+              <Box sx={{ justifyContent: "flex-end", display: "flex" }}>
+                <Button
+                  type="submit"
+                  variant="contained"
+                  size="large"
+                  disableElevation
+                  disabled={
+                    newUserPass == null ||
+                    newUserPass?.length === 0 ||
+                    loadingChangeSenha
+                  }
+                  onClick={() => handleChangeSenha(newUserPass)}
+                >
+                  Alterar Senha
+                </Button>
+              </Box>
             </Grid>
           </Grid>
         </Box>
