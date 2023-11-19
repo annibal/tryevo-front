@@ -46,6 +46,7 @@ const DadosEmpresaForm = ({ data, onChange }) => {
             label="Nome do Responsável"
             name="nomeResponsavel"
             data={dados}
+            required
             onChange={handleChange}
           />
         </Grid>

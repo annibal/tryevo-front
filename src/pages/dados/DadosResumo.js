@@ -29,6 +29,7 @@ const DadosResumo = ({ data, onChange }) => {
             label="Resumo"
             name="resumo"
             data={dados}
+            required
             onChange={handleChange}
             multiline
             rows={20}

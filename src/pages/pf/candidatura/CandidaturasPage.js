@@ -36,6 +36,8 @@ const CandidaturasPage = () => {
           </>
         )}
         dataItemComponent={({ item }) => {
+          if (!item.vaga) return "";
+          
           const status = getStatusCandidatura(item);
           const vaga = item.vaga || {};
           const strTipoContrato = optionsTipoContrato.find(

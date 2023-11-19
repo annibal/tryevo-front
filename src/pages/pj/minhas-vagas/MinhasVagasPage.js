@@ -101,7 +101,7 @@ const MinhasVagasPage = () => {
       headerAlign: "center",
       renderCell: (params) => {
         return (
-          <Box sx={{ width: "50px" }}>
+          <Box sx={{ width: "90px", textAlign: "center" }}>
             {toggleActiveLoading === params.row._id ? (
               <>
                 <CircularProgress />
@@ -131,6 +131,20 @@ const MinhasVagasPage = () => {
             )}
           </Box>
         );
+      },
+    },
+    {
+      field: "contratou",
+      headerName: "Contratou",
+      width: 90,
+      align: "center",
+      headerAlign: "center",
+      renderCell: (params) => {
+        return params.row.contratou ? (
+          <Tooltip title="Contratou" placement="right">
+            <CheckCircleIcon color="secondary" />
+          </Tooltip>
+        ) : "";
       },
     },
   ];

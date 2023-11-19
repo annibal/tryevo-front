@@ -7,6 +7,10 @@ body {
   padding: 0 !important;
 }
 
+a:active:hover {
+  color: #02617d;
+}
+
 @media print {
   body{
     -webkit-print-color-adjust:exact !important;

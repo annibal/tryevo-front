@@ -11,7 +11,7 @@ const WidgetPJ = ({ onClick, asHook = false, noLink = false }) => {
   let subtitulo = "";
   if (auth.user?.plano) subtitulo = auth.user.plano.nome;
 
-  let name = auth.user?.email;
+  let name = auth.user?.email || "";
   let avatar = name
     .split("@")[0]
     .split(".")
@@ -67,8 +67,8 @@ const WidgetPJ = ({ onClick, asHook = false, noLink = false }) => {
       <Link to={`/app/${allRoutesData.pjDados.path}`} className="text-center">
         {children}
       </Link>
-    )
-  }
+    );
+  };
 
   const avatarPart = (
     <div className="widget-user widget-pj" onClick={onClick}>

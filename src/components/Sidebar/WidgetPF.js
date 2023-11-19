@@ -9,9 +9,9 @@ const WidgetPF = ({ onClick, asHook = false, noLink = false }) => {
   if (auth.readyState !== AUTH_READY_STATE.DONE) return "";
 
   let subtitulo = "";
-  if (auth.user?.plano) subtitulo = auth.user.plano?.nome;
+  if (auth.user?.plano) subtitulo = auth.user.plano.nome;
 
-  let name = auth.user?.email;
+  let name = auth.user?.email || "";
   let avatar = name
     .split("@")[0]
     .split(".")

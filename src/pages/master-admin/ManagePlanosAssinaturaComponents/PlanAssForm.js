@@ -32,7 +32,6 @@ const PlanAssForm = ({ data, onSubmit }) => {
     value: tipoPlanAss.tipo,
     label: tipoPlanAss.nome,
   }));
-  console.log(optionsTipoPlanAss)
   const planAssFeaturesQuery = useFetch("GET", `features-planos-assinatura`);
   const planAssFeatData = planAssFeaturesQuery.data || [];
 
