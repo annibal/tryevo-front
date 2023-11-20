@@ -26,6 +26,8 @@ const AssinaturaPage = () => {
     <Box>
       <Section title="Planos de Assinatura" withoutDivider titleVariant="h5">
         {planAssData.map((planAss) => {
+          if (planAss.tipo === "MA") return "";
+
           const isPlanoAtual = planAss._id === currPlanAssId;
           const isFree = planAss.preco == 0;
 
