@@ -19,6 +19,7 @@ import {
 import { ACCOUNT_FEATURES, useAuth } from "../../base/AuthContext";
 import LoaderTryEvo from "../../components/LoaderTryEvo";
 import SimpleBarChart from "../../components/SimpleBarChart";
+import UpsellWidget from "../../components/UpsellWidget";
 
 const DashboardPFPage = () => {
   const auth = useAuth();
@@ -99,7 +100,7 @@ const DashboardPFPage = () => {
         <LoaderTryEvo />
       </Box> */}
 
-      {hasChartDash && (
+      {hasChartDash ? (
         <Grid container spacing={2}>
           <Grid item xs={12} md={4}>
             <Card>
@@ -285,6 +286,10 @@ const DashboardPFPage = () => {
             </Card>
           </Grid> */}
         </Grid>
+      ) : (
+        <UpsellWidget>
+          Dashboard
+        </UpsellWidget>
       )}
     </div>
   );

@@ -19,6 +19,8 @@ import useUrlWithParams from "../../../components/useUrlWithParams";
 import { DataGrid } from "@mui/x-data-grid";
 import { useState } from "react";
 import { doCall } from "../../../providers/baseProvider";
+import { ACCOUNT_FEATURES, useAuth } from "../../../base/AuthContext";
+import UpsellWidget from "../../../components/UpsellWidget";
 
 const MinhasVagasPage = () => {
   const [searchDados, setSearchDados, minhasVagasUrl] = useUrlWithParams(
@@ -27,6 +29,15 @@ const MinhasVagasPage = () => {
   );
   const minhasVagasResponse = useFetch("GET", minhasVagasUrl);
   const [toggleActiveLoading, setToggleActiveLoading] = useState(false);
+
+  const auth = useAuth();
+  const userFeatures = auth?.features || {};
+  const maxMinhasVagas =
+    auth?.features == null ? null : userFeatures[ACCOUNT_FEATURES.LIMITE_VAGAS];
+  const countMinhasVagasRequest = useFetch("GET", "count-minhas-vagas");
+  const countMinhasVagas = countMinhasVagasRequest.data || 0;
+  const reachedVagaLimit =
+    maxMinhasVagas > 1 && countMinhasVagas >= maxMinhasVagas;
 
   // '_id',
   // 'titulo',
@@ -144,27 +155,47 @@ const MinhasVagasPage = () => {
           <Tooltip title="Contratou" placement="right">
             <CheckCircleIcon color="secondary" />
           </Tooltip>
-        ) : "";
+        ) : (
+          ""
+        );
       },
     },
   ];
 
   return (
     <Box>
-      <Typography variant="h3" sx={{ mb: 6 }}>
-        Vagas da Empresa
-      </Typography>
+      <Box sx={{ mb: 6 }}>
+        <Typography variant="h4" sx={{ mb: 2 }}>
+          Vagas da Empresa
+        </Typography>
+        {maxMinhasVagas > 1 && (
+          <Typography variant="caption" color="text.secondary">
+            Você já criou {countMinhasVagas} de {maxMinhasVagas} vagas
+            permitidas por seu Plano de Assinatura.
+          </Typography>
+        )}
+      </Box>
 
       <Box sx={{ mb: 6 }}>
-        <Button
-          variant="contained"
-          color="success"
-          LinkComponent={Link}
-          to={"/app/" + allRoutesData.pjNovaMinhaVaga.path}
-          startIcon={<AddIcon />}
-        >
-          Nova Vaga
-        </Button>
+        <Grid container spacing={2}>
+          <Grid item xs>
+            <Button
+              variant="contained"
+              color="success"
+              LinkComponent={Link}
+              disabled={reachedVagaLimit}
+              to={"/app/" + allRoutesData.pjNovaMinhaVaga.path}
+              startIcon={<AddIcon />}
+            >
+              Nova Vaga
+            </Button>
+          </Grid>
+          <Grid item>
+            {reachedVagaLimit && (
+              <UpsellWidget>Limite de {maxMinhasVagas} vagas</UpsellWidget>
+            )}
+          </Grid>
+        </Grid>
       </Box>
 
       <Grid container spacing={2}>

@@ -8,7 +8,7 @@ import { Helmet } from "react-helmet";
 import ResponseWrapper from "../../../components/ResponseWrapper";
 import VagaCard from "../../../components/VagaCard";
 import CandidatoCard from "../../../components/CandidatoCard";
-import { useAuth } from "../../../base/AuthContext";
+import { ACCOUNT_FEATURES, useAuth } from "../../../base/AuthContext";
 import FormInput from "../../commons/form/FormInput";
 import { useState } from "react";
 import FormSelect from "../../commons/form/FormSelect";
@@ -16,16 +16,23 @@ import FormSlider from "../../commons/form/FormSlider";
 import { doCall } from "../../../providers/baseProvider";
 import { LoadingButton } from "@mui/lab";
 import FullCVBtn from "../../../components/FullCVBtn";
+import UpsellWidget from "../../../components/UpsellWidget";
 
 const NovaCandidaturaPage = () => {
-  const { userInfo } = useAuth();
+  const { userInfo, features } = useAuth();
   let { vagaId, vagaNome } = useParams();
   const vagaResponse = useFetch("GET", `vaga/${vagaId}`);
   const [isLoading, setIsLoading] = useState(false);
   const [actionError, setActionError] = useState(null);
   const [candidaturaCreated, setCandidaturaCreated] = useState(null);
 
-  let enviarCandidaturaEnabled = !!userInfo;
+  const countCandResponse = useFetch("GET", `count-candidaturas`);
+  const countCandidaturas = countCandResponse.data || 0;
+  const maxCandidaturas = features?.[ACCOUNT_FEATURES.LIMITE_CANDIDATURAS];
+  const reachedCandLimit =
+    maxCandidaturas > 1 && countCandidaturas >= maxCandidaturas;
+
+  let enviarCandidaturaEnabled = !!userInfo && !reachedCandLimit;
 
   const [dados, setDados] = useState({});
   const handleChange = (value, name, data) => {
@@ -113,7 +120,7 @@ const NovaCandidaturaPage = () => {
               ) : (
                 <Box sx={{ pb: 2 }}>
                   <Typography color="error">
-                    Você precisa pelo menos inserir algum dado pessoal antes de 
+                    Você precisa pelo menos inserir algum dado pessoal antes de
                     começar a enviar candidaturas.
                   </Typography>
                 </Box>
@@ -123,7 +130,9 @@ const NovaCandidaturaPage = () => {
                 <Grid item xs>
                   <Button
                     disableElevation
-                    variant={enviarCandidaturaEnabled ? "outlined" : "contained"}
+                    variant={
+                      enviarCandidaturaEnabled ? "outlined" : "contained"
+                    }
                     sx={{ width: { xs: "auto", sm: "100%" } }}
                     LinkComponent={Link}
                     to={"/app/" + allRoutesData.pfDados.path}
@@ -168,7 +177,9 @@ const NovaCandidaturaPage = () => {
           <form onSubmit={handleSubmit}>
             <Grid container spacing={4}>
               <Grid item xs={12} sm={8}>
-                <Typography variant="h6" id="questoes-pre-candidatura">Questões pré-candidatura</Typography>
+                <Typography variant="h6" id="questoes-pre-candidatura">
+                  Questões pré-candidatura
+                </Typography>
               </Grid>
 
               <Grid item xs={12} sm={8}>
@@ -244,6 +255,11 @@ const NovaCandidaturaPage = () => {
                 >
                   Enviar Candidatura
                 </LoadingButton>
+              </Grid>
+              <Grid item xs={12} sm={4}>
+                {reachedCandLimit && (
+                  <UpsellWidget>Limite de {maxCandidaturas} candidaturas</UpsellWidget>
+                )}
               </Grid>
             </Grid>
           </form>

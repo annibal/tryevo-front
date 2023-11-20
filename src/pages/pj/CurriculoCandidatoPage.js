@@ -4,11 +4,16 @@ import useFetch from "../../providers/useFetch";
 import { Box, Button, Container, Typography } from "@mui/material";
 import LoaderTryEvo from "../../components/LoaderTryEvo";
 import allRoutesData from "../../base/routes_data";
-
+import { ACCOUNT_FEATURES, useAuth } from "../../base/AuthContext";
+import UpsellWidget from "../../components/UpsellWidget";
 
 const CurriculoCandidatoPage = () => {
   let { propostaId } = useParams();
   const propostaResponse = useFetch("GET", `proposta/${propostaId}`);
+  
+  const auth = useAuth();
+  const userFeatures = auth?.features || {};
+  const hasVerCVFeature = userFeatures[ACCOUNT_FEATURES.VER_CV_FULL];
 
   const Wrapper = ({ children }) => (
     <Container>
@@ -57,6 +62,16 @@ const CurriculoCandidatoPage = () => {
       </Box>
     </Container>
   );
+
+  if (!hasVerCVFeature) {
+    return (
+      <Wrapper>
+        <UpsellWidget>
+          Ver CV Completo do Candidato
+        </UpsellWidget>
+      </Wrapper>
+    )
+  }
 
   if (propostaResponse.loading) {
     return (

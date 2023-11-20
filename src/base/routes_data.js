@@ -107,14 +107,14 @@ export const commonRoutes = {
     },
   },
   assinatura: {
-    priority: 150,
+    priority: 500,
     path: "assinatura/",
     icon: <PaymentsIcon />,
     title: "Assinaturas",
     auth: false,
-    rules: [ACCOUNT_FEATURES.IGNORE_ON_SIDEBAR],
+    rules: [],
     navbar: {
-      place: NAVBAR_PLACE.NONE,
+      place: NAVBAR_PLACE.TOOLBAR,
     },
   },
 };

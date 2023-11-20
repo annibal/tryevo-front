@@ -18,6 +18,7 @@ import {
 } from "recharts";
 import { ACCOUNT_FEATURES, useAuth } from "../../base/AuthContext";
 import SimpleBarChart from "../../components/SimpleBarChart";
+import UpsellWidget from "../../components/UpsellWidget";
 
 const DashboardPJPage = () => {
   const auth = useAuth();
@@ -85,7 +86,7 @@ const DashboardPJPage = () => {
         <LoaderTryEvo />
       </Box> */}
 
-      {hasChartDash && (
+      {hasChartDash ? (
         <Grid container spacing={2}>
           <Grid item xs={12} md={4}>
             <Card>
@@ -229,6 +230,10 @@ const DashboardPJPage = () => {
             </Card>
           </Grid>
         </Grid>
+      ) : (
+        <UpsellWidget>
+          Dashboard
+        </UpsellWidget>
       )}
     </div>
   );

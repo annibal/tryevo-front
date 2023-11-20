@@ -31,9 +31,15 @@ import {
 import { doCall } from "../../providers/baseProvider";
 import allRoutesData from "../../base/routes_data";
 import FullCVBtn from "../../components/FullCVBtn";
+import { ACCOUNT_FEATURES, useAuth } from "../../base/AuthContext";
+import UpsellWidget from "../../components/UpsellWidget";
 
 const PropostaFeitaPage = () => {
   let { propostaId } = useParams();
+  const auth = useAuth();
+  const userFeatures = auth?.features || {};
+
+  const hasVerDadosFeature = userFeatures[ACCOUNT_FEATURES.VER_DADOS_CANDIDATO];
 
   const propostaResponse = useFetch("GET", `proposta/${propostaId}`);
   const proposta = propostaResponse.data || {};
@@ -48,6 +54,10 @@ const PropostaFeitaPage = () => {
   const [contratarData, setContratarData] = useState();
 
   const handleVerDados = () => {
+    if (!hasVerDadosFeature) {
+      alert("Não da pra ver dados do candidato sem comprar o plano");
+      return;
+    }
     setVerDadosLoading(true);
     setVerDadosError(null);
     doCall(`/proposta/${propostaId}/ver-candidato`, {
@@ -346,24 +356,33 @@ const PropostaFeitaPage = () => {
               </Box>
             </>
           ) : (
-            <>
-              <LoadingButton
-                loading={verDadosLoading}
-                onClick={handleVerDados}
-                disableElevation
-                disabled={verDadosData != null}
-                color="primary"
-                variant="contained"
-              >
-                Ver dados do Candidato
-              </LoadingButton>
+            <Grid container spacing={2}>
+              <Grid item xs>
+                <LoadingButton
+                  loading={verDadosLoading}
+                  onClick={handleVerDados}
+                  disableElevation
+                  disabled={!hasVerDadosFeature || verDadosData != null}
+                  color="primary"
+                  variant="contained"
+                >
+                  Ver dados do Candidato
+                </LoadingButton>
 
-              {!verDadosLoading && verDadosError && (
-                <Box sx={{ pb: 2 }}>
-                  <Typography color="error">{String(verDadosError)}</Typography>
-                </Box>
-              )}
-            </>
+                {!verDadosLoading && verDadosError && (
+                  <Box sx={{ pb: 2 }}>
+                    <Typography color="error">
+                      {String(verDadosError)}
+                    </Typography>
+                  </Box>
+                )}
+              </Grid>
+              <Grid item>
+                {!hasVerDadosFeature && (
+                  <UpsellWidget>Ver dados e contratar</UpsellWidget>
+                )}
+              </Grid>
+            </Grid>
           )}
         </Section>
       </ResponseWrapper>

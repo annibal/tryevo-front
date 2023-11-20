@@ -8,9 +8,21 @@ import PlaceIcon from "@mui/icons-material/Place";
 import { getStatusCandidatura } from "./CandidaturaPage";
 import { optionsTipoContrato } from "../../../providers/enumProvider";
 import { Fragment } from "react";
+import { ACCOUNT_FEATURES, useAuth } from "../../../base/AuthContext";
 
 const CandidaturasPage = () => {
   const candidaturasResponse = useFetch("GET", `candidaturas`);
+
+  const auth = useAuth();
+  const userFeatures = auth?.features || {};
+  const countCandResponse = useFetch("GET", `count-candidaturas`);
+  const countCandidaturas = countCandResponse.data || 0;
+  const maxCandidaturas =
+    auth?.features == null
+      ? null
+      : userFeatures[ACCOUNT_FEATURES.LIMITE_CANDIDATURAS];
+  const reachedCandLimit =
+    maxCandidaturas > 1 && countCandidaturas >= maxCandidaturas;
 
   //
 
@@ -27,6 +39,12 @@ const CandidaturasPage = () => {
           <>
             <Box sx={{ mt: 2 }}>
               <Typography variant="h5">Minhas Candidaturas</Typography>
+              {maxCandidaturas > 1 && (
+                <Typography variant="caption" color="text.secondary">
+                  Você já tem {countCandidaturas} de {maxCandidaturas}{" "}
+                  candidaturas permitidas por seu Plano de Assinatura.
+                </Typography>
+              )}
             </Box>
             <Box sx={{ mt: 4 }}>
               <Grid container spacing={2}>
@@ -37,7 +55,7 @@ const CandidaturasPage = () => {
         )}
         dataItemComponent={({ item }) => {
           if (!item.vaga) return "";
-          
+
           const status = getStatusCandidatura(item);
           const vaga = item.vaga || {};
           const strTipoContrato = optionsTipoContrato.find(
