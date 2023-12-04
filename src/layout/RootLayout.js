@@ -3,6 +3,7 @@ import "../style/index.css";
 import "../style/loader-try-evo.css";
 import { Helmet } from "react-helmet";
 import WindowMessageHandler from "../base/WindowMessageHandler";
+import WindowParamSetPathHandler from "../base/WindowParamSetPathHandler";
 
 const RootLayout = () => {
   const matches = useMatches();
@@ -18,6 +19,7 @@ const RootLayout = () => {
         <title>{title}</title>
       </Helmet>
       <WindowMessageHandler />
+      <WindowParamSetPathHandler />
       <Outlet />
     </>
   );
