@@ -18,49 +18,49 @@ const DashboardPJPage = () => {
   //
 
   const resCompetenciasVagas = useChartDash({
-    chartFeature: FEAT.VER_G_VAGAS_MES,
+    chartFeature: FEAT.VER_G_COMP_VAGAS,
     accountType: FEAT.PJ,
     params: {
       limit: 7,
     },
   });
   const resCompetenciasCandidatos = useChartDash({
-    chartFeature: FEAT.VER_G_VAGAS_MES,
+    chartFeature: FEAT.VER_G_COMP_CAND,
     accountType: FEAT.PJ,
     params: {
       limit: 7,
     },
   });
   const resHabilidadesVagas = useChartDash({
-    chartFeature: FEAT.VER_G_VAGAS_MES,
+    chartFeature: FEAT.VER_G_HABILIDADES_VAGAS,
     accountType: FEAT.PJ,
     params: {
       limit: 7,
     },
   });
   const resHabilidadesCandidatos = useChartDash({
-    chartFeature: FEAT.VER_G_VAGAS_MES,
+    chartFeature: FEAT.VER_G_HABILIDADES_CAND,
     accountType: FEAT.PJ,
     params: {
       limit: 7,
     },
   });
   const resCandidatosFinalistas = useChartDash({
-    chartFeature: FEAT.VER_G_VAGAS_MES,
+    chartFeature: FEAT.VER_G_CAND_FINALISTAS,
     accountType: FEAT.PJ,
     params: {
       limit: 12,
     },
   });
   const resEvoCandidatura = useChartDash({
-    chartFeature: FEAT.VER_G_VAGAS_MES,
+    chartFeature: FEAT.VER_G_EVO_CANDIDATURA,
     accountType: FEAT.PJ,
     params: {
       limit: 12,
     },
   });
   const resContratacoesCargos = useChartDash({
-    chartFeature: FEAT.VER_G_VAGAS_MES,
+    chartFeature: FEAT.VER_G_CONTRATACOES_CARGOS,
     accountType: FEAT.PJ,
     params: {
       limit: 7,
