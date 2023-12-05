@@ -10,8 +10,8 @@ const DashLineChart = ({ data, yKeys, xKey, colors, valueNames }) => {
   });
 
   return (
-    <ResponsiveContainer>
-      <LineChart width={500} height={200} data={data}>
+    <ResponsiveContainer width="100%" height={200}>
+      <LineChart data={data}>
         <XAxis
           dataKey={xKey}
           interval="preserveStartEnd"

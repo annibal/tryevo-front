@@ -14,7 +14,5 @@ export default function useChartDash({ chartFeature, accountType, params }) {
     }
   }
 
-  console.log(dataResponse)
-
   return dataResponse;
 }

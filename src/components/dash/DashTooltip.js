@@ -12,7 +12,7 @@ const useDashTooltip = (params = {}) => {
     const { active, payload, label } = params;
 
     if (active && payload && payload.length) {
-      console.log(label, params);
+      // console.log(label, params);
       return (
         <Paper
           sx={{
@@ -39,7 +39,7 @@ const useDashTooltip = (params = {}) => {
               const textColor = darken(row.color, 0.20);
               const textContent = fnFormatValue(row.value, rowIndex);
               return (
-                <Typography component="div" color={textColor} fontWeight={500}>
+                <Typography component="div" color={textColor} key={textContent + row.value} fontWeight={500}>
                   {textContent}
                 </Typography>
               );

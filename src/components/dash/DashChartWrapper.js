@@ -24,18 +24,20 @@ const DashChartWrapper = ({
     }
   };
 
+  // console.log(title, [loading, enabled, data, error])
+
   if (!enabled) return "";
 
   return (
     <Card>
       <CardContent>
         <Grid container spacing={2}>
-          <Grid item xs sx={{ display: "flex" }}>
+          <Grid item xs sx={{ display: "flex", alignItems: "center" }}>
             <Typography variant="h6" gutterBottom>
               {title}
             </Typography>
           </Grid>
-          <Grid item sx={{ display: "flex" }}>
+          <Grid item sx={{ display: "flex", alignItems: "center" }}>
             {titleButtonContent && (
               <Button
                 variant="outlined"
@@ -50,7 +52,7 @@ const DashChartWrapper = ({
         </Grid>
         {error ? (
           <Box sx={{ p: 2, minHeight: "160px" }}>
-            <Typography color="error">{String(error)}</Typography>
+            <Typography color="error">{String(error.message || error)}</Typography>
           </Box>
         ) : (
           <Box

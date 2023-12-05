@@ -2,13 +2,7 @@ import { Box, Button, Grid, Typography } from "@mui/material";
 import useFetch from "../../providers/useFetch";
 import Section from "../../components/Section";
 import { useAuth } from "../../base/AuthContext";
-
-const formatPreco = (num) =>
-  num.toLocaleString(undefined, {
-    maximumFractionDigits: 2,
-    minimumFractionDigits: 2,
-    currency: "BRL",
-  });
+import formatPreco from "../../utils/formatPreco";
 
 const AssinaturaPage = () => {
   const auth = useAuth();

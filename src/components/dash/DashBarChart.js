@@ -1,4 +1,4 @@
-import { darken } from "@mui/material";
+import { darken, useMediaQuery } from "@mui/material";
 import React, { useMemo } from "react";
 import {
   ResponsiveContainer,
@@ -15,36 +15,60 @@ import {
 import tryReduceNumber from "../../utils/tryReduceNumber";
 import useDashTooltip from "./DashTooltip";
 import capitalize from "../../utils/capitalize";
+import { useTheme } from "@emotion/react";
 
 let ctx;
 
-export const measureText14HelveticaNeue = (text) => {
+export const measureText = (text) => {
   if (!ctx) {
     ctx = document.createElement("canvas").getContext("2d");
-    ctx.font = "16px 'Helvetica Neue";
+    ctx.font = "16px 'Poppins'";
   }
 
   return ctx.measureText(text).width;
 };
 
+export const centerEllipsis = (text, maxLen) => {
+  if (text.length >= maxLen) {
+    const charsBefore = Math.floor(maxLen / 2);
+    const charsAfter = Math.ceil(maxLen / 2);
+    return (
+      text.slice(0, charsBefore).trim() +
+      "..." +
+      text.slice(charsAfter * -1).trim()
+    );
+  }
+  return text;
+};
+
 const BAR_AXIS_SPACE = 10;
 
-const DashBarChart = ({ data, yKey, xKey, fill, valueName, onClick }) => {
-  const [maxValueWidth, maxTextWidth] = useMemo(
+const DashBarChart = ({
+  data,
+  yKey,
+  xKey,
+  fill,
+  formatLabel,
+  formatValue,
+  onClick,
+}) => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const maxBarLen = isMobile ? 10 : 32;
+
+  const [largestStrValue, largestStrLabel] = useMemo(
     () =>
       data
         .sort((a, b) => b[yKey] - a[yKey])
         .reduce(
           (acc, cur) => {
             const value = cur[yKey];
-            const text = cur[xKey];
-            const valueWidth = measureText14HelveticaNeue(
-              value.toLocaleString()
-            );
-            const textWidth = measureText14HelveticaNeue(text);
+            const text = centerEllipsis(cur[xKey], maxBarLen);
+            const valueWidth = measureText(tryReduceNumber(value, 1));
             if (valueWidth > acc[0]) {
               acc[0] = valueWidth;
             }
+            const textWidth = measureText(text);
             if (textWidth > acc[1]) {
               acc[1] = textWidth;
             }
@@ -52,41 +76,43 @@ const DashBarChart = ({ data, yKey, xKey, fill, valueName, onClick }) => {
           },
           [0, 0]
         ),
-    [data, yKey, xKey]
+    [data, yKey, xKey, maxBarLen]
   );
 
   const DashTooltip = useDashTooltip({
-    formatLabel: (value) => capitalize(value),
-    formatValue: (val) => `${tryReduceNumber(val, 2)} ${valueName}`,
+    formatLabel:
+      typeof formatLabel === "function"
+        ? formatLabel
+        : (value) => capitalize(value),
+    formatValue:
+      typeof formatValue === "function"
+        ? formatValue
+        : (val) => tryReduceNumber(val, 2),
   });
 
   const YAxisLeftTick = ({ y, payload: { value } }) => {
     return (
-      <Text
-        x={maxTextWidth * 1.5}
-        y={y}
-        textAnchor="end"
-        verticalAnchor="middle"
-      >
-        {value}
+      <Text x={largestStrLabel} y={y} textAnchor="end" verticalAnchor="middle">
+        {centerEllipsis(value, maxBarLen)}
       </Text>
     );
   };
 
+  const isClickable = typeof onClick === "function"
   const handleClick = (payload, index, event) => {
-    if (typeof onClick === "function") {
+    if (isClickable) {
       onClick(payload, index, event);
     }
   };
 
   return (
-    <ResponsiveContainer>
+    <ResponsiveContainer width="100%" height={200}>
       <BarChart
         data={data}
         layout="vertical"
         margin={{
-          left: maxTextWidth * 0.875,
-          right: maxValueWidth * 1.1 + BAR_AXIS_SPACE,
+          left: largestStrLabel - 60 + BAR_AXIS_SPACE,
+          right: largestStrValue + BAR_AXIS_SPACE,
         }}
       >
         <Tooltip content={<DashTooltip />} />
@@ -100,6 +126,17 @@ const DashBarChart = ({ data, yKey, xKey, fill, valueName, onClick }) => {
           tickLine={false}
           tick={YAxisLeftTick}
         />
+        <Bar
+          dataKey={yKey}
+          minPointSize={2}
+          barSize={32}
+          onClick={handleClick}
+          fill={fill}
+        >
+          {data.map((d, idx) => {
+            return <Cell key={d[xKey]} fill={fill} className={isClickable ? "cursor-pointer" : ""} />;
+          })}
+        </Bar>
         <YAxis
           orientation="right"
           yAxisId={1}
@@ -111,14 +148,9 @@ const DashBarChart = ({ data, yKey, xKey, fill, valueName, onClick }) => {
           tickFormatter={(value) => tryReduceNumber(value, 1)}
           mirror
           tick={{
-            transform: `translate(${maxValueWidth * 1.2 + BAR_AXIS_SPACE}, 0)`,
+            transform: `translate(${largestStrValue + BAR_AXIS_SPACE}, 0)`,
           }}
         />
-        <Bar dataKey={yKey} minPointSize={2} barSize={32} onClick={handleClick} fill={fill}>
-          {data.map((d, idx) => {
-            return <Cell key={d[xKey]} fill={fill} />;
-          })}
-        </Bar>
       </BarChart>
     </ResponsiveContainer>
   );
