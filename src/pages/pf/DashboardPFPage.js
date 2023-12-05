@@ -1,73 +1,50 @@
-import React from "react";
-import { Grid, Card, CardContent, Typography, Box } from "@mui/material";
-import {
-  BarChart,
-  Bar,
-  PieChart,
-  Pie,
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
-  AreaChart,
-  Area,
-} from "recharts";
-import { ACCOUNT_FEATURES, useAuth } from "../../base/AuthContext";
-import LoaderTryEvo from "../../components/LoaderTryEvo";
-import SimpleBarChart from "../../components/SimpleBarChart";
+import { useState } from "react";
+import { Grid, Typography, Box } from "@mui/material";
+import { ACCOUNT_FEATURES as FEAT, useAuth } from "../../base/AuthContext";
+import DashBarChart from "../../components/dash/DashBarChart";
 import UpsellWidget from "../../components/UpsellWidget";
+import DashChartWrapper from "../../components/dash/DashChartWrapper";
+import DashAreaChart from "../../components/dash/DashAreaChart";
+import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
+import { useTheme } from "@emotion/react";
+import useChartDash from "../../components/dash/useChartDash";
 
 const DashboardPFPage = () => {
   const auth = useAuth();
   const userFeatures = auth?.features || {};
+  const theme = useTheme();
+  const [regionIn, setRegionIn] = useState(false);
 
   const hasChartDash =
-    userFeatures[ACCOUNT_FEATURES.VER_DASHBOARD] &&
-    userFeatures[ACCOUNT_FEATURES.PF];
-
-  const barChartData = [
-    { name: "A", value: 10 },
-    { name: "B", value: 20 },
-    { name: "C", value: 30 },
-    { name: "D", value: 15 },
-  ];
-
-  const donutChartData = [
-    { name: "Category 1", value: 25 },
-    { name: "Category 2", value: 30 },
-    { name: "Category 3", value: 45 },
-  ];
+    userFeatures[FEAT.VER_DASHBOARD] && userFeatures[FEAT.PF];
+  //
 
   const dataQtdVagas = [
-    { name: "Mar", value: 119889 },
-    { name: "Abr", value: 81722 },
-    { name: "Mai", value: 103426 },
-    { name: "Jun", value: 57168 },
-    { name: "Jul", value: 106490 },
-    { name: "Ago", value: 68938 },
-    { name: "Set", value: 65789 },
+    { time: "2023-03-01", value: 119889 },
+    { time: "2023-04-01", value: 81722 },
+    { time: "2023-05-01", value: 103426 },
+    { time: "2023-06-01", value: 57168 },
+    { time: "2023-07-01", value: 106490 },
+    { time: "2023-08-01", value: 68938 },
+    { time: "2023-09-01", value: 65789 },
   ];
   const dataContratacoes = [
-    { name: "Mar", value: 16243 },
-    { name: "Abr", value: 11871 },
-    { name: "Mai", value: 19986 },
-    { name: "Jun", value: 25470 },
-    { name: "Jul", value: 24779 },
-    { name: "Ago", value: 20403 },
-    { name: "Set", value: 18507 },
+    { time: "2023-03-01", value: 16243 },
+    { time: "2023-04-01", value: 11871 },
+    { time: "2023-05-01", value: 19986 },
+    { time: "2023-06-01", value: 25470 },
+    { time: "2023-07-01", value: 24779 },
+    { time: "2023-08-01", value: 20403 },
+    { time: "2023-09-01", value: 18507 },
   ];
   const dataEmpresas = [
-    { name: "Mar", value: 2988 },
-    { name: "Abr", value: 3840 },
-    { name: "Mai", value: 4313 },
-    { name: "Jun", value: 5327 },
-    { name: "Jul", value: 5939 },
-    { name: "Ago", value: 6092 },
-    { name: "Set", value: 7183 },
+    { time: "2023-03-01", value: 2988 },
+    { time: "2023-04-01", value: 3840 },
+    { time: "2023-05-01", value: 4313 },
+    { time: "2023-06-01", value: 5327 },
+    { time: "2023-07-01", value: 5939 },
+    { time: "2023-08-01", value: 6092 },
+    { time: "2023-09-01", value: 7183 },
   ];
   const dataVagasCompetencia = [
     { name: "Javascript", value: 119889 },
@@ -87,6 +64,57 @@ const DashboardPFPage = () => {
     { name: "RS", value: 69897 },
     { name: "RN", value: 74242 },
   ];
+  const dataEvoCandidaturas = [
+    { time: "2023-01-01", candidaturas: 0, contratacoes: 0 },
+    { time: "2023-02-01", candidaturas: 0, contratacoes: 0 },
+    { time: "2023-03-01", candidaturas: 12, contratacoes: 1 },
+    { time: "2023-04-01", candidaturas: 11, contratacoes: 0 },
+    { time: "2023-05-01", candidaturas: 53, contratacoes: 32 },
+    { time: "2023-06-01", candidaturas: 0, contratacoes: 15 },
+    { time: "2023-07-01", candidaturas: 22, contratacoes: 7 },
+    { time: "2023-08-01", candidaturas: 102, contratacoes: 65 },
+    { time: "2023-09-01", candidaturas: 63, contratacoes: 42 },
+    { time: "2023-10-01", candidaturas: 96, contratacoes: 78 },
+    { time: "2023-11-01", candidaturas: 73, contratacoes: 15 },
+    { time: "2023-12-01", candidaturas: 114, contratacoes: 67 },
+  ];
+
+  const resVagasRegiao = useChartDash({
+    chartFeature: FEAT.VER_G_VAGAS_MES,
+    accountType: FEAT.PF,
+    params: {
+      ...(regionIn ? { state: regionIn.name } : {}),
+      limit: 7,
+    },
+  });
+  const resEvoVagas = useChartDash({
+    chartFeature: FEAT.VER_G_VAGAS_MES,
+    accountType: FEAT.PF,
+    params: {
+      limit: 12,
+    },
+  });
+  const resCargos = useChartDash({
+    chartFeature: FEAT.VER_G_VAGAS_MES,
+    accountType: FEAT.PF,
+    params: {
+      limit: 7,
+    },
+  });
+  const resEvoEmpresas = useChartDash({
+    chartFeature: FEAT.VER_G_VAGAS_MES,
+    accountType: FEAT.PF,
+    params: {
+      limit: 12,
+    },
+  });
+  const resSalarioCargos = useChartDash({
+    chartFeature: FEAT.VER_G_VAGAS_MES,
+    accountType: FEAT.PF,
+    params: {
+      limit: 7,
+    },
+  });
 
   return (
     <div>
@@ -96,200 +124,98 @@ const DashboardPFPage = () => {
         </Typography>
       </Box>
 
-      {/* <Box sx={{ border: '1px solid black' }}>
-        <LoaderTryEvo />
-      </Box> */}
-
       {hasChartDash ? (
         <Grid container spacing={2}>
-          <Grid item xs={12} md={4}>
-            <Card>
-              <CardContent>
-                <Typography variant="h6" gutterBottom>
-                  Quantidade de Vagas
-                </Typography>
-                <Box
-                  sx={{
-                    display: "flex",
-                    justifyContent: "center",
-                    width: "100%",
-                    height: "200px",
-                  }}
-                >
-                  <ResponsiveContainer>
-                    <AreaChart width={500} height={200} data={dataQtdVagas}>
-                      <XAxis dataKey="name" />
-                      <Tooltip />
-                      <Area type="monotone" dataKey="value" fill="#8884d8" />
-                    </AreaChart>
-                  </ResponsiveContainer>
-                </Box>
-              </CardContent>
-            </Card>
+          <Grid item xs={12} lg={6}>
+            <DashChartWrapper
+              title="Evolução de Vagas"
+              {...resEvoVagas}
+            >
+              <DashAreaChart
+                data={resEvoVagas.data}
+                xKey="time"
+                yKey="value"
+                fill={theme.palette.primary.main}
+                valueName="Vagas"
+              />
+            </DashChartWrapper>
           </Grid>
-
-          <Grid item xs={12} md={4}>
-            <Card>
-              <CardContent>
-                <Typography variant="h6" gutterBottom>
-                  Contratações
-                </Typography>
-                <Box
-                  sx={{
-                    display: "flex",
-                    justifyContent: "center",
-                    width: "100%",
-                    height: "200px",
-                  }}
-                >
-                  <ResponsiveContainer>
-                    <AreaChart width={500} height={200} data={dataContratacoes}>
-                      <XAxis dataKey="name" />
-                      <Tooltip />
-                      <Area type="monotone" dataKey="value" fill="#8884d8" />
-                    </AreaChart>
-                  </ResponsiveContainer>
-                </Box>
-              </CardContent>
-            </Card>
+          <Grid item xs={12} lg={6}>
+            <DashChartWrapper
+              title="Evolução de Empresas"
+              {...resEvoEmpresas}
+            >
+              <DashAreaChart
+                data={resEvoEmpresas.data}
+                xKey="time"
+                yKey="value"
+                fill={theme.palette.primary.main}
+                valueName="Vagas"
+              />
+            </DashChartWrapper>
           </Grid>
-
-          <Grid item xs={12} md={4}>
-            <Card>
-              <CardContent>
-                <Typography variant="h6" gutterBottom>
-                  Empresas Cadastradas
-                </Typography>
-                <Box
-                  sx={{
-                    display: "flex",
-                    justifyContent: "center",
-                    width: "100%",
-                    height: "200px",
-                  }}
-                >
-                  <ResponsiveContainer>
-                    <AreaChart width={500} height={200} data={dataEmpresas}>
-                      <XAxis dataKey="name" />
-                      <Tooltip />
-                      <Area type="monotone" dataKey="value" fill="#8884d8" />
-                    </AreaChart>
-                  </ResponsiveContainer>
-                </Box>
-              </CardContent>
-            </Card>
+          
+          <Grid item xs={12} lg={4}>
+            <DashChartWrapper
+              title={
+                regionIn
+                  ? `Vagas por Cidade (${regionIn.name})`
+                  : "Vagas por Estado"
+              }
+              {...resVagasRegiao}
+              titleButtonContent={
+                regionIn ? (
+                  <>
+                    <ArrowUpwardIcon sx={{ mr: 1, fontSize: "1.5em" }} />{" "}
+                    Estados
+                  </>
+                ) : (
+                  false
+                )
+              }
+              onClick={() => setRegionIn(false)}
+            >
+              <DashBarChart
+                data={resVagasRegiao.data}
+                xKey="name"
+                yKey="value"
+                fill={theme.palette.secondary.main}
+                valueName="Vagas"
+                onClick={(payload) => (regionIn ? null : setRegionIn(payload))}
+              />
+            </DashChartWrapper>
           </Grid>
-
-          <Grid item xs={12} md={6}>
-            <Card>
-              <CardContent>
-                <Typography variant="h6" gutterBottom>
-                  Vagas por Competências mais comuns
-                </Typography>
-                <Box
-                  sx={{
-                    display: "flex",
-                    justifyContent: "center",
-                    width: "100%",
-                    height: "250px",
-                  }}
-                >
-                  <SimpleBarChart
-                    data={dataVagasCompetencia}
-                    xKey="name"
-                    yKey="value"
-                    fill="#8884d8"
-                  />
-                </Box>
-              </CardContent>
-            </Card>
+          <Grid item xs={12} lg={4}>
+            <DashChartWrapper
+              title="Top Cargos mais procurados"
+              {...resCargos}
+            >
+              <DashBarChart
+                data={resCargos.data}
+                xKey="name"
+                yKey="value"
+                fill={theme.palette.primary.main}
+                valueName="Vagas"
+              />
+            </DashChartWrapper>
           </Grid>
-          <Grid item xs={12} md={6}>
-            <Card>
-              <CardContent>
-                <Typography variant="h6" gutterBottom>
-                  Vagas por Estado
-                </Typography>
-                <Box
-                  sx={{
-                    display: "flex",
-                    justifyContent: "center",
-                    width: "100%",
-                    height: "250px",
-                  }}
-                >
-                  <SimpleBarChart
-                    data={dataVagasEstado}
-                    xKey="name"
-                    yKey="value"
-                    fill="#8884d8"
-                  />
-                </Box>
-              </CardContent>
-            </Card>
+          <Grid item xs={12} lg={4}>
+            <DashChartWrapper
+              title="Cargos com maior Salário"
+              {...resSalarioCargos}
+            >
+              <DashBarChart
+                data={resSalarioCargos.data}
+                xKey="name"
+                yKey="value"
+                fill={theme.palette.primary.main}
+                valueName="Vagas"
+              />
+            </DashChartWrapper>
           </Grid>
-
-          {/* <Grid item xs={12} md={4}>
-            <Card>
-              <CardContent>
-                <Typography variant="h6" gutterBottom>
-                  Quantidade de Vagas
-                </Typography>
-                <Box sx={{ display:'flex', justifyContent:'center' }}>
-                  <BarChart width={500} height={200} data={barChartData}>
-                    <XAxis dataKey="name" />
-                    <YAxis />
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <Tooltip />
-                    <Legend />
-                    <Bar dataKey="value" fill="#8884d8" />
-                  </BarChart>
-                </Box>
-              </CardContent>
-            </Card>
-          </Grid>
-
-          <Grid item xs={12} md={4}>
-            <Card>
-              <CardContent>
-                <Typography variant="h6" gutterBottom>
-                  Widget 2
-                </Typography>
-                <Box sx={{ display:'flex', justifyContent:'center' }}>
-                  <PieChart width={500} height={200}>
-                    <Pie data={donutChartData} dataKey="value" nameKey="name" innerRadius="50%" outerRadius="80%" />
-                    <Tooltip />
-                    <Legend />
-                  </PieChart>
-                </Box>
-              </CardContent>
-            </Card>
-          </Grid>
-
-          <Grid item xs={12}>
-            <Card>
-              <CardContent>
-                <Typography variant="h6" gutterBottom>
-                  Widget 3
-                </Typography>
-                <Box sx={{ display:'flex', justifyContent:'center' }}>
-                  <LineChart width={500} height={200} data={lineChartData}>
-                    <XAxis dataKey="name" />
-                    <YAxis />
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <Tooltip />
-                    <Legend />
-                    <Line type="monotone" dataKey="value" stroke="#8884d8" />
-                  </LineChart>
-                </Box>
-              </CardContent>
-            </Card>
-          </Grid> */}
         </Grid>
       ) : (
-        <UpsellWidget>
-          Dashboard
-        </UpsellWidget>
+        <UpsellWidget>Dashboard</UpsellWidget>
       )}
     </div>
   );
