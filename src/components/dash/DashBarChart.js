@@ -54,7 +54,7 @@ const DashBarChart = ({
 }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-  const maxBarLen = isMobile ? 10 : 32;
+  const maxBarLen = isMobile ? 10 : 22;
 
   const [largestStrValue, largestStrLabel] = useMemo(
     () =>
@@ -74,7 +74,7 @@ const DashBarChart = ({
             }
             return acc;
           },
-          [0, 0]
+          [measureText("88"), 0]
         ),
     [data, yKey, xKey, maxBarLen]
   );
@@ -98,7 +98,7 @@ const DashBarChart = ({
     );
   };
 
-  const isClickable = typeof onClick === "function"
+  const isClickable = typeof onClick === "function";
   const handleClick = (payload, index, event) => {
     if (isClickable) {
       onClick(payload, index, event);
@@ -134,7 +134,13 @@ const DashBarChart = ({
           fill={fill}
         >
           {data.map((d, idx) => {
-            return <Cell key={d[xKey]} fill={fill} className={isClickable ? "cursor-pointer" : ""} />;
+            return (
+              <Cell
+                key={d[xKey]}
+                fill={fill}
+                className={isClickable ? "cursor-pointer" : ""}
+              />
+            );
           })}
         </Bar>
         <YAxis
@@ -145,7 +151,7 @@ const DashBarChart = ({
           interval={0}
           axisLine={false}
           tickLine={false}
-          tickFormatter={(value) => tryReduceNumber(value, 1)}
+          tickFormatter={(value) => tryReduceNumber(value, 1).padStart(2, "0")}
           mirror
           tick={{
             transform: `translate(${largestStrValue + BAR_AXIS_SPACE}, 0)`,

@@ -140,7 +140,7 @@ const DashboardPFPage = () => {
                 xKey="name"
                 yKey="value"
                 fill={theme.palette.primary.main}
-                formatValue={val => `${val.toLocaleString()} Vagas`}
+                formatValue={val => `${val.toLocaleString()} Vaga${val === 1 ? "" : "s"}`}
               />
             </DashChartWrapper>
           </Grid>
