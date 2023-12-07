@@ -87,7 +87,7 @@ const DashboardPJPage = () => {
                 xKey="name"
                 yKey="value"
                 fill={theme.palette.primary.main}
-                valueName="Vagas"
+                formatValue={val => `${val.toLocaleString()} Vaga${val === 1 ? "" : "s"}`}
               />
             </DashChartWrapper>
           </Grid>
@@ -100,8 +100,8 @@ const DashboardPJPage = () => {
                 data={resCompetenciasCandidatos.data}
                 xKey="name"
                 yKey="value"
-                fill={theme.palette.primary.main}
-                valueName="Candidatos"
+                fill={theme.palette.primary.dark}
+                formatValue={val => `${val.toLocaleString()} Candidato${val === 1 ? "" : "s"}`}
               />
             </DashChartWrapper>
           </Grid>
@@ -115,8 +115,8 @@ const DashboardPJPage = () => {
                 data={resHabilidadesVagas.data}
                 xKey="name"
                 yKey="value"
-                fill={theme.palette.primary.main}
-                valueName="Vagas"
+                fill={theme.palette.secondary.main}
+                formatValue={val => `${val.toLocaleString()} Vaga${val === 1 ? "" : "s"}`}
               />
             </DashChartWrapper>
           </Grid>
@@ -129,13 +129,13 @@ const DashboardPJPage = () => {
                 data={resHabilidadesCandidatos.data}
                 xKey="name"
                 yKey="value"
-                fill={theme.palette.primary.main}
-                valueName="Candidatos"
+                fill={theme.palette.secondary.dark}
+                formatValue={val => `${val.toLocaleString()} Candidato${val === 1 ? "" : "s"}`}
               />
             </DashChartWrapper>
           </Grid>
 
-          <Grid item xs={12}>
+          <Grid item xs={12} md={6}>
             <DashChartWrapper
               title="Candidatos Finalistas"
               {...resCandidatosFinalistas}
@@ -145,12 +145,26 @@ const DashboardPJPage = () => {
                 xKey="time"
                 yKey="value"
                 fill={theme.palette.primary.main}
-                valueName="Candidatos"
+                formatValue={val => `${val.toLocaleString()} ${val === 1 ? "Contratação" : "Contratações"}`}
+              />
+            </DashChartWrapper>
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <DashChartWrapper
+              title="Cargos mais contratados"
+              {...resContratacoesCargos}
+            >
+              <DashBarChart
+                data={resContratacoesCargos.data}
+                xKey="name"
+                yKey="value"
+                fill={theme.palette.primary.light}
+                formatValue={val => `${val.toLocaleString()} ${val === 1 ? "Contratação" : "Contratações"}`}
               />
             </DashChartWrapper>
           </Grid>
 
-          <Grid item xs={12}>
+          <Grid item xs={12} md={12}>
             <DashChartWrapper
               title="Evolução da Candidatura"
               {...resEvoCandidatura}
@@ -160,24 +174,10 @@ const DashboardPJPage = () => {
                 xKey="time"
                 yKeys={["candidaturas", "contratacoes"]}
                 colors={[
-                  theme.palette.primary.main,
-                  theme.palette.secondary.main,
+                  theme.palette.secondary.light,
+                  theme.palette.primary.light,
                 ]}
                 valueNames={["Candidaturas", "Contratações"]}
-              />
-            </DashChartWrapper>
-          </Grid>
-          <Grid item xs={12}>
-            <DashChartWrapper
-              title="Cargos mais contratados"
-              {...resContratacoesCargos}
-            >
-              <DashBarChart
-                data={resContratacoesCargos.data}
-                xKey="name"
-                yKey="value"
-                fill={theme.palette.primary.main}
-                valueName="Contratações"
               />
             </DashChartWrapper>
           </Grid>

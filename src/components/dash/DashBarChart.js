@@ -29,7 +29,7 @@ export const measureText = (text) => {
 };
 
 export const centerEllipsis = (text, maxLen) => {
-  if (text.length >= maxLen) {
+  if (text?.length >= maxLen) {
     const charsBefore = Math.floor(maxLen / 2);
     const charsAfter = Math.ceil(maxLen / 2);
     return (

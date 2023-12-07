@@ -31,7 +31,7 @@ const DashAreaChart = ({
           tickFormatter={(value) => formatDate(value, "MMM")}
         />
         <Tooltip content={<DashTooltip />} />
-        <Area type="monotone" dataKey={yKey} fill={fill} />
+        <Area type="monotone" dataKey={yKey} fill={fill} stroke={fill} />
       </AreaChart>
     </ResponsiveContainer>
   );

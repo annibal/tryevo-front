@@ -82,7 +82,7 @@ const DashboardPFPage = () => {
                 xKey="time"
                 yKey="value"
                 fill={theme.palette.primary.main}
-                formatValue={val => `${val.toLocaleString()} Vagas`}
+                formatValue={val => `${val.toLocaleString()} Vaga${val === 1 ? "" : "s"}`}
               />
             </DashChartWrapper>
           </Grid>
@@ -110,8 +110,8 @@ const DashboardPFPage = () => {
                 data={resVagasRegiao.data}
                 xKey="name"
                 yKey="value"
-                fill={theme.palette.secondary.main}
-                formatValue={val => `${val.toLocaleString()} Vagas`}
+                fill={regionIn ? theme.palette.secondary.light : theme.palette.secondary.main}
+                formatValue={val => `${val.toLocaleString()} Vaga${val === 1 ? "" : "s"}`}
                 onClick={regionIn ? null : (payload) => (regionIn ? null : setRegionIn(payload))}
               />
             </DashChartWrapper>
@@ -124,8 +124,8 @@ const DashboardPFPage = () => {
                 data={resEvoEmpresas.data}
                 xKey="time"
                 yKey="value"
-                fill={theme.palette.primary.main}
-                formatValue={val => `${val.toLocaleString()} Empresas`}
+                fill={theme.palette.secondary.dark}
+                formatValue={val => `${val.toLocaleString()} Empresa${val === 1 ? "" : "s"}`}
               />
             </DashChartWrapper>
           </Grid>
