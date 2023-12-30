@@ -1,5 +1,3 @@
-
-
 body {
   font-family: Poppins, sans-serif;
   font-size: 16px;
@@ -12,9 +10,9 @@ a:active:hover {
 }
 
 @media print {
-  body{
-    -webkit-print-color-adjust:exact !important;
-    print-color-adjust:exact !important;
+  body {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
   }
   .print-section {
     break-inside: avoid;
@@ -159,6 +157,11 @@ body .side-toolbar {
   cursor: pointer;
 }
 
+.adsbygoogle {
+  background: rgba(0, 0, 0, 0.032);
+  max-width: 100%;
+}
+
 input {
   width: 100%;
   padding: 8px 5px 7px;
@@ -179,7 +182,7 @@ button.nb-btn {
   letter-spacing: 1px;
 }
 button:hover {
-  opacity: .8;
+  opacity: 0.8;
   text-decoration: none;
 }
 
@@ -207,7 +210,6 @@ nav li a.active {
   color: #df9c10;
   font-weight: bold;
 }
-
 
 .sidebar .active {
   background: #d1eaf1;
@@ -238,7 +240,12 @@ p {
   margin: 0;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   margin-top: 0;
   margin-bottom: 0.7em;
 }
@@ -246,7 +253,6 @@ h1, h2, h3, h4, h5, h6 {
 .card a {
   color: inherit;
 }
-
 
 .card.card-search-vagas {
   background: none;
@@ -306,7 +312,7 @@ h3.auth-user small {
 
 .hp-bar-bg {
   height: 10px;
-  background: rgba(0,0,0, 0.4);
+  background: rgba(0, 0, 0, 0.4);
   margin: 5px 0 10px;
   padding: 1px;
 }
@@ -351,26 +357,7 @@ body .hamburguer {
   padding-bottom: 10px;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 @media (max-width: 600px) {
-
   .sidebar {
     top: 0px;
     height: 70px;
@@ -378,7 +365,7 @@ body .hamburguer {
     position: fixed;
     width: 100%;
     max-width: 100%;
-    transition: height .4s ease, padding-top .4s ease;
+    transition: height 0.4s ease, padding-top 0.4s ease;
     overflow: hidden;
   }
 
@@ -399,7 +386,7 @@ body .hamburguer {
     height: 70px;
     z-index: 10;
   }
-  
+
   body .hamburguer {
     display: block;
   }
