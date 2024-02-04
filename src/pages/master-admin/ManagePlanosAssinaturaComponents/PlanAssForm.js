@@ -25,6 +25,7 @@ const PlanAssForm = ({ data, onSubmit }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [dados, setDados] = useState(data || defaultData);
+  const [idsRemove, setIdsRemove] = useState([]);
   const [dadosFeatures, setDadosFeatures] = useState({});
   const [hasChanges, setHasChanges] = useState(false);
 
@@ -50,6 +51,9 @@ const PlanAssForm = ({ data, onSubmit }) => {
     });
     setHasChanges(true);
   };
+  const handleRemoveIntegrado = (gatewayId) => {
+    setIdsRemove([...idsRemove, gatewayId]);
+  }
 
   useEffect(() => {
     if (data?.features && Object.keys(dadosFeatures).length === 0) {
@@ -96,6 +100,8 @@ const PlanAssForm = ({ data, onSubmit }) => {
         return;
       }
 
+      planAssObj.idsRemove = idsRemove;
+
       doCall("/plano-assinatura", { method: "POST", body: planAssObj }).then(
         (response) => {
           if (response.error) {
@@ -110,8 +116,8 @@ const PlanAssForm = ({ data, onSubmit }) => {
     } catch (error) {
       console.log({ error, msg: error.message });
       setError(error);
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   return (
@@ -229,7 +235,7 @@ const PlanAssForm = ({ data, onSubmit }) => {
           </Grid>
 
           <Grid item xs={12}>
-            <PlanAssFormModosPagto data={dados} onChange={handleChange} />
+            <PlanAssFormModosPagto data={dados} onChange={handleChange} onRemoveIntegrado={handleRemoveIntegrado}/>
           </Grid>
           
           <Grid item xs={12}>

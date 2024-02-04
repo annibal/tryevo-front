@@ -3,7 +3,7 @@ import { Fragment, useEffect, useState } from "react";
 import { Add, Delete } from "@mui/icons-material";
 import FormInput from "../../commons/form/FormInput";
 
-const PlanAssFormModosPagto = ({ data, onChange }) => {
+const PlanAssFormModosPagto = ({ data, onChange, onRemoveIntegrado }) => {
   const [dados, setDados] = useState(data?.modosDePagamento || []);
 
   useEffect(() => {
@@ -13,6 +13,9 @@ const PlanAssFormModosPagto = ({ data, onChange }) => {
   }, [data]);
 
   const removeItem = (itemIndex) => {
+    if (dados[itemIndex].pagbankGatewayId) {
+      onRemoveIntegrado(dados[itemIndex].pagbankGatewayId)
+    }
     const newItems = dados.filter((i, idx) => idx !== itemIndex);
     // setDados(newItems);
     onChange(newItems, "modosDePagamento", data);
@@ -90,6 +93,17 @@ const PlanAssFormModosPagto = ({ data, onChange }) => {
                 data={dados}
                 getValue={() => modoPagto.preco}
                 onChange={(value) => updateItem(value, "preco", idx)}
+              />
+            </Grid>
+
+            <Grid item xs={12}>
+              <FormInput
+                label={`PagBank Gateway ID`}
+                readonly
+                disabled
+                name={`modosDePagamento[${idx}][pagbankGatewayId]`}
+                data={dados}
+                getValue={() => modoPagto.pagbankGatewayId}
               />
             </Grid>
 

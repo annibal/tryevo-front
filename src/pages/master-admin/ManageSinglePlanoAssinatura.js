@@ -33,6 +33,10 @@ const ManageSinglePlanoAssinaturaPage = () => {
       }
     );
   };
+  
+  const handleSubmit = (data) => {
+    nav(`/app/${allRoutesData.masterAdminPlanosAssinatura.path}`);
+  }
 
   let sectionTitle = planoId;
   if (planAssData?.nome) {
@@ -119,7 +123,7 @@ const ManageSinglePlanoAssinaturaPage = () => {
         <ResponseWrapper {...planAssResponse}>
           {planAssData != null && (
             <Box>
-              <PlanAssForm data={planAssData} onSubmit={() => {}} />
+              <PlanAssForm data={planAssData} onSubmit={handleSubmit} />
             </Box>
           )}
         </ResponseWrapper>
