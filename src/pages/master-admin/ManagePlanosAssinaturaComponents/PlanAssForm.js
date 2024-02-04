@@ -7,6 +7,7 @@ import FormInput from "../../commons/form/FormInput";
 import FormSelect from "../../commons/form/FormSelect";
 import useFetch from "../../../providers/useFetch";
 import unslugifyFeatureChave from "./unslugifyFeatureChave";
+import PlanAssFormModosPagto from "./PlanAssFormModosPagto";
 
 const sxCbx = {
   display: "flex",
@@ -51,14 +52,13 @@ const PlanAssForm = ({ data, onSubmit }) => {
   };
 
   useEffect(() => {
-    console.log(!!data?.features, Object.keys(dadosFeatures).length === 0)
     if (data?.features && Object.keys(dadosFeatures).length === 0) {
       setDadosFeatures(
         (data.features || []).reduce(
           (all, curr) => ({
             ...all,
             [`${data.tipo}::${curr.chave}`]: {
-              chave: curr.chave,
+              chave: `${data.tipo}::${curr.chave}`,
               valor: +curr.valor,
             },
           }),
@@ -89,6 +89,12 @@ const PlanAssForm = ({ data, onSubmit }) => {
       });
 
       console.log(planAssObj);
+
+      if (!planAssObj.modosDePagamento || planAssObj.modosDePagamento.length === 0) {
+        setError("Defina pelo menos um Modo de Pagamento");
+        setLoading(false);
+        return;
+      }
 
       doCall("/plano-assinatura", { method: "POST", body: planAssObj }).then(
         (response) => {
@@ -162,30 +168,12 @@ const PlanAssForm = ({ data, onSubmit }) => {
             />
           </Grid>
 
-          <Grid item xs={12} sm={6}>
-            <FormInput
-              label="Preço"
-              name="preco"
-              min={0}
-              type="number"
-              data={dados}
-              onChange={handleChange}
-            />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <FormInput
-              label="Desconto Anual %"
-              name="descontoAnual"
-              min={0}
-              max={100}
-              type="number"
-              data={dados}
-              onChange={handleChange}
-            />
-          </Grid>
-
           <Grid item xs={12}>
             <Divider sx={{ my: 2 }} />
+
+            <Typography variant="h5" sx={{ mb: 2 }}>
+              Features ({dados.tipo})
+            </Typography>
           </Grid>
 
           <Grid item xs={12} container spacing={2}>
@@ -235,6 +223,17 @@ const PlanAssForm = ({ data, onSubmit }) => {
 
           <Grid item xs={12}>
             <Divider sx={{ my: 2 }} />
+            <Typography variant="h5" sx={{ mb: 2 }}>
+              Modos de Pagamento
+            </Typography>
+          </Grid>
+
+          <Grid item xs={12}>
+            <PlanAssFormModosPagto data={dados} onChange={handleChange} />
+          </Grid>
+          
+          <Grid item xs={12}>
+            <Divider sx={{ my: 2 }} />
           </Grid>
 
           {!loading && error && (
@@ -243,7 +242,7 @@ const PlanAssForm = ({ data, onSubmit }) => {
             </Grid>
           )}
 
-          <Grid item xs={12} sx={{ textAlign: "right " }}>
+          <Grid item xs={12} sx={{ textAlign: "right" }}>
             <LoadingButton
               loading={loading}
               variant={hasChanges ? "contained" : "outlined"}

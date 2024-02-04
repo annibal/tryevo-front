@@ -83,18 +83,6 @@ const ManagePlanosAssinaturaPage = () => {
       sortable: false,
     },
     {
-      field: "preco",
-      headerName: "Preço Mensal",
-      flex: 5,
-      renderCell: (params) => (+params.row.preco).toFixed(2),
-    },
-    {
-      field: "descontoAnual",
-      headerName: "Anual",
-      flex: 4,
-      renderCell: (params) => (+params.row.preco * (100 - params.row.descontoAnual) / 100 * 12).toFixed(2),
-    },
-    {
       field: "features",
       headerName: "Features",
       flex: 14,
@@ -132,8 +120,52 @@ const ManagePlanosAssinaturaPage = () => {
       },
     },
     {
+      field: "modosDePagamento",
+      headerName: "Modos Pagto",
+      flex: 10,
+      renderCell: (params) => {
+        return (
+          <div>
+            {(params.row.modosDePagamento || []).map((modoPagto) => (
+              <Typography
+                variant="caption"
+                component="p"
+                sx={{
+                  lineHeight: 1,
+                  margin: 0,
+                  fontSize: featureLineHeight + "px",
+                }}
+              >
+                <Typography
+                  component="span"
+                  color="text.secondary"
+                  sx={{ lineHeight: "inherit", fontSize: "inherit" }}
+                >
+                  {modoPagto.nome}:{" "}
+                </Typography>
+                <Typography
+                  component="span"
+                  color="text.primary"
+                  sx={{ lineHeight: "inherit", fontSize: "inherit" }}
+                >
+                  {modoPagto.preco}
+                </Typography>
+                <Typography
+                  component="span"
+                  color="text.secondary"
+                  sx={{ lineHeight: "inherit", fontSize: "inherit" }}
+                >
+                  {" ("}{+modoPagto.meses}{" meses)"}
+                </Typography>
+              </Typography>
+            ))}
+          </div>
+        );
+      },
+    },
+    {
       field: "createdAt",
-      headerName: "Data Criação",
+      headerName: "Criado Em",
       flex: 4,
       renderCell: (params) => formatDate(params.row.createdAt, "DD MMM YYYY"),
     },
@@ -154,10 +186,13 @@ const ManagePlanosAssinaturaPage = () => {
         </Box>
         <DataGrid
           getRowHeight={(params) => {
-            const h =
+            const h1 =
               (params.model.features || []).length * featureLineHeight +
               featureRowPadding * 2;
-            return Math.max(h, defaultRowHeight * params.densityFactor);
+            const h2 =
+              (params.model.modosDePagamento || []).length * featureLineHeight +
+              featureRowPadding * 2;
+            return Math.max(h1, h2, defaultRowHeight * params.densityFactor);
           }}
           loading={planAssResponse.loading}
           rows={planAssResponse.data || []}
