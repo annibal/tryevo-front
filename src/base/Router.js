@@ -20,6 +20,8 @@ import LoginPage from "../pages/commons/LoginPage";
 import LogoutPage from "../pages/commons/LogoutPage";
 import SobrePage from "../pages/commons/SobrePage";
 import AssinaturaPage from "../pages/commons/AssinaturaPage";
+import AssinaturaSelectModoPagtoPage from "../pages/commons/AssinaturaSelectModoPagtoPage";
+import AssinaturaFormPage from "../pages/commons/AssinaturaFormPage";
 
 import VagasSalvasPage from "../pages/pf/VagasSalvasPage";
 import VagaPage from "../pages/pf/VagaPage";
@@ -131,6 +133,16 @@ const router = createBrowserRouter([
             path: allRoutesData.assinatura.path,
             handle: allRoutesData.assinatura,
             element: <AssinaturaPage />,
+          },
+          {
+            path: allRoutesData.assinatura.path + ":planAssId",
+            handle: allRoutesData.assinatura,
+            element: <AssinaturaSelectModoPagtoPage />,
+          },
+          {
+            path: allRoutesData.assinatura.path + ":planAssId/:pagbankGatewayId",
+            handle: allRoutesData.assinatura,
+            element: <AssinaturaFormPage />,
           },
 
           

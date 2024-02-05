@@ -118,3 +118,12 @@ export const optionsEstadoCivil = [
   { value: "VIUVO", label: "Viuvo" },
   { value: "OUTRO", label: "Outro" },
 ];
+
+export const enumPaymentType = {
+  CREDIT_CARD: "CREDIT_CARD",
+  BOLETO: "BOLETO",
+};
+export const optionsPaymentType = [
+  { value: enumPaymentType.CREDIT_CARD, label: "Cartão de Crédito" },
+  { value: enumPaymentType.BOLETO, label: "Boleto" },
+];

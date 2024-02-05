@@ -3,6 +3,8 @@ import useFetch from "../../providers/useFetch";
 import Section from "../../components/Section";
 import { useAuth } from "../../base/AuthContext";
 import formatPreco from "../../utils/formatPreco";
+import { Link } from "react-router-dom";
+import allRoutesData from "../../base/routes_data";
 
 const AssinaturaPage = () => {
   const auth = useAuth();
@@ -14,15 +16,11 @@ const AssinaturaPage = () => {
   const planAssResponse = useFetch("GET", planAssUrl);
   const planAssData = planAssResponse.data || [];
 
-  const handleSelectPlano = (planAss) => {};
-
   return (
     <Box>
       <Section title="Planos de Assinatura" withoutDivider titleVariant="h5">
         {planAssData.map((planAss) => {
           if (planAss.tipo === "MA") return "";
-
-          console.log(planAss.modosDePagamento);
 
           const isPlanoAtual = planAss._id === currPlanAssId;
           // const isFree = planAss.preco == 0;
@@ -140,11 +138,12 @@ const AssinaturaPage = () => {
                     sx={{ display: "flex", alignItems: "flex-end" }}
                   >
                     <Button
-                      disabled={isPlanoAtual}
+                      disabled={isPlanoAtual || !hasGatewayId}
                       variant="contained"
                       color="primary"
                       size="large"
-                      onClick={() => handleSelectPlano(planAss)}
+                      LinkComponent={Link}
+                      to={"/app/" + allRoutesData.assinatura.path + planAss._id}
                     >
                       Selecionar Plano
                     </Button>

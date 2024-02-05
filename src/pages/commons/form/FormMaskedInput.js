@@ -40,6 +40,8 @@ const MASKS = {
   PHONE: getMaskComponent("(00) [0]0000-0000"),
   // http://www.sintegra.gov.br/
   INSCRICAO_ESTADUAL: getMaskComponent("00000000[000000]"),
+  CREDIT_CARD: getMaskComponent("0000 0000 0000 0000"),
+  CVV: getMaskComponent("000[0]"),
 
   // {
   //   "AC": "01.292.299/873-08",       "0129229987308",
@@ -81,6 +83,8 @@ const FormMaskedInput = ({
   maskType,
   onChange,
   getValue,
+  disabled,
+  inputProps,
   ...restProps
 }) => {
   const fnGetValue =
@@ -116,6 +120,10 @@ const FormMaskedInput = ({
         fullWidth
         {...restProps}
         inputComponent={MaskComp}
+        inputProps={{
+          ...(inputProps || {}),
+          disabled,
+        }}
       />
     </FormControl>
   );

@@ -51,7 +51,7 @@ const DadosEnderecoForm = ({ data, onChange }) => {
   return (
     <>
       <Grid container spacing={2}>
-        <Grid item xs={12}>
+        <Grid item xs={6} sm={3}>
           <FormMaskedInput
             fullWidth={false}
             maskType="CEP"
@@ -63,6 +63,8 @@ const DadosEnderecoForm = ({ data, onChange }) => {
             disabled={isLoadingCEP}
           />
         </Grid>
+        <Grid item xs={6} sm={9} />
+        
         <Grid item xs={12} sm={6}>
           <FormInput
             label="País"
