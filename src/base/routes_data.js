@@ -117,6 +117,16 @@ export const commonRoutes = {
       place: NAVBAR_PLACE.TOOLBAR,
     },
   },
+  minhaAssinatura: {
+    priority: 500,
+    path: "minha-assinatura/",
+    icon: <PaymentsIcon />,
+    title: "Minha Assinatura",
+    rules: [],
+    navbar: {
+      place: NAVBAR_PLACE.NONE,
+    },
+  },
 };
 
 export const pessoaFisicaRoutes = {

@@ -3,7 +3,7 @@ import useFetch from "../../providers/useFetch";
 import Section from "../../components/Section";
 import { ACCOUNT_FEATURES, useAuth } from "../../base/AuthContext";
 import formatPreco from "../../utils/formatPreco";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import ResponseWrapper from "../../components/ResponseWrapper";
 import allRoutesData from "../../base/routes_data";
 import DadosEnderecoForm from "../dados/DadosEnderecoForm";
@@ -21,6 +21,7 @@ import FormSelect from "./form/FormSelect";
 import FormCheckbox from "./form/FormCheckbox";
 import { LoadingButton } from "@mui/lab";
 import { doCall, getPagBankPublicKey } from "../../providers/baseProvider";
+import LoaderTryEvo from "../../components/LoaderTryEvo";
 
 const monthOptions = Array(12)
   .fill(null)
@@ -38,15 +39,23 @@ const AssinaturaFormPage = () => {
   const holderSameInfoName = "holderSameInfo";
   const currPlanAssId = auth?.user?.plano?._id;
   const { planAssId, pagbankGatewayId } = useParams();
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [authAutofilled, setAuthAutofilled] = useState(false);
+  const [userHasGatewayCustomer, setUserHasGatewayCustomer] = useState(false);
   const [dados, setDados] = useState({});
+  const customerGatewayResponse = useFetch("GET", "auth/info-customer");
 
   const isPF = ACCOUNT_FEATURES.PF.includes(tipoConta);
   const isPJ = ACCOUNT_FEATURES.PJ.includes(tipoConta);
 
   useEffect(() => {
+    if (auth?.user?.gateway_id) {
+      setUserHasGatewayCustomer(true);
+      return;
+    }
+
     if (authAutofilled) return;
 
     if (auth && auth.userInfo) {
@@ -94,6 +103,47 @@ const AssinaturaFormPage = () => {
     }
   }, [auth]);
 
+  useEffect(() => {
+    console.log(customerGatewayResponse);
+    if (authAutofilled) return;
+
+    const cgData = customerGatewayResponse.data;
+    if (cgData) {
+      const phone = (cgData.phones || [])[0] || {};
+      const billInfo = (cgData.billing_info || [])[0] || {};
+      const billInfoHolder = (billInfo.card || {}).holder || {};
+      const billInfoPhone = billInfoHolder.phone || {};
+      const address = cgData.address || {};
+
+      setDados({
+        customer_gateway_id: cgData.id,
+        name: cgData.name,
+        email: cgData.email,
+        telefone: `${phone.area}${phone.number}`,
+        tax_id: cgData.tax_id,
+        nascimento: cgData.birth_date,
+        endereco: {
+          bairro: address.locality,
+          cep: address.postal_code,
+          cidade: address.city,
+          estado: address.region_code,
+          numero: address.number,
+          rua: address.street,
+          complemento: address.complement,
+        },
+        paymentMethod: billInfo.type,
+        [holderSameInfoName]:
+          billInfoHolder.birth_date === cgData.birth_date &&
+          billInfoHolder.tax_id === cgData.tax_id,
+        holder_name: billInfoHolder.name,
+        holder_telefone: `${billInfoPhone.area}${billInfoPhone.number}`,
+        holder_tax_id: billInfoHolder.tax_id,
+        holder_nascimento: billInfoHolder.birth_date,
+      });
+      setAuthAutofilled(true);
+    }
+  }, [customerGatewayResponse]);
+
   const handleChange = (value, name, data) => {
     if (
       (name === holderSameInfoName && value === true) ||
@@ -127,14 +177,7 @@ const AssinaturaFormPage = () => {
   }
   modoPagto = modoPagto || { preco: 0, meses: 0 };
 
-
-
-
   // TODO: validate CPF CNPJ
-
-
-
-
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -148,7 +191,9 @@ const AssinaturaFormPage = () => {
     const objData = {
       userId: auth.user._id,
       pagbankGatewayId,
+      planAssId,
       paymentMethod: dados.paymentMethod,
+      customer_gateway_id: dados.customer_gateway_id,
       customer: {
         user_id: auth.user._id,
         nome: dados.name,
@@ -159,7 +204,7 @@ const AssinaturaFormPage = () => {
         numero_telefone: (dados.telefone || "").slice(5).replace("-", ""),
         rua: (dados.endereco || {}).rua,
         numero_rua: (dados.endereco || {}).numero,
-        complemento: (dados.endereco || {}).complemento,
+        complemento: (dados.endereco || {}).complemento || "n/a",
         bairro: (dados.endereco || {}).bairro,
         cidade: (dados.endereco || {}).cidade,
         sigla_estado: (dados.endereco || {}).estado,
@@ -188,41 +233,52 @@ const AssinaturaFormPage = () => {
 
       if (card.hasErrors) {
         console.log(card.errors);
-        setError(card.errors.map(err => err.message).join(". "));
+        setError(card.errors.map((err) => err.message).join(". "));
         setLoading(false);
         return;
       }
 
       objData.card_encrypted = card.encryptedCard;
       objData.cvv = dados.cvv;
-      
-      objData.holder = useSameInfo ? {
-        nome: dados.name,
-        cpf_cnpj: dados.tax_id.replace(/[./-]/gi, ""),
-        data_nascimento: (dados.nascimento || "").slice(0, 10),
-        area: (dados.telefone || "").slice(1, 3),
-        numero_telefone: (dados.telefone || "").slice(5).replace("-", ""),
-      } : {
-        nome: dados.holder_name,
-        cpf_cnpj: dados.holder_tax_id.replace(/[./-]/gi, ""),
-        data_nascimento: (dados.holder_nascimento || "").slice(0, 10),
-        area: (dados.holder_telefone || "").slice(1, 3),
-        numero_telefone: (dados.holder_telefone || "").slice(5).replace("-", ""),
-      }
+
+      objData.holder = useSameInfo
+        ? {
+            nome: dados.name,
+            cpf_cnpj: dados.tax_id.replace(/[./-]/gi, ""),
+            data_nascimento: (dados.nascimento || "").slice(0, 10),
+            area: (dados.telefone || "").slice(1, 3),
+            numero_telefone: (dados.telefone || "").slice(5).replace("-", ""),
+          }
+        : {
+            nome: dados.holder_name,
+            cpf_cnpj: dados.holder_tax_id.replace(/[./-]/gi, ""),
+            data_nascimento: (dados.holder_nascimento || "").slice(0, 10),
+            area: (dados.holder_telefone || "").slice(1, 3),
+            numero_telefone: (dados.holder_telefone || "")
+              .slice(5)
+              .replace("-", ""),
+          };
     }
-    
+
     console.log("objData", objData);
 
     try {
-      const { success, data, error } = await doCall("select-plano-assinatura", { method: "POST", body: objData });
+      const { success, data, error } = await doCall("select-plano-assinatura", {
+        method: "POST",
+        body: objData,
+      });
       if (success && data) {
+        setLoading(false);
+        setTimeout(() => {
+          navigate(`/app/${allRoutesData.minhaAssinatura.path}`);
+        }, 1000);
         return data;
       } else {
         throw Error(error?.message || error);
       }
     } catch (error) {
       console.log({ error, msg: error.message });
-      setError(error); 
+      setError(error);
     }
     setLoading(false);
   }
@@ -266,77 +322,83 @@ const AssinaturaFormPage = () => {
       </Section>
 
       <form onSubmit={handleSubmit}>
-        <Section title="Informações de Pagamento" withoutDivider>
-          <Grid container spacing={2}>
-            <Grid item xs={12} md={6}>
-              <FormInput
-                label="Nome Completo"
-                name="name"
-                required
-                data={dados}
-                onChange={handleChange}
-              />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <FormInput
-                label="Email"
-                name="email"
-                required
-                data={dados}
-                onChange={handleChange}
-              />
-            </Grid>
+        {userHasGatewayCustomer && !authAutofilled ? (
+          <LoaderTryEvo />
+        ) : (
+          <Section title="Informações de Pagamento" withoutDivider>
+            <input type="hidden" name="customer_gateway_id" value={dados.customer_gateway_id} />
 
-            <Grid item xs={12} md={4}>
-              <FormMaskedInput
-                label="Telefone"
-                maskType="PHONE"
-                placeholder="(00) 00000-0000"
-                name="telefone"
-                required
-                data={dados}
-                onChange={handleChange}
-              />
-            </Grid>
-            <Grid item xs={12} md={4}>
-              {isPF && (
-                <FormMaskedInput
-                  label="CPF"
-                  name="tax_id"
-                  maskType="CPF"
-                  placeholder="000.000.000-00"
+            <Grid container spacing={2}>
+              <Grid item xs={12} md={6}>
+                <FormInput
+                  label="Nome Completo"
+                  name="name"
                   required
                   data={dados}
                   onChange={handleChange}
                 />
-              )}
-              {isPJ && (
-                <FormMaskedInput
-                  label="CNPJ"
-                  name="tax_id"
-                  maskType="CNPJ"
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <FormInput
+                  label="Email"
+                  name="email"
                   required
-                  placeholder="00.000.000/0000-00"
                   data={dados}
                   onChange={handleChange}
                 />
-              )}
+              </Grid>
+
+              <Grid item xs={12} md={4}>
+                <FormMaskedInput
+                  label="Telefone"
+                  maskType="PHONE"
+                  placeholder="(00) 00000-0000"
+                  name="telefone"
+                  required
+                  data={dados}
+                  onChange={handleChange}
+                />
+              </Grid>
+              <Grid item xs={12} md={4}>
+                {isPF && (
+                  <FormMaskedInput
+                    label="CPF"
+                    name="tax_id"
+                    maskType="CPF"
+                    placeholder="000.000.000-00"
+                    required
+                    data={dados}
+                    onChange={handleChange}
+                  />
+                )}
+                {isPJ && (
+                  <FormMaskedInput
+                    label="CNPJ"
+                    name="tax_id"
+                    maskType="CNPJ"
+                    required
+                    placeholder="00.000.000/0000-00"
+                    data={dados}
+                    onChange={handleChange}
+                  />
+                )}
+              </Grid>
+
+              <Grid item xs={12} md={4}>
+                <FormDatepicker
+                  label="Data de Nascimento"
+                  name="nascimento"
+                  data={dados}
+                  onChange={handleChange}
+                />
+              </Grid>
+
+              <Grid item xs={12} sx={{ mb: 2 }} />
             </Grid>
 
-            <Grid item xs={12} md={4}>
-              <FormDatepicker
-                label="Data de Nascimento"
-                name="nascimento"
-                data={dados}
-                onChange={handleChange}
-              />
-            </Grid>
-
-            <Grid item xs={12} sx={{ mb: 2 }} />
-          </Grid>
-
-          <DadosEnderecoForm data={dados} onChange={() => {}} />
-        </Section>
+            <DadosEnderecoForm data={dados} onChange={() => {}} />
+          </Section>
+        )}
 
         <Box sx={{ mb: 3 }}>
           <FormRadio
@@ -471,9 +533,7 @@ const AssinaturaFormPage = () => {
 
         {dados.paymentMethod === enumPaymentType.BOLETO && (
           <Section title="Boleto">
-            <Typography>
-              Boleto
-            </Typography>
+            <Typography>Boleto</Typography>
           </Section>
         )}
 

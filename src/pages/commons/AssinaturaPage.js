@@ -138,7 +138,7 @@ const AssinaturaPage = () => {
                     sx={{ display: "flex", alignItems: "flex-end" }}
                   >
                     <Button
-                      disabled={isPlanoAtual || !hasGatewayId}
+                      disabled={isPlanoAtual || (!hasGatewayId && !isFree)}
                       variant="contained"
                       color="primary"
                       size="large"
@@ -147,18 +147,32 @@ const AssinaturaPage = () => {
                     >
                       Selecionar Plano
                     </Button>
+                    {isPlanoAtual && (
+                      <Button
+                        variant="contained"
+                        color="secondary"
+                        size="large"
+                        LinkComponent={Link}
+                        sx={{ ml: 2 }}
+                        to={"/app/" + allRoutesData.minhaAssinatura.path}
+                      >
+                        Mais Informações
+                      </Button>
+                    )}
                   </Grid>
                 </Grid>
 
                 <Grid item xs={12} md={4} sx={{ textAlign: "right" }}>
-                  {hasGatewayId ? (
+                  {isFree ? (
                     <>
-                      {isFree ? (
-                        <Box sx={{ p: 2 }}>
-                          <Typography variant="overline">Preço</Typography>
-                          <Typography variant="h4">R$ 0,00</Typography>
-                        </Box>
-                      ) : (
+                      <Box sx={{ p: 2 }}>
+                        <Typography variant="overline">Preço</Typography>
+                        <Typography variant="h4">R$ 0,00</Typography>
+                      </Box>
+                    </>
+                  ) : (
+                    <>
+                      {hasGatewayId ? (
                         <>
                           {/* Preços */}
 
@@ -187,7 +201,10 @@ const AssinaturaPage = () => {
                                   opacity: 0.8,
                                 }}
                               >
-                                {formatPreco(modoMaisCaro.precoPorMes * modoMaisBarato.meses)}
+                                {formatPreco(
+                                  modoMaisCaro.precoPorMes *
+                                    modoMaisBarato.meses
+                                )}
                               </Typography>{" "}
                               {formatPreco(modoMaisBarato.preco)}
                             </Typography>
@@ -197,14 +214,19 @@ const AssinaturaPage = () => {
                             </Typography>
                           </Box>
                         </>
+                      ) : (
+                        <>
+                          <Box sx={{ p: 2 }}>
+                            <Typography variant="overline">
+                              Modo de Pagamento
+                            </Typography>
+                            <Typography variant="h4" color="error">
+                              ( ! ) Plano não integrado
+                            </Typography>
+                          </Box>
+                        </>
                       )}
                     </>
-                  ) : (
-                    <>
-                    <Box sx={{ p: 2 }}>
-                      <Typography variant="overline">Modo de Pagamento</Typography>
-                      <Typography variant="h4" color="error">( ! ) Plano não integrado</Typography>
-                    </Box></>
                   )}
                 </Grid>
               </Grid>

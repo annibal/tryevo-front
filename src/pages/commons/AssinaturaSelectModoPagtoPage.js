@@ -6,11 +6,18 @@ import formatPreco from "../../utils/formatPreco";
 import { Link, useParams } from "react-router-dom";
 import ResponseWrapper from "../../components/ResponseWrapper";
 import allRoutesData from "../../base/routes_data";
+import { LoadingButton } from "@mui/lab";
+import { useState } from "react";
+import { doCall } from "../../providers/baseProvider";
 
 const AssinaturaSelectModoPagtoPage = () => {
   const auth = useAuth();
   const currPlanAssId = auth?.user?.plano?._id;
   const { planAssId } = useParams();
+  const [statusDowngrade, setStatusDowngrade] = useState({
+    loading: false,
+    error: null,
+  });
 
   const tipoConta = auth?.user?.plano?.tipo;
   const planAssUrl = `plano-assinatura/${planAssId}`;
@@ -42,6 +49,32 @@ const AssinaturaSelectModoPagtoPage = () => {
   modosPagto.forEach((modoPagto) => {
     modoPagto.desconto = 1 - modoPagto.precoPorMes / precoMaisCaro;
   });
+
+  const handleSelecionarPlanoGratis = () => {
+    if (
+      window.confirm(
+        "Ao selecionar este plano, você irá cancelar sua assinatura atual. Tem certeza que deseja continuar?"
+      )
+    ) {
+      setStatusDowngrade({
+        loading: true,
+        error: null,
+      });
+      doCall("plano-assinatura-downgrade", { method: "POST" }).then(
+        (response) => {
+          setStatusDowngrade({
+            loading: false,
+            error: response.error,
+          });
+          if (!response.error) {
+            setTimeout(() => {
+              window.location.reload();
+            }, 1000);
+          }
+        }
+      );
+    }
+  };
 
   return (
     <ResponseWrapper {...planAssResponse}>
@@ -91,22 +124,42 @@ const AssinaturaSelectModoPagtoPage = () => {
                     xs
                     sx={{ display: "flex", alignItems: "flex-end" }}
                   >
-                    <Button
-                      disabled={!modoPagto.pagbankGatewayId}
-                      variant="contained"
-                      color="primary"
-                      size="large"
-                      LinkComponent={Link}
-                      to={
-                        "/app/" +
-                        allRoutesData.assinatura.path +
-                        planAssId +
-                        "/" +
-                        modoPagto.pagbankGatewayId
-                      }
-                    >
-                      Selecionar
-                    </Button>
+                    {modoPagto.preco > 0 ? (
+                      <Button
+                        disabled={!modoPagto.pagbankGatewayId}
+                        variant="contained"
+                        color="primary"
+                        size="large"
+                        LinkComponent={Link}
+                        to={
+                          "/app/" +
+                          allRoutesData.assinatura.path +
+                          planAssId +
+                          "/" +
+                          modoPagto.pagbankGatewayId
+                        }
+                      >
+                        Selecionar
+                      </Button>
+                    ) : (
+                      <>
+                        {!statusDowngrade.loading && statusDowngrade.error && (
+                          <Typography color="error" sx={{ mt: 2 }}>
+                            {statusDowngrade.error?.message ||
+                              statusDowngrade.error}
+                          </Typography>
+                        )}
+                        <LoadingButton
+                          variant="contained"
+                          color="primary"
+                          size="large"
+                          onClick={handleSelecionarPlanoGratis}
+                          loading={statusDowngrade.loading}
+                        >
+                          Selecionar
+                        </LoadingButton>
+                      </>
+                    )}
                   </Grid>
                 </Grid>
 

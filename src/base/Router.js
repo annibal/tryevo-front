@@ -54,6 +54,7 @@ import ManageSingleVaga from "../pages/master-admin/ManageSingleVaga";
 import ManagePlanosAssinaturaPage from "../pages/master-admin/ManagePlanosAssinatura";
 import ManageSinglePlanoAssinaturaPage from "../pages/master-admin/ManageSinglePlanoAssinatura";
 import ManageNewPlanoAssinaturaPage from "../pages/master-admin/ManageNewPlanoAssinatura";
+import AssinaturaViewDadosPage from "../pages/commons/AssinaturaViewDadosPage";
 
 
 const router = createBrowserRouter([
@@ -143,6 +144,11 @@ const router = createBrowserRouter([
             path: allRoutesData.assinatura.path + ":planAssId/:pagbankGatewayId",
             handle: allRoutesData.assinatura,
             element: <AssinaturaFormPage />,
+          },
+          {
+            path: allRoutesData.minhaAssinatura.path,
+            handle: allRoutesData.minhaAssinatura,
+            element: <AssinaturaViewDadosPage />,
           },
 
           
