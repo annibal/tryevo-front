@@ -314,7 +314,10 @@ const AssinaturaFormPage = () => {
                 borderColor: "grey.400",
               }}
             >
-              <Typography>Duração: {modoPagto.meses} meses</Typography>
+              <Typography>
+                Duração: {modoPagto.meses}{" "}
+                {modoPagto.meses === 1 ? "mês" : "meses"}
+              </Typography>
             </Box>
           </Grid>
           <Grid item xs />
@@ -326,7 +329,11 @@ const AssinaturaFormPage = () => {
           <LoaderTryEvo />
         ) : (
           <Section title="Informações de Pagamento" withoutDivider>
-            <input type="hidden" name="customer_gateway_id" value={dados.customer_gateway_id} />
+            <input
+              type="hidden"
+              name="customer_gateway_id"
+              value={dados.customer_gateway_id}
+            />
 
             <Grid container spacing={2}>
               <Grid item xs={12} md={6}>

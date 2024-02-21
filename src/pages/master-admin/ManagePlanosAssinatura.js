@@ -43,7 +43,11 @@ const ManagePlanosAssinaturaPage = () => {
       align: "center",
       headerAlign: "center",
       renderCell: (params) => (
-        <Chip color={getPlanColor(params.row.tipo)} label={params.row.tipo} size="small" />
+        <Chip
+          color={getPlanColor(params.row.tipo)}
+          label={params.row.tipo}
+          size="small"
+        />
       ),
     },
     {
@@ -60,7 +64,9 @@ const ManagePlanosAssinaturaPage = () => {
           >
             <CheckCircleIcon color={getPlanColor(params.row.tipo)} />
           </Tooltip>
-        ) : "";
+        ) : (
+          ""
+        );
       },
     },
     {
@@ -155,7 +161,11 @@ const ManagePlanosAssinaturaPage = () => {
                   color="text.secondary"
                   sx={{ lineHeight: "inherit", fontSize: "inherit" }}
                 >
-                  {" ("}{+modoPagto.meses}{" meses)"}
+                  {" ("}
+                  {+modoPagto.meses}
+                  {" "}
+                  {+modoPagto.meses === 1 ? "mês" : "meses" }
+                  {")"}
                 </Typography>
               </Typography>
             ))}
