@@ -54,7 +54,7 @@ import ManageSingleVaga from "../pages/master-admin/ManageSingleVaga";
 import ManagePlanosAssinaturaPage from "../pages/master-admin/ManagePlanosAssinatura";
 import ManageSinglePlanoAssinaturaPage from "../pages/master-admin/ManageSinglePlanoAssinatura";
 import ManageNewPlanoAssinaturaPage from "../pages/master-admin/ManageNewPlanoAssinatura";
-import AssinaturaViewDadosPage from "../pages/commons/AssinaturaViewDadosPage";
+import AssinaturaViewDadosPage from "../pages/commons/AssinaturaViewDados/AssinaturaViewDadosPage";
 
 
 const router = createBrowserRouter([
