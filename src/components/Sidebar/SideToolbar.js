@@ -1,4 +1,5 @@
 import {
+  Badge,
   Box,
   Divider,
   Drawer,
@@ -20,7 +21,7 @@ const SideToolbar = ({ open, onClose }) => {
   const userFeatures = auth?.features || {};
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-  
+
   if (isMobile) return "";
 
   return (
@@ -39,6 +40,10 @@ const SideToolbar = ({ open, onClose }) => {
                 item.navbar.place === NAVBAR_PLACE.TOOLBAR &&
                 (item.rules || []).every((rule) => userFeatures[rule])
               ) {
+                let showBadge = false;
+                if (item.navbar.avisoPlanoExpirado && auth.user?.planoExpirado)
+                  showBadge = true;
+
                 return (
                   <Tooltip placement="right" title={item.title} key={item.key}>
                     <ListItem
@@ -53,7 +58,13 @@ const SideToolbar = ({ open, onClose }) => {
                         to={`/app/${item.path}`}
                       >
                         <ListItemIcon sx={open ? {} : { minWidth: 0 }}>
-                          {item.icon}
+                          <Badge
+                            color="error"
+                            badgeContent="!"
+                            invisible={!showBadge}
+                          >
+                            {item.icon}
+                          </Badge>
                         </ListItemIcon>
                         {open && <ListItemText primary={item.title} />}
                       </ListItemButton>

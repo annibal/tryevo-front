@@ -124,42 +124,45 @@ const AssinaturaSelectModoPagtoPage = () => {
                     xs
                     sx={{ display: "flex", alignItems: "flex-end" }}
                   >
-                    {modoPagto.preco > 0 ? (
-                      <Button
-                        disabled={!modoPagto.pagbankGatewayId}
-                        variant="contained"
-                        color="primary"
-                        size="large"
-                        LinkComponent={Link}
-                        to={
-                          "/app/" +
-                          allRoutesData.assinatura.path +
-                          planAssId +
-                          "/" +
-                          modoPagto.pagbankGatewayId
-                        }
-                      >
-                        Selecionar
-                      </Button>
-                    ) : (
-                      <>
-                        {!statusDowngrade.loading && statusDowngrade.error && (
-                          <Typography color="error" sx={{ mt: 2 }}>
-                            {statusDowngrade.error?.message ||
-                              statusDowngrade.error}
-                          </Typography>
-                        )}
-                        <LoadingButton
+                    <Box>
+                      {modoPagto.preco > 0 ? (
+                        <Button
+                          disabled={!modoPagto.pagbankGatewayId}
                           variant="contained"
                           color="primary"
                           size="large"
-                          onClick={handleSelecionarPlanoGratis}
-                          loading={statusDowngrade.loading}
+                          LinkComponent={Link}
+                          to={
+                            "/app/" +
+                            allRoutesData.assinatura.path +
+                            planAssId +
+                            "/" +
+                            modoPagto.pagbankGatewayId
+                          }
                         >
                           Selecionar
-                        </LoadingButton>
-                      </>
-                    )}
+                        </Button>
+                      ) : (
+                        <>
+                          {!statusDowngrade.loading &&
+                            statusDowngrade.error && (
+                              <Typography color="error" sx={{ my: 2 }}>
+                                {statusDowngrade.error?.message ||
+                                  statusDowngrade.error}
+                              </Typography>
+                            )}
+                          <LoadingButton
+                            variant="contained"
+                            color="primary"
+                            size="large"
+                            onClick={handleSelecionarPlanoGratis}
+                            loading={statusDowngrade.loading}
+                          >
+                            Selecionar
+                          </LoadingButton>
+                        </>
+                      )}
+                    </Box>
                   </Grid>
                 </Grid>
 

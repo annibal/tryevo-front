@@ -45,8 +45,13 @@ export const doCall = async (path = "", config = {}) => {
     meta: null,
   };
 
+  const dt = +new Date();
+  const decachedUrl = requestConfig.url.includes("?")
+    ? `${requestConfig.url}&uncache=${dt}`
+    : `${requestConfig.url}?uncache=${dt}`;
+
   try {
-    await fetch(requestConfig.url, requestConfig)
+    await fetch(decachedUrl, requestConfig)
       .then(async (r) => {
         response.status = r.status;
         const data = await r.json();

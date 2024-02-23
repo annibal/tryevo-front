@@ -114,6 +114,7 @@ export const commonRoutes = {
     auth: false,
     rules: [],
     navbar: {
+      avisoPlanoExpirado: true,
       place: NAVBAR_PLACE.TOOLBAR,
     },
   },
@@ -123,6 +124,7 @@ export const commonRoutes = {
     icon: <PaymentsIcon />,
     title: "Minha Assinatura",
     rules: [],
+    avisoPlanoExpirado: true,
     navbar: {
       place: NAVBAR_PLACE.NONE,
     },

@@ -2,6 +2,7 @@ import { ACCOUNT_FEATURES, useAuth } from "../../base/AuthContext";
 import MenuIcon from "@mui/icons-material/Menu";
 import { allRoutesArray } from "../../base/routes_data";
 import {
+  Badge,
   Box,
   List,
   ListItem,
@@ -20,17 +21,25 @@ import LinkBehavior from "../LinkBehavior";
 
 const Sidebar = () => {
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   let auth = useAuth();
   const userFeatures = auth?.features || {};
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  
+
   // sidebar only for mobile now
-  if (!isMobile) return '';
+  if (!isMobile) return "";
 
   const sidebarClassName = `sidebar${sidebarOpen ? " open" : ""}`;
 
   // console.log(allRoutesArray.map(item => ({...item, userFeatures, allowed: (item.rules || []).every(rule => userFeatures[rule]), })))
+
+  const hamburguerShowBadge = allRoutesArray.some((item) => {
+    if ((item.rules || []).every((rule) => userFeatures[rule])) {
+      if (item.avisoPlanoExpirado && auth.user?.planoExpirado) {
+        return true;
+      }
+    }
+  });
 
   return (
     <Box className={sidebarClassName}>
@@ -38,7 +47,9 @@ const Sidebar = () => {
         className="logo-container"
         onClick={() => setSidebarOpen(!sidebarOpen)}
       >
-        <img src={process.env.PUBLIC_URL + '/logo-full.png'} alt="tryEvo" />
+        <Badge color="error" variant="dot" invisible={!hamburguerShowBadge}>
+          <img src={process.env.PUBLIC_URL + "/logo-full.png"} alt="tryEvo" />
+        </Badge>
         <MenuIcon className="hamburguer" />
       </div>
 
@@ -53,13 +64,25 @@ const Sidebar = () => {
       <List onClick={() => setSidebarOpen(false)}>
         {allRoutesArray.map((item) => {
           if ((item.rules || []).every((rule) => userFeatures[rule])) {
+            let showBadge = false;
+            if (item.avisoPlanoExpirado && auth.user?.planoExpirado)
+              showBadge = true;
+
             return (
               <ListItem disablePadding key={item.key}>
                 <ListItemButton
                   component={LinkBehavior}
                   to={`/app/${item.path}`}
                 >
-                  <ListItemIcon>{item.icon}</ListItemIcon>
+                  <ListItemIcon>
+                    <Badge
+                      color="error"
+                      badgeContent="!"
+                      invisible={!showBadge}
+                    >
+                      {item.icon}
+                    </Badge>
+                  </ListItemIcon>
                   <ListItemText primary={item.title} />
                 </ListItemButton>
               </ListItem>

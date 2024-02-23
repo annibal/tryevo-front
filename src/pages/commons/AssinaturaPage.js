@@ -1,4 +1,4 @@
-import { Box, Button, Grid, Typography } from "@mui/material";
+import { Badge, Box, Button, Grid, Typography } from "@mui/material";
 import useFetch from "../../providers/useFetch";
 import Section from "../../components/Section";
 import { useAuth } from "../../base/AuthContext";
@@ -148,16 +148,22 @@ const AssinaturaPage = () => {
                       Selecionar Plano
                     </Button>
                     {isPlanoAtual && (
-                      <Button
-                        variant="contained"
-                        color="secondary"
-                        size="large"
-                        LinkComponent={Link}
-                        sx={{ ml: 2 }}
-                        to={"/app/" + allRoutesData.minhaAssinatura.path}
+                      <Badge
+                        color="error"
+                        badgeContent="!"
+                        invisible={!auth.user?.planoExpirado}
                       >
-                        Mais Informações
-                      </Button>
+                        <Button
+                          variant="contained"
+                          color="secondary"
+                          size="large"
+                          LinkComponent={Link}
+                          sx={{ ml: 2 }}
+                          to={"/app/" + allRoutesData.minhaAssinatura.path}
+                        >
+                          Mais Informações
+                        </Button>
+                      </Badge>
                     )}
                   </Grid>
                 </Grid>

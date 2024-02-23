@@ -15,6 +15,31 @@ export default function AssinaturaViewDadosPage() {
   const customerResponse = useFetch("GET", "auth/info-customer");
   const subscriptionResponse = useFetch("GET", "auth/info-subscription");
   const invoicesResponse = useFetch("GET", "auth/info-subscription-invoices");
+  const planAssResponse = useFetch(
+    "GET",
+    `plano-assinatura/${auth?.user?.plano?._id}`
+  );
+  const tipoConta = auth?.user?.plano?.tipo;
+
+  useEffect(() => {
+    if (
+      customerResponse.data &&
+      subscriptionResponse.data &&
+      invoicesResponse.data &&
+      planAssResponse.data
+    ) {
+      console.log("customer data :>> ", customerResponse.data);
+      console.log("subscription data :>> ", subscriptionResponse.data);
+      console.log("invoices data :>> ", invoicesResponse.data);
+      console.log("plan ass data :>> ", planAssResponse.data);
+      console.log("auth :>> ", auth);
+    }
+  }, [
+    customerResponse.data,
+    subscriptionResponse.data,
+    invoicesResponse.data,
+    planAssResponse.data,
+  ]);
 
   let arrInvoices = invoicesResponse.data || [];
   // arrInvoices = [...arrInvoices, ...arrInvoices, ...arrInvoices];
@@ -59,18 +84,29 @@ export default function AssinaturaViewDadosPage() {
   return (
     <>
       <Section title="Minha Assinatura" titleVariant="h4" spacing={3}>
-        <ResponseWrapper {...subscriptionResponse}>
-          <AVDPlan subscription={subscriptionResponse.data} />
+        <ResponseWrapper
+          loading={planAssResponse.loading || subscriptionResponse.loading}
+          error={planAssResponse.error || subscriptionResponse.error}
+        >
+          <AVDPlan
+            subscription={subscriptionResponse.data}
+            plan={planAssResponse.data}
+          />
         </ResponseWrapper>
       </Section>
 
       <Section title="Dados de Pagamento" titleVariant="h5" spacing={3}>
         <ResponseWrapper {...customerResponse}>
-          <AVDBillingInfo customerGateway={customerResponse.data} />
+          <AVDBillingInfo customerGateway={customerResponse.data} tipoConta={tipoConta} />
         </ResponseWrapper>
       </Section>
 
-      <Section title="Faturas e Pagamentos" titleVariant="h5" spacing={3} withoutDivider>
+      <Section
+        title="Faturas e Pagamentos"
+        titleVariant="h5"
+        spacing={3}
+        withoutDivider
+      >
         <ResponseWrapper {...invoicesResponse}>
           {arrInvoices.map((invoice, idx) => {
             return (

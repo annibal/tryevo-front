@@ -127,3 +127,18 @@ export const optionsPaymentType = [
   { value: enumPaymentType.CREDIT_CARD, label: "Cartão de Crédito" },
   { value: enumPaymentType.BOLETO, label: "Boleto" },
 ];
+
+export const enumMasks = {
+  CEP: "00000-000",
+  CPF: "000.000.000-00",
+  CNPJ: "00.000.000/0000-00",
+  RG: "00.000.000-X",
+  CNH: "0000.00000-00",
+  PASSPORT: "aa000000",
+  PHONE: "(00) [0]0000-0000",
+  // http://www.sintegra.gov.br/
+  INSCRICAO_ESTADUAL: "00000000[000000]",
+  CREDIT_CARD: "0000 0000 0000 0000",
+  CREDIT_CARD_SECURE: "**** **** **** ****",
+  CVV: "000[0]",
+}

@@ -1,5 +1,9 @@
 import { Box, Chip, Grid, Typography, useTheme } from "@mui/material";
-import { enumPaymentType } from "../../../providers/enumProvider";
+import { enumMasks, enumPaymentType, optionsPaymentType } from "../../../providers/enumProvider";
+import capitalize from "../../../utils/capitalize";
+import applyMask from "../../../utils/applyMask";
+import formatPreco from "../../../utils/formatPreco";
+import formatDate from "../../../utils/formatDate";
 
 const getStatusPagamento = (status, theme) => {
   return {
@@ -11,18 +15,35 @@ const getStatusPagamento = (status, theme) => {
 
 export default function AVDPagamentoItem({ payment, paymentNumber }) {
   const theme = useTheme();
+  const objPagto = payment || {};
 
   const statusPagto = getStatusPagamento("", theme);
 
-  const strValor = "115,90";
-  const strDate = "20 de Fevereiro de 2024 - 11:46";
-  const paymentMethod = "CREDIT_CARD";
-  const uuid = "INVO_89BA1754-05C5-4C4B-B2F7-0BD836115CF3";
+  const val = objPagto.invoice?.amount?.value;
+  const strValor =
+    "R$ " + (val == null || isNaN(val) ? "?,??" : formatPreco(val / 100));
+  const strDate = formatDate(
+    objPagto.created_at,
+    "DD [de] MMMM [de] YYYY - HH:mm",
+    false
+  );
+  const paymentMethod = objPagto.payment_method?.type;
+  const objPaymentType = optionsPaymentType.find(
+    (x) => x.value === paymentMethod
+  );
+  const uuid = objPagto.id;
 
-  const strCardBrand = "Mastercard";
-  const strCardNumber = "5555 66** **** 8888";
-  const strCardExpiry = "12/2026";
-  const strCardHolder = "ARTHUR A TAVARES";
+  const objCard = objPagto.payment_method?.card || {};
+  const strCardBrand = capitalize(objCard.brand);
+  const strCardNumber = applyMask(
+    `${objCard.first_digits || ""}******${objCard.last_digits}`,
+    enumMasks.CREDIT_CARD_SECURE
+  );
+  const strCardExpiry = [
+    objCard.exp_month || "??",
+    objCard.exp_year || "????",
+  ].join("/");
+  const strCardHolder = objCard.holder?.name;
 
   const strBoletoDesc = "Descrição Boleto";
 
@@ -57,15 +78,27 @@ export default function AVDPagamentoItem({ payment, paymentNumber }) {
 
             {paymentMethod === enumPaymentType.CREDIT_CARD && (
               <>
-                <Typography variant="body2" color="text.secondary" component="p">
+                <Typography
+                  variant="body2"
+                  color="text.secondary"
+                  component="p"
+                >
                   {strCardBrand}
                 </Typography>
-                <Typography variant="body2" color="text.secondary" component="p">
+                <Typography
+                  variant="body2"
+                  color="text.secondary"
+                  component="p"
+                >
                   {strCardNumber}
                 </Typography>
-                <Typography variant="body2" color="text.secondary" component="p">
+                <Typography
+                  variant="body2"
+                  color="text.secondary"
+                  component="p"
+                >
                   {strCardHolder}
-                  {"  |  "}
+                  {"  •  "}
                   {strCardExpiry}
                 </Typography>
               </>
@@ -73,10 +106,18 @@ export default function AVDPagamentoItem({ payment, paymentNumber }) {
 
             {paymentMethod === enumPaymentType.BOLETO && (
               <>
-                <Typography variant="body2" color="text.secondary" component="p">
+                <Typography
+                  variant="body2"
+                  color="text.secondary"
+                  component="p"
+                >
                   Boleto
                 </Typography>
-                <Typography variant="body2" color="text.secondary" component="p">
+                <Typography
+                  variant="body2"
+                  color="text.secondary"
+                  component="p"
+                >
                   {strBoletoDesc}
                 </Typography>
               </>
@@ -86,7 +127,6 @@ export default function AVDPagamentoItem({ payment, paymentNumber }) {
               {uuid}
             </Typography>
           </Grid>
-          
         </Grid>
       </Grid>
     </Box>

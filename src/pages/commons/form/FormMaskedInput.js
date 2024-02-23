@@ -1,6 +1,7 @@
 import { FormControl, OutlinedInput, InputLabel } from "@mui/material";
 import { forwardRef, useState } from "react";
 import { IMaskInput } from "react-imask";
+import { enumMasks } from "../../../providers/enumProvider";
 
 const getMaskComponent = (mask) =>
   forwardRef(function MaskComponentFn(props, ref) {
@@ -31,17 +32,17 @@ const getMaskComponent = (mask) =>
 
 const MASKS = {
   NONE: getMaskComponent(/.*/),
-  CEP: getMaskComponent("00000-000"),
-  CPF: getMaskComponent("000.000.000-00"),
-  CNPJ: getMaskComponent("00.000.000/0000-00"),
-  RG: getMaskComponent("00.000.000-X"),
-  CNH: getMaskComponent("0000.00000-00"),
-  PASSPORT: getMaskComponent("aa000000"),
-  PHONE: getMaskComponent("(00) [0]0000-0000"),
+  CEP: getMaskComponent(enumMasks.CEP),
+  CPF: getMaskComponent(enumMasks.CPF),
+  CNPJ: getMaskComponent(enumMasks.CNPJ),
+  RG: getMaskComponent(enumMasks.RG),
+  CNH: getMaskComponent(enumMasks.CNH),
+  PASSPORT: getMaskComponent(enumMasks.PASSPORT),
+  PHONE: getMaskComponent(enumMasks.PHONE),
   // http://www.sintegra.gov.br/
-  INSCRICAO_ESTADUAL: getMaskComponent("00000000[000000]"),
-  CREDIT_CARD: getMaskComponent("0000 0000 0000 0000"),
-  CVV: getMaskComponent("000[0]"),
+  INSCRICAO_ESTADUAL: getMaskComponent(enumMasks.INSCRICAO_ESTADUAL),
+  CREDIT_CARD: getMaskComponent(enumMasks.CREDIT_CARD),
+  CVV: getMaskComponent(enumMasks.CVV),
 
   // {
   //   "AC": "01.292.299/873-08",       "0129229987308",

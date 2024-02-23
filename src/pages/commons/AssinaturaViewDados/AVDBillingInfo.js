@@ -1,36 +1,62 @@
 import { Box, Grid, Typography, useTheme } from "@mui/material";
 import InlineIconInfo from "../../../components/InlineIconInfo";
 import {
+  enumMasks,
   enumPaymentType,
   optionsPaymentType,
 } from "../../../providers/enumProvider";
+import { ACCOUNT_FEATURES } from "../../../base/AuthContext";
+import formatDate from "../../../utils/formatDate";
+import formatTelefone from "../../../utils/formatTelefone";
+import applyMask from "../../../utils/applyMask";
+import capitalize from "../../../utils/capitalize";
 
-export default function AVDBillingInfo({ customerGateway }) {
-  const strEmail = "customer.gateway@email.com";
-  const strName = "Customer Gateway";
-  const strPhone = "(11) 90000-1234";
-  const strTaxIdValue = "123.456.789-10";
-  const strTaxIdLabel = "CPF";
-  const strBirthDate = "27 de Agosto de 1994";
+export default function AVDBillingInfo({ customerGateway, tipoConta }) {
+  const objCust = customerGateway || {};
+  const isPF = ACCOUNT_FEATURES.PF.includes(tipoConta);
 
-  const strStreet = "Rua Rubens de Souza Araújo";
-  const strNumber = "14";
-  const strComplement = "n/a";
-  const strLocality = "Vila Mangalot";
-  const strCity = "São Paulo";
-  const strRegionCode = "SP";
-  const strPostalCode = "05.132-000";
+  const strEmail = objCust.email;
+  const strName = objCust.name;
+  const objPhone = (objCust.phones || [])[0] || {};
+  const strPhone = formatTelefone(`${objPhone.area}${objPhone.number}`);
+  const strTaxIdValue = applyMask(
+    objCust.tax_id,
+    isPF ? enumMasks.CPF : enumMasks.CNPJ
+  );
+  const strTaxIdLabel = isPF ? "CPF" : "CNPJ";
+  const strBirthDate = formatDate(
+    objCust.birth_date,
+    "DD [de] MMMM [de] YYYY",
+    false
+  );
 
-  const paymentType = enumPaymentType.CREDIT_CARD;
+  const strStreet = objCust.address?.street;
+  const strNumber = objCust.address?.number;
+  const strComplement = objCust.address?.complement;
+  const strLocality = objCust.address?.locality;
+  const strCity = objCust.address?.city;
+  const strRegionCode = objCust.address?.region_code;
+  const strPostalCode = applyMask(objCust.address?.postal_code, enumMasks.CEP);
+
+  const objBillInfo = (objCust.billing_info || [])[0] || {};
+  const paymentType = objBillInfo.type;
   const objPaymentTime = optionsPaymentType.find(
     (x) => x.value === paymentType
   );
   const strPaymentType = objPaymentTime?.label || "??";
 
-  const strCardBrand = "Mastercard";
-  const strCardNumber = "5555 66** **** 8888";
-  const strCardExpiry = "12/2026";
-  const strCardHolder = "ARTHUR A TAVARES";
+  const strCardBrand = capitalize(objBillInfo.card?.brand);
+  const strCardNumber = applyMask(
+    `${objBillInfo.card?.first_digits || ""}******${
+      objBillInfo.card?.last_digits
+    }`,
+    enumMasks.CREDIT_CARD_SECURE
+  );
+  const strCardExpiry = [
+    objBillInfo.card?.exp_month || "??",
+    objBillInfo.card?.exp_year || "????",
+  ].join("/");
+  const strCardHolder = objBillInfo.card?.holder?.name;
 
   const strBoletoDesc = "Descrição Boleto";
 
