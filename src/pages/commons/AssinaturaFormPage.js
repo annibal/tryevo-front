@@ -22,6 +22,7 @@ import FormCheckbox from "./form/FormCheckbox";
 import { LoadingButton } from "@mui/lab";
 import { doCall, getPagBankPublicKey } from "../../providers/baseProvider";
 import LoaderTryEvo from "../../components/LoaderTryEvo";
+import _ from "lodash";
 
 const monthOptions = Array(12)
   .fill(null)
@@ -94,7 +95,7 @@ const AssinaturaFormPage = () => {
         // expYear
         // cvv
         [holderSameInfoName]: true,
-        holder_name: name,
+        holder_name: parseHolderName(name),
         holder_telefone: telefone,
         holder_tax_id: isPF ? userInfo.cpf : userInfo.cnpj,
         holder_nascimento: userInfo.nascimento,
@@ -135,7 +136,7 @@ const AssinaturaFormPage = () => {
         [holderSameInfoName]:
           billInfoHolder.birth_date === cgData.birth_date &&
           billInfoHolder.tax_id === cgData.tax_id,
-        holder_name: billInfoHolder.name,
+        holder_name: parseHolderName(billInfoHolder.name),
         holder_telefone: `${billInfoPhone.area}${billInfoPhone.number}`,
         holder_tax_id: billInfoHolder.tax_id,
         holder_nascimento: billInfoHolder.birth_date,
@@ -152,7 +153,7 @@ const AssinaturaFormPage = () => {
       setDados({
         ...data,
         [name]: value,
-        holder_name: data.name,
+        holder_name: parseHolderName(data.name),
         holder_telefone: data.telefone,
         holder_tax_id: data.tax_id,
         holder_nascimento: data.nascimento,
@@ -164,6 +165,15 @@ const AssinaturaFormPage = () => {
       });
     }
   };
+
+  const parseHolderName = (str) => _.deburr(str || "").toUpperCase();
+
+  const handleChangeHolderName = (value, name, data) => {
+    setDados({
+      ...data,
+      holder_name: parseHolderName(value),
+    });
+  }
 
   const planAssUrl = `plano-assinatura/${planAssId}`;
   const planAssResponse = useFetch("GET", planAssUrl);
@@ -481,7 +491,7 @@ const AssinaturaFormPage = () => {
                   name="holder_name"
                   required
                   data={dados}
-                  onChange={handleChange}
+                  onChange={handleChangeHolderName}
                   disabled={dados.holderSameInfo}
                 />
               </Grid>
