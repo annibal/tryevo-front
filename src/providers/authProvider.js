@@ -84,13 +84,17 @@ export const logIn = async ({ email, senha }) => {
   }
 }
 
-export const getAuthData = async () => {
+export const getAuthData = async (refreshToken = false) => {
   const token = getToken();
   if (!token) return null;
   
-  const { success, data, error } = await doCall('/auth/self');
+  const url = `/auth/self${refreshToken ? "?withToken=true" : ""}`
+  const { success, data, error } = await doCall(url);
 
   if (success && data) {
+    if (data.token && refreshToken) {
+      setToken(data.token);
+    }
     return data;
   } else {
     if (error.message) throw new Error(error.message);

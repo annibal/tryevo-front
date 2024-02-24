@@ -34,16 +34,16 @@ const DadosEnderecoForm = ({ data, onChange }) => {
       if (addressData.state) cepData.estado = addressData.state;
       if (addressData.city) cepData.cidade = addressData.city;
       if (addressData.neighborhood) cepData.bairro = addressData.neighborhood;
-      if (addressData.street) cepData.rua = addressData.street
+      if (addressData.street) cepData.rua = addressData.street;
 
       if (addressData.cep !== data?.endereco?.cep) {
-        cepData.numero = '';
-        cepData.complemento = '';
+        cepData.numero = "";
+        cepData.complemento = "";
       }
       setDados({
         ...dados,
-        ...cepData
-      })
+        ...cepData,
+      });
     }
     setIsLoadingCEP(false);
   };
@@ -59,29 +59,32 @@ const DadosEnderecoForm = ({ data, onChange }) => {
             name="endereco[cep]"
             getValue={() => dados.cep}
             data={dados}
-            onChange={(value, name, data) => handleChange(value, 'cep', data)}
+            onChange={(value, name, data) => handleChange(value, "cep", data)}
             disabled={isLoadingCEP}
           />
         </Grid>
         <Grid item xs={6} sm={9} />
-        
+
         <Grid item xs={12} sm={6}>
           <FormInput
             label="País"
             name="endereco[pais]"
             getValue={() => "Brasil"}
             data={dados}
-            onChange={(value, name, data) => handleChange(value, 'pais', data)}
+            onChange={(value, name, data) => handleChange(value, "pais", data)}
             disabled
           />
         </Grid>
         <Grid item xs={12} sm={6}>
           <FormInput
-            label="Estado"
+            label="Estado (Sigla)"
             name="endereco[estado]"
             getValue={() => dados.estado}
             data={dados}
-            onChange={(value, name, data) => handleChange(value, 'estado', data)}
+            inputProps={{ maxLength: 2 }}
+            onChange={(value, name, data) =>
+              handleChange(value, "estado", data)
+            }
             disabled={isLoadingCEP}
           />
         </Grid>
@@ -91,7 +94,9 @@ const DadosEnderecoForm = ({ data, onChange }) => {
             name="endereco[cidade]"
             getValue={() => dados.cidade}
             data={dados}
-            onChange={(value, name, data) => handleChange(value, 'cidade', data)}
+            onChange={(value, name, data) =>
+              handleChange(value, "cidade", data)
+            }
             disabled={isLoadingCEP}
           />
         </Grid>
@@ -101,7 +106,9 @@ const DadosEnderecoForm = ({ data, onChange }) => {
             name="endereco[bairro]"
             getValue={() => dados.bairro}
             data={dados}
-            onChange={(value, name, data) => handleChange(value, 'bairro', data)}
+            onChange={(value, name, data) =>
+              handleChange(value, "bairro", data)
+            }
             disabled={isLoadingCEP}
           />
         </Grid>
@@ -111,7 +118,7 @@ const DadosEnderecoForm = ({ data, onChange }) => {
             name="endereco[rua]"
             getValue={() => dados.rua}
             data={dados}
-            onChange={(value, name, data) => handleChange(value, 'rua', data)}
+            onChange={(value, name, data) => handleChange(value, "rua", data)}
             disabled={isLoadingCEP}
           />
         </Grid>
@@ -121,7 +128,9 @@ const DadosEnderecoForm = ({ data, onChange }) => {
             name="endereco[numero]"
             getValue={() => dados.numero}
             data={dados}
-            onChange={(value, name, data) => handleChange(value, 'numero', data)}
+            onChange={(value, name, data) =>
+              handleChange(value, "numero", data)
+            }
             type="number"
             disabled={isLoadingCEP}
           />
@@ -132,7 +141,9 @@ const DadosEnderecoForm = ({ data, onChange }) => {
             name="endereco[complemento]"
             getValue={() => dados.complemento}
             data={dados}
-            onChange={(value, name, data) => handleChange(value, 'complemento', data)}
+            onChange={(value, name, data) =>
+              handleChange(value, "complemento", data)
+            }
             disabled={isLoadingCEP}
           />
         </Grid>

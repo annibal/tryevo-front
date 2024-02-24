@@ -114,13 +114,13 @@ export function AuthProvider({ children }) {
     }
   };
 
-  async function loadUser(silent = false) {
+  async function loadUser(silent = false, refreshToken = false) {
     if (silent) setLoading(true);
     setLoadedUser(false);
     let objUser;
 
     try {
-      objUser = await authProvider.getAuthData();
+      objUser = await authProvider.getAuthData(refreshToken);
       if (objUser) {
         if (!objUser.plano?.tipo) {
           throw new Error("Plano inválido");
@@ -179,8 +179,8 @@ export function AuthProvider({ children }) {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user, loadedUser, loadedUserInfo, userInfo, loading]);
 
-  const updateData = async () => {
-    await loadUser(true);
+  const updateData = async (refreshToken) => {
+    await loadUser(true, refreshToken);
     await loadUserInfo(true);
   }
 

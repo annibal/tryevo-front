@@ -178,7 +178,7 @@ const PlanAssForm = ({ data, onSubmit }) => {
             <Divider sx={{ my: 2 }} />
 
             <Typography variant="h5" sx={{ mb: 2 }}>
-              Features ({dados.tipo})
+              Funcionalidades ({dados.tipo})
             </Typography>
           </Grid>
 

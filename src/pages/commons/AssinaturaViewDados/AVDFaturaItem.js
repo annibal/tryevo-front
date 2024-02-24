@@ -73,7 +73,7 @@ export default function AVDFaturaItem({ invoice, invoiceNumber }) {
   return (
     <Box className="avd-fatura-item" sx={{ mb: 3 }}>
       <Grid container spacing={2}>
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12} sm={6}>
           <Typography sx={{ fontSize: "1.3em", mb: 2, mt: 0 }}>
             Fatura #{invoiceNumber}:
           </Typography>
@@ -122,7 +122,7 @@ export default function AVDFaturaItem({ invoice, invoiceNumber }) {
           </Grid>
         </Grid>
 
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12} sm={6}>
           <Typography sx={{ fontSize: "1.3em", mb: 2, mt: 0 }}>
             Pagamentos:
           </Typography>
@@ -143,10 +143,10 @@ export default function AVDFaturaItem({ invoice, invoiceNumber }) {
         <Grid
           item
           xs={12}
-          md={2}
-          sx={{ display: { xs: "none", md: "block" } }}
+          sm={2}
+          sx={{ display: { xs: "none", sm: "block" } }}
         />
-        <Grid item xs={12} md={10}>
+        <Grid item xs={12} sm={10}>
           <Divider />
         </Grid>
       </Grid>

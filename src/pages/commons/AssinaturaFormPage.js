@@ -88,7 +88,10 @@ const AssinaturaFormPage = () => {
         telefone,
         tax_id: isPF ? userInfo.cpf : userInfo.cnpj,
         nascimento: userInfo.nascimento,
-        endereco: userInfo.endereco,
+        endereco: {
+          ...(userInfo.endereco || {}),
+          estado: (userInfo.endereco?.estado || "").slice(0, 2).toUpperCase(),
+        },
         paymentMethod: enumPaymentType.CREDIT_CARD,
         // number
         // expMonth
@@ -127,7 +130,7 @@ const AssinaturaFormPage = () => {
           bairro: address.locality,
           cep: address.postal_code,
           cidade: address.city,
-          estado: address.region_code,
+          estado: (address.region_code || "").slice(0, 2).toUpperCase(),
           numero: address.number,
           rua: address.street,
           complemento: address.complement,
@@ -278,6 +281,8 @@ const AssinaturaFormPage = () => {
         body: objData,
       });
       if (success && data) {
+        await auth.updateData(true);
+        
         setLoading(false);
         setTimeout(() => {
           navigate(`/app/${allRoutesData.minhaAssinatura.path}`);
@@ -346,7 +351,7 @@ const AssinaturaFormPage = () => {
             />
 
             <Grid container spacing={2}>
-              <Grid item xs={12} md={6}>
+              <Grid item xs={12} sm={6}>
                 <FormInput
                   label="Nome Completo"
                   name="name"
@@ -355,7 +360,7 @@ const AssinaturaFormPage = () => {
                   onChange={handleChange}
                 />
               </Grid>
-              <Grid item xs={12} md={6}>
+              <Grid item xs={12} sm={6}>
                 <FormInput
                   label="Email"
                   name="email"
@@ -365,7 +370,7 @@ const AssinaturaFormPage = () => {
                 />
               </Grid>
 
-              <Grid item xs={12} md={4}>
+              <Grid item xs={12} sm={4}>
                 <FormMaskedInput
                   label="Telefone"
                   maskType="PHONE"
@@ -376,7 +381,7 @@ const AssinaturaFormPage = () => {
                   onChange={handleChange}
                 />
               </Grid>
-              <Grid item xs={12} md={4}>
+              <Grid item xs={12} sm={4}>
                 {isPF && (
                   <FormMaskedInput
                     label="CPF"
@@ -401,7 +406,7 @@ const AssinaturaFormPage = () => {
                 )}
               </Grid>
 
-              <Grid item xs={12} md={4}>
+              <Grid item xs={12} sm={4}>
                 <FormDatepicker
                   label="Data de Nascimento"
                   name="nascimento"
@@ -431,7 +436,7 @@ const AssinaturaFormPage = () => {
         {dados.paymentMethod === enumPaymentType.CREDIT_CARD && (
           <Section title="Dados do Cartão">
             <Grid container spacing={2}>
-              <Grid item xs={6} md={6}>
+              <Grid item xs={6} sm={6}>
                 <FormMaskedInput
                   label="Número do Cartão"
                   name="number"
@@ -442,7 +447,7 @@ const AssinaturaFormPage = () => {
                   onChange={handleChange}
                 />
               </Grid>
-              <Grid item xs={6} md={2}>
+              <Grid item xs={6} sm={2}>
                 <FormSelect
                   label="Mes"
                   name="expMonth"
@@ -452,7 +457,7 @@ const AssinaturaFormPage = () => {
                   options={monthOptions}
                 />
               </Grid>
-              <Grid item xs={6} md={2}>
+              <Grid item xs={6} sm={2}>
                 <FormSelect
                   label="Ano"
                   name="expYear"
@@ -462,7 +467,7 @@ const AssinaturaFormPage = () => {
                   options={yearOptions}
                 />
               </Grid>
-              <Grid item xs={6} md={2}>
+              <Grid item xs={6} sm={2}>
                 <FormMaskedInput
                   label="CVV"
                   name="cvv"
@@ -485,7 +490,7 @@ const AssinaturaFormPage = () => {
                 />
               </Grid>
 
-              <Grid item xs={12} md={6}>
+              <Grid item xs={12} sm={6}>
                 <FormInput
                   label="Nome Completo"
                   name="holder_name"
@@ -496,7 +501,7 @@ const AssinaturaFormPage = () => {
                 />
               </Grid>
 
-              <Grid item xs={12} md={4}>
+              <Grid item xs={12} sm={4}>
                 <FormMaskedInput
                   label="Telefone"
                   maskType="PHONE"
@@ -508,7 +513,7 @@ const AssinaturaFormPage = () => {
                   disabled={dados.holderSameInfo}
                 />
               </Grid>
-              <Grid item xs={12} md={4}>
+              <Grid item xs={12} sm={4}>
                 {isPF && (
                   <FormMaskedInput
                     label="CPF"
@@ -535,7 +540,7 @@ const AssinaturaFormPage = () => {
                 )}
               </Grid>
 
-              <Grid item xs={12} md={4}>
+              <Grid item xs={12} sm={4}>
                 <FormDatepicker
                   label="Data de Nascimento"
                   name="holder_nascimento"

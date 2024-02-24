@@ -93,7 +93,7 @@ export default function AVDPlan({ subscription, plan }) {
           <Typography color={isPlanoOverride ? "error" : "text.primary"} variant="h5">{planLabel}</Typography>
         </Grid>
 
-        <Grid item xs={12} md={8}>
+        <Grid item xs={12} sm={8}>
           <Typography color={isPlanoOverride ? "error" : "text.secondary"} sx={{ mb: 2 }}>
             {planDesc}
           </Typography>
@@ -115,7 +115,7 @@ export default function AVDPlan({ subscription, plan }) {
           </InlineIconInfo>
         </Grid>
 
-        <Grid item xs={12} md={4}>
+        <Grid item xs={12} sm={4}>
           <Chip
             label={statusAssinatura.label}
             sx={{

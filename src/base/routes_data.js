@@ -111,8 +111,7 @@ export const commonRoutes = {
     path: "assinatura/",
     icon: <PaymentsIcon />,
     title: "Assinaturas",
-    auth: false,
-    rules: [],
+    rules: [ACCOUNT_FEATURES.IGNORE_ON_SIDEBAR],
     navbar: {
       avisoPlanoExpirado: true,
       place: NAVBAR_PLACE.TOOLBAR,
@@ -123,7 +122,7 @@ export const commonRoutes = {
     path: "minha-assinatura/",
     icon: <PaymentsIcon />,
     title: "Minha Assinatura",
-    rules: [],
+    rules: [ACCOUNT_FEATURES.IGNORE_ON_SIDEBAR],
     avisoPlanoExpirado: true,
     navbar: {
       place: NAVBAR_PLACE.NONE,
@@ -241,14 +240,15 @@ export const pessoaFisicaRoutes = {
     },
   },
   pfAssinatura: {
-    priority: 150,
+    priority: 500,
     path: "assinatura/",
     icon: <PaymentsIcon />,
     title: "Assinaturas",
-    rules: [ACCOUNT_FEATURES.IGNORE_ON_SIDEBAR],
-    // rules: [ACCOUNT_FEATURES.LOGGED, ACCOUNT_FEATURES.PF],
+    // rules: [ACCOUNT_FEATURES.IGNORE_ON_SIDEBAR],
+    rules: [ACCOUNT_FEATURES.LOGGED, ACCOUNT_FEATURES.PF],
     navbar: {
-      place: NAVBAR_PLACE.NONE,
+      avisoPlanoExpirado: true,
+      place: NAVBAR_PLACE.TOOLBAR,
     },
   },
 };
@@ -381,14 +381,15 @@ export const pessoaJuridicaRoutes = {
     },
   },
   pjAssinatura: {
-    priority: 150,
+    priority: 500,
     path: "assinatura/",
     icon: <PaymentsIcon />,
     title: "Assinaturas",
-    rules: [ACCOUNT_FEATURES.IGNORE_ON_SIDEBAR],
-    // rules: [ACCOUNT_FEATURES.LOGGED, ACCOUNT_FEATURES.PJ],
+    // rules: [ACCOUNT_FEATURES.IGNORE_ON_SIDEBAR],
+    rules: [ACCOUNT_FEATURES.LOGGED, ACCOUNT_FEATURES.PJ],
     navbar: {
-      place: NAVBAR_PLACE.NONE,
+      avisoPlanoExpirado: true,
+      place: NAVBAR_PLACE.TOOLBAR,
     },
   },
   pjCurriculoCompleto: {
@@ -430,7 +431,7 @@ export const masterAdminRoutes = {
     path: "master-admin/plano-assinatura/",
     icon: <DiamondIcon />,
     title: "Plano de Assinatura",
-    rules: [ACCOUNT_FEATURES.MASTER_ADMIN],
+    rules: [ACCOUNT_FEATURES.MASTER_ADMIN, ACCOUNT_FEATURES.IGNORE_ON_SIDEBAR],
     navbar: {
       place: NAVBAR_PLACE.NONE
     },
@@ -440,7 +441,7 @@ export const masterAdminRoutes = {
     path: "master-admin/novo-plano-assinatura/",
     icon: <DiamondIcon />,
     title: "Novo Plano de Assinatura",
-    rules: [ACCOUNT_FEATURES.MASTER_ADMIN],
+    rules: [ACCOUNT_FEATURES.MASTER_ADMIN, ACCOUNT_FEATURES.IGNORE_ON_SIDEBAR],
     navbar: {
       place: NAVBAR_PLACE.NONE
     },

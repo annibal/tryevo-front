@@ -90,7 +90,7 @@ const ManagePlanosAssinaturaPage = () => {
     },
     {
       field: "features",
-      headerName: "Features",
+      headerName: "Funcionalidades",
       flex: 14,
       renderCell: (params) => {
         return (

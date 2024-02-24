@@ -63,7 +63,7 @@ export default function AVDBillingInfo({ customerGateway, tipoConta }) {
   return (
     <Box className="avd-billing-info">
       <Grid container spacing={2}>
-        <Grid item xs={12} md={4}>
+        <Grid item xs={12} sm={4}>
           <InlineIconInfo oneLine noIcon title="Email">
             {strEmail}
           </InlineIconInfo>
@@ -81,7 +81,7 @@ export default function AVDBillingInfo({ customerGateway, tipoConta }) {
           </InlineIconInfo>
         </Grid>
 
-        <Grid item xs={12} md={4}>
+        <Grid item xs={12} sm={4}>
           <InlineIconInfo oneLine noIcon title="CEP">
             {strPostalCode}
           </InlineIconInfo>
@@ -99,7 +99,7 @@ export default function AVDBillingInfo({ customerGateway, tipoConta }) {
           </InlineIconInfo>
         </Grid>
 
-        <Grid item xs={12} md={4}>
+        <Grid item xs={12} sm={4}>
           <InlineIconInfo oneLine noIcon title="Meio de Pagamento">
             {strPaymentType}
           </InlineIconInfo>

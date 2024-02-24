@@ -106,7 +106,7 @@ const AssinaturaSelectModoPagtoPage = () => {
                 <Grid
                   item
                   xs={12}
-                  md={8}
+                  sm={8}
                   container
                   spacing={2}
                   direction="column"
@@ -166,7 +166,7 @@ const AssinaturaSelectModoPagtoPage = () => {
                   </Grid>
                 </Grid>
 
-                <Grid item xs={12} md={4} sx={{ textAlign: "right" }}>
+                <Grid item xs={12} sm={4} sx={{ textAlign: "right" }}>
                   <Box sx={{ p: 2, mb: 1 }}>
                     <Typography variant="overline">Valor</Typography>
                     <Typography variant="h4" color="secondary">

@@ -102,7 +102,7 @@ const AssinaturaPage = () => {
                 <Grid
                   item
                   xs={12}
-                  md={8}
+                  sm={8}
                   container
                   spacing={2}
                   direction="column"
@@ -135,7 +135,11 @@ const AssinaturaPage = () => {
                   <Grid
                     item
                     xs
-                    sx={{ display: "flex", alignItems: "flex-end" }}
+                    sx={{
+                      display: "flex",
+                      flexDirection: { xs: "column", md: "row" },
+                      alignItems: "flex-end",
+                    }}
                   >
                     <Button
                       disabled={isPlanoAtual || (!hasGatewayId && !isFree)}
@@ -143,6 +147,10 @@ const AssinaturaPage = () => {
                       color="primary"
                       size="large"
                       LinkComponent={Link}
+                      sx={{
+                        width: { xs: "100%", md: "auto" },
+                        mb: { xs: 1, md: 0 },
+                      }}
                       to={"/app/" + allRoutesData.assinatura.path + planAss._id}
                     >
                       Selecionar Plano
@@ -152,13 +160,17 @@ const AssinaturaPage = () => {
                         color="error"
                         badgeContent="!"
                         invisible={!auth.user?.planoExpirado}
+                        sx={{ width: { xs: "100%", md: "auto" } }}
                       >
                         <Button
                           variant="contained"
                           color="secondary"
                           size="large"
                           LinkComponent={Link}
-                          sx={{ ml: 2 }}
+                          sx={{
+                            width: { xs: "100%", md: "auto" },
+                            ml: { xs: 0, md: 2 },
+                          }}
                           to={"/app/" + allRoutesData.minhaAssinatura.path}
                         >
                           Mais Informações
@@ -168,7 +180,7 @@ const AssinaturaPage = () => {
                   </Grid>
                 </Grid>
 
-                <Grid item xs={12} md={4} sx={{ textAlign: "right" }}>
+                <Grid item xs={12} sm={4} sx={{ textAlign: "right" }}>
                   {isFree ? (
                     <>
                       <Box sx={{ p: 2 }}>
