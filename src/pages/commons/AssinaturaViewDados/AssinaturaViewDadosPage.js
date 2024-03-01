@@ -21,28 +21,16 @@ export default function AssinaturaViewDadosPage() {
   );
   const tipoConta = auth?.user?.plano?.tipo;
 
-  useEffect(() => {
-    if (
-      customerResponse.data &&
-      subscriptionResponse.data &&
-      invoicesResponse.data &&
-      planAssResponse.data
-    ) {
-      console.log("customer data :>> ", customerResponse.data);
-      console.log("subscription data :>> ", subscriptionResponse.data);
-      console.log("invoices data :>> ", invoicesResponse.data);
-      console.log("plan ass data :>> ", planAssResponse.data);
-      console.log("auth :>> ", auth);
-    }
-  }, [
-    customerResponse.data,
-    subscriptionResponse.data,
-    invoicesResponse.data,
-    planAssResponse.data,
-  ]);
-
   let arrInvoices = invoicesResponse.data || [];
-  // arrInvoices = [...arrInvoices, ...arrInvoices, ...arrInvoices];
+  // arrInvoices = [
+  //   ...arrInvoices,
+  //   ...arrInvoices,
+  //   ...arrInvoices,
+  //   ...arrInvoices,
+  // ].map((x, i) => ({
+  //   ...x,
+  //   status: ["PAID", "WAITING", "OVERDUE", "UNPAID"][i],
+  // }));
 
   // const [paymentsResponse, setPaymentsResponse] = useState({
   //   loading: false,
@@ -97,7 +85,10 @@ export default function AssinaturaViewDadosPage() {
 
       <Section title="Dados de Pagamento" titleVariant="h5" spacing={3}>
         <ResponseWrapper {...customerResponse}>
-          <AVDBillingInfo customerGateway={customerResponse.data} tipoConta={tipoConta} />
+          <AVDBillingInfo
+            customerGateway={customerResponse.data}
+            tipoConta={tipoConta}
+          />
         </ResponseWrapper>
       </Section>
 
@@ -113,7 +104,7 @@ export default function AssinaturaViewDadosPage() {
               <AVDFaturaItem
                 key={idx}
                 invoice={invoice}
-                invoiceNumber={idx + 1}
+                invoiceNumber={arrInvoices.length - idx}
               />
             );
           })}

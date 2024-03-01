@@ -13,25 +13,25 @@ const getStatusFatura = (status, theme) => {
       label: "Paga",
     };
   }
-  if (status === "UNPAID") {
+  if (status === "WAITING") {
     return {
-      backgroundColor: theme.palette.error.dark,
+      backgroundColor: "#f1c40f",
       color: theme.palette.common.white,
-      label: "Não Paga",
+      label: "Aguardando",
     };
   }
   if (status === "OVERDUE") {
     return {
-      backgroundColor: theme.palette.warning.dark,
+      backgroundColor: "#e67e22",
       color: theme.palette.common.white,
       label: "Atrasada",
     };
   }
-  if (status === "WAITING") {
+  if (status === "UNPAID") {
     return {
-      backgroundColor: theme.palette.primary.dark,
+      backgroundColor: theme.palette.error.main,
       color: theme.palette.common.white,
-      label: "Aguardando",
+      label: "Vencida",
     };
   }
 
@@ -53,9 +53,16 @@ export default function AVDFaturaItem({ invoice, invoiceNumber }) {
     `auth/info-invoice-payment/${invoiceId}`
   );
   let arrPayments = paymentsResponse.data || [];
-  // arrPayments = [...arrPayments, ...arrPayments, ...arrPayments];
-
-  console.log(`arrPayments ${invoiceNumber} :>> `, arrPayments);
+  // arrPayments = [
+  //   ...arrPayments,
+  //   ...arrPayments,
+  //   ...arrPayments,
+  //   ...arrPayments,
+  //   ...arrPayments,
+  // ].map((x, i) => ({
+  //   ...x,
+  //   status: ["COMPLETED", "REFUNDED", "PENDING", "UNPAID", "CANCELED"][i],
+  // }));
 
   const statusFatura = getStatusFatura(objInv.status, theme);
 
@@ -114,8 +121,9 @@ export default function AVDFaturaItem({ invoice, invoiceNumber }) {
                   variant="body2"
                   color="text.secondary"
                   component="p"
+                  sx={{ opacity: 0.6 }}
                 >
-                  {invoiceId}
+                  ID: {invoiceId}
                 </Typography>
               </Grid>
             </Grid>
@@ -133,7 +141,7 @@ export default function AVDFaturaItem({ invoice, invoiceNumber }) {
                 <AVDPagamentoItem
                   key={idx}
                   payment={payment}
-                  paymentNumber={idx + 1}
+                  paymentNumber={arrPayments.length - idx}
                 />
               );
             })}

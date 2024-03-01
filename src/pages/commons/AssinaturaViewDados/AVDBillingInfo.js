@@ -15,6 +15,8 @@ export default function AVDBillingInfo({ customerGateway, tipoConta }) {
   const objCust = customerGateway || {};
   const isPF = ACCOUNT_FEATURES.PF.includes(tipoConta);
 
+  console.log({ objCust })
+
   const strEmail = objCust.email;
   const strName = objCust.name;
   const objPhone = (objCust.phones || [])[0] || {};
@@ -40,10 +42,10 @@ export default function AVDBillingInfo({ customerGateway, tipoConta }) {
 
   const objBillInfo = (objCust.billing_info || [])[0] || {};
   const paymentType = objBillInfo.type;
-  const objPaymentTime = optionsPaymentType.find(
+  const objPaymentType = optionsPaymentType.find(
     (x) => x.value === paymentType
   );
-  const strPaymentType = objPaymentTime?.label || "??";
+  const strPaymentType = objPaymentType?.label || "Boleto";
 
   const strCardBrand = capitalize(objBillInfo.card?.brand);
   const strCardNumber = applyMask(

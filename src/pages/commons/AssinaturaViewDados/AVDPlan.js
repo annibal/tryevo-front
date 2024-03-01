@@ -59,9 +59,22 @@ export default function AVDPlan({ subscription, plan }) {
   const objSubs = subscription || {};
   const objPlan = plan || {};
 
-  const isPlanoOverride = !!auth?.user?.planoExpirado
+  const isPlanoOverride = !!auth?.user?.planoExpirado;
   const planLabel = objSubs.plan?.name || "";
-  const planDesc = isPlanoOverride ? "O Plano Padrão foi aplicado devido a problemas na Assinatura." : objPlan.descricao || "";
+  const planDesc = isPlanoOverride ? (
+    <Box sx={{ p: 2, border: "1px solid", borderColor: "primary.main" }}>
+      <Typography color="inherit" sx={{ mb: 1 }}>
+        Usaremos o Plano de Assinatura Padrão enquanto aguardamos a confirmação
+        do Pagamento.
+      </Typography>
+      <Typography color="inherit">
+        Assim que tudo estiver OK, você poderá usufruir das funcionalidades do
+        Plano de Assinatura que você comprou.
+      </Typography>
+    </Box>
+  ) : (
+    objPlan.descricao || ""
+  );
   const objModoPagto =
     (objPlan.modosDePagamento || []).find(
       (x) => x.pagbankGatewayId === objSubs.plan?.id
@@ -90,11 +103,19 @@ export default function AVDPlan({ subscription, plan }) {
     <Box className="avd-subscription">
       <Grid container spacing={2}>
         <Grid item xs={12}>
-          <Typography color={isPlanoOverride ? "error" : "text.primary"} variant="h5">{planLabel}</Typography>
+          <Typography
+            color={isPlanoOverride ? "error" : "text.primary"}
+            variant="h5"
+          >
+            {planLabel}
+          </Typography>
         </Grid>
 
         <Grid item xs={12} sm={8}>
-          <Typography color={isPlanoOverride ? "error" : "text.secondary"} sx={{ mb: 2 }}>
+          <Typography
+            color={isPlanoOverride ? "error" : "text.secondary"}
+            sx={{ mb: 2, maxWidth: 600 }}
+          >
             {planDesc}
           </Typography>
 
@@ -130,7 +151,7 @@ export default function AVDPlan({ subscription, plan }) {
 
         <Grid item xs={12}>
           <Typography variant="body2" color="text.secondary" component="p">
-            {strDate} - {uuid}
+            {strDate} - <span style={{ opacity: 0.6 }}>ID: {uuid}</span>
           </Typography>
         </Grid>
       </Grid>
