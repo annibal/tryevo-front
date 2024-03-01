@@ -15,7 +15,7 @@ import DescriptionIcon from "@mui/icons-material/Description";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 
 const getStatusPagamento = (status, theme) => {
-  if (status === "COMPLETED") {
+  if (status === "COMPLETED" || status === "APPROVED") {
     return {
       backgroundColor: theme.palette.success.main,
       color: theme.palette.common.white,
@@ -41,6 +41,13 @@ const getStatusPagamento = (status, theme) => {
       backgroundColor: theme.palette.error.dark,
       color: theme.palette.common.white,
       label: "Vencido",
+    };
+  }
+  if (status === "DENIED") {
+    return {
+      backgroundColor: theme.palette.error.main,
+      color: theme.palette.common.white,
+      label: "Não Autorizado",
     };
   }
   if (status === "CANCELED") {

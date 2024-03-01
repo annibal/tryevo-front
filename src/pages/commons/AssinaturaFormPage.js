@@ -176,7 +176,7 @@ const AssinaturaFormPage = () => {
       ...data,
       holder_name: parseHolderName(value),
     });
-  }
+  };
 
   const planAssUrl = `plano-assinatura/${planAssId}`;
   const planAssResponse = useFetch("GET", planAssUrl);
@@ -282,7 +282,7 @@ const AssinaturaFormPage = () => {
       });
       if (success && data) {
         await auth.updateData(true);
-        
+
         setLoading(false);
         setTimeout(() => {
           navigate(`/app/${allRoutesData.minhaAssinatura.path}`);
@@ -555,7 +555,14 @@ const AssinaturaFormPage = () => {
 
         {dados.paymentMethod === enumPaymentType.BOLETO && (
           <Section title="Boleto">
-            <Typography>Boleto</Typography>
+            <Box sx={{ maxWidth: 700 }}>
+              <Typography sx={{ ["& b"]: { fontWeight: 600 } }}>
+                O boleto será <b>enviado para o seu email</b>, e também poderá
+                ser visualizado em:
+                <br />
+                <b>Assinaturas → Minha Assinatura → Mais Informações.</b>
+              </Typography>
+            </Box>
           </Section>
         )}
 
