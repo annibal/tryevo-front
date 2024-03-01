@@ -15,8 +15,6 @@ export default function AVDBillingInfo({ customerGateway, tipoConta }) {
   const objCust = customerGateway || {};
   const isPF = ACCOUNT_FEATURES.PF.includes(tipoConta);
 
-  console.log({ objCust })
-
   const strEmail = objCust.email;
   const strName = objCust.name;
   const objPhone = (objCust.phones || [])[0] || {};
