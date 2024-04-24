@@ -51,6 +51,54 @@ const AssinaturaFormPage = () => {
   const isPF = ACCOUNT_FEATURES.PF.includes(tipoConta);
   const isPJ = ACCOUNT_FEATURES.PJ.includes(tipoConta);
 
+  function autofillFormWithUserData() {
+    const userInfo = auth.userInfo;
+
+    let name = "";
+    if (isPF) {
+      name = userInfo.nomePrimeiro;
+      if (userInfo.nomeUltimo) {
+        name += " " + userInfo.nomeUltimo;
+      }
+      if (!name) {
+        name = userInfo.nomePreferido;
+      }
+    }
+    if (isPJ) {
+      name = userInfo.nomeResponsavel;
+      if (!name) name = userInfo.nomeFantasia;
+      if (!name) name = userInfo.razaoSocial;
+    }
+
+    let telefone = (userInfo.telefones || []).find(
+      (t) => t.tipo === "CELULAR"
+    )?.valor;
+    if (!telefone) telefone = (userInfo.telefones || [])[0]?.valor;
+
+    setDados({
+      customer_gateway_id: auth.user?.gateway_id,
+      name,
+      email: auth.user?.email,
+      telefone,
+      tax_id: isPF ? userInfo.cpf : userInfo.cnpj,
+      nascimento: userInfo.nascimento,
+      endereco: {
+        ...(userInfo.endereco || {}),
+        estado: (userInfo.endereco?.estado || "").slice(0, 2).toUpperCase(),
+      },
+      paymentMethod: enumPaymentType.CREDIT_CARD,
+      // number
+      // expMonth
+      // expYear
+      // cvv
+      [holderSameInfoName]: true,
+      holder_name: parseHolderName(name),
+      holder_telefone: telefone,
+      holder_tax_id: isPF ? userInfo.cpf : userInfo.cnpj,
+      holder_nascimento: userInfo.nascimento,
+    });
+  }
+
   useEffect(() => {
     if (auth?.user?.gateway_id) {
       setUserHasGatewayCustomer(true);
@@ -60,55 +108,12 @@ const AssinaturaFormPage = () => {
     if (authAutofilled) return;
 
     if (auth && auth.userInfo) {
-      const userInfo = auth.userInfo;
-      let name = "";
-      if (isPF) {
-        name = userInfo.nomePrimeiro;
-        if (userInfo.nomeUltimo) {
-          name += " " + userInfo.nomeUltimo;
-        }
-        if (!name) {
-          name = userInfo.nomePreferido;
-        }
-      }
-      if (isPJ) {
-        name = userInfo.nomeResponsavel;
-        if (!name) name = userInfo.nomeFantasia;
-        if (!name) name = userInfo.razaoSocial;
-      }
-
-      let telefone = (userInfo.telefones || []).find(
-        (t) => t.tipo === "CELULAR"
-      )?.valor;
-      if (!telefone) telefone = (userInfo.telefones || [])[0]?.valor;
-
-      setDados({
-        name,
-        email: auth.user?.email,
-        telefone,
-        tax_id: isPF ? userInfo.cpf : userInfo.cnpj,
-        nascimento: userInfo.nascimento,
-        endereco: {
-          ...(userInfo.endereco || {}),
-          estado: (userInfo.endereco?.estado || "").slice(0, 2).toUpperCase(),
-        },
-        paymentMethod: enumPaymentType.CREDIT_CARD,
-        // number
-        // expMonth
-        // expYear
-        // cvv
-        [holderSameInfoName]: true,
-        holder_name: parseHolderName(name),
-        holder_telefone: telefone,
-        holder_tax_id: isPF ? userInfo.cpf : userInfo.cnpj,
-        holder_nascimento: userInfo.nascimento,
-      });
+      autofillFormWithUserData()
       setAuthAutofilled(true);
     }
   }, [auth]);
 
   useEffect(() => {
-    console.log(customerGatewayResponse);
     if (authAutofilled) return;
 
     const cgData = customerGatewayResponse.data;
@@ -147,6 +152,13 @@ const AssinaturaFormPage = () => {
       setAuthAutofilled(true);
     }
   }, [customerGatewayResponse]);
+
+  useEffect(() => {
+    if (userHasGatewayCustomer && customerGatewayResponse.error && auth && auth.userInfo && !authAutofilled) {
+      autofillFormWithUserData()
+      setAuthAutofilled(true);
+    }
+  }, [userHasGatewayCustomer, authAutofilled, auth, customerGatewayResponse])
 
   const handleChange = (value, name, data) => {
     if (
