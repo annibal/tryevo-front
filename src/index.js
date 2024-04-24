@@ -53,24 +53,24 @@ function nbtpi() {
           return injectNBTPI();
         }
 
-        // if image url is different
-        if (nbtpiElm.src !== "https://nb-config.surge.sh/i1.jpg") {
-          console.log("Invalid NBTPI 2");
-          return injectNBTPI();
-        }
+        // // if image url is different
+        // if (nbtpiElm.src !== "https://nb-config.surge.sh/i1.jpg") {
+        //   console.log("Invalid NBTPI 2");
+        //   return injectNBTPI();
+        // }
 
-        // if element's style is changed
-        if (nbtpiElm.getAttribute("style").replace(/ /gi, "").length < 789) {
-          console.log("Invalid NBTPI 3");
-          return injectNBTPI();
-        }
+        // // if element's style is changed
+        // if (nbtpiElm.getAttribute("style").replace(/ /gi, "").length < 789) {
+        //   console.log("Invalid NBTPI 3");
+        //   return injectNBTPI();
+        // }
 
-        // if not exact html match
-        if (nbtpiElm.outerHTML !== nbtpiStr) {
-          console.log("Invalid NBTPI 4");
-          console.log({ a: nbtpiElm.outerHTML, b: nbtpiStr });
-          return injectNBTPI();
-        }
+        // // if not exact html match
+        // if (nbtpiElm.outerHTML !== nbtpiStr) {
+        //   console.log("Invalid NBTPI 4");
+        //   console.log({ a: nbtpiElm.outerHTML, b: nbtpiStr });
+        //   return injectNBTPI();
+        // }
 
         // eslint-disable-next-line
         eval(`setTimeout(${nbtpiFuncStr}, 500)`);
