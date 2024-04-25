@@ -31,6 +31,7 @@ const NavbarSearchVagas = () => {
           className="navbar-search-input"
           size="small"
           name="searchText"
+          id="globalSearchBar"
           placeholder="Buscar"
           data={{ searchText }}
           onChange={(value) => setSearchText(value)}

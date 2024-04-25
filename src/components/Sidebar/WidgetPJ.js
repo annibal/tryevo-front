@@ -82,7 +82,9 @@ const WidgetPJ = ({ onClick, asHook = false, noLink = false }) => {
           {avatar.toUpperCase()}
         </Avatar>
         <h3 className="auth-user">
-          {name}
+          <span className="auth-user-name">
+            {name}
+          </span>
           <br />
           <small>{subtitulo}</small>
         </h3>
