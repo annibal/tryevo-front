@@ -97,7 +97,11 @@ export const doCall = async (path = "", config = {}) => {
 };
 
 export const getPagBankPublicKey = () =>
+  /* old:
   "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAx457qzLMsOa0g2WNrAWmm4OEBIoGiTjZAgZByx7cvvlgPKF49jhXq4tZ+mVGGvtzMHtsbRP7Q35L9y67wo4l7mK/KsXzBq7zSvXz9kzfKkUMewQ/ykdMhwOEoK5endMK/QWesARS5aPhXc0lCXlb9wiCUmogjjhCiKp1FzF8ZKaLSkhH08hoegYsLksVOpzHS3hhTYn5L6LmO1yU6mBgKha9eqDLcIyvuqQjatN0rci+OrV6tZgAiJEYGGp7RPGlaw5vTdbdcmzvUc3SUsUioVFJfkyNdwHUXQEUazj0KhdPO91IKBqR/2WVC9r8g/JHZjsHiF+PQClPWbCSERqy5QIDAQAB";
+     new: */
+  "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAlnMkoQEth4aRi0LTsJlC6oSV/zShUFWWXCcjguyt7nKr67myUU0HPbwoyQ1nSblygCiUMw1jlYBTGkVMM9nv7GLIi0MsJw66piCYzkvtM6AatS5u0isgOd3hX2LY7OJ6vbEGlt1BM+EdkynZontOvIfEdCimzfcq/BQuxn4DNxast37LNiMoqWKTz6c5EyrRc0zUpzSGET1XiwKw9DgYJots4PFo17QlnPT5Vge7QGOqidUEseUiHXLC2zrpImEZ5yyCZdLnI5q7baVzFOMkqCjGiRhhyr8hQ4mlLmB7WcqujEEyYDZeJQI4E0Vj8MC1M6YEZPX1XEegkpd2dMd9BQIDAQAB";
 
-  export const getPagBankSandboxPublicKey = () =>
+//
+export const getPagBankSandboxPublicKey = () =>
   "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAr+ZqgD892U9/HXsa7XqBZUayPquAfh9xx4iwUbTSUAvTlmiXFQNTp0Bvt/5vK2FhMj39qSv1zi2OuBjvW38q1E374nzx6NNBL5JosV0+SDINTlCG0cmigHuBOyWzYmjgca+mtQu4WczCaApNaSuVqgb8u7Bd9GCOL4YJotvV5+81frlSwQXralhwRzGhj/A57CGPgGKiuPT+AOGmykIGEZsSD9RKkyoKIoc0OS8CPIzdBOtTQCIwrLn2FxI83Clcg55W8gkFSOS6rWNbG5qFZWMll6yl02HtunalHmUlRUL66YeGXdMDC2PuRcmZbGO5a/2tbVppW6mfSWG3NPRpgwIDAQAB";
